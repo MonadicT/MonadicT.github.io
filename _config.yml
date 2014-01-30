@@ -1,0 +1,5 @@
+url: http://MonadicT.github.io
+pygments: true
+permalink: /:title
+paginate: 10
+lsi: false
