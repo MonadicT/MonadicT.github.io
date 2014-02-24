@@ -1,0 +1,96 @@
+* Introduction
+This is a post that I wrote for myself about ClojureScript. It's not
+meant to be an encyclopedic reference about ClojureScript. The focus
+is on the bits needed to setup a ClojureScript project and have a nice
+enough workflow.
+
+I use emacs (v24) and Ubuntu (v13.04). If you are using a different
+set of tools, this post may be of very limited value.
+
+I'll also assume that you have already setup emacs modes for working
+with Clojure, cider and nrepl for interaction.
+
+I'll use /lein/ throughout. If you are a staunch /maven/ user, you
+should have very little difficulty to make the necessary adjustments.
+
+By the time you finish this blog, you should be in a position to make
+changes to your source code, load it in the browser and evaluate /ad
+hoc/ expressions in the browser environment. Hacking ClojureScript can
+be fun!
+
+* What is ClojureScript
+The official documentation on ClojureScript is at
+[[http://github.com/clojure/ClojureScript]]. A developer's point of
+view of ClojureScript is below.
+
+- processes /.cljs/ files to a single /.js/ file
+- lacks direct support for macros
+- single-threaded
+- support for atom
+
+While Clojure and ClojureScript sport identical syntax, host-specific
+features are very different. It's a rare Clojure project which doesn't
+make use of JVM hosted features. ClojureScript, being hosted in a
+browser environment, has a completely different set of features. It's
+a pity that Clojure language doesn't yet provide a conditional
+code inclusion mechanism (see
+[[http://dev.clojure.org/display/design/Feature+Expressions]]). [[
+https://github.com/lynaghk/cljx]]
+
+* Hello, World!
+All important projects must greet the world and this is no exception!
+We will work through a simple project with focus on the work flow
+rather than features.
+
+* Create the project
+Use lein to create a new project called =hw1=.
+
+#+BEGIN_SRC sh
+lein new hw1
+#+END_SRC
+
+Edit =hw1/project.clj= and add ClojureScript dependency. The edited
+file should similar to this. For details on =:cljsbuild= options, take
+a look at [[https://github.com/emezeske/lein-cljsbuild cljsbuild]] project.
+
+#+BEGIN_VERSE
+(defproject hw1 "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/clojurescript "0.0-2156"]]
+  :cljsbuild {:builds [{
+                        ;; The path to the top-level ClojureScript source directory:
+                        :source-paths ["src/cljs" "src/cljs-macros"]
+                        ;; The standard ClojureScript compiler options:
+                        ;; (See the ClojureScript compiler documentation for details.)
+                        :compiler {
+                                   :output-dir "target/classes/public/js"
+                                   :output-to "target/classes/public/hw1.js"
+                                   :optimizations :simple
+                                   :warn-on-undeclared true
+                                   :pretty-print true}}]})
+#+END_VERSE
+
+Note above the changes made to =:source-paths=, =:output-dir= and
+=:output-to=. Now we are ready to create our hello function. Create a
+file in =src/cljs= directory with the following content.
+
+#+BEGIN_VERSE
+(ns hw1)
+
+(defn main []
+  (.alert js/window "Hello, World!"))
+
+(main)
+#+END_VERSE
+
+Again, note the explicit call to =main= which starts running when you
+load the generated /JavaScript/ in a /html/ document. Create an HTML
+file in =src/resources/public/index.html= with the following content.
+
+#+BEGIN_VERSE
+
+#+END_VERSE

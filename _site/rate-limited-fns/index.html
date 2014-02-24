@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>core.async for throttling a Clojure function</title>
+        <link rel="stylesheet" type="text/css"
+              href="/css/styles.css" />
+        <link href="/css/syntax.css" rel="stylesheet">
+    </head>
+    <body>
+      <nav style="position:absolute; top:0px;left:0px;margin-left:25%">
+<ul>
+<a class='title' href='/' rel='home'>Home</a>
+&nbsp;
+</ul>
+</nav>
+
+      <div id="container">
+        <div class="share">
+  <div class="g-plusone" data-size="tall" data-annotation="none" data-url="http://MonadicT.github.io/rate-limited-fns"></div>
+  <script type="text/javascript">
+    (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+  </script>
+
+  <a href="https://twitter.com/share"
+     class="twitter-share-button" data-url="http://MonadicT.github.io" data-text="core.async for throttling a Clojure function" data-via="MonadicT" data-size="large" data-count="none">Tweet</a>
+  <script>!function(d,s,id){var
+js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,
+'script', 'twitter-wjs');</script>
+</div>
+
+<div id="post">
+<div class="post-title">core.async for throttling a Clojure function</div>
+<div class="post-date">February 23, 2014</div>
+<h3 id="introduction">Introduction</h3>
+
+<p>Most of the time, we want our functions to execute as fast as possible. But sometimes, that is not quite what is desirable. For example, if we are interfacing to an external service, we may be expected to be a friendly user of it and not bombard it with requests. While it’s reasonable to expect that the service will have its own throttling mechanism, it’s still a technique worth knowing.</p>
+
+<p>Throttling or rate limiting is widely used in network traffic management. <a href="https://en.wikipedia.org/wiki/Token_bucket">Token bucket</a> and <a href="https://en.wikipedia.org/wiki/Leaky_bucket">Leaky bucket</a> are two commonly used algorithms. We will implement a token-based rate limiter using <em>core.async</em>.</p>
+
+<p>What follows is a simple Clojure macro which defines a self-governing function.</p>
+
+<h3 id="how_it_works">How it works</h3>
+
+<p>The function waits for a token before proceeding and the token is only issued at the specified intervals. The waiting and token granting logic is based on <em>core.async</em> channel constructs. Each throttled function has an associated channel on which it waits to get a token. A token granter waits for an interval of time on a <em>timeout</em> channel and sends the token on the token channel. This ensures that the function will never execute more frequently than the desired interval. The <em>rendezvous</em> model used by <em>core.async</em> channels ensures that the token granter waits until a prior granted token is consumed.</p>
+
+<p>Note that the body of the function is wrapped in an anonymous function within the generated wrapper function and invoked with an <em>apply</em>.</p>
+
+<h3 id="defnthrottled">defn-throttled</h3>
+
+<p>Clojure code for implementing a throttled function. <em>defn-throttled</em> is a macro resembling Clojure’s <em>defn</em> but with an additional interval specifier preceding the argument vector.</p>
+<script src='https://gist.github.com/9182004.js'><![CDATA[ ]]></script>
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li><span>24 Jan 2014</span> &raquo; <a href="/Java-References">Java Reference Objects</a></li>
+    
+  </ul>
+</div>
+
+      </div>
+      <div id="sidebar">
+        <!-- <nav class="nav-primary" role="navigation" >
+  <ul>
+    
+    <li>
+      <a  href="//atom.xml">RSS</a>
+    </li>
+    
+    <li>
+      <a  href="//index.html"></a>
+    </li>
+    
+    <li>
+      <a  href="//about/index.html">About</a>
+    </li>
+    
+    <li>
+      <a  href="//README.html">Main</a>
+    </li>
+    
+  </ul>
+</nav>
+ -->
+      </div>
+      <footer>
+  <p>&copy; Copyright 2014 Praki Prakash.</p>
+</footer>
+
+    </body>
+</html>
