@@ -3,8 +3,6 @@ layout: post
 title: Java Reference Objects
 ---
 
-## {{ page.title}}
-
 ### Introduction
 
 Perhaps the first trick of performance improvement is

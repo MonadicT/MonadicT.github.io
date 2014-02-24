@@ -4,7 +4,7 @@
   <title>MonadicT</title>
   <link href="http://MondadicT.github.io/atom.xml" rel="self"/>
   <link href="http://MonadicT.github.io/"/>
-  <updated>2014-01-29T17:51:51-08:00</updated>
+  <updated>2014-02-24T07:45:05-08:00</updated>
   <id>http://MonadicT.github.io/</id>
   <author>
     <name></name>
@@ -12,13 +12,36 @@
   </author>
   
   <entry>
+    <title>core.async for throttling a Clojure function</title>
+    <link href="http://MonadicT.github.io"/>
+    <updated>2014-02-23T00:00:00-08:00</updated>
+    <id>http://MonadicT.github.io/rate-limited-fns</id>
+    <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+
+&lt;p&gt;Most of the time, we want our functions to execute as fast as possible. But sometimes, that is not quite what is desirable. For example, if we are interfacing to an external service, we may be expected to be a friendly user of it and not bombard it with requests. While it’s reasonable to expect that the service will have its own throttling mechanism, it’s still a technique worth knowing.&lt;/p&gt;
+
+&lt;p&gt;Throttling or rate limiting is widely used in network traffic management. &lt;a href=&quot;https://en.wikipedia.org/wiki/Token_bucket&quot;&gt;Token bucket&lt;/a&gt; and &lt;a href=&quot;https://en.wikipedia.org/wiki/Leaky_bucket&quot;&gt;Leaky bucket&lt;/a&gt; are two commonly used algorithms. We will implement a token-based rate limiter using &lt;em&gt;core.async&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;What follows is a simple Clojure macro which defines a self-governing function.&lt;/p&gt;
+
+&lt;h3 id=&quot;how_it_works&quot;&gt;How it works&lt;/h3&gt;
+
+&lt;p&gt;The function waits for a token before proceeding and the token is only issued at the specified intervals. The waiting and token granting logic is based on &lt;em&gt;core.async&lt;/em&gt; channel constructs. Each throttled function has an associated channel on which it waits to get a token. A token granter waits for an interval of time on a &lt;em&gt;timeout&lt;/em&gt; channel and sends the token on the token channel. This ensures that the function will never execute more frequently than the desired interval. The &lt;em&gt;rendezvous&lt;/em&gt; model used by &lt;em&gt;core.async&lt;/em&gt; channels ensures that the token granter waits until a prior granted token is consumed.&lt;/p&gt;
+
+&lt;p&gt;Note that the body of the function is wrapped in an anonymous function within the generated wrapper function and invoked with an &lt;em&gt;apply&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;defnthrottled&quot;&gt;defn-throttled&lt;/h3&gt;
+
+&lt;p&gt;Clojure code for implementing a throttled function. &lt;em&gt;defn-throttled&lt;/em&gt; is a macro resembling Clojure’s &lt;em&gt;defn&lt;/em&gt; but with an additional interval specifier preceding the argument vector.&lt;/p&gt;
+&lt;script src='https://gist.github.com/9182004.js'&gt;&lt;![CDATA[ ]]&gt;&lt;/script&gt;</content>
+  </entry>
+  
+  <entry>
     <title>Java Reference Objects</title>
     <link href="http://MonadicT.github.io"/>
     <updated>2014-01-24T00:00:00-08:00</updated>
     <id>http://MonadicT.github.io/Java-References</id>
-    <content type="html">&lt;h2 id=&quot;java_reference_objects&quot;&gt;Java Reference Objects&lt;/h2&gt;
-
-&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
+    <content type="html">&lt;h3 id=&quot;introduction&quot;&gt;Introduction&lt;/h3&gt;
 
 &lt;p&gt;Perhaps the first trick of performance improvement is caching. Every programmer knows that performance of programs can be improved if somethings are cached in memory rather than recalculating or reading from disk everytime. However, balancing caching with memory needs of rest of the program is tricky. You can afford to cache a lot when demand for memory from rest of the program is small. But the cache should trim some of its entries when memory is needed by other parts of her program.&lt;/p&gt;
 

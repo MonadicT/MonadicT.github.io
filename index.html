@@ -17,10 +17,9 @@ layout: default
   </head>
   <body>
     {% for post in paginator.posts %}
-      <a href="{{post.url}}">{{post.title}}</a><br/>
+      <a href="{{post.url}}">{{post.date | date:  "%Y-%m-%d"}} {{post.title}}</a><br/>
       <!--<p>{{post.excerpt}}</p>-->
     {% endfor %}
-    <div/>
     <script src="javascripts/scale.fix.js"></script>
   </body>
 </html>
