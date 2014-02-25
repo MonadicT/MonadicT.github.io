@@ -4,7 +4,7 @@
   <title>MonadicT</title>
   <link href="http://MondadicT.github.io/atom.xml" rel="self"/>
   <link href="http://MonadicT.github.io/"/>
-  <updated>2014-02-25T11:47:45-08:00</updated>
+  <updated>2014-02-25T11:49:55-08:00</updated>
   <id>http://MonadicT.github.io/</id>
   <author>
     <name></name>
@@ -18,7 +18,7 @@
     <id>http://MonadicT.github.io/Ubuntu-Network_trouble</id>
     <content type="html">&lt;p&gt;I have used Ubuntu for almost a decade now. I have always thought it had a pretty good chance of being the alternative to MS Windows. After the recent Windows 8 release, which definitely makes a Linux alternative all the more imperative, I find it strangely ironic that Ubuntu seems to be emulating just that. Sigh.&lt;/p&gt;
 
-&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses wifi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;
+&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;
 
 &lt;p&gt;https://bugs.launchpad.net/ubuntu/+bug/1072518 https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507&lt;/p&gt;
 

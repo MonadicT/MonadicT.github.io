@@ -10,7 +10,7 @@ the recent Windows 8 release, which definitely makes a Linux
 alternative all the more imperative, I find it strangely ironic that
 Ubuntu seems to be emulating just that. Sigh.
 
-Rant over and now for a prductivity tip. When Ubuntu loses wifi
+Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi
 connectivity, restarting network-manager or networking will not
 help. Reboot seems to be the only remedy after that.  Here are a
 couple of bugs reported on this issue.
