@@ -99,6 +99,7 @@ img {
   max-width:100%;
 }
 
+/*
 header {
   width:270px;
   float:left;
@@ -141,6 +142,7 @@ header ul a {
   padding-top:6px;
   height:40px;
 }
+*/
 
 strong {
   color:#222;
@@ -191,23 +193,6 @@ xfooter {
   position: relative
 }
 
-.post-title {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: blue;
-}
-
-.post-date {
-  color: #999;
-  border-top: 1px solid #333;
-  margin-bottom: 1em;
-}
-
-.share {
-  position:absolute;
-  right: 0px;
-  top: -1em;
-}
 
 #sidebar {
   float: left

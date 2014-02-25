@@ -1,6 +1,7 @@
 ---
 layout: post
 title: core.async for throttling a Clojure function
+tags: Clojure, Code, Algorithm
 ---
 
 ### Introduction

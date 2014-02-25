@@ -1,25 +1,11 @@
 ---
 layout: default
 ---
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Foo by MonadicT</title>
-
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    {% for post in paginator.posts %}
-      <a href="{{post.url}}">{{post.date | date:  "%Y-%m-%d"}} {{post.title}}</a><br/>
-      <!--<p>{{post.excerpt}}</p>-->
-    {% endfor %}
-    <script src="javascripts/scale.fix.js"></script>
-  </body>
-</html>
+<h3>Articles</h3>
+<div id="posts">
+  {% for post in paginator.posts %}
+    <a href="{{post.url}}">{{post.date | date:  "%Y-%m-%d"}} {{post.title}}</a><br/>
+    <!--<p>{{post.excerpt}}</p>-->
+  {% endfor %}
+  <script src="javascripts/scale.fix.js"></script>
+</div>
