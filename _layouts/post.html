@@ -27,7 +27,7 @@ js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';i
 
   Tags:
   {% for tag in page.tags %}
-    {{tag}}
+    <a href="/tag/{{tag}}">{{ tag }}</a>
   {% endfor %}
 
   <div id="related">

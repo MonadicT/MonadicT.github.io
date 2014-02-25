@@ -1,6 +1,11 @@
 ---
 layout: post
 title: Java Reference Objects
+tags:
+- Java
+- Garbage Collection
+- References
+- Programming
 ---
 
 ### Introduction
