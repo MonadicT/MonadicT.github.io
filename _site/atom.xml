@@ -4,12 +4,33 @@
   <title>MonadicT</title>
   <link href="http://MondadicT.github.io/atom.xml" rel="self"/>
   <link href="http://MonadicT.github.io/"/>
-  <updated>2014-02-25T07:36:42-08:00</updated>
+  <updated>2014-02-25T11:46:17-08:00</updated>
   <id>http://MonadicT.github.io/</id>
   <author>
     <name></name>
     <email></email>
   </author>
+  
+  <entry>
+    <title>How to fix Wi-Fi connection issues in Ubuntu 13.04</title>
+    <link href="http://MonadicT.github.io"/>
+    <updated>2014-02-25T00:00:00-08:00</updated>
+    <id>http://MonadicT.github.io/Ubuntu-Network_trouble</id>
+    <content type="html">&lt;p&gt;I have used Ubuntu for almost a decade now. I have always thought it had a pretty good chance of being the alternative to MS Windows. After the recent Windows 8 release, which definitely makes a Linux alternative all the more imperative, I find it strangely ironic that Ubuntu seems to be emulating just that. Sigh.&lt;/p&gt;
+
+&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses wifi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;
+
+&lt;p&gt;https://bugs.launchpad.net/ubuntu/+bug/1072518 https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507&lt;/p&gt;
+
+&lt;p&gt;There are many workarounds you can find on the net. However, on my laptop, what seems to work always is the following.&lt;/p&gt;
+
+&lt;pre class=&quot;sh&quot;&gt;&lt;code class=&quot;sh&quot;&gt;
+sudo modprobe -r wl
+sudo modprobe wl
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Of course, the real solution may be to start using Arch Linux or something much simpler than the Windows-wannabe Ubuntu :)&lt;/p&gt;</content>
+  </entry>
   
   <entry>
     <title>core.async for throttling a Clojure function</title>
