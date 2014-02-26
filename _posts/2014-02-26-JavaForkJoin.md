@@ -29,7 +29,7 @@ would be a bonus read after that. Link to these papers are right here.
 [The Implementation of the Cilk-5 Multithreaded Language](http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013)
 
 The design of work-stealing and the implementation of underlying deque
-is full of deep insights into the problem and clever solution. I never
+is full of deep insights into the problem and clever solutions. I never
 thought
 [Dekker's algorithm](https://en.wikipedia.org/wiki/Dekker's_algorithm),
 which provides mutual exclusion between two processes, would ever be
