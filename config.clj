@@ -2,7 +2,7 @@
  :site-description ""
  :site-url "http://MonadicT.github.io"
  :in-dir "_resources/"
- :out-dir "html"
+ :out-dir "."
  :default-template "default.clj"
  :encoding "UTF-8"
  :blog-as-index false
