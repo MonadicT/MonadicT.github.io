@@ -18,7 +18,7 @@
 
   (if (= (:type metadata) :post)
     [:link {:rel "canonical"
-	    :href (str "http://foo.com" (:url metadata))}])
+	    :href (str (:site-url (static.config/config)) (:url metadata))}])
 
   [:script {:src "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",
             :type "text/javascript"}]
@@ -27,6 +27,12 @@
  [:div#wrap
  [:body
   [:div#header
+   [:form {:method "get"
+           :action "http://www.google.com/search" :id "searchform"}
+    [:div
+     [:input {:type "text" :name "q" :class "box" :id "s"}]
+     [:input {:type "hidden" :name "sitesearch"
+              :value (:site-url (static.config/config))}]]]
     [:h1
      [:a
       {:href "/"}
@@ -44,7 +50,7 @@
       [:div
        [:input {:type "text" :name "q" :class "box" :id "s"}]
        [:input {:type "hidden" :name "sitesearch"
-		:value "foo.com"}]]]]]
+		:value (:site-url (static.config/config))}]]]]]
   [:div#content-wrap
    [:div#content
     [:div
@@ -83,7 +89,7 @@
        "<div id=\"disqus_thread\"></div><script type=\"text/javascript\" src=\"http://disqus.com/forums/nakkaya/embed.js\"></script><noscript><a href=\"http://disqus.com/forums/nakkaya/?url=ref\">View the discussion thread.</a></noscript><a href=\"http://disqus.com\" class=\"dsq-brlink\">blog comments powered by <span class=\"logo-disqus\">Disqus</span></a>")]]
    [:div#sidebar
     [:div {:style "border-bottom: solid 1px #ddd"}
-    "PRAKI PRAKASH"]
+     "PRAKI PRAKASH"]
     [:div
      [:img {:src "/images/praki.jpg" :style "float:left;padding:
                                                 .5em"}]
@@ -99,31 +105,32 @@
       [:img {:src "/images/GitHub-Mark-32px.png"
              :alt "Github" :title "GitHub"
              :style"border:0;width:16px;height:16px;"}]]
+     "&nbsp;&nbsp;"
      [:a {:href "//plus.google.com/106671634457466903954?prsrc=3"
           :rel "publisher" :target "_top" :style "text-decoration:none;"}
       [:img {:src "//ssl.gstatic.com/images/icons/gplus-32.png"
              :alt "Google+" :title "Google+"
               :style "border:0;width:16px;height:16px;"}]]
-     "&nbsp;"
+     "&nbsp;&nbsp;"
      [:a {:href "https://twitter.com/MonadicT"}
       [:img {:src "/images/Twitter_logo_blue.png"
              :alt "Twitter" :title "Twitter"
-             :style "border:0;width:16px;height:16px"}]]]
-
+             :style "border:0;width:16px;height:16px"}]]
+     [:a#rss-feed {:href "/rss-feed"} [:img {:src "/images/rss.png"
+                                             :height "24px"
+                                             :width "24px"}]]]
     [:a.twitter-timeline {:href "https://twitter.com/MonadicT/favorites"
                           :data-widget-id "438551614102577152"}
      "Favorite Tweets by @MonadicT"]
-    [:script "function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"]
+    [:script {:type "text/javascript"} "function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"]
     ]]
 
   [:div#footer
-   [:a {:href "/rss-feed"} " RSS Feed"]
-   "&nbsp;"
    [:p "&copy; 2013"
-    [:a {:href "http://foo.com"} " Praki Prakash"]]]
+    [:a {:href (:site-url (static.config/config))} " Praki Prakash"]]]
   ;;
   ;;
-  (if (= (:type metadata) :post)
+  #_(if (= (:type metadata) :post)
     "<script type=\"text/javascript\">
 //<![CDATA[
 (function() {
