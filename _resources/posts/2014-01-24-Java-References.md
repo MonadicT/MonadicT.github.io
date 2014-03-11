@@ -67,7 +67,8 @@ reclaims enough memory will leave the soft references unclaimed. When
 memory is scarce, however, soft references will be reclaimed by
 garbage collection.
 
-{% gist 8655216 %}
+<script src="https://gist.github.com/MonadicT/8655216.js">
+</script>
 
 Here is the output produced by this code. You can see that soft
 references get cleared when memory is scarce.
@@ -98,7 +99,8 @@ that the weak references to objects don't seem to survive the
 process of building the hash map and System.gc() call clears them
 immediately.
 
-{% gist 8655216 %}
+<script src="https://gist.github.com/MonadicT/8655216.js">
+</script>
 
 Output from running the above gist.
 
@@ -169,4 +171,5 @@ used. Real code should probably be structured so that each object
 needing cleanup action should return an instance of *PhantomReference*
 subclass encapsulating the cleanup data.
 
-{% gist 8695437 %}
+<script src="https://gist.github.com/MonadicT/8695437.js">
+</script>

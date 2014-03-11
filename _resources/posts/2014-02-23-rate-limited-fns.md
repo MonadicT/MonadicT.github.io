@@ -41,4 +41,5 @@ Clojure code for implementing a throttled function. _defn-throttled_
 is a macro resembling Clojure's _defn_ but with an additional interval
 specifier preceding the argument vector.
 
-{% gist 9182004 %}
+<script src="https://gist.github.com/MonadicT/9182004.js">
+</script>
