@@ -6,7 +6,7 @@
    {:http-equiv "content-type", :content "text/html; charset=UTF-8"}]
   [:meta {:name "description", :content (:description metadata)}]
   [:meta {:name "keywords", :content (:tags metadata)}]
-  [:meta {:name "author", :content "Nurullah Akkaya"}]
+  [:meta {:name "author", :content "Praki Prakash"}]
   [:link {:rel "icon",
 	  :href "/images/favicon.ico" :type "image/x-icon"}]
   [:link {:rel "shortcut icon",
@@ -23,11 +23,10 @@
   [:script {:src "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML",
             :type "text/javascript"}]
   [:title (:title metadata)]]
+
+ [:div#wrap
  [:body
-  [:div
-   {:id "wrap"}
-   [:div
-    {:id "header"}
+  [:div#header
     [:h1
      [:a
       {:href "/"}
@@ -46,8 +45,8 @@
        [:input {:type "text" :name "q" :class "box" :id "s"}]
        [:input {:type "hidden" :name "sitesearch"
 		:value "foo.com"}]]]]]
-   [:div
-    {:id "content"}
+  [:div#content-wrap
+   [:div#content
     [:div
      {:id "post"}
      (if (or (= (:type metadata) :post)
@@ -82,11 +81,46 @@
     #_[:div {:id "disqus"}
      (if (= (:type metadata) :post)
        "<div id=\"disqus_thread\"></div><script type=\"text/javascript\" src=\"http://disqus.com/forums/nakkaya/embed.js\"></script><noscript><a href=\"http://disqus.com/forums/nakkaya/?url=ref\">View the discussion thread.</a></noscript><a href=\"http://disqus.com\" class=\"dsq-brlink\">blog comments powered by <span class=\"logo-disqus\">Disqus</span></a>")]]
-   [:div
-    {:id "footer"}
-    [:a {:href "/rss-feed"} " RSS Feed"]
-    [:p "&copy; 2013"
-     [:a {:href "http://foo.com"} " Foo Bar"]]]]
+   [:div#sidebar
+    [:div {:style "border-bottom: solid 1px #ddd"}
+    "PRAKI PRAKASH"]
+    [:div
+     [:img {:src "/images/praki.jpg" :style "float:left;padding:
+                                                .5em"}]
+     "Maker, programmer, culinarian, but not necessarily in
+      that order! Toiled at VMware, Yahoo, Westbridge and
+      Arzoo. Recovering Java programmer, functional
+      programming ideologue and Clojure practitioner. Maker of
+      very thin wood shavings using antique hand
+      tools. Inventor of delectable culinary chef d'œuvre!"]
+    [:div {:style "padding-top: 1em; padding-bottom:1em"}
+     [:a {:href "//github.com/MonadicT"
+          :target"_top" :style "text-decoration:none;"}
+      [:img {:src "/images/GitHub-Mark-32px.png"
+             :alt "Github" :title "GitHub"
+             :style"border:0;width:16px;height:16px;"}]]
+     [:a {:href "//plus.google.com/106671634457466903954?prsrc=3"
+          :rel "publisher" :target "_top" :style "text-decoration:none;"}
+      [:img {:src "//ssl.gstatic.com/images/icons/gplus-32.png"
+             :alt "Google+" :title "Google+"
+              :style "border:0;width:16px;height:16px;"}]]
+     "&nbsp;"
+     [:a {:href "https://twitter.com/MonadicT"}
+      [:img {:src "/images/Twitter_logo_blue.png"
+             :alt "Twitter" :title "Twitter"
+             :style "border:0;width:16px;height:16px"}]]]
+
+    [:a.twitter-timeline {:href "https://twitter.com/MonadicT/favorites"
+                          :data-widget-id "438551614102577152"}
+     "Favorite Tweets by @MonadicT"]
+    [:script "function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"]
+    ]]
+
+  [:div#footer
+   [:a {:href "/rss-feed"} " RSS Feed"]
+   "&nbsp;"
+   [:p "&copy; 2013"
+    [:a {:href "http://foo.com"} " Praki Prakash"]]]
   ;;
   ;;
   (if (= (:type metadata) :post)
@@ -103,4 +137,4 @@
 	     document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/nakkaya/get_num_replies.js' + query + '\"></' + 'script>');
 	     })();
 //]]>
-</script>")]]
+</script>")]]]
