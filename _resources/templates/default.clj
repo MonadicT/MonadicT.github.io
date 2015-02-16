@@ -126,7 +126,7 @@
     ]]
 
   [:div#footer
-   [:p "&copy; 2013"
+   [:p "&copy; 2013-2014"
     [:a {:href (:site-url (static.config/config))} " Praki Prakash"]]]
   ;;
   ;;

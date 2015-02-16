@@ -1,6 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Java Fork/Join Framework - an exemplar of elegant design</title><link>http://MonadicT.github.io/2014/02/26/JavaForkJoin/</link><pubDate>Wed, 26 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;It's rare to see a well-crafted solution to a thorny problem. With multicore hardware becoming the norm a few years ago, we needed a way to take advantage of all those cores. In Java, we already have threads and synchronization constructs, right? What could be easier than throwing together a bunch of interfaces, classes and threads at this problem?&lt;/p&gt;&lt;p&gt;The answer is not whether it is easier or harder. The question should really be about the right way to do it. The realization of Fork/Join implementation in Java is quite an impressive piece of engineering. Engineering as in recognizing the essence of the problem and solving it just right. Of course, the credit also goes to the original work done in Cilk project at MIT.&lt;/p&gt;&lt;p&gt;I won't try to distill the contents of relevant papers in this post. You should really read Doug Lea's paper and the Cilk-5 paper would be a bonus read after that. Link to these papers are right here.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://gee.cs.oswego.edu/dl/papers/fj.pdf&quot;&gt;A Java Fork/Join Framework&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013&quot;&gt;The Implementation of the Cilk-5 Multithreaded Language&lt;/a&gt;&lt;/p&gt;&lt;p&gt;The design of work-stealing and the implementation of underlying deque is full of deep insights into the problem and clever solutions. I never thought &lt;a href=&quot;https://en.wikipedia.org/wiki/Dekker's_algorithm&quot;&gt;Dekker's algorithm&lt;/a&gt;, which provides mutual exclusion between two processes, would ever be usable in a real-world solution. I suppose, some solutions are waiting for just the right problem.&lt;/p&gt;</description></item><item><title>How to fix Wi-Fi connection issues in Ubuntu 13.04</title><link>http://MonadicT.github.io/2014/02/25/Ubuntu-Network_trouble/</link><pubDate>Tue, 25 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;I have used Ubuntu for almost a decade now. I have always thought it had a pretty good chance of being the alternative to MS Windows. After the recent Windows 8 release, which definitely makes a Linux alternative all the more imperative, I find it strangely ironic that Ubuntu seems to be emulating just that. Sigh.&lt;/p&gt;&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;&lt;p&gt;https://bugs.launchpad.net/ubuntu/+bug/1072518 https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507&lt;/p&gt;&lt;p&gt;There are many workarounds you can find on the net. However, on my laptop, what seems to work always is the following.&lt;/p&gt;&lt;p&gt;&lt;code&gt;sh
+<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Beamer Presentations</title><link>http://MonadicT.github.io/2015/02/15/beamer/</link><pubDate>Sun, 15 Feb 2015 00:00:00 -0800</pubDate><description>&lt;h3&gt;Presentations using Beamer&lt;/h3&gt;</description></item><item><title>Tikz/PGF</title><link>http://MonadicT.github.io/2015/02/15/Tikz/</link><pubDate>Sun, 15 Feb 2015 00:00:00 -0800</pubDate><description>&lt;h3&gt;Using TikZ&lt;/h3&gt;</description></item><item><title>R</title><link>http://MonadicT.github.io/2015/02/15/Foobar/</link><pubDate>Sun, 15 Feb 2015 00:00:00 -0800</pubDate><description>&lt;h3&gt;Using R&lt;/h3&gt;</description></item><item><title>Safeguarding Secrets with GnuPG</title><link>http://MonadicT.github.io/2014/03/08/safeguarding-secrets-with-gnupg/</link><pubDate>Sat, 8 Mar 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;
+The best way to ensure that private information stays private is to
+keep it all in your head and never divulge it unless tortured! That
+ain't going to cut it in this day and age when we have more than a few
+things to remember. The most common way is to use some kind of &lt;b&gt;data
+safe&lt;/b&gt; where information can be stored with some level of privacy.
+&lt;/p&gt;
+
+&lt;p&gt;
+Now, a disclaimer about this post and use of technology in securing
+your secrets. There are many ways in which your private data could be
+compromised. While the underlying math of cryptography seems foolproof
+with technology we have now, a radically new approach, however
+unlikely but not impossible, could render it vulnerable. But the good
+news is that, we can trust the math. And the bad news?  We can never
+trust the implementations. Cryptography implementations are plagued
+with bugs which can go undetected for years. Many algorithms once
+considered secure are now considered unfit. Your computer can be
+bugged at the hardware level. There is a possibility that even a
+computer not connected to the internet is vulnerable to eavesdropping.
+&lt;/p&gt;
+
+&lt;p&gt;
+With that said, let's now dive into some practical techniques to
+protect our documents. The tool we will use is GnuPG which is an
+implementation of &lt;a href=&quot;http://www.openpgp.org/&quot;&gt;OpenPGP&lt;/a&gt; and &lt;a href=&quot;http://tools.ietf.org/html/rfc4880&quot;&gt;RFC 4080&lt;/a&gt; . This is a good choice as it
+is completely open source. In the world of security, an implementation
+that is reviewed by people all over the world is more trustworthy than
+a closed implementation where you would have to trust a corporation.
+&lt;/p&gt;
+
+&lt;div id=&quot;outline-container-sec-1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-1&quot;&gt;GnuPG&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-1&quot;&gt;
+&lt;p&gt;
+In addition to encryption and decryption of documents, GnuPG can also
+digitally sign and verify signatures. We won't be using those
+capabilities here. GnuPG can encrypt documents using either symmetric
+or asymmetric scheme. A symmetric scheme uses the same key to encrypt
+and decrypt. An asymmetric scheme uses the public key to encrypt and
+private key to decrypt. Asymmetric scheme allows anybody to
+communicate securely with anyone whose public key is accessible.
+&lt;/p&gt;
+
+&lt;p&gt;
+For our purposes, we can use either scheme.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-1-1&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-1&quot;&gt;Installation&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-1&quot;&gt;
+&lt;p&gt;
+Installation depends on the Linux distribution you are using. For
+Debian/Ubuntu/Mint, the following incantation works.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-sh&quot;&gt;sudo apt-get install gnupg
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-sec-1-2&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-2&quot;&gt;Key generation&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-2&quot;&gt;
+&lt;p&gt;
+You need to generate a key using the following command. The command
+asks a number of questions about the type of key (choose RSA &amp;amp; RSA)
+and identity to be associated with the key.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-clojure&quot;&gt;gpg --gen-key
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+The generated keys are stored in &lt;code&gt;~/.gnupg/&lt;/code&gt;. It is a splendid idea to
+keep copies of this directory. It's highly recommended to use a
+passphrase and keep the copies in a safe and secure location. If you
+lose these keys, there is no way to get them back! You have been
+warned!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-sec-1-3&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-3&quot;&gt;Encryption&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-3&quot;&gt;
+&lt;p&gt;
+&lt;code&gt;gpg&lt;/code&gt; encrypts using the public key of a user. When you want to
+encrypt a document which should be for your use, you simply use your
+own user id as shown below. If you had used someone else as the
+&lt;i&gt;recipient&lt;/i&gt;, only that person would be able to decrypt what you
+encrypt.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-sh&quot;&gt;gpg --encrypt -r user@domain --output doc.gpg doc.txt
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+This command writes the encrypted output to &lt;code&gt;gpg.txt&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-sec-1-4&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-4&quot;&gt;Decryption&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-4&quot;&gt;
+&lt;p&gt;
+A gpg-encrypted document is decrypted by the following
+command. Decryption requires the private key of the user whose public
+key was used as the encryption key. User can provide access to the key
+either by entering the passphrase for the key or by running a
+&lt;code&gt;gpg-agent&lt;/code&gt; process to which key is made available.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-sh&quot;&gt;gpg --decrypt foo.gpg
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-sec-2&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-2&quot;&gt;GnuPG in Emacs&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-2&quot;&gt;
+&lt;p&gt;
+The procedures described in the previous section get the job done. It
+would be cumbersome to decrypt a document and then edit in an
+editor. Luckily, Emacs users have built-in support for GnuPG (package
+EasyPG). When Emacs detects an encrypted document, it will ask for
+your passphrase and save the modified document encrypting it. Nothing
+could be more convenient!
+&lt;/p&gt;
+
+&lt;p&gt;
+Another disclaimer here! Anytime you have an decrypted copy of your
+precious document, you must be aware of the potential of it being
+leaked. Editors could be keeping backup copies, processes could get
+swapped to disk, someone could be remotely viewing your screen. Keep
+all these risk in mind. A big part of security is a healthy dose of
+paranoia and distrust of everything.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description></item><item><title>Java Fork/Join Framework - an exemplar of elegant design</title><link>http://MonadicT.github.io/2014/02/26/JavaForkJoin/</link><pubDate>Wed, 26 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;It's rare to see a well-crafted solution to a thorny problem. With multicore hardware becoming the norm a few years ago, we needed a way to take advantage of all those cores. In Java, we already have threads and synchronization constructs, right? What could be easier than throwing together a bunch of interfaces, classes and threads at this problem?&lt;/p&gt;&lt;p&gt;The answer is not whether it is easier or harder. The question should really be about the right way to do it. The realization of Fork/Join implementation in Java is quite an impressive piece of engineering. Engineering as in recognizing the essence of the problem and solving it just right. Of course, the credit also goes to the original work done in Cilk project at MIT.&lt;/p&gt;&lt;p&gt;I won't try to distill the contents of relevant papers in this post. You should really read Doug Lea's paper and the Cilk-5 paper would be a bonus read after that. Link to these papers are right here.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://gee.cs.oswego.edu/dl/papers/fj.pdf&quot;&gt;A Java Fork/Join Framework&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013&quot;&gt;The Implementation of the Cilk-5 Multithreaded Language&lt;/a&gt;&lt;/p&gt;&lt;p&gt;The design of work-stealing and the implementation of underlying deque is full of deep insights into the problem and clever solutions. I never thought &lt;a href=&quot;https://en.wikipedia.org/wiki/Dekker's_algorithm&quot;&gt;Dekker's algorithm&lt;/a&gt;, which provides mutual exclusion between two processes, would ever be usable in a real-world solution. I suppose, some solutions are waiting for just the right problem.&lt;/p&gt;</description></item><item><title>How to fix Wi-Fi connection issues in Ubuntu 13.04</title><link>http://MonadicT.github.io/2014/02/25/Ubuntu-Network_trouble/</link><pubDate>Tue, 25 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;I have used Ubuntu for almost a decade now. I have always thought it had a pretty good chance of being the alternative to MS Windows. After the recent Windows 8 release, which definitely makes a Linux alternative all the more imperative, I find it strangely ironic that Ubuntu seems to be emulating just that. Sigh.&lt;/p&gt;&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;&lt;p&gt;https://bugs.launchpad.net/ubuntu/+bug/1072518 https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507&lt;/p&gt;&lt;p&gt;There are many workarounds you can find on the net. However, on my laptop, what seems to work always is the following.&lt;/p&gt;&lt;p&gt;&lt;code&gt;sh
 sudo modprobe -r wl
 sudo modprobe wl
 &lt;/code&gt;&lt;/p&gt;&lt;p&gt;Of course, the real solution may be to start using Arch Linux or something much simpler than the Windows-wannabe Ubuntu :)&lt;/p&gt;</description></item><item><title>core.async for throttling a Clojure function</title><link>http://MonadicT.github.io/2014/02/23/rate-limited-fns/</link><pubDate>Sun, 23 Feb 2014 00:00:00 -0800</pubDate><description>&lt;h3&gt;Introduction&lt;/h3&gt;&lt;p&gt;Most of the time, we want our functions to execute as fast as possible. But sometimes, that is not quite what is desirable. For example, if we are interfacing to an external service, we may be expected to be a friendly user of it and not bombard it with requests. While it's reasonable to expect that the service will have its own throttling mechanism, it's still a technique worth knowing.&lt;/p&gt;&lt;p&gt;Throttling or rate limiting is widely used in network traffic management. &lt;a href=&quot;https://en.wikipedia.org/wiki/Token_bucket&quot;&gt;Token bucket&lt;/a&gt; and &lt;a href=&quot;https://en.wikipedia.org/wiki/Leaky_bucket&quot;&gt;Leaky bucket&lt;/a&gt; are two commonly used algorithms. We will implement a token-based rate limiter using &lt;em&gt;core.async&lt;/em&gt;.&lt;/p&gt;&lt;p&gt;What follows is a simple Clojure macro which defines a self-governing function.&lt;/p&gt;&lt;h3&gt;How it works&lt;/h3&gt;&lt;p&gt;The function waits for a token before proceeding and the token is only issued at the specified intervals. The waiting and token granting logic is based on &lt;em&gt;core.async&lt;/em&gt; channel constructs. Each throttled function has an associated channel on which it waits to get a token. A token granter waits for an interval of time on a &lt;em&gt;timeout&lt;/em&gt; channel and sends the token on the token channel. This ensures that the function will never execute more frequently than the desired interval. The &lt;em&gt;rendezvous&lt;/em&gt; model used by &lt;em&gt;core.async&lt;/em&gt; channels ensures that the token granter waits until a prior granted token is consumed.&lt;/p&gt;&lt;p&gt;Note that the body of the function is wrapped in an anonymous function within the generated wrapper function and invoked with an &lt;em&gt;apply&lt;/em&gt;.&lt;/p&gt;&lt;h3&gt;defn-throttled&lt;/h3&gt;&lt;p&gt;Clojure code for implementing a throttled function. &lt;em&gt;defn-throttled&lt;/em&gt; is a macro resembling Clojure's &lt;em&gt;defn&lt;/em&gt; but with an additional interval specifier preceding the argument vector.&lt;/p&gt;

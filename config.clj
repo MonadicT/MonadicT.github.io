@@ -7,14 +7,20 @@
  :encoding "UTF-8"
  :blog-as-index false
  :create-archives false
+ :org-export-command "(progn (org-html-export-as-html nil nil nil t nil) (with-current-buffer \"*Org HTML Export*\" (princ (org-no-properties (buffer-string)))))"
  :atomic-build true
  :emacs "/usr/bin/emacs"
- :emacs-eval ['(add-to-list 'load-path "~/source/emacs/ext/org-mode/lisp/")
-              '(add-to-list 'load-path "~/source/emacs/ext/org-mode/contrib/lisp/")
-              '(add-to-list 'load-path "~/.emacs.d/elpa/clojure-mode-2.1.1/")
+ :emacs-eval [;;'(add-to-list 'load-path "~/tools/emacs/ext/org-mode/lisp/")
+              ;;'(add-to-list 'load-path "~/source/emacs/ext/org-mode/contrib/lisp/")
+              '(add-to-list 'load-path "~/.emacs.d/elpa/org-20140310/")
+              '(add-to-list 'load-path "~/.emacs.d")
+              '(add-to-list 'load-path "~/.emacs.d/elpa")
+              '(add-to-list 'load-path "~/.emacs.d/elpa/htmlize-1.39")
+              '(add-to-list 'load-path "~/.emacs.d/elpa/clojure-mode-2.1.1")
               '(require 'htmlize)
               '(require 'org)
-              '(require 'org-macs)
+              '(require 'org-list)
+              ;;'(require 'org-macs)
               '(require 'ox-html)
               '(require 'ob)
               '(global-font-lock-mode 1)
