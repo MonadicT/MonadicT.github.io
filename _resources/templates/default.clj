@@ -86,7 +86,7 @@
 
     #_[:div {:id "disqus"}
      (if (= (:type metadata) :post)
-       "<div id=\"disqus_thread\"></div><script type=\"text/javascript\" src=\"http://disqus.com/forums/nakkaya/embed.js\"></script><noscript><a href=\"http://disqus.com/forums/nakkaya/?url=ref\">View the discussion thread.</a></noscript><a href=\"http://disqus.com\" class=\"dsq-brlink\">blog comments powered by <span class=\"logo-disqus\">Disqus</span></a>")]]
+       "<div id=\"disqus_thread\"></div><script type=\"text/javascript\" src=\"http://disqus.com/forums/monadict/embed.js\"></script><noscript><a href=\"http://disqus.com/forums/mondaict/?url=ref\">View the discussion thread.</a></noscript><a href=\"http://disqus.com\" class=\"dsq-brlink\">blog comments powered by <span class=\"logo-disqus\">Disqus</span></a>")]]
    [:div#sidebar
     [:div {:style "border-bottom: solid 1px #ddd"}
      "PRAKI PRAKASH"]
@@ -126,7 +126,7 @@
     ]]
 
   [:div#footer
-   [:p "&copy; 2013-2014"
+   [:p "&copy; 2013-2015"
     [:a {:href (:site-url (static.config/config))} " Praki Prakash"]]]
   ;;
   ;;
@@ -141,7 +141,7 @@
 								       query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
 								       }
 		     }
-	     document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/nakkaya/get_num_replies.js' + query + '\"></' + 'script>');
+	     document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/monadict/get_num_replies.js' + query + '\"></' + 'script>');
 	     })();
 //]]>
 </script>")]]]

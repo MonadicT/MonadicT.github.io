@@ -1,0 +1,464 @@
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta content="text/html; charset=UTF-8" http-equiv="content-type" /><meta name="description" /><meta content="tip, X, xmonad" name="keywords" /><meta content="Praki Prakash" name="author" /><link href="/images/favicon.ico" rel="icon" type="image/x-icon" /><link href="/images/favicon.ico" rel="shortcut icon" type="image/x-icon" /><link href="/default.css" rel="stylesheet" type="text/css" /><link href="/rss-feed" rel="alternate" title="MonadicT" type="application/rss+xml" /><link href="http://MonadicT.github.io/2015/05/20/xmonad/" rel="canonical" /><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script><title>Configuring xmonad</title></head><div id="wrap"><body><div id="header"><form action="http://www.google.com/search" id="searchform" method="get"><div><input class="box" id="s" name="q" type="text" /><input name="sitesearch" type="hidden" value="http://MonadicT.github.io" /></div></form><h1><a href="/">MonadicT</a></h1></div><div id="content-wrap"><div id="content"><div id="post"><h2 class="page-title">Configuring xmonad</h2><p>
+<a href="http://www.xmonad.org">xmonad</a> is a minimal tiling window manager. This post shows how to
+setup xmnoad on a Ubuntu 14.04 machine and configure it in small
+steps. xmonad configuration is done through a Haskell program and this
+proves to be one of the major obstacles to using xmonad
+effectively. On the other hand, if you can understand basic Haskell syntax,
+there is not another window manager that I know of which is as
+extensible as xmonad. xmonad is to window management as emacs is to,
+well, let's stop right there! You get the idea!
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Installing xmonad</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+My usual sequence for setting up a Linux computer is to install Ubuntu
+or something similar. The distribution you use really doesn't matter
+since we are going to be avoiding all the bells and whistles that come
+with each distribution. Let's assume that you have X installed on the
+system and a desktop such as gnome or Kde. In my case, I installed
+Ubuntu 14.04 and installed gnome desktop using <i>sudo apt-get install
+gnome-desktop</i>. I then created a file called
+<b>/usr/share/applications/xmonad.desktop</b> with the following
+contents. With this in place, Gnome Display Manager gives me an
+additional choice of window managers to run when I login.
+</p>
+
+<p>
+There are many other ways to get xmonad to run as the window
+manager. <b>~/.xessionrc</b> is another place where xmonad can be started
+on login.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">[Desktop Entry]
+Type=Application
+Name=Xmonad
+Exec=xmonad
+NoDisplay=true
+X-GNOME-WMName=Xmonad
+X-GNOME-Autostart-Phase=WindowManager
+X-GNOME-Provides=windowmanager
+X-GNOME-Autostart-Notify=true
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Configuring xmonad</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+xmonad runs happily with no custom configuration. However, it is going to be
+a bland experience. Customizing xmonad requires you to have a
+<b>~/.xmonad/xmonad.hs</b> file. Adding content to this file will be the
+main focus of this post.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Hello, xmonad.hs</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+This is the simplest configuration of XMonad window manager. It just
+runs xmonad with <i>defaultConfig</i>. <i>defaultConfig</i> is just a record
+containing xmonad configuration options. As we will see later, we can use Haskell's record
+update syntax to change the options.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import XMonad
+main = xmonad defaultConfig
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Taking back our Alt key</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+If you are an <i>emacs</i> user, you are likely to be missing some favorite
+Alt key combinations. Let's change XMonad key to the Window key, which
+most of us happen to have on our keyboards. The following will tell
+XMonad to use Windows key instead of Alt.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import XMonad
+main = xmonad defaultConfig {
+  modMask = mod4Mask
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Configuring XMonad for a Desktop Environment</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+A list of configuration options can be seen at <a href="http://xmonad.org/xmonad-docs/xmonad/XMonad-Core.html#t:XConfig">XConfig</a>. Generally, we
+run Xmonad in a  <a href="http://en.wikipedia.org/wiki/Desktop_environment">Desktop Environment</a>. In such cases, Xmonad
+configuration should start with <a href="http://xmonad.org/xmonad-docs/xmonad-contrib/XMonad-Config-Desktop.html">Desktop Config</a>. You can use a generic
+desktop configuration or specific to the environment you are
+using. Since I am running a Gnome environment, my xmnoad.hs will be as
+shown below.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import XMonad
+import XMonad.Config.Desktop
+main = xmonad desktopConfig {
+    modMask = mod4Mask
+}
+</pre>
+</div>
+
+<p>
+Restarting Xmonad will now an interesting effect. Our window is moved
+down by some distance leaving some room for running toolbars. We can
+try running <a href="http://en.wikipedia.org/wiki/GNOME_Panel">GNOME Panel</a> as the status bar. That, of course, is
+sub-optimal for my work flow and I prefer something like <a href="http://linux.die.net/man/1/dzen2">dzen2</a>. dzen2
+reads its standard input stream and displays it in the window it creates.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Configuring dzen2 and conky</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+dzen2 can be configured using ~/.Xresource<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup>. Let's set foreground and background colors for dzen2
+as below.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">dzen2.background: black
+dzen2.foreground: white
+dzen2.font: -*-fixed-*-*-*-*-11-*-*-*-*-*-*-*
+</pre>
+</div>
+
+<p>
+Running dzen2 will now display with black background and white
+foreground. Each line it reads from its standard input stream will be
+displayed by dzen2. Dzen2 also supports a custom formatting
+language. <i>^fg(black)</i> will switch foreground color to black and
+<i>^fg()</i> will switch it back to default foreground color. <i>^p(10)</i> will
+move the current position to right by 10 pixels. A negative number
+will cause it to move to left.
+</p>
+
+<p>
+Now that we know how dzen2 works, let's see how we can display current
+time at the top right-hand side of our screen. We could have a shell
+script which pipes its output to dzen2 and loops over a sequence of
+<i>date</i> and <i>sleep</i> commands. Fortunately, we can do much better using
+a program called conky. Conky is configured using an initialization
+file called <i>~.conkyrc</i> and the following is what is in mine. Here,
+conky displays a line of text at a half-second interval.  The line
+after <i>TEXT</i> controls what conky displays.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">own_wndow yes     # Need for display glicthes
+double_buffer yes # ditto
+update_interval 1 # Every second
+total_run_times 0 # Run for ever
+use_spacer yes    # Stop things from moving around
+minimum_size 250 5
+maximum_width 400
+out_to_console yes
+
+TEXT
+Load: ${loadavg 1 2 3} Cpu: %${cpu} Mem: ${mem} \
+Swap: ${swap} Wifi: ${wireless_essid wlan0} ${wireless_bitrate wlan0} \
+${wireless_link_qual_perc wlan0} \
+${exec acpi | awk '/Discharging/{print "^fg(orange)Bat:", $4,"^fg()"}/Charging/{print "Bat:", $4}'}  \
+Audio: ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f8|tr -d "[]"} \
+${time %b %d %I:%M:%S}
+</pre>
+</div>
+
+<p>
+Running the following command will show a status bar with some useful
+information.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">conky|dzen2 -x 400 -ta r
+</pre>
+</div>
+
+<p>
+We can now see how to configure Xmonad to start conky and dzen2.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import XMonad
+import XMonad.Config.Desktop
+
+conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16 -ta r"
+
+main = do
+      spawnPipe conkyStatusBar
+      xmonad desktopConfig {
+	  modMask = mod4Mask
+      }
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">Displaying window manager log</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+All window managers maintain the current state of the desktop and
+xmonad is no exception. Xmonad has a <i>logHook</i> which is called
+whenever its internal state changes. It would be nice to see the list
+of workspaces, current workspace, title of window with focus. To do
+this, we specify a hook <i>dynamicLogWithPP</i> whose configuration is
+customized to pipe the log information to another <i>dzen2</i> process.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import System.IO
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Util.Run (spawnPipe)
+import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
+import XMonad.Hooks.SetWMName (setWMName)
+
+foreground = "yellow"
+conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16  -ta r"
+
+xmonadStatusBar = "dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 " ++ "\
+	\-bg " ++ background ++ " -fg " ++ foreground
+
+main = do
+      spawnPipe conkyStatusBar
+      spawnPipe xmonadStatusBar
+      xmproc &lt;- spawnPipe xmonadStatusBar
+      xmonad desktopConfig {
+	  modMask = mod4Mask
+	  , logHook    = dynamicLogWithPP $ defaultPP
+			 { ppOutput = hPutStrLn xmproc
+			   , ppOrder = take 3 . drop 0
+			  }
+      }
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">Configuring terminal window</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+The default terminal window in my environment is <b>xterm</b>. I like
+<b>urxvt</b> with the following parameters.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">myTerminal = "urxvt -bg black -fg yellow -fade 30 -fadecolor white +sb"
+</pre>
+</div>
+
+<p>
+Adding this to my <i>xmonad.hs</i>, it now looks as below.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import System.IO
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Util.Run (spawnPipe)
+import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
+import XMonad.Hooks.SetWMName (setWMName)
+
+foreground = "yellow"
+conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16  -ta r"
+
+xmonadStatusBar = "dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "
+
+myTerminal = "urxvt -bg black -fg yellow -fade 30 -fadecolor white"
+
+main = do
+      spawnPipe conkyStatusBar
+      spawnPipe xmonadStatusBar
+      xmproc &lt;- spawnPipe xmonadStatusBar
+      xmonad desktopConfig {
+	  modMask = mod4Mask
+	  , logHook    = dynamicLogWithPP $ defaultPP
+			 { ppOutput = hPutStrLn xmproc
+			   , ppOrder = take 3 . drop 0
+			  }
+	  , terminal = myTerminal
+      }
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7">Function key support</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+At this point, many Fn keys don't work as expected. Support for
+multimedia keys can be added by extending the <i>desktopConfig</i> element
+with <i>`additionalKeys`</i> method. Muting, volume control, brightness
+control are all done by executing an OS command. Details depend on
+your specific system configuration and here is what works on mine.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
+import System.IO
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
+import XMonad.Hooks.SetWMName (setWMName)
+import XMonad.Prompt (defaultXPConfig)
+import XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
+import XMonad.Util.EZConfig (additionalKeys)
+import XMonad.Util.Run (spawnPipe)
+
+conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16  -ta r"
+
+xmonadStatusBar = "dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "
+
+myTerminal = "urxvt -bg black -fg yellow -fade 30 -fadecolor white"
+
+main = do
+      spawnPipe conkyStatusBar
+      spawnPipe xmonadStatusBar
+      xmproc &lt;- spawnPipe xmonadStatusBar
+      xmonad $ desktopConfig {
+	  modMask = mod4Mask
+	  , logHook    = dynamicLogWithPP $ defaultPP
+			 { ppOutput = hPutStrLn xmproc
+			   , ppOrder = take 3 . drop 0
+			  }
+	  , terminal = myTerminal
+	}
+	`additionalKeys`
+	  [((mod4Mask .|. controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
+	   , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 1-")
+	   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 1+")
+	   , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
+	   , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -10")
+	   , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight +10")
+	  ]
+</pre>
+</div>
+
+<p>
+With these key bindings, we can now control audio volume and monitor
+brightness. A visual indication of this would be a nice addition. We
+can get the audio status from <i>amixer</i> and massaging the output
+through a few utilities as shown below. We augment our <i>.conkyrc</i> with
+this snippet and we are done!
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-bash">Vol: ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f8|tr -d "[]"}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8">Startup actions</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Now for the very last bits of my configuration. When I start my
+session, I would like to have my editor, browser and a few terminal
+windows started automatically. In addition, I would like to see them
+moved to a different virtual workspace. xmonad's <i>startupHook</i> is the
+ideal place to spawn what we need. Now the <i>desktopConfig</i> is
+augmented with more spawn commands.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">xmonad $ desktopConfig {
+    ...
+    , startupHook = do
+	spawnOnce "google-chrome --class chrome"
+	spawnOnce "urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io"
+
+  }
+</pre>
+</div>
+
+<p>
+Moving the window to predetermined workspaces is accomplished using
+xmonad's <i>mnagaeHook</i>, Below is our version where windows are floated
+(for pop ups) or moved to workspaces. We can use any attribute of the
+window and take suitable action. What we are doing below is moving
+chrome to wodkspace 2, windows with title "logs" to workspace 3 etc.
+</p>
+
+<p>
+We set xmonad's <i>manageHook</i> by combining the default hook with ours
+as shown below.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-haskell">myManageHook
+    = composeAll . concat $
+      [ [className =? c --&gt; doFloat | c &lt;- myFloats]
+      , [title =? t --&gt; doFloat | t &lt;- myOtherFloats]
+      , [resource =? r --&gt; doFloat | r &lt;- myIgnores]
+      , [className =? "Gimp" --&gt; doF (W.shift "5:misc")]
+      , [className =? "VirtualBox" --&gt; doF (W.shift "5:misc")]
+      , [className =? "Wine" --&gt; doF (W.shift "5:misc")]
+      , [className =? "chrome" --&gt; doShift "2"]
+      , [title =? "logs" --&gt; doShift "3"]
+      , [title =? "cljswatch" --&gt; doShift "4"]
+      ]
+    where
+      myFloats = ["Gimp", "Nvidia-settings", "XCalc", "XFontSel", "Xmessage", "xmms"]
+      myOtherFloats = ["Downloads", "Firefox - Restore Previous Session", "Save As...", "Ediff", "Ediff&lt;2&gt;"]
+      myIgnores = []
+
+ xmonad $ desktopConfig {
+	  ...
+	  , manageHook = myManageHook &lt;+&gt; manageHook defaultConfig
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p>Changes made to
+~/.Xresources need to be processed with the command <b>xrdb -merge
+~/.Xresources</b></p></div>
+
+
+</div>
+</div><div class="post-tags">Tags: <a href="/tags/#tip,">tip, </a><a href="/tags/#X,">X, </a><a href="/tags/#xmonad">xmonad </a></div></div><div id="related"><h3 class="random-posts">Random Posts</h3><ul class="posts"><li><span>20 May 2015</span><a href="/2015/05/20/Blogging-with-org/">Blogging with emacs, org-mode and github.io</a></li><li><span>24 Jan 2014</span><a href="/2014/01/24/Java-References/">Java Reference Objects</a></li><li><span>08 Mar 2014</span><a href="/2014/03/08/safeguarding-secrets-with-gnupg/">Safeguarding Secrets with GnuPG</a></li><li><span>25 Feb 2014</span><a href="/2014/02/25/Ubuntu-Network_trouble/">How to fix Wi-Fi connection issues in Ubuntu 13.04</a></li><li><span>15 Feb 2015</span><a href="/2015/02/15/Tikz/">TikZ/PGF</a></li></ul></div></div><div id="sidebar"><div style="border-bottom: solid 1px #ddd">PRAKI PRAKASH</div><div><img src="/images/praki.jpg" style="float:left;padding:
+                                                .5em" />Maker, programmer, culinarian, but not necessarily in
+      that order! Toiled at VMware, Yahoo, Westbridge and
+      Arzoo. Recovering Java programmer, functional
+      programming ideologue and Clojure practitioner. Maker of
+      very thin wood shavings using antique hand
+      tools. Inventor of delectable culinary chef d'œuvre!</div><div style="padding-top: 1em; padding-bottom:1em"><a href="//github.com/MonadicT" style="text-decoration:none;" target="_top"><img alt="Github" src="/images/GitHub-Mark-32px.png" style="border:0;width:16px;height:16px;" title="GitHub" /></a>&nbsp;&nbsp;<a href="//plus.google.com/106671634457466903954?prsrc=3" rel="publisher" style="text-decoration:none;" target="_top"><img alt="Google+" src="//ssl.gstatic.com/images/icons/gplus-32.png" style="border:0;width:16px;height:16px;" title="Google+" /></a>&nbsp;&nbsp;<a href="https://twitter.com/MonadicT"><img alt="Twitter" src="/images/Twitter_logo_blue.png" style="border:0;width:16px;height:16px" title="Twitter" /></a><a href="/rss-feed" id="rss-feed"><img height="24px" src="/images/rss.png" width="24px" /></a></div><a class="twitter-timeline" data-widget-id="438551614102577152" href="https://twitter.com/MonadicT/favorites">Favorite Tweets by @MonadicT</a><script type="text/javascript">function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script></div></div><div id="footer"><p>&copy; 2013-2015<a href="http://MonadicT.github.io"> Praki Prakash</a></p></div></body></div></html>
