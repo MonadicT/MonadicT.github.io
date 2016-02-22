@@ -91,14 +91,19 @@
     [:div {:style "border-bottom: solid 1px #ddd"}
      "PRAKI PRAKASH"]
     [:div
-     [:img {:src "/images/praki.jpg" :style "float:left;padding:
+     [:img {:src "/images/praki-outline.png" :style "float:left;padding:
                                                 .5em"}]
+     "I'm just an ordinary bloke! I like building things, real as well
+     as imaginary. Check my instagram link below for my non-technical
+     side."
+     [:span {:style "visibility: hidden"}
      "Maker, programmer, culinarian, but not necessarily in
       that order! Toiled at VMware, Yahoo, Westbridge and
       Arzoo. Recovering Java programmer, functional
       programming ideologue and Clojure practitioner. Maker of
       very thin wood shavings using antique hand
       tools. Inventor of delectable culinary chef d'œuvre!"]
+     ]
     [:div {:style "padding-top: 1em; padding-bottom:1em"}
      [:a {:href "//github.com/MonadicT"
           :target"_top" :style "text-decoration:none;"}
@@ -116,14 +121,17 @@
       [:img {:src "/images/Twitter_logo_blue.png"
              :alt "Twitter" :title "Twitter"
              :style "border:0;width:16px;height:16px"}]]
+     [:a {:href "https://www.instagram.com/fgx3prak/?ref=badge" :class "ig-b- ig-b-24"}
+      [:img {:src "//badges.instagram.com/static/images/ig-badge-16.png"
+             :style "padding-left:4px;width:16px;height:16px"
+             :height "16px" :width "16px" :alt "Instagram"}]]
      [:a#rss-feed {:href "/rss-feed"} [:img {:src "/images/rss.png"
-                                             :height "24px"
-                                             :width "24px"}]]]
+                                             :height "16px"
+                                             :width "16px"}]]]
     [:a.twitter-timeline {:href "https://twitter.com/MonadicT/favorites"
                           :data-widget-id "438551614102577152"}
      "Favorite Tweets by @MonadicT"]
-    [:script {:type "text/javascript"} "function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"]
-    ]]
+    [:script {:type "text/javascript"} "function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"]]]
 
   [:div#footer
    [:p "&copy; 2013-2015"
