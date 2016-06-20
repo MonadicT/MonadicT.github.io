@@ -227,6 +227,17 @@ java -jar ../static/target/static-app.jar --watch
 
 #+END_SRC
 
+
+When the post is complete, we need to commit all the files to git and push it to Github.
+#+BEGIN_SRC bash
+git status
+git add <new posts>
+git commit -am "Commit message"
+git push
+#+END_SRC
+
+Just like that, the new post appears on Github in all its glory.
+
 * Troubleshooting
 There are many moving parts in =org-mode= and when things go wrong,
 debugging is taxing. Google is our friend and one particularly nasty

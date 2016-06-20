@@ -283,6 +283,23 @@ change.
 &lt;pre class=&quot;src src-bash&quot;&gt;java -jar ../static/target/static-app.jar --watch
 &lt;/pre&gt;
 &lt;/div&gt;
+
+
+&lt;p&gt;
+When the post is complete, we need to commit all the files to git and push it to Github.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-bash&quot;&gt;git status
+git add &amp;lt;new posts&amp;gt;
+git commit -am &quot;Commit message&quot;
+git push
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Just like that, the new post appears on Github in all its glory.
+&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
