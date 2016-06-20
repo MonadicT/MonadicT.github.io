@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Blogging with emacs and org-mode</title><link>http://MonadicT.github.io/2016/06/19/Bloggngi/</link><pubDate>Sun, 19 Jun 2016 00:00:00 -0700</pubDate><description>&lt;p&gt;
+<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Blogging with emacs and org-mode</title><link>http://MonadicT.github.io/2016/06/19/Blogging/</link><pubDate>Sun, 19 Jun 2016 00:00:00 -0700</pubDate><description>&lt;p&gt;
 I do most of my work in &lt;code&gt;emacs&lt;/code&gt; and blogging is no
 exception. But, everytime I start a blog post, I go through a small
 learning curve around the tools I use. I am going to put an end to it,
