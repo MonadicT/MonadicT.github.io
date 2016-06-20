@@ -95,7 +95,7 @@
                                                 .5em"}]
      "I'm just an ordinary bloke! I like building things, real as well
      as imaginary. Check my instagram link below for my non-technical
-     side."
+     stuff."
      [:span {:style "visibility: hidden"}
      "Maker, programmer, culinarian, but not necessarily in
       that order! Toiled at VMware, Yahoo, Westbridge and

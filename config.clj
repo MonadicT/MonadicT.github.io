@@ -12,10 +12,11 @@
  :emacs "/usr/local/bin/emacs"
  :emacs-eval [;;'(add-to-list 'load-path "~/tools/emacs/ext/org-mode/lisp/")
               ;;'(add-to-list 'load-path "~/source/emacs/ext/org-mode/contrib/lisp/")
+              '(package-initialize)
               '(add-to-list 'load-path "~/.emacs.d/elpa/org-20140310/")
               '(add-to-list 'load-path "~/.emacs.d")
               '(add-to-list 'load-path "~/.emacs.d/elpa")
-              '(add-to-list 'load-path "~/.emacs.d/elpa/htmlize-1.39")
+              ;;'(add-to-list 'load-path "~/.emacs.d/elpa/htmlize-1.39")
               '(add-to-list 'load-path "~/.emacs.d/elpa/clojure-mode-2.1.1")
               '(require 'htmlize)
               '(require 'org)
