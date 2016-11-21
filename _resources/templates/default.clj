@@ -120,7 +120,7 @@
      [:a {:href "https://twitter.com/MonadicT"}
       [:img {:src "/images/Twitter_logo_blue.png"
              :alt "Twitter" :title "Twitter"
-             :style "border:0;width:16px;height:16px"}]]
+             :style "border:0;width:16px;height:16PX"}]]
      [:a {:href "https://www.instagram.com/fgx3prak/?ref=badge" :class "ig-b- ig-b-24"}
       [:img {:src "//badges.instagram.com/static/images/ig-badge-16.png"
              :style "padding-left:4px;width:16px;height:16px"

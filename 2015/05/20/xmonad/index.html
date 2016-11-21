@@ -70,8 +70,8 @@ update syntax to change the options.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import XMonad
-main = xmonad defaultConfig
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> xmonad defaultConfig
 </pre>
 </div>
 </div>
@@ -89,9 +89,9 @@ XMonad to use Windows key instead of Alt.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import XMonad
-main = xmonad defaultConfig {
-  modMask = mod4Mask
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> xmonad defaultConfig {
+  modMask <span style="font-weight: bold; font-style: italic;">=</span> mod4Mask
 }
 </pre>
 </div>
@@ -112,10 +112,10 @@ shown below.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import XMonad
-import XMonad.Config.Desktop
-main = xmonad desktopConfig {
-    modMask = mod4Mask
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Config.Desktop</span>
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> xmonad desktopConfig {
+    modMask <span style="font-weight: bold; font-style: italic;">=</span> mod4Mask
 }
 </pre>
 </div>
@@ -205,15 +205,15 @@ We can now see how to configure Xmonad to start conky and dzen2.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import XMonad
-import XMonad.Config.Desktop
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Config.Desktop</span>
 
-conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16 -ta r"
+<span style="color: #d7af00; font-weight: bold;">conkyStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"conky |dzen2 -x 400 -y 0 -h 16 -ta r"</span>
 
-main = do
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #ff5f00; font-weight: bold;">do</span>
       spawnPipe conkyStatusBar
       xmonad desktopConfig {
-	  modMask = mod4Mask
+          modMask <span style="font-weight: bold; font-style: italic;">=</span> mod4Mask
       }
 </pre>
 </div>
@@ -233,30 +233,30 @@ customized to pipe the log information to another <i>dzen2</i> process.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import System.IO
-import XMonad
-import XMonad.Config.Desktop
-import XMonad.Util.Run (spawnPipe)
-import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
-import XMonad.Hooks.SetWMName (setWMName)
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">System.IO</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Config.Desktop</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Util.Run</span> (spawnPipe)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.DynamicLog</span> (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.EwmhDesktops</span> (ewmhDesktopsLogHook)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.SetWMName</span> (setWMName)
 
-foreground = "yellow"
-conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16  -ta r"
+<span style="color: #d7af00; font-weight: bold;">foreground</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"yellow"</span>
+<span style="color: #d7af00; font-weight: bold;">conkyStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"conky |dzen2 -x 400 -y 0 -h 16  -ta r"</span>
 
-xmonadStatusBar = "dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 " ++ "\
-	\-bg " ++ background ++ " -fg " ++ foreground
+<span style="color: #d7af00; font-weight: bold;">xmonadStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "</span> <span style="font-weight: bold; font-style: italic;">++</span> <span style="color: #afafff; font-style: italic;">"\</span>
+<span style="color: #afafff; font-style: italic;">        \-bg "</span> <span style="font-weight: bold; font-style: italic;">++</span> background <span style="font-weight: bold; font-style: italic;">++</span> <span style="color: #afafff; font-style: italic;">" -fg "</span> <span style="font-weight: bold; font-style: italic;">++</span> foreground
 
-main = do
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #ff5f00; font-weight: bold;">do</span>
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &lt;- spawnPipe xmonadStatusBar
+      xmproc <span style="font-weight: bold; font-style: italic;">&lt;-</span> spawnPipe xmonadStatusBar
       xmonad desktopConfig {
-	  modMask = mod4Mask
-	  , logHook    = dynamicLogWithPP $ defaultPP
-			 { ppOutput = hPutStrLn xmproc
-			   , ppOrder = take 3 . drop 0
-			  }
+          modMask <span style="font-weight: bold; font-style: italic;">=</span> mod4Mask
+          , logHook    <span style="font-weight: bold; font-style: italic;">=</span> dynamicLogWithPP <span style="font-weight: bold; font-style: italic;">$</span> defaultPP
+                         { ppOutput <span style="font-weight: bold; font-style: italic;">=</span> hPutStrLn xmproc
+                           , ppOrder <span style="font-weight: bold; font-style: italic;">=</span> take 3 <span style="font-weight: bold; font-style: italic;">.</span> drop 0
+                          }
       }
 </pre>
 </div>
@@ -283,32 +283,32 @@ Adding this to my <i>xmonad.hs</i>, it now looks as below.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import System.IO
-import XMonad
-import XMonad.Config.Desktop
-import XMonad.Util.Run (spawnPipe)
-import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
-import XMonad.Hooks.SetWMName (setWMName)
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">System.IO</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Config.Desktop</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Util.Run</span> (spawnPipe)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.DynamicLog</span> (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.EwmhDesktops</span> (ewmhDesktopsLogHook)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.SetWMName</span> (setWMName)
 
-foreground = "yellow"
-conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16  -ta r"
+<span style="color: #d7af00; font-weight: bold;">foreground</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"yellow"</span>
+<span style="color: #d7af00; font-weight: bold;">conkyStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"conky |dzen2 -x 400 -y 0 -h 16  -ta r"</span>
 
-xmonadStatusBar = "dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "
+<span style="color: #d7af00; font-weight: bold;">xmonadStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "</span>
 
-myTerminal = "urxvt -bg black -fg yellow -fade 30 -fadecolor white"
+<span style="color: #d7af00; font-weight: bold;">myTerminal</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"urxvt -bg black -fg yellow -fade 30 -fadecolor white"</span>
 
-main = do
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #ff5f00; font-weight: bold;">do</span>
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &lt;- spawnPipe xmonadStatusBar
+      xmproc <span style="font-weight: bold; font-style: italic;">&lt;-</span> spawnPipe xmonadStatusBar
       xmonad desktopConfig {
-	  modMask = mod4Mask
-	  , logHook    = dynamicLogWithPP $ defaultPP
-			 { ppOutput = hPutStrLn xmproc
-			   , ppOrder = take 3 . drop 0
-			  }
-	  , terminal = myTerminal
+          modMask <span style="font-weight: bold; font-style: italic;">=</span> mod4Mask
+          , logHook    <span style="font-weight: bold; font-style: italic;">=</span> dynamicLogWithPP <span style="font-weight: bold; font-style: italic;">$</span> defaultPP
+                         { ppOutput <span style="font-weight: bold; font-style: italic;">=</span> hPutStrLn xmproc
+                           , ppOrder <span style="font-weight: bold; font-style: italic;">=</span> take 3 <span style="font-weight: bold; font-style: italic;">.</span> drop 0
+                          }
+          , terminal <span style="font-weight: bold; font-style: italic;">=</span> myTerminal
       }
 </pre>
 </div>
@@ -328,44 +328,44 @@ your specific system configuration and here is what works on mine.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
-import System.IO
-import XMonad
-import XMonad.Config.Desktop
-import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
-import XMonad.Hooks.SetWMName (setWMName)
-import XMonad.Prompt (defaultXPConfig)
-import XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
-import XMonad.Util.EZConfig (additionalKeys)
-import XMonad.Util.Run (spawnPipe)
+<pre class="src src-haskell"><span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">Graphics.X11.ExtraTypes.XF86</span> (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">System.IO</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Config.Desktop</span>
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.DynamicLog</span> (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.EwmhDesktops</span> (ewmhDesktopsLogHook)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Hooks.SetWMName</span> (setWMName)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Prompt</span> (defaultXPConfig)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Prompt.RunOrRaise</span> (runOrRaisePrompt)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Util.EZConfig</span> (additionalKeys)
+<span style="color: #ff5f00; font-weight: bold;">import</span> <span style="font-weight: bold; text-decoration: underline;">XMonad.Util.Run</span> (spawnPipe)
 
-conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16  -ta r"
+<span style="color: #d7af00; font-weight: bold;">conkyStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"conky |dzen2 -x 400 -y 0 -h 16  -ta r"</span>
 
-xmonadStatusBar = "dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "
+<span style="color: #d7af00; font-weight: bold;">xmonadStatusBar</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 "</span>
 
-myTerminal = "urxvt -bg black -fg yellow -fade 30 -fadecolor white"
+<span style="color: #d7af00; font-weight: bold;">myTerminal</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #afafff; font-style: italic;">"urxvt -bg black -fg yellow -fade 30 -fadecolor white"</span>
 
-main = do
+<span style="color: #d7af00; font-weight: bold;">main</span> <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #ff5f00; font-weight: bold;">do</span>
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &lt;- spawnPipe xmonadStatusBar
-      xmonad $ desktopConfig {
-	  modMask = mod4Mask
-	  , logHook    = dynamicLogWithPP $ defaultPP
-			 { ppOutput = hPutStrLn xmproc
-			   , ppOrder = take 3 . drop 0
-			  }
-	  , terminal = myTerminal
-	}
-	`additionalKeys`
-	  [((mod4Mask .|. controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
-	   , ((0, xF86XK_AudioLowerVolume), spawn "amixer set Master 1-")
-	   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer set Master 1+")
-	   , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master 1+ toggle")
-	   , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -10")
-	   , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight +10")
-	  ]
+      xmproc <span style="font-weight: bold; font-style: italic;">&lt;-</span> spawnPipe xmonadStatusBar
+      xmonad <span style="font-weight: bold; font-style: italic;">$</span> desktopConfig {
+          modMask <span style="font-weight: bold; font-style: italic;">=</span> mod4Mask
+          , logHook    <span style="font-weight: bold; font-style: italic;">=</span> dynamicLogWithPP <span style="font-weight: bold; font-style: italic;">$</span> defaultPP
+                         { ppOutput <span style="font-weight: bold; font-style: italic;">=</span> hPutStrLn xmproc
+                           , ppOrder <span style="font-weight: bold; font-style: italic;">=</span> take 3 <span style="font-weight: bold; font-style: italic;">.</span> drop 0
+                          }
+          , terminal <span style="font-weight: bold; font-style: italic;">=</span> myTerminal
+        }
+        <span style="font-weight: bold; font-style: italic;">`additionalKeys`</span>
+          [((mod4Mask <span style="font-weight: bold; font-style: italic;">.|.</span> controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
+           , ((0, xF86XK_AudioLowerVolume), spawn <span style="color: #afafff; font-style: italic;">"amixer set Master 1-"</span>)
+           , ((0, xF86XK_AudioRaiseVolume), spawn <span style="color: #afafff; font-style: italic;">"amixer set Master 1+"</span>)
+           , ((0, xF86XK_AudioMute), spawn <span style="color: #afafff; font-style: italic;">"amixer -D pulse set Master 1+ toggle"</span>)
+           , ((0, xF86XK_MonBrightnessDown), spawn <span style="color: #afafff; font-style: italic;">"xbacklight -10"</span>)
+           , ((0, xF86XK_MonBrightnessUp), spawn <span style="color: #afafff; font-style: italic;">"xbacklight +10"</span>)
+          ]
 </pre>
 </div>
 
@@ -398,11 +398,11 @@ augmented with more spawn commands.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">xmonad $ desktopConfig {
-    ...
-    , startupHook = do
-	spawnOnce "google-chrome --class chrome"
-	spawnOnce "urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io"
+<pre class="src src-haskell">xmonad <span style="color: #d7af00; font-weight: bold;">$</span> desktopConfig {
+    <span style="font-weight: bold; font-style: italic;">...</span>
+    , startupHook <span style="font-weight: bold; font-style: italic;">=</span> <span style="color: #ff5f00; font-weight: bold;">do</span>
+        spawnOnce <span style="color: #afafff; font-style: italic;">"google-chrome --class chrome"</span>
+        spawnOnce <span style="color: #afafff; font-style: italic;">"urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io"</span>
 
   }
 </pre>
@@ -423,26 +423,26 @@ as shown below.
 
 <div class="org-src-container">
 
-<pre class="src src-haskell">myManageHook
-    = composeAll . concat $
-      [ [className =? c --&gt; doFloat | c &lt;- myFloats]
-      , [title =? t --&gt; doFloat | t &lt;- myOtherFloats]
-      , [resource =? r --&gt; doFloat | r &lt;- myIgnores]
-      , [className =? "Gimp" --&gt; doF (W.shift "5:misc")]
-      , [className =? "VirtualBox" --&gt; doF (W.shift "5:misc")]
-      , [className =? "Wine" --&gt; doF (W.shift "5:misc")]
-      , [className =? "chrome" --&gt; doShift "2"]
-      , [title =? "logs" --&gt; doShift "3"]
-      , [title =? "cljswatch" --&gt; doShift "4"]
+<pre class="src src-haskell"><span style="color: #d7af00; font-weight: bold;">myManageHook</span>
+    <span style="font-weight: bold; font-style: italic;">=</span> composeAll <span style="font-weight: bold; font-style: italic;">.</span> concat <span style="font-weight: bold; font-style: italic;">$</span>
+      [ [className <span style="font-weight: bold; font-style: italic;">=?</span> c <span style="font-weight: bold; font-style: italic;">--&gt;</span> doFloat <span style="font-weight: bold; font-style: italic;">|</span> c <span style="font-weight: bold; font-style: italic;">&lt;-</span> myFloats]
+      , [title <span style="font-weight: bold; font-style: italic;">=?</span> t <span style="font-weight: bold; font-style: italic;">--&gt;</span> doFloat <span style="font-weight: bold; font-style: italic;">|</span> t <span style="font-weight: bold; font-style: italic;">&lt;-</span> myOtherFloats]
+      , [resource <span style="font-weight: bold; font-style: italic;">=?</span> r <span style="font-weight: bold; font-style: italic;">--&gt;</span> doFloat <span style="font-weight: bold; font-style: italic;">|</span> r <span style="font-weight: bold; font-style: italic;">&lt;-</span> myIgnores]
+      , [className <span style="font-weight: bold; font-style: italic;">=?</span> <span style="color: #afafff; font-style: italic;">"Gimp"</span> <span style="font-weight: bold; font-style: italic;">--&gt;</span> doF (<span style="font-weight: bold; text-decoration: underline;">W</span><span style="font-weight: bold; font-style: italic;">.</span>shift <span style="color: #afafff; font-style: italic;">"5:misc"</span>)]
+      , [className <span style="font-weight: bold; font-style: italic;">=?</span> <span style="color: #afafff; font-style: italic;">"VirtualBox"</span> <span style="font-weight: bold; font-style: italic;">--&gt;</span> doF (<span style="font-weight: bold; text-decoration: underline;">W</span><span style="font-weight: bold; font-style: italic;">.</span>shift <span style="color: #afafff; font-style: italic;">"5:misc"</span>)]
+      , [className <span style="font-weight: bold; font-style: italic;">=?</span> <span style="color: #afafff; font-style: italic;">"Wine"</span> <span style="font-weight: bold; font-style: italic;">--&gt;</span> doF (<span style="font-weight: bold; text-decoration: underline;">W</span><span style="font-weight: bold; font-style: italic;">.</span>shift <span style="color: #afafff; font-style: italic;">"5:misc"</span>)]
+      , [className <span style="font-weight: bold; font-style: italic;">=?</span> <span style="color: #afafff; font-style: italic;">"chrome"</span> <span style="font-weight: bold; font-style: italic;">--&gt;</span> doShift <span style="color: #afafff; font-style: italic;">"2"</span>]
+      , [title <span style="font-weight: bold; font-style: italic;">=?</span> <span style="color: #afafff; font-style: italic;">"logs"</span> <span style="font-weight: bold; font-style: italic;">--&gt;</span> doShift <span style="color: #afafff; font-style: italic;">"3"</span>]
+      , [title <span style="font-weight: bold; font-style: italic;">=?</span> <span style="color: #afafff; font-style: italic;">"cljswatch"</span> <span style="font-weight: bold; font-style: italic;">--&gt;</span> doShift <span style="color: #afafff; font-style: italic;">"4"</span>]
       ]
-    where
-      myFloats = ["Gimp", "Nvidia-settings", "XCalc", "XFontSel", "Xmessage", "xmms"]
-      myOtherFloats = ["Downloads", "Firefox - Restore Previous Session", "Save As...", "Ediff", "Ediff&lt;2&gt;"]
-      myIgnores = []
+    <span style="color: #ff5f00; font-weight: bold;">where</span>
+      myFloats <span style="font-weight: bold; font-style: italic;">=</span> [<span style="color: #afafff; font-style: italic;">"Gimp"</span>, <span style="color: #afafff; font-style: italic;">"Nvidia-settings"</span>, <span style="color: #afafff; font-style: italic;">"XCalc"</span>, <span style="color: #afafff; font-style: italic;">"XFontSel"</span>, <span style="color: #afafff; font-style: italic;">"Xmessage"</span>, <span style="color: #afafff; font-style: italic;">"xmms"</span>]
+      myOtherFloats <span style="font-weight: bold; font-style: italic;">=</span> [<span style="color: #afafff; font-style: italic;">"Downloads"</span>, <span style="color: #afafff; font-style: italic;">"Firefox - Restore Previous Session"</span>, <span style="color: #afafff; font-style: italic;">"Save As..."</span>, <span style="color: #afafff; font-style: italic;">"Ediff"</span>, <span style="color: #afafff; font-style: italic;">"Ediff&lt;2&gt;"</span>]
+      myIgnores <span style="font-weight: bold; font-style: italic;">=</span> <span style="font-weight: bold; text-decoration: underline;">[]</span>
 
- xmonad $ desktopConfig {
-	  ...
-	  , manageHook = myManageHook &lt;+&gt; manageHook defaultConfig
+ xmonad <span style="font-weight: bold; font-style: italic;">$</span> desktopConfig {
+          <span style="font-weight: bold; font-style: italic;">...</span>
+          , manageHook <span style="font-weight: bold; font-style: italic;">=</span> myManageHook <span style="font-weight: bold; font-style: italic;">&lt;+&gt;</span> manageHook defaultConfig
 }
 </pre>
 </div>
@@ -459,7 +459,7 @@ as shown below.
 
 
 </div>
-</div><div class="post-tags">Tags: <a href="/tags/#tip,">tip, </a><a href="/tags/#X,">X, </a><a href="/tags/#xmonad">xmonad </a></div></div><div id="related"><h3 class="random-posts">Random Posts</h3><ul class="posts"><li><span>20 May 2015</span><a href="/2015/05/20/xmonad/">Configuring xmonad</a></li><li><span>15 Feb 2015</span><a href="/2015/02/15/Tikz/">Drawing figures with Tikz/PGF</a></li><li><span>08 Mar 2014</span><a href="/2014/03/08/safeguarding-secrets-with-gnupg/">Safeguarding Secrets with GnuPG</a></li><li><span>25 Feb 2014</span><a href="/2014/02/25/Ubuntu-Network_trouble/">How to fix Wi-Fi connection issues in Ubuntu 13.04</a></li><li><span>19 Jun 2016</span><a href="/2016/06/19/Blogging/">Blogging with emacs and org-mode</a></li></ul></div></div><div id="sidebar"><div style="border-bottom: solid 1px #ddd">PRAKI PRAKASH</div><div><img src="/images/praki-outline.png" style="float:left;padding:
+</div><div class="post-tags">Tags: <a href="/tags/#tip,">tip, </a><a href="/tags/#X,">X, </a><a href="/tags/#xmonad">xmonad </a></div></div><div id="related"><h3 class="random-posts">Random Posts</h3><ul class="posts"><li><span>15 Feb 2015</span><a href="/2015/02/15/Tikz/">Drawing figures with Tikz/PGF</a></li><li><span>20 May 2015</span><a href="/2015/05/20/xmonad/">Configuring xmonad</a></li><li><span>25 Feb 2014</span><a href="/2014/02/25/Ubuntu-Network_trouble/">How to fix Wi-Fi connection issues in Ubuntu 13.04</a></li><li><span>26 Feb 2014</span><a href="/2014/02/26/JavaForkJoin/">Java Fork/Join Framework - an exemplar of elegant design</a></li><li><span>19 Jun 2016</span><a href="/2016/06/19/Blogging/">Blogging with emacs and org-mode</a></li></ul></div></div><div id="sidebar"><div style="border-bottom: solid 1px #ddd">PRAKI PRAKASH</div><div><img src="/images/praki-outline.png" style="float:left;padding:
                                                 .5em" />I'm just an ordinary bloke! I like building things, real as well
      as imaginary. Check my instagram link below for my non-technical
      stuff.<span style="visibility: hidden">Maker, programmer, culinarian, but not necessarily in
@@ -467,4 +467,4 @@ as shown below.
       Arzoo. Recovering Java programmer, functional
       programming ideologue and Clojure practitioner. Maker of
       very thin wood shavings using antique hand
-      tools. Inventor of delectable culinary chef d'œuvre!</span></div><div style="padding-top: 1em; padding-bottom:1em"><a href="//github.com/MonadicT" style="text-decoration:none;" target="_top"><img alt="Github" src="/images/GitHub-Mark-32px.png" style="border:0;width:16px;height:16px;" title="GitHub" /></a>&nbsp;&nbsp;<a href="//plus.google.com/106671634457466903954?prsrc=3" rel="publisher" style="text-decoration:none;" target="_top"><img alt="Google+" src="//ssl.gstatic.com/images/icons/gplus-32.png" style="border:0;width:16px;height:16px;" title="Google+" /></a>&nbsp;&nbsp;<a href="https://twitter.com/MonadicT"><img alt="Twitter" src="/images/Twitter_logo_blue.png" style="border:0;width:16px;height:16px" title="Twitter" /></a><a class="ig-b- ig-b-24" href="https://www.instagram.com/fgx3prak/?ref=badge"><img alt="Instagram" height="16px" src="//badges.instagram.com/static/images/ig-badge-16.png" style="padding-left:4px;width:16px;height:16px" width="16px" /></a><a href="/rss-feed" id="rss-feed"><img height="16px" src="/images/rss.png" width="16px" /></a></div><a class="twitter-timeline" data-widget-id="438551614102577152" href="https://twitter.com/MonadicT/favorites">Favorite Tweets by @MonadicT</a><script type="text/javascript">function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script></div></div><div id="footer"><p>&copy; 2013-2015<a href="http://MonadicT.github.io"> Praki Prakash</a></p></div></body></div></html>
+      tools. Inventor of delectable culinary chef d'œuvre!</span></div><div style="padding-top: 1em; padding-bottom:1em"><a href="//github.com/MonadicT" style="text-decoration:none;" target="_top"><img alt="Github" src="/images/GitHub-Mark-32px.png" style="border:0;width:16px;height:16px;" title="GitHub" /></a>&nbsp;&nbsp;<a href="//plus.google.com/106671634457466903954?prsrc=3" rel="publisher" style="text-decoration:none;" target="_top"><img alt="Google+" src="//ssl.gstatic.com/images/icons/gplus-32.png" style="border:0;width:16px;height:16px;" title="Google+" /></a>&nbsp;&nbsp;<a href="https://twitter.com/MonadicT"><img alt="Twitter" src="/images/Twitter_logo_blue.png" style="border:0;width:16px;height:16PX" title="Twitter" /></a><a class="ig-b- ig-b-24" href="https://www.instagram.com/fgx3prak/?ref=badge"><img alt="Instagram" height="16px" src="//badges.instagram.com/static/images/ig-badge-16.png" style="padding-left:4px;width:16px;height:16px" width="16px" /></a><a href="/rss-feed" id="rss-feed"><img height="16px" src="/images/rss.png" width="16px" /></a></div><a class="twitter-timeline" data-widget-id="438551614102577152" href="https://twitter.com/MonadicT/favorites">Favorite Tweets by @MonadicT</a><script type="text/javascript">function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script></div></div><div id="footer"><p>&copy; 2013-2015<a href="http://MonadicT.github.io"> Praki Prakash</a></p></div></body></div></html>

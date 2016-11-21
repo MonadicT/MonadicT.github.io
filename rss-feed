@@ -1,6 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Blogging with emacs and org-mode</title><link>http://MonadicT.github.io/2016/06/19/Blogging/</link><pubDate>Sun, 19 Jun 2016 00:00:00 -0700</pubDate><description>&lt;p&gt;
+<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>A non-trivial example post</title><link>http://MonadicT.github.io/2016/11/19/Org-Post-Example/</link><pubDate>Sat, 19 Nov 2016 00:00:00 -0800</pubDate><description>
+&lt;div id=&quot;outline-container-sec-1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-1&quot;&gt;Source code blocks in org-mode&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-1&quot;&gt;
+&lt;/div&gt;&lt;div id=&quot;outline-container-sec-1-1&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-1&quot;&gt;org-babel configuration&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-1&quot;&gt;
+&lt;p&gt;
+List of languages org-mode should evaluate.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-emacs-lisp&quot;&gt;(org-babel-do-load-languages
+ 'org-babel-load-languages
+ (add-to-list
+  'org-babel-load-languages
+  '(python . t)))
+
+&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;Turn off confirmation for Python&lt;/span&gt;
+(&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;defun&lt;/span&gt; &lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;my-org-confirm-babel-evaluate&lt;/span&gt; (lang body)
+  (not (string= lang &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;python&quot;&lt;/span&gt;)))
+(&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;setq&lt;/span&gt; org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+Setup tangle hook function which is called when source blocks are tangled.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-emacs-lisp&quot;&gt;(&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;defun&lt;/span&gt; &lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;tangle-and-run&lt;/span&gt; ()
+  (&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;cond&lt;/span&gt;
+   ((eq 'haskell-mode major-mode)
+    (inferior-haskell-load-file)
+    (switch-to-haskell))))
+(add-hook 'org-babel-post-tangle-hook tangle-and-run)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-1-2&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-2&quot;&gt;Haskell setup&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-2&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-emacs-lisp&quot;&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;Support for Haskell&lt;/span&gt;
+(&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;require&lt;/span&gt; '&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ob-haskell&lt;/span&gt;)
+
+&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;;; &lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;Customzie haskell executable&lt;/span&gt;
+(&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;setq&lt;/span&gt; haskell-program-name &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;ghci -XTemplateHaskell&quot;&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-1-3&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-3&quot;&gt;Python source block&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-3&quot;&gt;
+&lt;p&gt;
+&lt;code&gt;:exports&lt;/code&gt; can be set to &lt;code&gt;results&lt;/code&gt; or &lt;code&gt;none&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-python&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;def&lt;/span&gt; &lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;bar&lt;/span&gt;():
+  &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;return&lt;/span&gt; 42
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;return&lt;/span&gt; bar()
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+42
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-1-4&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-1-4&quot;&gt;A Haskell source block&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-1-4&quot;&gt;
+&lt;p&gt;
+Tangle with &lt;code&gt;C-c C-v C-t&lt;/code&gt;
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;{-&lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;# LANGUAGE QuasiQuotes #-}&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Dsl&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IO&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;()&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+  print [dsl&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt;x1234568888888888888888881x&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt;]
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;{-&lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;# LANGUAGE TemplateHaskell #-}&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Dsl&lt;/span&gt; (dsl) &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt;
+
+&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;-- &lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;Woot&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Control.Applicative&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Control.Applicative&lt;/span&gt; ((&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;))
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Language.Haskell.TH&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Language.Haskell.TH.Quote&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec.String&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt;)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Char&lt;/span&gt; (digit, letter, alphaNum, lower, upper)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Language&lt;/span&gt; (emptyDef)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;qualified&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Token&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;as&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;lexer&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;makeTokenParser &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; emptyDef
+     { &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentStart    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/*&quot;&lt;/span&gt;
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentEnd      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*/&quot;&lt;/span&gt;
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentLine     &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;//&quot;&lt;/span&gt;
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identStart      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; letter
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identLetter     &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; alphaNum
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedNames   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [ &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;then&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;else&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;while&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;do&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;skip&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;and&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;or&quot;&lt;/span&gt;
+                                      ]
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedOpNames &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;:=&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;and&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;or&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not&quot;&lt;/span&gt;
+                                      ]
+            }
+
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;reserved&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reserved lexer
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;reservedOp&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedOp lexer
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ident&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identifier lexer
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;int&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;integer lexer
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ws&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;whiteSpace lexer
+
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; runQ [&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; 1 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;+&lt;/span&gt; 2 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt;]
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exp2&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exp2&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;LitE&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IntegerL&lt;/span&gt; 42)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseInt&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseInt&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; ast &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; int
+  &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt; ast n &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;LitE&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IntegerL&lt;/span&gt; n)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseIdent&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseIdent&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; ast &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ident
+  &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt; ast n &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;LitE&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;StringL&lt;/span&gt; n)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseExpr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseExpr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; parseIdent
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseStmt&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parseStmt&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; parseExpr
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslExpr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;ExpQ&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslExpr&lt;/span&gt; s &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+  &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;case&lt;/span&gt; parse parseStmt &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&quot;&lt;/span&gt; s &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;of&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Right&lt;/span&gt; e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; e
+    &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Left&lt;/span&gt; err &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; reportError (show err) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt;]
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dsl&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;QuasiQuoter&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dsl&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;QuasiQuoter&lt;/span&gt; dslExpr undefined undefined undefined
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description></item><item><title>Blogging with emacs and org-mode</title><link>http://MonadicT.github.io/2016/06/19/Blogging/</link><pubDate>Sun, 19 Jun 2016 00:00:00 -0700</pubDate><description>&lt;p&gt;
 I do most of my work in &lt;code&gt;emacs&lt;/code&gt; and blogging is no
 exception. But, everytime I start a blog post, I go through a small
 learning curve around the tools I use. I am going to put an end to it,
@@ -304,8 +477,35 @@ Just like that, the new post appears on Github in all its glory.
 &lt;/div&gt;
 
 &lt;div id=&quot;outline-container-sec-4&quot; class=&quot;outline-2&quot;&gt;
-&lt;h2 id=&quot;sec-4&quot;&gt;Troubleshooting&lt;/h2&gt;
+&lt;h2 id=&quot;sec-4&quot;&gt;How Static works&lt;/h2&gt;
 &lt;div class=&quot;outline-text-2&quot; id=&quot;text-4&quot;&gt;
+&lt;p&gt;
+The root directory has a &lt;code&gt;config.clj&lt;/code&gt; wherein we define the input
+directory that &lt;b&gt;Static&lt;/b&gt; should process and the directory where it
+should store the results. The input directory is &lt;code&gt;_resources&lt;/code&gt; and
+output directory is the root of the repo.
+&lt;/p&gt;
+
+&lt;p&gt;
+Posts which are being worked in draft stage can reside in
+&lt;code&gt;_resources/drafts&lt;/code&gt;. The only directories &lt;b&gt;Static&lt;/b&gt; will process are
+&lt;code&gt;posts&lt;/code&gt;, &lt;code&gt;public&lt;/code&gt;, &lt;code&gt;site&lt;/code&gt; and &lt;code&gt;templates&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;RSS&lt;/b&gt; feeds are generated only for the posts. &lt;b&gt;Sitemap&lt;/b&gt; is generated
+ from posts and all other site content.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;b&gt;Static&lt;/b&gt; expects the posts to be named in &lt;code&gt;YYYY-MM-DD-Whatever.org&lt;/code&gt;
+ format. Any deviation causes a Java NPE!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&quot;outline-container-sec-5&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-5&quot;&gt;Troubleshooting&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-5&quot;&gt;
 &lt;p&gt;
 There are many moving parts in &lt;code&gt;org-mode&lt;/code&gt; and when things go wrong,
 debugging is taxing. Google is our friend and one particularly nasty
@@ -386,8 +586,8 @@ update syntax to change the options.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
-main = xmonad defaultConfig
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; xmonad defaultConfig
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -405,9 +605,9 @@ XMonad to use Windows key instead of Alt.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
-main = xmonad defaultConfig {
-  modMask = mod4Mask
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; xmonad defaultConfig {
+  modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
 }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -428,10 +628,10 @@ shown below.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
-import XMonad.Config.Desktop
-main = xmonad desktopConfig {
-    modMask = mod4Mask
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; xmonad desktopConfig {
+    modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
 }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -521,15 +721,15 @@ We can now see how to configure Xmonad to start conky and dzen2.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
-import XMonad.Config.Desktop
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
 
-conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16 -ta r&quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16 -ta r&quot;&lt;/span&gt;
 
-main = do
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
       spawnPipe conkyStatusBar
       xmonad desktopConfig {
-	  modMask = mod4Mask
+          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
       }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -549,30 +749,30 @@ customized to pipe the log information to another &lt;i&gt;dzen2&lt;/i&gt; proce
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import System.IO
-import XMonad
-import XMonad.Config.Desktop
-import XMonad.Util.Run (spawnPipe)
-import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
-import XMonad.Hooks.SetWMName (setWMName)
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;System.IO&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.Run&lt;/span&gt; (spawnPipe)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.DynamicLog&lt;/span&gt; (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt; (ewmhDesktopsLogHook)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.SetWMName&lt;/span&gt; (setWMName)
 
-foreground = &quot;yellow&quot;
-conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;foreground&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;yellow&quot;&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;&lt;/span&gt;
 
-xmonadStatusBar = &quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot; ++ &quot;\
-	\-bg &quot; ++ background ++ &quot; -fg &quot; ++ foreground
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;xmonadStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\&lt;/span&gt;
+&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;        \-bg &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; background &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; -fg &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; foreground
 
-main = do
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &amp;lt;- spawnPipe xmonadStatusBar
+      xmproc &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; spawnPipe xmonadStatusBar
       xmonad desktopConfig {
-	  modMask = mod4Mask
-	  , logHook    = dynamicLogWithPP $ defaultPP
-			 { ppOutput = hPutStrLn xmproc
-			   , ppOrder = take 3 . drop 0
-			  }
+          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
+          , logHook    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; dynamicLogWithPP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; defaultPP
+                         { ppOutput &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; hPutStrLn xmproc
+                           , ppOrder &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; take 3 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; drop 0
+                          }
       }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -599,32 +799,32 @@ Adding this to my &lt;i&gt;xmonad.hs&lt;/i&gt;, it now looks as below.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import System.IO
-import XMonad
-import XMonad.Config.Desktop
-import XMonad.Util.Run (spawnPipe)
-import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
-import XMonad.Hooks.SetWMName (setWMName)
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;System.IO&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.Run&lt;/span&gt; (spawnPipe)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.DynamicLog&lt;/span&gt; (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt; (ewmhDesktopsLogHook)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.SetWMName&lt;/span&gt; (setWMName)
 
-foreground = &quot;yellow&quot;
-conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;foreground&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;yellow&quot;&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;&lt;/span&gt;
 
-xmonadStatusBar = &quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;xmonadStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;&lt;/span&gt;
 
-myTerminal = &quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;myTerminal&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;&lt;/span&gt;
 
-main = do
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &amp;lt;- spawnPipe xmonadStatusBar
+      xmproc &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; spawnPipe xmonadStatusBar
       xmonad desktopConfig {
-	  modMask = mod4Mask
-	  , logHook    = dynamicLogWithPP $ defaultPP
-			 { ppOutput = hPutStrLn xmproc
-			   , ppOrder = take 3 . drop 0
-			  }
-	  , terminal = myTerminal
+          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
+          , logHook    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; dynamicLogWithPP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; defaultPP
+                         { ppOutput &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; hPutStrLn xmproc
+                           , ppOrder &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; take 3 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; drop 0
+                          }
+          , terminal &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; myTerminal
       }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -644,44 +844,44 @@ your specific system configuration and here is what works on mine.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
-import System.IO
-import XMonad
-import XMonad.Config.Desktop
-import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
-import XMonad.Hooks.SetWMName (setWMName)
-import XMonad.Prompt (defaultXPConfig)
-import XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
-import XMonad.Util.EZConfig (additionalKeys)
-import XMonad.Util.Run (spawnPipe)
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Graphics.X11.ExtraTypes.XF86&lt;/span&gt; (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;System.IO&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.DynamicLog&lt;/span&gt; (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt; (ewmhDesktopsLogHook)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.SetWMName&lt;/span&gt; (setWMName)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Prompt&lt;/span&gt; (defaultXPConfig)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Prompt.RunOrRaise&lt;/span&gt; (runOrRaisePrompt)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.EZConfig&lt;/span&gt; (additionalKeys)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.Run&lt;/span&gt; (spawnPipe)
 
-conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;&lt;/span&gt;
 
-xmonadStatusBar = &quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;xmonadStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;&lt;/span&gt;
 
-myTerminal = &quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;myTerminal&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;&lt;/span&gt;
 
-main = do
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &amp;lt;- spawnPipe xmonadStatusBar
-      xmonad $ desktopConfig {
-	  modMask = mod4Mask
-	  , logHook    = dynamicLogWithPP $ defaultPP
-			 { ppOutput = hPutStrLn xmproc
-			   , ppOrder = take 3 . drop 0
-			  }
-	  , terminal = myTerminal
-	}
-	`additionalKeys`
-	  [((mod4Mask .|. controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
-	   , ((0, xF86XK_AudioLowerVolume), spawn &quot;amixer set Master 1-&quot;)
-	   , ((0, xF86XK_AudioRaiseVolume), spawn &quot;amixer set Master 1+&quot;)
-	   , ((0, xF86XK_AudioMute), spawn &quot;amixer -D pulse set Master 1+ toggle&quot;)
-	   , ((0, xF86XK_MonBrightnessDown), spawn &quot;xbacklight -10&quot;)
-	   , ((0, xF86XK_MonBrightnessUp), spawn &quot;xbacklight +10&quot;)
-	  ]
+      xmproc &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; spawnPipe xmonadStatusBar
+      xmonad &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; desktopConfig {
+          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
+          , logHook    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; dynamicLogWithPP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; defaultPP
+                         { ppOutput &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; hPutStrLn xmproc
+                           , ppOrder &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; take 3 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; drop 0
+                          }
+          , terminal &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; myTerminal
+        }
+        &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`additionalKeys`&lt;/span&gt;
+          [((mod4Mask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.|.&lt;/span&gt; controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
+           , ((0, xF86XK_AudioLowerVolume), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;amixer set Master 1-&quot;&lt;/span&gt;)
+           , ((0, xF86XK_AudioRaiseVolume), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;amixer set Master 1+&quot;&lt;/span&gt;)
+           , ((0, xF86XK_AudioMute), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;amixer -D pulse set Master 1+ toggle&quot;&lt;/span&gt;)
+           , ((0, xF86XK_MonBrightnessDown), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;xbacklight -10&quot;&lt;/span&gt;)
+           , ((0, xF86XK_MonBrightnessUp), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;xbacklight +10&quot;&lt;/span&gt;)
+          ]
 &lt;/pre&gt;
 &lt;/div&gt;
 
@@ -714,11 +914,11 @@ augmented with more spawn commands.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;xmonad $ desktopConfig {
-    ...
-    , startupHook = do
-	spawnOnce &quot;google-chrome --class chrome&quot;
-	spawnOnce &quot;urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io&quot;
+&lt;pre class=&quot;src src-haskell&quot;&gt;xmonad &lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;$&lt;/span&gt; desktopConfig {
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;...&lt;/span&gt;
+    , startupHook &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+        spawnOnce &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;google-chrome --class chrome&quot;&lt;/span&gt;
+        spawnOnce &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io&quot;&lt;/span&gt;
 
   }
 &lt;/pre&gt;
@@ -739,26 +939,26 @@ as shown below.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;myManageHook
-    = composeAll . concat $
-      [ [className =? c --&amp;gt; doFloat | c &amp;lt;- myFloats]
-      , [title =? t --&amp;gt; doFloat | t &amp;lt;- myOtherFloats]
-      , [resource =? r --&amp;gt; doFloat | r &amp;lt;- myIgnores]
-      , [className =? &quot;Gimp&quot; --&amp;gt; doF (W.shift &quot;5:misc&quot;)]
-      , [className =? &quot;VirtualBox&quot; --&amp;gt; doF (W.shift &quot;5:misc&quot;)]
-      , [className =? &quot;Wine&quot; --&amp;gt; doF (W.shift &quot;5:misc&quot;)]
-      , [className =? &quot;chrome&quot; --&amp;gt; doShift &quot;2&quot;]
-      , [title =? &quot;logs&quot; --&amp;gt; doShift &quot;3&quot;]
-      , [title =? &quot;cljswatch&quot; --&amp;gt; doShift &quot;4&quot;]
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;myManageHook&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; composeAll &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; concat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt;
+      [ [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; c &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doFloat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; c &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; myFloats]
+      , [title &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; t &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doFloat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; t &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; myOtherFloats]
+      , [resource &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; r &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doFloat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; r &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; myIgnores]
+      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Gimp&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doF (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;shift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;5:misc&quot;&lt;/span&gt;)]
+      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;VirtualBox&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doF (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;shift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;5:misc&quot;&lt;/span&gt;)]
+      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Wine&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doF (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;shift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;5:misc&quot;&lt;/span&gt;)]
+      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;chrome&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doShift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;2&quot;&lt;/span&gt;]
+      , [title &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;logs&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doShift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;3&quot;&lt;/span&gt;]
+      , [title &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;cljswatch&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doShift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;4&quot;&lt;/span&gt;]
       ]
-    where
-      myFloats = [&quot;Gimp&quot;, &quot;Nvidia-settings&quot;, &quot;XCalc&quot;, &quot;XFontSel&quot;, &quot;Xmessage&quot;, &quot;xmms&quot;]
-      myOtherFloats = [&quot;Downloads&quot;, &quot;Firefox - Restore Previous Session&quot;, &quot;Save As...&quot;, &quot;Ediff&quot;, &quot;Ediff&amp;lt;2&amp;gt;&quot;]
-      myIgnores = []
+    &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt;
+      myFloats &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Gimp&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Nvidia-settings&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;XCalc&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;XFontSel&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Xmessage&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;xmms&quot;&lt;/span&gt;]
+      myOtherFloats &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Downloads&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Firefox - Restore Previous Session&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Save As...&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Ediff&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Ediff&amp;lt;2&amp;gt;&quot;&lt;/span&gt;]
+      myIgnores &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;[]&lt;/span&gt;
 
- xmonad $ desktopConfig {
-	  ...
-	  , manageHook = myManageHook &amp;lt;+&amp;gt; manageHook defaultConfig
+ xmonad &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; desktopConfig {
+          &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;...&lt;/span&gt;
+          , manageHook &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; myManageHook &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;+&amp;gt;&lt;/span&gt; manageHook defaultConfig
 }
 &lt;/pre&gt;
 &lt;/div&gt;
