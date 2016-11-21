@@ -302,35 +302,8 @@ Just like that, the new post appears on Github in all its glory.
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">How Static works</h2>
+<h2 id="sec-4">Troubleshooting</h2>
 <div class="outline-text-2" id="text-4">
-<p>
-The root directory has a <code>config.clj</code> wherein we define the input
-directory that <b>Static</b> should process and the directory where it
-should store the results. The input directory is <code>_resources</code> and
-output directory is the root of the repo.
-</p>
-
-<p>
-Posts which are being worked in draft stage can reside in
-<code>_resources/drafts</code>. The only directories <b>Static</b> will process are
-<code>posts</code>, <code>public</code>, <code>site</code> and <code>templates</code>.
-</p>
-
-<p>
-<b>RSS</b> feeds are generated only for the posts. <b>Sitemap</b> is generated
- from posts and all other site content.
-</p>
-
-<p>
-<b>Static</b> expects the posts to be named in <code>YYYY-MM-DD-Whatever.org</code>
- format. Any deviation causes a Java NPE!
-</p>
-</div>
-</div>
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Troubleshooting</h2>
-<div class="outline-text-2" id="text-5">
 <p>
 There are many moving parts in <code>org-mode</code> and when things go wrong,
 debugging is taxing. Google is our friend and one particularly nasty
@@ -339,7 +312,7 @@ bug I hit was the messed up state of <code>org-mode</code>. This magical sequenc
 </p>
 </div>
 </div>
-<div class="post-tags">Tags: <a href="/tags/#emacs,">emacs, </a><a href="/tags/#Jekyll,">Jekyll, </a><a href="/tags/#Static">Static </a></div></div><div id="related"><h3 class="random-posts">Random Posts</h3><ul class="posts"><li><span>19 Jun 2016</span><a href="/2016/06/19/Blogging/">Blogging with emacs and org-mode</a></li><li><span>08 Mar 2014</span><a href="/2014/03/08/safeguarding-secrets-with-gnupg/">Safeguarding Secrets with GnuPG</a></li><li><span>23 Feb 2014</span><a href="/2014/02/23/rate-limited-fns/">core.async for throttling a Clojure function</a></li><li><span>24 Jan 2014</span><a href="/2014/01/24/Java-References/">Java Reference Objects</a></li><li><span>26 Feb 2014</span><a href="/2014/02/26/JavaForkJoin/">Java Fork/Join Framework - an exemplar of elegant design</a></li></ul></div></div><div id="sidebar"><div style="border-bottom: solid 1px #ddd">PRAKI PRAKASH</div><div><img src="/images/praki-outline.png" style="float:left;padding:
+<div class="post-tags">Tags: <a href="/tags/#emacs,">emacs, </a><a href="/tags/#Jekyll,">Jekyll, </a><a href="/tags/#Static">Static </a></div></div><div id="related"><h3 class="random-posts">Random Posts</h3><ul class="posts"><li><span>20 May 2015</span><a href="/2015/05/20/xmonad/">Configuring xmonad</a></li><li><span>08 Mar 2014</span><a href="/2014/03/08/safeguarding-secrets-with-gnupg/">Safeguarding Secrets with GnuPG</a></li><li><span>23 Feb 2014</span><a href="/2014/02/23/rate-limited-fns/">core.async for throttling a Clojure function</a></li><li><span>19 Jun 2016</span><a href="/2016/06/19/Blogging/">Blogging with emacs and org-mode</a></li><li><span>26 Feb 2014</span><a href="/2014/02/26/JavaForkJoin/">Java Fork/Join Framework - an exemplar of elegant design</a></li></ul></div></div><div id="sidebar"><div style="border-bottom: solid 1px #ddd">PRAKI PRAKASH</div><div><img src="/images/praki-outline.png" style="float:left;padding:
                                                 .5em" />I'm just an ordinary bloke! I like building things, real as well
      as imaginary. Check my instagram link below for my non-technical
      stuff.<span style="visibility: hidden">Maker, programmer, culinarian, but not necessarily in
