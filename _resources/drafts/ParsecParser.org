@@ -1,0 +1,388 @@
+#+Title: Writing a parser using Parsec
+
+* Introduction
+I need a parser for a simple Domain Specific Language and I am writing
+it in Haskell using the Parsec combinator library. More details on
+what this DSL is intended for will come in future posts. In this post,
+I will focus on just the parser part.
+
+I will make no attempt to explain Haskell features except to touch
+upon the some combinators. There are many resources available on the
+Internet for learning Haskell (FIXME).
+
+The implementation will be using Applicatives which will be easier to
+read than one written in a monadic approach. The language I intend to
+parse is a context-free grammar (CFG) and applicatives will do just
+fine. It is helpful to review type signatures for =<$>=, =<*>=,
+=*>= and =<*= shown below.
+
+#+BEGIN_SRC haskell
+:t (<$>)
+(<$>) :: Functor f => (a -> b) -> f a -> f b
+
+:t (<*>)
+(<*>) :: Applicative f => f (a -> b) -> f a -> f b
+
+:t (<*)
+(<*) :: Applicative f => f a -> f b -> f a
+
+:t (*>)
+(*>) :: Applicative f => f a -> f b -> f b
+#+END_SRC
+
+=<$>= applies a function =(a -> b)= to an argument =(f a)= in a
+computational context and produces a new value =(f b)=.
+
+=<*>= extracts both the function =(a -> b)= and the argument from
+context =(f a)= producing a new value in =(f b)=.
+
+=<*= always returns the first argument and =*>= the second.
+
+The syntax of the language that our parser will recognize is as shown below.
+
+#+BEGIN_EXAMPLE
+script :: sequence of stmts
+stmt :: var_decl
+    | if_stmt
+    | while_stmt
+    | for_stmt
+    | continue_stmt
+    | break_stmt
+    | "{" stmt... "}"
+
+var_decl :: ident ":=" expr
+
+bool :: "true" | "false"
+
+expr :: expr term_op term
+    | term
+
+term :: term factor_op factor
+    | factor
+
+factor :: ID
+    | number
+    | string
+    | True
+    | False
+    | "(" expr ")"
+
+term_op :: "+" | "-"
+
+factor_op :: "*" | "/"
+
+if_stmt :: "if" expr stmt | "if" bool_expr stmt "else" stmt
+
+while_stmt :: "while" expr stmt
+
+for_stmt :: "for" ID stmt
+
+break_stmt :: "break"
+
+continue_stmt :: "continue"
+
+#+END_EXAMPLE
+
+The result of parsing will be an abstract syntax tree (AST). In
+further posts, I will implement evaluation of the tree or use it
+generate code.
+
+* Implementation
+The code is remarkably concise and simple. Only standard Haskell
+libraries are used.
+
+** Module declaration
+Exports =parse= function.
+
+#+BEGIN_SRC haskell :tangle Parser.hs
+module Parser (Expr(..), Stmt(..), parse, exprP, stmtP) where
+#+END_SRC
+
+** Imports
+Notable imports are Parsec and friends. We also import some functions
+from =Control.Applicative=.
+
+#+BEGIN_SRC haskell :tangle Parser.hs
+import Control.Applicative ((<*>), (<$>), (*>))
+import Text.Parsec
+import Text.Parsec.String (Parser)
+import Text.ParserCombinators.Parsec.Char (digit, letter,
+       alphaNum, lower, upper)
+import Text.ParserCombinators.Parsec.Language (emptyDef)
+import qualified Text.ParserCombinators.Parsec.Token as Token
+#+END_SRC
+
+** Lexer
+#+BEGIN_SRC haskell :tangle Parser.hs
+tokenDef = Token.makeTokenParser $ emptyDef
+     { Token.commentStart    = "/*"
+            , Token.commentEnd      = "*/"
+            , Token.commentLine     = "//"
+            , Token.identStart      = letter
+            , Token.identLetter     = alphaNum
+            , Token.reservedNames   = [ "and"
+                                      , "break"
+                                      , "continue"
+                                      , "else"
+                                      , "false"
+                                      , "if"
+                                      , "not"
+                                      , "or"
+                                      , "print"
+                                      , "true"
+                                      , "while"
+                                      ]
+            , Token.reservedOpNames = ["+", "-", "*", "/", ":="
+                                      , "<", ">", "|"
+                                      , "and", "or", "not"
+                                      ]
+            }
+
+
+reserved = Token.reserved tokenDef
+reservedOp = Token.reservedOp tokenDef
+ident = Token.identifier tokenDef
+integer = Token.integer tokenDef
+float = Token.float tokenDef
+stringLit = Token.stringLiteral tokenDef
+ws = Token.whiteSpace tokenDef
+symbol = Token.symbol tokenDef
+parens = Token.parens tokenDef
+braces = Token.braces tokenDef
+#+END_SRC
+
+** Data types
+#+BEGIN_SRC haskell :tangle Parser.hs
+data Expr =
+    Plus Expr Expr
+    | Minus Expr Expr
+    | Star Expr Expr
+    | Div Expr Expr
+    | Eq Expr Expr
+    | And Expr Expr
+    | Or Expr Expr
+    | Not Expr
+    | V String
+    | I Integer
+    | D Double
+    | S String
+    | T
+    | F
+    deriving (Show, Eq)
+
+data Stmt =
+    Assign Expr Expr
+    | Block [Stmt]
+    | Print [Expr]
+    | If Expr Stmt (Maybe Stmt)
+    | While Expr Stmt
+    | Break
+    | Continue
+    deriving (Show, Eq)
+#+END_SRC
+
+** Useful combinators
+#+BEGIN_SRC haskell :tangle Parser.hs
+commaSep p  = p `sepBy` (symbol ",")
+#+END_SRC
+
+** Expression parser
+This is the expression parser. This accepts semantically invalid
+expressions as there is no distinction between numerical, string and
+boolean expressions. But, we can always address that by making a pass
+over the AST.
+
+The expression grammar could be written to be a bit more
+discriminating in how it parses =!=, =&= and =|= by assigning
+different precedence to them. As it stands, an expression with =&= and
+=|= may need to be parenthesized.
+
+#+BEGIN_SRC haskell :tangle Parser.hs
+exprP :: Parser Expr
+exprP = termP `chainl1` termopP
+
+termP :: Parser Expr
+termP = factorP `chainl1` factoropP
+
+factorP :: Parser Expr
+factorP  = D <$> try float
+   <|> I <$> try integer
+   <|> S <$> stringLit
+   <|> reserved "true" *> return T
+   <|> reserved "false" *> return F
+   <|> V <$> ident
+   <|> Not <$> (reserved "not" *> exprP)
+   <|> parens exprP
+
+termopP = symbol "+" *> return Plus
+   <|> symbol "-" *>  return Minus
+   <|> symbol "&" *> return And
+   <|> symbol "|" *> return Or
+
+factoropP = symbol "*" *> return Star
+   <|> symbol "/" *> return Div
+   <|> symbol "=" *> return Eq
+
+--parse :: Parser Expr
+--parse = exprP
+
+#+END_SRC
+
+** Statement parser
+#+BEGIN_SRC haskell :tangle Parser.hs
+stmtP :: Parser Stmt
+stmtP =
+      assignP
+      <|> blockP
+      <|> printP
+      <|> try ifElseP
+      <|> ifP
+      <|> whileP
+      <|> breakP
+      <|> continueP
+
+blockP = Block <$> braces (many stmtP)
+
+printP = Print <$> (reserved "print" >> (commaSep exprP))
+
+assignP = Assign <$> exprP <*> (reservedOp ":=" >> exprP)
+
+ifP = If <$> ((reserved "if") >> exprP) <*> stmtP <*> return Nothing
+
+ifElseP = If <$> ((reserved "if") >> exprP) <*> stmtP <*> ((reserved "else") *> (Just <$> stmtP))
+
+whileP = While <$> (reserved "while" >> exprP) <*> stmtP
+
+breakP = reserved "break" *> return Break
+
+continueP = reserved "continue" *> return Continue
+#+END_SRC
+
+** Test program
+Here is test program that verifies the correctness of the parser. The
+tokenizer seems to have a bug. It correctly parses "1.2" as =D 1.2=
+but parses =-1.2= as =I (-1)=. I will defer this issue for now!
+
+#+BEGIN_SRC haskell :tangle ParserTest.hs
+import Text.Parsec (parseTest)
+import Data.List (intercalate)
+import Text.Parsec.String
+import Parser
+
+exprTests :: [(String, Expr)]
+exprTests = [("10", I 10)
+         , ("-1", I (-1))
+         , ("- 1", I (-1))
+         , ("1.2", D 1.2)
+         , ("-1.2", D 1.2)
+         , ("- 1.3", D (-1.3))
+         , ("a", V "a")
+         , ("\"a\"", S "a")
+         , ("true", T)
+         , ("false", F)
+         , ("1 + 2", Plus (I 1) (I 2))
+         , ("1 + -2", Plus (I 1) (I (-2)))
+         , ("1 + 2 * 3", (Plus (I 1) (Star (I 2) (I 3))))
+         , ("1 + a", Plus (I 1) (V "a"))
+         , ("1 = a", Eq (I 1) (V "a"))
+         , ("1 = 2", Eq (I 1) (I 2))
+         , ("1 = 2 & 2 = 4", And (Eq (I 1) (I 2)) (Eq (I 2) (I 4)))
+         , ("a = b & c = d", And (Eq (V "a") (V "b")) (Eq (V "c") (V "d")))
+         , ("a = b | c = d", Or (Eq (V "a") (V "b")) (Eq (V "c") (V "d")))
+         , ("(a | b) & (c | d)", And (Or (V "a") (V "b")) (Or (V "c") (V "d")))
+         , ("(a & b) | (c & d)", Or (And (V "a") (V "b")) (And (V "c") (V "d")))
+         , ("not true", Not T)
+         , ("not not true", Not (Not T))
+         , ("true = false", Eq T F)
+         ]
+
+stmtTests :: [(String, Stmt)]
+stmtTests = [ ("x := 1", Assign (V "x") (I 1))
+            , ("print 1, 2", Print [I 1, I 2])
+            , ("print 1", Print [I 1])
+            , ("{}", Block [])
+            , ("if true print \"T\" else print \"F\"",
+               If T (Print [S "T"]) (Just (Print [S "F"])))
+            , ("if true print 1", If T (Print [I 1]) Nothing)
+            , ("break", Break)
+            , ("continue", Continue)
+            ]
+
+testParser:: (Eq a, Show a) => Parser a -> [(String, a)] -> IO ()
+testParser p tests = do
+  putStr (intercalate "\r\n"
+           (filter (not . null)
+             (map
+               (\(s, e, r) -> case r of
+                  Right ast -> if e == ast
+                        then "" -- "Parsed: " ++  s
+                        else "Error: " ++ s ++ " Exp: " ++
+                              show e ++ " Act: " ++ show ast
+                  Left e -> "Parse error: \n" ++ show e)
+               (map (\(s, e) -> (s, e, parse p s s)) tests))))
+
+main :: IO ()
+main = do
+   testParser exprP exprTests
+   testParser stmtP stmtTests
+   putStr "\nDONE!\n"
+#+END_SRC
+
+#+BEGIN_SRC haskell :exports none
+{-
+-- {-# LANGUAGE TemplateHaskell #-}
+--import Control.Applicative
+--import Language.Haskell.TH
+--import Language.Haskell.TH.Quote -- QuasiQuoter
+expr :: ExpQ
+expr = runQ [| 1 + 2 |]
+
+exp2 :: ExpQ
+exp2 = return $ LitE (IntegerL 42)
+
+parseInt :: Parser ExpQ
+parseInt = ast <$> int
+  where ast n = return $ LitE (IntegerL n)
+
+parseIdent :: Parser ExpQ
+parseIdent = ast <$> ident
+  where ast n = return $ LitE (StringL n)
+
+parseExpr :: Parser ExpQ
+parseExpr = parseIdent
+
+parseStmt :: Parser ExpQ
+parseStmt = reserved "if" *> parseInt
+
+dslExpr :: String -> ExpQ
+dslExpr s = do
+  case parse parseStmt "" s of
+    Right e -> e
+v    Left err -> reportError (show err) >> [| "" |]
+--dsl :: QuasiQuoter
+--dsl = QuasiQuoter dslExpr undefined undefined undefined
+-}
+--dsl :: QuasiQuoter
+--Dsl = QuasiQuoter undefined undefined undefined undefined
+
+{-# LANGUAGE QuasiQuotes #-}
+import Dsl
+
+main :: IO ()
+main = do
+  print [dsl|if 123|]
+
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+
+uintP = many1 digit
+ufloatP = uintP '.' (many1 digit) (optional 'E' (optional '+' | '-") uIntP
+
+exprP = sexpr (optional (= | < | > |  != | <= | >=) sexpr)
+sexprP = (optional + | -) term (optional + | - | OR)
+termP = factor (optional * | / | AND
+factorP = unsignedConst | var | ( expr ) NOT factor |
+
+
+#+END_SRC
