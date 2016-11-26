@@ -103,7 +103,7 @@ Notable imports are Parsec and friends. We also import some functions
 from =Control.Applicative=.
 
 #+BEGIN_SRC haskell :tangle Parser.hs
-import Control.Applicative ((<*>), (<$>), (*>))
+import Control.Applicative (liftA2, pure, (<*>), (<$>), (*>))
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.ParserCombinators.Parsec.Char (digit, letter,
@@ -159,9 +159,16 @@ data Expr =
     | Star Expr Expr
     | Div Expr Expr
     | Eq Expr Expr
+    | Less Expr Expr
+    | Greater Expr Expr
+    | Le Expr Expr
+    | Ge Expr Expr
+    | Ne Expr Expr
     | And Expr Expr
     | Or Expr Expr
     | Not Expr
+    | Neg Expr
+    | Call String [Expr]
     | V String
     | I Integer
     | D Double
@@ -199,7 +206,13 @@ different precedence to them. As it stands, an expression with =&= and
 
 #+BEGIN_SRC haskell :tangle Parser.hs
 exprP :: Parser Expr
-exprP = termP `chainl1` termopP
+--exprP = termP `chainl1` termopP
+
+exprP = bexprP `chainl1` bopP
+
+bexprP = rexprP `chainl1` relopP
+
+rexprP = termP `chainl1` termopP
 
 termP :: Parser Expr
 termP = factorP `chainl1` factoropP
@@ -210,21 +223,30 @@ factorP  = D <$> try float
    <|> S <$> stringLit
    <|> reserved "true" *> return T
    <|> reserved "false" *> return F
+   <|> try callP
    <|> V <$> ident
    <|> Not <$> (reserved "not" *> exprP)
+   <|> Neg <$> (symbol "-" *> factorP)
+   <|> (symbol "+" *> factorP)
    <|> parens exprP
+
+relopP = (reservedOp "=" *> return Eq
+           <|> reservedOp "<" *> return Less
+           <|> reservedOp ">" *> return Greater
+           <|> reservedOp "!=" *> return Ne
+           <|> reservedOp "<=" *> return Le
+           <|> reservedOp "<=" *> return Ge)
+
+bopP = symbol "|" *> return Or
+       <|> symbol "&" *> return And
 
 termopP = symbol "+" *> return Plus
    <|> symbol "-" *>  return Minus
-   <|> symbol "&" *> return And
-   <|> symbol "|" *> return Or
 
 factoropP = symbol "*" *> return Star
    <|> symbol "/" *> return Div
-   <|> symbol "=" *> return Eq
 
---parse :: Parser Expr
---parse = exprP
+callP = Call <$> ident <*> parens (commaSep exprP)
 
 #+END_SRC
 
@@ -256,6 +278,13 @@ whileP = While <$> (reserved "while" >> exprP) <*> stmtP
 breakP = reserved "break" *> return Break
 
 continueP = reserved "continue" *> return Continue
+
+uintP :: Parser Expr
+uintP = I <$> read <$> many1 digit
+floatP::Parser Expr
+floatP  = I <$> (pure (\a b c -> (read a) + (read c)) <*> (many1 digit) <*> (char '.') <*> (many1 digit))
+--ufloatP = I <$> read <$> many1 digit -- I  --'.' (many1 digit) (optional 'E' (optional '+' | '-") uIntP
+
 #+END_SRC
 
 ** Test program
@@ -291,9 +320,15 @@ exprTests = [("10", I 10)
          , ("a = b | c = d", Or (Eq (V "a") (V "b")) (Eq (V "c") (V "d")))
          , ("(a | b) & (c | d)", And (Or (V "a") (V "b")) (Or (V "c") (V "d")))
          , ("(a & b) | (c & d)", Or (And (V "a") (V "b")) (And (V "c") (V "d")))
+         , ("-(1.2)", Neg (D 1.2))
+         , ("+(1.2)", D 1.2)
          , ("not true", Not T)
          , ("not not true", Not (Not T))
          , ("true = false", Eq T F)
+         , ("foo()", Call "foo" [])
+         , ("foo(1)", Call "foo" [I 1])
+         , ("foo(1, true)", Call "foo" [I 1, T])
+         , ("foo(1, 2)", Call "foo" [I 1, I 2])
          ]
 
 stmtTests :: [(String, Stmt)]
@@ -375,9 +410,6 @@ main = do
 #+END_SRC
 
 #+BEGIN_EXAMPLE
-
-uintP = many1 digit
-ufloatP = uintP '.' (many1 digit) (optional 'E' (optional '+' | '-") uIntP
 
 exprP = sexpr (optional (= | < | > |  != | <= | >=) sexpr)
 sexprP = (optional + | -) term (optional + | - | OR)
