@@ -1,6 +1,558 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Blogging with emacs and org-mode</title><link>http://MonadicT.github.io/2016/06/19/Blogging/</link><pubDate>Sun, 19 Jun 2016 00:00:00 -0700</pubDate><description>&lt;p&gt;
+<rss version="2.0"><channel><title>MonadicT</title><link>http://MonadicT.github.io</link><description></description><item><title>Writing a parser using Parsec</title><link>http://MonadicT.github.io/2016/11/27/ParsecParser/</link><pubDate>Sun, 27 Nov 2016 00:00:00 -0800</pubDate><description>
+&lt;div id=&quot;outline-container-sec-1&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-1&quot;&gt;Introduction&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-1&quot;&gt;
+&lt;p&gt;
+I need a parser for a simple Domain Specific Language and I am writing
+it in Haskell using the Parsec combinator library. My future posts
+will show why I am building this parser but in this post, I will focus
+on how to construct a parser for an imperative language using Parsec.
+&lt;/p&gt;
+
+&lt;p&gt;
+I will make no attempt to explain Haskell features except to touch
+upon some details of applicatives. There are many resources available on the
+Internet for &lt;a href=&quot;http://bfy.tw/Gbf&quot;&gt;learning Haskell&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;
+The implementation will be using Applicatives which will be easier to
+read than one written in a monadic approach. The language I intend to
+parse is a context-free grammar (CFG) and applicatives will do just
+fine. It is helpful to review type signatures for &lt;code&gt;&amp;lt;$&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;*&amp;gt;&lt;/code&gt;,
+&lt;code&gt;*&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;*&lt;/code&gt; shown below.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;)
+(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Functor&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; (a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; b) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b
+
+&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;)
+(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Applicative&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; f (a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; b) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b
+
+&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&lt;/span&gt;)
+(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;&amp;lt;*&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Applicative&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f a
+
+&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt;)
+(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;*&amp;gt;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Applicative&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;
+&lt;code&gt;&amp;lt;$&amp;gt;&lt;/code&gt; applies a function &lt;code&gt;(a -&amp;gt; b)&lt;/code&gt; to an argument &lt;code&gt;(f a)&lt;/code&gt; in a
+computational context and produces a new value &lt;code&gt;(f b)&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;&amp;lt;*&amp;gt;&lt;/code&gt; extracts both the function &lt;code&gt;(a -&amp;gt; b)&lt;/code&gt; and the argument from
+context &lt;code&gt;(f a)&lt;/code&gt; producing a new value in &lt;code&gt;(f b)&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;p&gt;
+&lt;code&gt;&amp;lt;*&lt;/code&gt; always returns the first argument and &lt;code&gt;*&amp;gt;&lt;/code&gt; the second.
+&lt;/p&gt;
+
+&lt;p&gt;
+The syntax of the language that our parser will recognize is shown below.
+&lt;/p&gt;
+
+&lt;pre class=&quot;example&quot;&gt;
+script :: sequence of stmts
+stmt :: var_decl
+    | if_stmt
+    | while_stmt
+    | for_stmt
+    | continue_stmt
+    | break_stmt
+    | &quot;{&quot; stmt... &quot;}&quot;
+
+var_decl :: ident &quot;:=&quot; expr
+
+bool :: &quot;true&quot; | &quot;false&quot;
+
+expr :: bexpr bool_op bexpr
+    | bexpr
+
+bexpr :: rexpr relop rexpr
+    | rexpr
+
+rexpr :: term termOp term
+    | term
+
+term :: term factor_op factor
+    | factor
+
+factor :: ID
+    | number
+    | string
+    | True
+    | False
+    | &quot;(&quot; expr &quot;)&quot;
+    | &quot;+|-&quot; factor
+    | ID &quot;(&quot; [exppr [&quot;,&quot; expr]] &quot;)&quot;
+
+term_op :: &quot;+&quot; | &quot;-&quot;
+
+factor_op :: &quot;*&quot; | &quot;/&quot;
+
+if_stmt :: &quot;if&quot; expr stmt | &quot;if&quot; bool_expr stmt &quot;else&quot; stmt
+
+while_stmt :: &quot;while&quot; expr stmt
+
+for_stmt :: &quot;for&quot; ID stmt
+
+break_stmt :: &quot;break&quot;
+
+continue_stmt :: &quot;continue&quot;
+&lt;/pre&gt;
+
+&lt;p&gt;
+The result of parsing will be an abstract syntax tree (AST). In
+further posts, I will implement evaluation of the tree or use it
+generate code.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-2&quot;&gt;Implementation&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-2&quot;&gt;
+&lt;p&gt;
+Using Parsec in applicative style leads to remarkably concise and
+simple implementation.
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-1&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-1&quot;&gt;Module declaration&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-1&quot;&gt;
+&lt;p&gt;
+Lists exports from this module. We export lower-level parse functions
+for testing purposes.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;(&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;..&lt;/span&gt;), &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;(&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;..&lt;/span&gt;), dslP, parse, exprP, stmtP) &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-2&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-2&quot;&gt;Imports&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-2&quot;&gt;
+&lt;p&gt;
+Notable imports are Parsec and friends. We also import some functions
+from &lt;code&gt;Control.Applicative&lt;/code&gt;.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Control.Applicative&lt;/span&gt; (liftA2, pure, (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt;))
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec.String&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt;)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Char&lt;/span&gt; (digit, letter,
+       alphaNum, lower, upper)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Language&lt;/span&gt; (emptyDef)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;qualified&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Token&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;as&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-3&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-3&quot;&gt;Lexer&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-3&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;tokenDef&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;makeTokenParser &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; emptyDef
+     { &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentStart    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/*&quot;&lt;/span&gt;
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentEnd      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*/&quot;&lt;/span&gt;
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentLine     &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;//&quot;&lt;/span&gt;
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identStart      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; letter
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identLetter     &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; alphaNum
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedNames   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [ &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;break&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;continue&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;else&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;while&quot;&lt;/span&gt;
+                                      ]
+            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedOpNames &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;:=&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;|&quot;&lt;/span&gt;
+                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;and&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;or&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not&quot;&lt;/span&gt;]
+            }
+
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;reserved&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reserved tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;reservedOp&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedOp tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ident&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identifier tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;integer&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;integer tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;float&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;float tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stringLit&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;stringLiteral tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ws&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;whiteSpace tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;symbol&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;symbol tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parens&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;parens tokenDef
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;braces&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;braces tokenDef
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-4&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-4&quot;&gt;Data types&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-4&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;data&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Div&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Less&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Greater&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Le&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ge&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ne&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;]
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Integer&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Double&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;
+    &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;deriving&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Show&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt;)
+
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;data&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Block&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;]
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;]
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Maybe&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;)
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;While&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Break&lt;/span&gt;
+    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Continue&lt;/span&gt;
+    &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;deriving&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Show&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-5&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-5&quot;&gt;Useful combinators&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-5&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;commaSep&lt;/span&gt; p  &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; p &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`sepBy`&lt;/span&gt; (symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;,&quot;&lt;/span&gt;)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-6&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-6&quot;&gt;Expression parser&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-6&quot;&gt;
+&lt;p&gt;
+This is the expression parser. This accepts semantically invalid
+expressions as there is no distinction between numerical, string and
+boolean expressions. In a future post, I will implement a semantic
+pass over the AST which will flag invalid expressions.
+&lt;/p&gt;
+
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;--&lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;exprP = termP `chainl1` termopP&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; bexprP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; bopP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;bexprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; rexprP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; relopP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;rexprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; termP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; termopP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;termP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;termP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; factorP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; factoropP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;factorP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;factorP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (notP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; factorP)
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; factorP)
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; factorP
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; try float
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; try integer
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; stringLit
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; try callP
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ident
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; parens exprP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;relopP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; (reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt;
+           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Less&lt;/span&gt;
+           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Greater&lt;/span&gt;
+           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;!=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ne&lt;/span&gt;
+           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Le&lt;/span&gt;
+           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ge&lt;/span&gt;)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;bopP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;|&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt;
+       &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;amp;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt;
+       &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;or&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt;
+       &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;and&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;termopP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt;
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt;  return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;factoropP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt;
+   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Div&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;callP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ident &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; parens (commaSep exprP)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;notP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;!&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not&quot;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-7&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-7&quot;&gt;Statement parser&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-7&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;   assignP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; blockP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; printP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; try ifElseP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; ifP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; whileP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; breakP
+      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; continueP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;blockP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Block&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; braces (many stmtP)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;printP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; (commaSep exprP))
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;assignP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; exprP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; (reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;:=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP)
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ifP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ((reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; stmtP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Nothing&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ifElseP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ((reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; stmtP
+                 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; ((reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;else&quot;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Just&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; stmtP))
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;whileP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;While&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;while&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; stmtP
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;breakP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;break&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Break&lt;/span&gt;
+
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;continueP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;continue&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Continue&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-8&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-8&quot;&gt;DSL Parser&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-8&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;]
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; ws &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; many stmtP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&lt;/span&gt; eof
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-2-9&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-2-9&quot;&gt;Most problematic areas&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-9&quot;&gt;
+&lt;p&gt;
+With Parsec, it turns out to be important to order the parsers and
+adorn them with &lt;code&gt;try&lt;/code&gt;. This was most evident in &lt;code&gt;factorP&lt;/code&gt;. Very
+briefly, when there are two parsers one of which is a prefix of the
+orher, the parser of the longer input should be listed first. If a
+parser can fail after consuming some input, it should be wrapped in
+&lt;code&gt;try&lt;/code&gt; so that the next parser will be tried at the correct input
+position.
+&lt;/p&gt;
+
+&lt;p&gt;
+Other than this, using Parsec to build parsers is pretty straightforward.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3&quot; class=&quot;outline-2&quot;&gt;
+&lt;h2 id=&quot;sec-3&quot;&gt;Test program&lt;/h2&gt;
+&lt;div class=&quot;outline-text-2&quot; id=&quot;text-3&quot;&gt;
+&lt;p&gt;
+Here is test program that verifies the correctness of the parser. The
+tokenizer seems to have a bug. It correctly parses &quot;1.2&quot; as &lt;code&gt;D 1.2&lt;/code&gt;
+but parses &lt;code&gt;-1.2&lt;/code&gt; as &lt;code&gt;I (-1)&lt;/code&gt;. I will defer this issue for now!
+&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3-1&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-3-1&quot;&gt;Module imports&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-1&quot;&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec&lt;/span&gt; (parseTest)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Data.List&lt;/span&gt; (intercalate)
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec.String&lt;/span&gt;
+&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3-2&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-3-2&quot;&gt;Expression tests&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-2&quot;&gt;
+&lt;p&gt;
+Testing expression parsing.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;)]
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [(&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;10&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 10)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;- 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1.2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-1.2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;- 1.3&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;3))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\&quot;a\&quot;&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + -2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + 2 * 3&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 3)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 - 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 - 2 * 3&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 3)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + 2 * 3 / 4&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Div&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 3)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 4)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + a&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 = a&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 = 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true and true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true &amp;amp; true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true | true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true or true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 = 2 &amp;amp; 2 = 4&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 4)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a = b &amp;amp; c = d&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a = b | c = d&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;(a | b) &amp;amp; (c | d)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;(a &amp;amp; b) | (c &amp;amp; d)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-(1.2)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+(1.2)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not not true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;))
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true = false&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo()&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;[]&lt;/span&gt;)
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo(1)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1])
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo(1, true)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;])
+         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo(1, 2)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2])
+         ]
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3-3&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-3-3&quot;&gt;Statement tests&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-3&quot;&gt;
+&lt;p&gt;
+Testing statement parsing.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;)]
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [ (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x := 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1))
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print 1, 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2])
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1])
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;{}&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Block&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;[]&lt;/span&gt;)
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if true print \&quot;T\&quot; else print \&quot;F\&quot;&quot;&lt;/span&gt;,
+               &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;T&quot;&lt;/span&gt;]) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Just&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;F&quot;&lt;/span&gt;])))
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if true print 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1]) &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Nothing&lt;/span&gt;)
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;break&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Break&lt;/span&gt;)
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;continue&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Continue&lt;/span&gt;)
+            ]
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3-4&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-3-4&quot;&gt;Dsl tests&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-4&quot;&gt;
+&lt;p&gt;
+Example DSL and its expected result.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;])]
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;  [ (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x := 1 y:= 2&quot;&lt;/span&gt;, [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1), &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;y&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2)])
+            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; x := 1 &quot;&lt;/span&gt;, [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1)])
+            ]
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3-5&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-3-5&quot;&gt;Test runner&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-5&quot;&gt;
+&lt;p&gt;
+&lt;code&gt;testParser&lt;/code&gt; accepts a list of input and expected results of parsing
+them. Inputs that don't produce the expected results are printed.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;testParser&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; a, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Show&lt;/span&gt; a) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, a)] &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IO&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;()&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;testParser&lt;/span&gt; p tests &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+  putStr (intercalate &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\r\n&quot;&lt;/span&gt;
+           (filter (not &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; null)
+             (map
+               (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;\&lt;/span&gt;(s, e, r) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;case&lt;/span&gt; r &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;of&lt;/span&gt;
+                  &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Right&lt;/span&gt; ast &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;if&lt;/span&gt; e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;==&lt;/span&gt; ast
+                        &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;then&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;-- &lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;&quot;Parsed: &quot; ++  s&lt;/span&gt;
+                        &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;else&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Error: &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; s &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; Exp: &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt;
+                              show e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; Act: &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; show ast
+                  &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Left&lt;/span&gt; e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Parse error: \n&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; show e)
+               (map (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;\&lt;/span&gt;(s, e) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; (s, e, parse p s s)) tests))))
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;outline-container-sec-3-6&quot; class=&quot;outline-3&quot;&gt;
+&lt;h3 id=&quot;sec-3-6&quot;&gt;Main program&lt;/h3&gt;
+&lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-6&quot;&gt;
+&lt;p&gt;
+Runs all tests defined above.
+&lt;/p&gt;
+&lt;div class=&quot;org-src-container&quot;&gt;
+
+&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IO&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;()&lt;/span&gt;
+&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+   testParser exprP exprTests
+   testParser stmtP stmtTests
+   testParser dslP dslTests
+   putStr &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\nDONE!\n&quot;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description></item><item><title>Blogging with emacs and org-mode</title><link>http://MonadicT.github.io/2016/06/19/Blogging/</link><pubDate>Sun, 19 Jun 2016 00:00:00 -0700</pubDate><description>&lt;p&gt;
 I do most of my work in &lt;code&gt;emacs&lt;/code&gt; and blogging is no
 exception. But, everytime I start a blog post, I go through a small
 learning curve around the tools I use. I am going to put an end to it,
@@ -775,42 +1327,7 @@ as shown below.
 
 
 &lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>Drawing figures with Tikz/PGF</title><link>http://MonadicT.github.io/2015/02/15/Tikz/</link><pubDate>Sun, 15 Feb 2015 00:00:00 -0800</pubDate><description>&lt;p&gt;
-Figures are invaluable in capturing and communicating
-information. Figures are high in information content and the skill to
-draw them is essential in my trade. While there are a number of
-interactive tools, it is my firm belief that a text-based description
-of figures is the best approach. At least for me.
-&lt;/p&gt;
-
-&lt;p&gt;
-In the past, I used metafont, metapost, pstricks and asymptote. Now my
-drawing tool is TikZ/PGF. It is a capable tool and sports full documentation to boot!
-&lt;/p&gt;
-
-&lt;p&gt;
-My TikZ figures are embedded in &lt;i&gt;.org&lt;/i&gt; files. Here is a TikZ code
-snippet and the output it produces.
-&lt;/p&gt;
-
-\begin{LTXexample}
-\begin{tikzpicture}
-\draw [help lines] (0,0) grid (4,2);
-\draw [blue] (0,0) rectangle (1.5, 1);
-\draw [red , ultra thick] (3, 0.5)
-      circle [radius=0.35];
-\draw [red] (3.5, 1.5) circle [radius = 0.25];
-\end{tikzpicture}
-\end{LTXexample}
-
-&lt;p&gt;
-&lt;code&gt;tikz&lt;/code&gt; package must be imported with the following header.
-&lt;/p&gt;
-
-&lt;pre class=&quot;example&quot;&gt;
-#+LaTeX_HEADER: \usepackage{tikz}
-&lt;/pre&gt;
-</description></item><item><title>Safeguarding Secrets with GnuPG</title><link>http://MonadicT.github.io/2014/03/08/safeguarding-secrets-with-gnupg/</link><pubDate>Sat, 8 Mar 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;
+&lt;/div&gt;</description></item><item><title>Safeguarding Secrets with GnuPG</title><link>http://MonadicT.github.io/2014/03/08/safeguarding-secrets-with-gnupg/</link><pubDate>Sat, 8 Mar 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;
 The best way to ensure that private information stays private is to
 keep it all in your head and never divulge it unless tortured! That
 ain't going to cut it in this day and age when we have more than a few
