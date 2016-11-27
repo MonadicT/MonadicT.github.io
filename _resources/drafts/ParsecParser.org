@@ -2,13 +2,13 @@
 
 * Introduction
 I need a parser for a simple Domain Specific Language and I am writing
-it in Haskell using the Parsec combinator library. More details on
-what this DSL is intended for will come in future posts. In this post,
-I will focus on just the parser part.
+it in Haskell using the Parsec combinator library. My future posts
+will show why I am building this parser but in this post, I will focus
+on how to construct a parser for an imperative language using Parsec.
 
 I will make no attempt to explain Haskell features except to touch
-upon the some combinators. There are many resources available on the
-Internet for learning Haskell (FIXME).
+upon some details of applicatives. There are many resources available on the
+Internet for [[http://bfy.tw/Gbf][learning Haskell]]
 
 The implementation will be using Applicatives which will be easier to
 read than one written in a monadic approach. The language I intend to
@@ -38,7 +38,7 @@ context =(f a)= producing a new value in =(f b)=.
 
 =<*= always returns the first argument and =*>= the second.
 
-The syntax of the language that our parser will recognize is as shown below.
+The syntax of the language that our parser will recognize is shown below.
 
 #+BEGIN_EXAMPLE
 script :: sequence of stmts
@@ -54,7 +54,13 @@ var_decl :: ident ":=" expr
 
 bool :: "true" | "false"
 
-expr :: expr term_op term
+expr :: bexpr bool_op bexpr
+    | bexpr
+
+bexpr :: rexpr relop rexpr
+    | rexpr
+
+rexpr :: term termOp term
     | term
 
 term :: term factor_op factor
@@ -66,6 +72,8 @@ factor :: ID
     | True
     | False
     | "(" expr ")"
+    | "+|-" factor
+    | ID "(" [exppr ["," expr]] ")"
 
 term_op :: "+" | "-"
 
@@ -88,14 +96,15 @@ further posts, I will implement evaluation of the tree or use it
 generate code.
 
 * Implementation
-The code is remarkably concise and simple. Only standard Haskell
-libraries are used.
+Using Parsec in applicative style leads to remarkably concise and
+simple implementation.
 
 ** Module declaration
-Exports =parse= function.
+Lists exports from this module. We export lower-level parse functions
+for testing purposes.
 
 #+BEGIN_SRC haskell :tangle Parser.hs
-module Parser (Expr(..), Stmt(..), parse, exprP, stmtP) where
+module Parser (Expr(..), Stmt(..), dslP, parse, exprP, stmtP) where
 #+END_SRC
 
 ** Imports
@@ -103,7 +112,7 @@ Notable imports are Parsec and friends. We also import some functions
 from =Control.Applicative=.
 
 #+BEGIN_SRC haskell :tangle Parser.hs
-import Control.Applicative (liftA2, pure, (<*>), (<$>), (*>))
+import Control.Applicative (liftA2, pure, (<*>), (<$>), (<*), (*>))
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.ParserCombinators.Parsec.Char (digit, letter,
@@ -120,22 +129,18 @@ tokenDef = Token.makeTokenParser $ emptyDef
             , Token.commentLine     = "//"
             , Token.identStart      = letter
             , Token.identLetter     = alphaNum
-            , Token.reservedNames   = [ "and"
-                                      , "break"
+            , Token.reservedNames   = [ "break"
                                       , "continue"
                                       , "else"
                                       , "false"
                                       , "if"
-                                      , "not"
-                                      , "or"
                                       , "print"
                                       , "true"
                                       , "while"
                                       ]
             , Token.reservedOpNames = ["+", "-", "*", "/", ":="
                                       , "<", ">", "|"
-                                      , "and", "or", "not"
-                                      ]
+                                      , "and", "or", "not"]
             }
 
 
@@ -154,9 +159,9 @@ braces = Token.braces tokenDef
 ** Data types
 #+BEGIN_SRC haskell :tangle Parser.hs
 data Expr =
-    Plus Expr Expr
-    | Minus Expr Expr
-    | Star Expr Expr
+    Add Expr Expr
+    | Sub Expr Expr
+    | Mul Expr Expr
     | Div Expr Expr
     | Eq Expr Expr
     | Less Expr Expr
@@ -196,13 +201,8 @@ commaSep p  = p `sepBy` (symbol ",")
 ** Expression parser
 This is the expression parser. This accepts semantically invalid
 expressions as there is no distinction between numerical, string and
-boolean expressions. But, we can always address that by making a pass
-over the AST.
-
-The expression grammar could be written to be a bit more
-discriminating in how it parses =!=, =&= and =|= by assigning
-different precedence to them. As it stands, an expression with =&= and
-=|= may need to be parenthesized.
+boolean expressions. In a future post, I will implement a semantic
+pass over the AST which will flag invalid expressions.
 
 #+BEGIN_SRC haskell :tangle Parser.hs
 exprP :: Parser Expr
@@ -218,16 +218,16 @@ termP :: Parser Expr
 termP = factorP `chainl1` factoropP
 
 factorP :: Parser Expr
-factorP  = D <$> try float
+factorP = Not <$> (notP *> factorP)
+   <|> Neg <$> (symbol "-" *> factorP)
+   <|> symbol "+" *> factorP
+   <|> D <$> try float
    <|> I <$> try integer
    <|> S <$> stringLit
    <|> reserved "true" *> return T
    <|> reserved "false" *> return F
    <|> try callP
    <|> V <$> ident
-   <|> Not <$> (reserved "not" *> exprP)
-   <|> Neg <$> (symbol "-" *> factorP)
-   <|> (symbol "+" *> factorP)
    <|> parens exprP
 
 relopP = (reservedOp "=" *> return Eq
@@ -239,22 +239,24 @@ relopP = (reservedOp "=" *> return Eq
 
 bopP = symbol "|" *> return Or
        <|> symbol "&" *> return And
+       <|> reserved "or" *> return Or
+       <|> reserved "and" *> return And
 
-termopP = symbol "+" *> return Plus
-   <|> symbol "-" *>  return Minus
+termopP = symbol "+" *> return Add
+   <|> symbol "-" *>  return Sub
 
-factoropP = symbol "*" *> return Star
+factoropP = symbol "*" *> return Mul
    <|> symbol "/" *> return Div
 
 callP = Call <$> ident <*> parens (commaSep exprP)
 
+notP = reservedOp "!" <|> reserved "not"
 #+END_SRC
 
 ** Statement parser
 #+BEGIN_SRC haskell :tangle Parser.hs
 stmtP :: Parser Stmt
-stmtP =
-      assignP
+stmtP =   assignP
       <|> blockP
       <|> printP
       <|> try ifElseP
@@ -271,50 +273,74 @@ assignP = Assign <$> exprP <*> (reservedOp ":=" >> exprP)
 
 ifP = If <$> ((reserved "if") >> exprP) <*> stmtP <*> return Nothing
 
-ifElseP = If <$> ((reserved "if") >> exprP) <*> stmtP <*> ((reserved "else") *> (Just <$> stmtP))
+ifElseP = If <$> ((reserved "if") >> exprP) <*> stmtP
+                 <*> ((reserved "else") *> (Just <$> stmtP))
 
 whileP = While <$> (reserved "while" >> exprP) <*> stmtP
 
 breakP = reserved "break" *> return Break
 
 continueP = reserved "continue" *> return Continue
-
-uintP :: Parser Expr
-uintP = I <$> read <$> many1 digit
-floatP::Parser Expr
-floatP  = I <$> (pure (\a b c -> (read a) + (read c)) <*> (many1 digit) <*> (char '.') <*> (many1 digit))
---ufloatP = I <$> read <$> many1 digit -- I  --'.' (many1 digit) (optional 'E' (optional '+' | '-") uIntP
-
 #+END_SRC
 
-** Test program
+** DSL Parser
+
+#+BEGIN_SRC haskell :tangle Parser.hs
+dslP :: Parser [Stmt]
+dslP = ws *> many stmtP <* eof
+#+END_SRC
+
+** Most problematic areas
+With Parsec, it turns out to be important to order the parsers and
+adorn them with =try=. This was most evident in =factorP=. Very
+briefly, when there are two parsers one of which is a prefix of the
+orher, the parser of the longer input should be listed first. If a
+parser can fail after consuming some input, it should be wrapped in
+=try= so that the next parser will be tried at the correct input
+position.
+
+Other than this, using Parsec to build parsers is pretty straightforward.
+
+* Test program
 Here is test program that verifies the correctness of the parser. The
 tokenizer seems to have a bug. It correctly parses "1.2" as =D 1.2=
 but parses =-1.2= as =I (-1)=. I will defer this issue for now!
 
+** Module imports
 #+BEGIN_SRC haskell :tangle ParserTest.hs
 import Text.Parsec (parseTest)
 import Data.List (intercalate)
 import Text.Parsec.String
 import Parser
+#+END_SRC
 
+** Expression tests
+Testing expression parsing.
+#+BEGIN_SRC haskell :tangle ParserTest.hs
 exprTests :: [(String, Expr)]
 exprTests = [("10", I 10)
-         , ("-1", I (-1))
-         , ("- 1", I (-1))
+         , ("-1", Neg (I 1))
+         , ("- 1", Neg (I 1))
          , ("1.2", D 1.2)
-         , ("-1.2", D 1.2)
-         , ("- 1.3", D (-1.3))
+         , ("-1.2", Neg (D 1.2))
+         , ("- 1.3", Neg (D 1.3))
          , ("a", V "a")
          , ("\"a\"", S "a")
          , ("true", T)
          , ("false", F)
-         , ("1 + 2", Plus (I 1) (I 2))
-         , ("1 + -2", Plus (I 1) (I (-2)))
-         , ("1 + 2 * 3", (Plus (I 1) (Star (I 2) (I 3))))
-         , ("1 + a", Plus (I 1) (V "a"))
+         , ("1 + 2", Add (I 1) (I 2))
+         , ("1 + -2", Add (I 1) (Neg (I 2)))
+         , ("1 + 2 * 3", Add (I 1) (Mul (I 2) (I 3)))
+         , ("1 - 2", Sub (I 1) (I 2))
+         , ("1 - 2 * 3", Sub (I 1) (Mul (I 2) (I 3)))
+         , ("1 + 2 * 3 / 4", Add (I 1) (Div (Mul (I 2) (I 3)) (I 4)))
+         , ("1 + a", Add (I 1) (V "a"))
          , ("1 = a", Eq (I 1) (V "a"))
          , ("1 = 2", Eq (I 1) (I 2))
+         , ("true and true", And T T)
+         , ("true & true", And T T)
+         , ("true | true", Or T T)
+         , ("true or true", Or T T)
          , ("1 = 2 & 2 = 4", And (Eq (I 1) (I 2)) (Eq (I 2) (I 4)))
          , ("a = b & c = d", And (Eq (V "a") (V "b")) (Eq (V "c") (V "d")))
          , ("a = b | c = d", Or (Eq (V "a") (V "b")) (Eq (V "c") (V "d")))
@@ -330,7 +356,11 @@ exprTests = [("10", I 10)
          , ("foo(1, true)", Call "foo" [I 1, T])
          , ("foo(1, 2)", Call "foo" [I 1, I 2])
          ]
+#+END_SRC
 
+** Statement tests
+Testing statement parsing.
+#+BEGIN_SRC haskell :tangle ParserTest.hs
 stmtTests :: [(String, Stmt)]
 stmtTests = [ ("x := 1", Assign (V "x") (I 1))
             , ("print 1, 2", Print [I 1, I 2])
@@ -342,7 +372,21 @@ stmtTests = [ ("x := 1", Assign (V "x") (I 1))
             , ("break", Break)
             , ("continue", Continue)
             ]
+#+END_SRC
 
+** Dsl tests
+Example DSL and its expected result.
+#+BEGIN_SRC haskell :tangle ParserTest.hs
+dslTests :: [(String, [Stmt])]
+dslTests =  [ ("x := 1 y:= 2", [Assign (V "x") (I 1), Assign (V "y") (I 2)])
+            , (" x := 1 ", [Assign (V "x") (I 1)])
+            ]
+#+END_SRC
+
+** Test runner
+=testParser= accepts a list of input and expected results of parsing
+them. Inputs that don't produce the expected results are printed.
+#+BEGIN_SRC haskell :tangle ParserTest.hs
 testParser:: (Eq a, Show a) => Parser a -> [(String, a)] -> IO ()
 testParser p tests = do
   putStr (intercalate "\r\n"
@@ -356,10 +400,16 @@ testParser p tests = do
                   Left e -> "Parse error: \n" ++ show e)
                (map (\(s, e) -> (s, e, parse p s s)) tests))))
 
+#+END_SRC
+
+** Main program
+Runs all tests defined above.
+#+BEGIN_SRC haskell :tangle ParserTest.hs
 main :: IO ()
 main = do
    testParser exprP exprTests
    testParser stmtP stmtTests
+   testParser dslP dslTests
    putStr "\nDONE!\n"
 #+END_SRC
 
@@ -406,15 +456,5 @@ import Dsl
 main :: IO ()
 main = do
   print [dsl|if 123|]
-
-#+END_SRC
-
-#+BEGIN_EXAMPLE
-
-exprP = sexpr (optional (= | < | > |  != | <= | >=) sexpr)
-sexprP = (optional + | -) term (optional + | - | OR)
-termP = factor (optional * | / | AND
-factorP = unsignedConst | var | ( expr ) NOT factor |
-
 
 #+END_SRC
