@@ -11,7 +11,7 @@
 	  :href "/images/favicon.ico" :type "image/x-icon"}]
   [:link {:rel "shortcut icon",
 	  :href "/images/favicon.ico" :type "image/x-icon"}]
-  [:link {:rel "stylesheet", :type "text/css", :href "/default.css"}]
+  [:link {:rel "stylesheet", :type "text/css", :href "/site-default.css"}]
   [:link
    {:rel "alternate", :type "application/rss+xml",
     :title (:site-title (static.config/config)), :href "/rss-feed"}]
