@@ -61,7 +61,7 @@
 
      content
 
-     (if (= (:type metadata) :post)
+     (if (and (= (:type metadata) :post) (:tags metadata))
        (reduce
      	(fn[h v]
      	  (conj h [:a {:href (str "/tags/#" v)} (str v " ")]))
@@ -134,7 +134,7 @@
     [:script {:type "text/javascript"} "function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"]]]
 
   [:div#footer
-   [:p "&copy; 2013-2015"
+   [:p "&copy; 2013-2016"
     [:a {:href (:site-url (static.config/config))} " Praki Prakash"]]]
   ;;
   ;;
