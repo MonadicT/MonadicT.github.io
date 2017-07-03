@@ -78,7 +78,7 @@ functions in Lisp to address specific needs.
 #+END_SRC
 ** Parsing key-value string
 In our templating language, attributes are introduced with =@=
-character, followed by the atttribute name and its value. ===
+character, followed by the atttribute name and its value. *=*
 separates the name and value.
 
 This function tries to be robust to malformed strings.
