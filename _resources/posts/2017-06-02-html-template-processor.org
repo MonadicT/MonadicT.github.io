@@ -1,5 +1,7 @@
 #+title: Yet another template language and processor
 #+tags: template, lisp, HTML, DSL
+#+property: header-args:elisp :tangle yatl.el
+
 * Background
 Writing HTML by hand is error-prone and just not fun. On the other
 hand, a simple templating language that integrates the power of a
@@ -21,16 +23,16 @@ elements. In S-expression form, this is represented as below.
 A template defined using this form is processed by =html5= macro which
 returns a string representaion of equivalent HTML.
 
-The =html= macro treats an S-expression as the specification of an
-HTML element. We would like to be able to embed arbitrary elisp
-expressions. That would allow us to invoke org-mode functions and
-insert their result in the generated HTML.
-
 Any S-expression element starting with =lisp= is assumed to specify a
 form which should be evaluated by elisp. The only restiction is that
 it should return a string (or =nil=) that can be spliced into the generated HTML
 output. Here is an example template which invokes a Lisp expression to
 genrate the body of HTML.
+
+The =html= macro treats an S-expression as the specification of an
+HTML element. We would like to be able to embed arbitrary elisp
+expressions. That would allow us to invoke org-mode functions and
+insert their result in the generated HTML.
 
 #+BEGIN_EXAMPLE
   (html5
@@ -159,14 +161,25 @@ introdued by =?=, class name with =.= and attribute with =!=.
      ((symbolp o) (symbol-name o))))
 #+END_SRC
 ** Convert a list to HTML element
-This is the workhorse of template processor. =mk-elem= inspects each
-form in the template and processes it as follows. When the form is a
-list starting with =lisp=, rest of the form is passed to =eval=.  All
-other lists are assumed to be element specifications with the first
-element as the name, followed by attribute specifications and child
-elements. Note that, for readability, we allow attribute
-specifications separately from the element name. If the child is an
-atom, its string representation is returned.
+This is the workhorse of our template processor. =mk-elem= inspects
+each form in the template and processes it as follows.
+
+- When the form is a list starting with =lisp=, rest of the form is
+  evaluated using to =eval= and result is returned.
+- A list not starting with =lisp= is assumed to be an element
+  specifications with the first element as the name, followed by
+  attribute specifications and child elements. Element's name can
+  include shorthand notation for id, class and attribute
+  specifications. Also, an element's attributes can be specified
+  separately from the element name by prefixing it with @.
+- If the child is an atom, its string representation is returned.
+
+The following element specifications are all equivalent.
+#+BEGIN_EXAMPLE
+(div?id.cls@attr=val)
+(div @id=id!class=cls!attr=val)
+(div @id=id @class=cls @attr=val)
+#+END_EXAMPLE
 
 #+BEGIN_SRC elisp
   (defun mk-elem(o)
