@@ -171,7 +171,9 @@ each form in the template and processes it as follows.
   attribute specifications and child elements. Element's name can
   include shorthand notation for id, class and attribute
   specifications. Also, an element's attributes can be specified
-  separately from the element name by prefixing it with @.
+  separately from the element name by prefixing it with @. Child
+  elements are processed recusrsivley with =mk-elem=. The result is
+  the string form of eqvivalent HTML.
 - If the child is an atom, its string representation is returned.
 
 The following element specifications are all equivalent.
