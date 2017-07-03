@@ -1,0 +1,250 @@
+#+title: Yet another template language and processor
+#+tags: template, lisp, HTML, DSL
+* Background
+Writing HTML by hand is error-prone and just not fun. On the other
+hand, a simple templating language that integrates the power of a
+functional programming language with org-mode sounds like a fun
+weekend exercise!
+
+* Template language
+#+BEGIN_EXAMPLE
+  (elem-name?my-id.cls1.cls2@atrr1\=val1@attr2\=val2
+      (child-elem1...)
+      ...)
+#+END_EXAMPLE
+
+Our template language is based on Lisp syntax. We use S-expressions to
+represent HTML elements. An element has a name and optionally, a
+unique id, one or more class names, one or more attributes, and child
+elements. In S-expression form, this is represented as below.
+
+A template defined using this form is processed by =html5= macro which
+returns a string representaion of equivalent HTML.
+
+The =html= macro treats an S-expression as the specification of an
+HTML element. We would like to be able to embed arbitrary elisp
+expressions. That would allow us to invoke org-mode functions and
+insert their result in the generated HTML.
+
+Any S-expression element starting with =lisp= is assumed to specify a
+form which should be evaluated by elisp. The only restiction is that
+it should return a string (or |nil|) that can be spliced into the generated HTML
+output. Here is an example template which invokes a Lisp expression to
+genrate the body of HTML.
+
+#+BEGIN_EXAMPLE
+  (html5
+      (head)
+      (body
+          (div#content
+              (lisp "Hello, World!"))))
+#+END_EXAMPLE
+
+That is all there is to our template language. It requires the user to
+know the element names and attributes. But, you can write helper
+functions in Lisp to address specific needs.
+* Template processor
+** Standard header
+#+BEGIN_SRC elisp
+    ;;; yatl.el --- Yet another templating language
+
+  ;; Copyright (C) 2017 Praki Prakash
+
+  ;; Author: Praki Prakash <praki.prakash.gmail.com>
+  ;; Created: 2 July 2017
+  ;; Keywords: DSL, HTML, template
+  ;; Homepage: http://MonadicT.github.io/
+
+  ;; This file is not part of GNU Emacs.
+
+  ;; This program is free software; you can redistribute it and/or modify
+  ;; it under the terms of the GNU General Public License as published by
+  ;; the Free Software Foundation, either version 3 of the License, or
+  ;; (at your option) any later version.
+
+  ;; This program is distributed in the hope that it will be useful,
+  ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ;; GNU General Public License for more details.
+
+  ;; You should have received a copy of the GNU General Public License
+  ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+  ;;; Commentary:
+
+  ;; Put a description of the package here
+
+  ;;; Code:
+#+END_SRC
+** Parsing key-value string
+In our templating language attributes are introduced with |@|
+character, followed by the atttribute name and its value. |=|
+separates the name and value.
+
+This function tries to be robust to malformed strings.
+#+BEGIN_SRC elisp
+  (defun parse-kvp(s)
+    (let (res)
+      (mapconcat
+       (lambda (kv-str)
+         (let* ((kv (split-string kv-str "="))
+                (key (car kv))
+                (val (cadr kv))
+                (val (or val ""))
+                (val (if (string-match "^\".*\"$" val)
+                         val
+                       (format "\"%s\"" val))))
+           (concat key "=" val)))
+       (split-string s "@" t)
+       " ")))
+
+  (assert (string-equal (parse-kvp "") ""))
+  (assert (string-equal (parse-kvp "@") ""))
+  (assert (string-equal (parse-kvp "@a") "a=\"\""))
+  (assert (string-equal (parse-kvp "@a=") "a=\"\""))
+  (assert (string-equal (parse-kvp "@a=b") "a=\"b\""))
+  (assert (string-equal (parse-kvp "@a=b@c=d") "a=\"b\" c=\"d\""))
+#+END_SRC
+
+#+RESULTS:
+
+** Parse element name
+Parses element name and returns the list of element name, id, class
+and attributes. Multiple class names but id must be unique. Id is
+introdued by |?|, class name with |.| and attribute with |!|.
+
+#+BEGIN_SRC elisp
+  (defun parse-elem-name(s)
+    (let ((nm-id-cls (list '() '() '() '()))
+          attrs idx buf)
+      (setq  idx 0)
+      (mapcar
+       (lambda (c)
+         (cond
+          ((eq c ?.) (progn
+                       (setq idx 2)
+                       (push c (nth idx nm-id-cls))))
+          ((eq c ??) (progn
+                       (if (null (cadr nm-id-cls))
+                           (setq idx 1)
+                         (error "ID specified again!"))))
+          ((eq c ?@) (progn
+                       (setq idx 3)
+                       (push c (nth idx nm-id-cls))))
+          ((eq idx -1) (error "Expect one of \".,+,#'"))
+          (t (push c (nth idx nm-id-cls)))))
+       s)
+      (list (concat (reverse (car nm-id-cls)))
+            (concat (reverse (cadr nm-id-cls)))
+            (concat (reverse (caddr nm-id-cls)))
+            (parse-kvp (concat (reverse (nth 3 nm-id-cls)))))))
+
+  (assert (equal (parse-elem-name "div")
+                 '("div" "" "" "")))
+  (assert (equal (parse-elem-name "div?id")
+                 '("div" "id" "" "")))
+  (assert (equal (parse-elem-name "div?id.c1.c2")
+                 '("div" "id" ".lac1.c2" "")))
+  (assert (equal (parse-elem-name "div?id.c1.c2@foo=bar@baz=qux")
+                 '("Div" "id" ".c1.c2" "foo=\"bar\" baz=\"qux\"")))
+
+#+END_SRC
+
+** Return string representation
+#+BEGIN_SRC elisp
+  (defun as-string(o)
+    (cond
+     ((stringp o) o)
+     ((numberp o) (format "%S" o))
+     ((symbolp o) (symbol-name o))))
+#+END_SRC
+** Convert a list to HTML element
+This is the workhorse of template processor. =mk-elem= inspects each
+form in the template and processes it as follows. When the form is a
+list starting with =lisp=, rest of the form is passed to =eval=.  All
+other lists are assumed to be element specifications with the first
+element as the name, followed by attribute specifications and child
+elements. Note that, for readability, we allow attribute
+specifications separately from the element name. If the child is an
+atom, its string representation is returned.
+
+#+BEGIN_SRC elisp
+  (defun mk-elem(o)
+    (cond
+     ((and (listp o) (equal (car o) 'lisp))
+      (let ((res (eval (cadr o))))
+        res))
+     ((listp o)
+      (multiple-value-bind (nm id cls attrs) (parse-elem-name (symbol-name (car o)))
+        (let* ((attrs (seq-filter
+                       (lambda (s)
+                         (and (symbolp s)
+                              (s-starts-with? "@" (as-string s))))
+                       (cdr o)))
+               (children (seq-filter
+                          (lambda (s)
+                            (or (listp s)
+                                (not (s-starts-with? "@" (as-string s)))))
+                          (cdr o)))
+               (attrs-s (mapconcat #'parse-kvp (mapcar #'symbol-name attrs) " "))
+               (children-s (mapconcat #'mk-elem children " ")))
+          (concat
+           (format "<%s" nm)
+           (unless (string-empty-p id) (format " id=\"%s\"" id))
+           (unless (string-empty-p cls) (format " class=\"%s\"" cls))
+           (unless (string-empty-p attrs-s) (format " %s" attrs-s))
+           (if (string-empty-p children-s)
+               (format "/>\n")
+             (format ">\n%s\n</%s>\n" children-s nm))))))
+     ((symbolp o) (symbol-name o))
+     ((stringp o) o)
+     (t (format "%S" o))))
+
+  (assert (string-equal (mk-elem "a")
+                        "a"))
+
+  (assert (string-equal (mk-elem '(div))
+                        "<div/>\n"))
+
+  (assert (string-equal (mk-elem '(div?id))
+                        "<div id=\"id\"/>\n"))
+
+  (assert (string-equal (mk-elem '(div?id.c1.c2))
+                        "<div id=\"id\" class=\".c1.c2\"/>\n"))
+
+  (assert (string-equal (mk-elem '(div?id.c1 @foo=bar@fit=bit))
+                        "<div id=\"id\" class=\".c1\" foo=\"bar\" fit=\"bit\"/>\n"))
+
+  (assert (string-equal (mk-elem '(foo 1 2)) "<foo>\n1 2\n</foo>\n"))
+
+  (assert (string-equal (mk-elem '(lisp ))
+                       nil))
+
+  (assert (string-equal (mk-elem (lisp 1)) "1")
+
+  (let ((foo "BAR"))
+    (assert (string-equal (mk-elem '(lisp foo))
+                          "BAR")))
+#+END_SRC
+
+** Template processor
+Macro which applies =mk-html= and concatenates the values
+returned. This must be a macro as the S-expressions are not directly
+evaluatable.
+
+That is our first attempt at designing a template language and its
+processor. Stay tuned for future posts where I will show its use with
+org-mode.
+#+BEGIN_SRC elisp
+  (defmacro html5(&rest forms)
+    `(concat
+      "<!DOCTYPE html>\n<html>\n"
+      ,(mapconcat
+        #'mk-elem
+        forms
+        "\n")
+      "</html>"))
+
+(provide 'yatl)
+;;; yatl.el ends here
+#+END_SRC
