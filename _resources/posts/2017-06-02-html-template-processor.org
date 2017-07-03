@@ -165,7 +165,7 @@ This is the workhorse of our template processor. =mk-elem= inspects
 each form in the template and processes it as follows.
 
 - When the form is a list starting with =lisp=, rest of the form is
-  evaluated using to =eval= and result is returned.
+  evaluated using =eval= and result is returned.
 - A list not starting with =lisp= is assumed to be an element
   specifications with the first element as the name, followed by
   attribute specifications and child elements. Element's name can
