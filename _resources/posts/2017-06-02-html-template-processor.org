@@ -146,9 +146,9 @@ introdued by =?=, class name with =.= and attribute with =!=.
   (assert (equal (parse-elem-name "div?id")
                  '("div" "id" "" "")))
   (assert (equal (parse-elem-name "div?id.c1.c2")
-                 '("div" "id" ".lac1.c2" "")))
+                 '("div" "id" ".c1.c2" "")))
   (assert (equal (parse-elem-name "div?id.c1.c2@foo=bar@baz=qux")
-                 '("Div" "id" ".c1.c2" "foo=\"bar\" baz=\"qux\"")))
+                 '("div" "id" ".c1.c2" "foo=\"bar\" baz=\"qux\"")))
 
 #+END_SRC
 
@@ -235,7 +235,7 @@ The following element specifications are all equivalent.
   (assert (string-equal (mk-elem '(lisp ))
                        nil))
 
-  (assert (string-equal (mk-elem (lisp 1)) "1")
+  (assert (string-equal (mk-elem (lisp 1)) "1"))
 
   (let ((foo "BAR"))
     (assert (string-equal (mk-elem '(lisp foo))
