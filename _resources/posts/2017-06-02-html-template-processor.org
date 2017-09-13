@@ -1,6 +1,6 @@
 #+title: Yet another template language and processor
 #+tags: template, lisp, HTML, DSL
-#+property: header-args:elisp :tangle yatl.el
+#+property: header-args:elisp :tangle "~/.emacs.d/lisp/yatl.el"
 
 * Background
 Writing HTML by hand is error-prone and just not fun. On the other
@@ -232,34 +232,128 @@ The following element specifications are all equivalent.
 
   (assert (string-equal (mk-elem '(foo 1 2)) "<foo>\n1 2\n</foo>\n"))
 
-  (assert (string-equal (mk-elem '(lisp ))
-                       nil))
-
-  (assert (string-equal (mk-elem (lisp 1)) "1"))
-
-  (let ((foo "BAR"))
-    (assert (string-equal (mk-elem '(lisp foo))
-                          "BAR")))
 #+END_SRC
 
 ** Template processor
-Macro which applies =mk-html= and concatenates the values
+*** compile-fn
+This is a helper function to examine each form and turn it into a form
+that can be evaluated. What we want is the ability to mix lisp code
+with our element markup code. We want this to be as seemless as possible. Consider the following example.
+
+#+BEGIN_EXAMPLE
+(html5 (head) (body (concat "Hello, " "World!")))
+#+END_EXAMPLE
+
+=html5= will be defined as a macro later. We need to treat =head=,
+=body= as HTML elements and =concat= as a built-in function. For
+convenience, we would also want to be able to write our functions and
+macros. To meet this requirement, we need a way to work with
+unevaluated Lisp forms and modify it so that it can be evaluated to
+yield valid HTML content. A Lisp macro doesn't evaluate its arguments
+and is the perfect tool for this job. (Unfortunately, elisp has no
+support for reader macros which would have been simpler.)
+
+=compile-fn= looks for forms which might be function or macro
+invocations. It calls itself on the arguments and returns a
+potentially modified form. If the list is neither a function nor a
+macro invocation, then it is an element defintion in our notation
+which is handled by invoking =mk-elem=.
+
+The ability to mix Lisp code with our element description works, we
+need the ability to override the automatic recognition of function
+application. Consider the need to describe a 'div' element. =div= also
+happens to be Lisp function. When we want to use =div= as element, we
+override its meaning by writing it as ='div=.
+
+#+BEGIN_SRC elisp
+  (defun compile-fn (form)
+    (cond
+     ((symbolp form) form)
+     ((numberp form) form)
+     ((stringp form) form)
+     ((and (listp form) (listp (car form)) (eq (caar form) 'quote))
+      (mk-elem `(,(cadar form) ,@(mapcar #'compile-fn (cdr form)))))
+     ((and (listp form) (special-form-p (car form)))
+      `(,(car form) ,@(mapcar #'compile-fn (cdr form))))
+     ((and (listp form) (macrop (car form)))
+      (eval `(,(car form) ,@(mapcar #'compile-fn (cdr form)))))
+     ((and (listp form) (fboundp (car form)))
+      (eval `(,(car form) ,@(mapcar #'compile-fn (cdr form)))))
+     ((listp form)
+      (mk-elem `(,(car form) ,@(mapcar #'compile-fn (cdr form)))))
+     (t (throw 'Unhandled form))))
+#+END_SRC
+
+*** Compile macro
+Macro which applies =compile-fn= and concatenates the values
 returned. This must be a macro as the S-expressions are not directly
 evaluatable.
 
-That is our first attempt at designing a template language and its
-processor. Stay tuned for future posts where I will show its use with
-org-mode.
+That is our +first+ second attempt at designing this template language
+and its processor. Stay tuned for future posts where I will show its
+use with org-mode.
+
+#+BEGIN_SRC
+  (defmacro compile(&rest forms)
+    `(list
+      ,@(mapcar
+         #'compile-fn
+         forms
+         )))
+
+  (assert (equal (compile 1) '(1)))
+  (assert (equal (compile (+ 1 2)) '(3)))
+  (assert (equal (compile (span "foo")) '("<span>\nfoo\n</span>\n")))
+  (assert (equal (compile (span)) '("<span/>\n")))
+  (assert (equal (compile (if t (span))) '("<span/>\n")))
+  (assert (equal (compile ('div (span))) '("<div>\n<span/>\n\n</div>\n")))
+#+END_SRC
+
+*** html5 macro
+Macro which wraps the compiled forms in HTML5 boilerplate.
+
 #+BEGIN_SRC elisp
   (defmacro html5(&rest forms)
     `(concat
       "<!DOCTYPE html>\n<html>\n"
-      ,(mapconcat
-        #'mk-elem
-        forms
-        "\n")
+      (mapconcat (lambda (x) (format "%s" x)) (compile ,@forms) "")
       "</html>"))
+#+END_SRC
 
-(provide 'yatl)
-;;; yatl.el ends here
+*** Compile macro tests
+We make sure our =html5= works as expected when we mix our notation
+with Lisp function and macros. Let's define a few test fixtures.
+
+#+BEGIN_SRC elisp
+  (defmacro test-macro (&rest forms)
+    `(concat
+      "<div style=\"{display:flex}\">"
+      ,@forms
+      "</div>"))
+
+  (defun test-function (&rest forms)
+    (apply #'concat forms))
+
+  (assert (equal (html5) "<!DOCTYPE html>\n<html>\n</html>"))
+
+  (assert (equal (html5 (head) (body)) "<!DOCTYPE html>\n<html>\n<head/>\n<body/>\n</html>"))
+
+  (assert
+   (equal
+    (html5 (body (test-function "foo" "bar")))
+    "<!DOCTYPE html>\n<html>\n<body>\nfoobar\n</body>\n</html>"))
+
+  (assert
+   (equal (html5 (body (test-macro (test-macro))))
+          "<!DOCTYPE html>\n<html>\n<body>\n<div style=\"{display:flex}\"><div style=\"{display:flex}\"></div></div>\n</body>\n</html>"))
+  (assert (equal (html5 (head)) "<!DOCTYPE html>\n<html>\n<head/>\n\n</html>"))
+  (assert (equal (html5 (head (style))) "<!DOCTYPE html>\n<html>\n<head>\n<style/>\n\n</head>\n\n</html>"))
+#+END_SRC
+
+*** Provide our module
+Make this package requirable.
+
+#+BEGIN_SRC elisp
+  (provide 'yatl)
+  ;;; yatl.el ends here
 #+END_SRC
