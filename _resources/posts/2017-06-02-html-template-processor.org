@@ -2,44 +2,52 @@
 #+tags: template, lisp, HTML, DSL
 #+property: header-args:elisp :tangle "~/.emacs.d/lisp/yatl.el"
 
-* Background
+* Motivation
 Writing HTML by hand is error-prone and just not fun. On the other
 hand, a simple templating language that integrates the power of a
 functional programming language with org-mode sounds like a fun
 weekend exercise!
 
 * Template language
+Our template language is based on S-Expressions (Lisp syntax). We use
+S-expressions to represent HTML elements. An element has a name and
+optionally, a unique id, one or more class names, one or more
+attributes, and child elements. In S-expression form, this is
+represented as below.
+
 #+BEGIN_EXAMPLE
   (elem-name?my-id.cls1.cls2@atrr1\=val1@attr2\=val2
       (child-elem1...)
       ...)
 #+END_EXAMPLE
 
-Our template language is based on Lisp syntax. We use S-expressions to
-represent HTML elements. An element has a name and optionally, a
-unique id, one or more class names, one or more attributes, and child
-elements. In S-expression form, this is represented as below.
-
-A template defined using this form is processed by =html5= macro which
+A template defined using this form is passed to =html5= macro which
 returns a string representaion of equivalent HTML.
 
-Any S-expression element starting with =lisp= is assumed to specify a
-form which should be evaluated by elisp. The only restiction is that
-it should return a string (or =nil=) that can be spliced into the generated HTML
-output. Here is an example template which invokes a Lisp expression to
-genrate the body of HTML.
+Our template language allows mixing standard Lisp code with
+templates. For most part, this mixing is achieved without any explicit
+notation. A form which looks like a function or macro invocation is
+evaluated as such. A list whose first element is neither a function
+nor a macro is treated as an element markup. When the name of an
+element clashes with a built-in or macro name, the normal processing
+can be overridden by quoting it. For example, =(div x y)= is
+interpreted as a Lisp expression, whereas, =('div (span))= is treated
+as an element. Also, =(div?id)= is also treated as an element
+definition due to the the appended attributes.
 
-The =html= macro treats an S-expression as the specification of an
-HTML element. We would like to be able to embed arbitrary elisp
-expressions. That would allow us to invoke org-mode functions and
-insert their result in the generated HTML.
+Note that, we don't define any specific function or macros for various
+elements. We could certainly do that if there was some reason to
+eliminate duplication or error handling. This approach makes
+our template language infinitely extensible.
+
+The template below generates a well-formed HTML document.
 
 #+BEGIN_EXAMPLE
   (html5
       (head)
       (body
           (div#content
-              (lisp "Hello, World!"))))
+              (concat "Hello, " World!"))))
 #+END_EXAMPLE
 
 That is all there is to our template language. It requires the user to
@@ -113,7 +121,9 @@ This function tries to be robust to malformed strings.
 ** Parse element name
 Parses element name and returns the list of element name, id, class
 and attributes. Multiple class names but id must be unique. Id is
-introdued by =?=, class name with =.= and attribute with =!=.
+introdued by =?=, class name with =.= and attribute with =@=. The
+notaion =?= is chosen as a prompt for identity (who am i?) and @ for
+attribute.
 
 #+BEGIN_SRC elisp
   (defun parse-elem-name(s)
@@ -164,9 +174,7 @@ introdued by =?=, class name with =.= and attribute with =!=.
 This is the workhorse of our template processor. =mk-elem= inspects
 each form in the template and processes it as follows.
 
-- When the form is a list starting with =lisp=, rest of the form is
-  evaluated using =eval= and result is returned.
-- A list not starting with =lisp= is assumed to be an element
+- If a list passed to =mk-elem= is assumed to be an element
   specifications with the first element as the name, followed by
   attribute specifications and child elements. Element's name can
   include shorthand notation for id, class and attribute
@@ -186,9 +194,6 @@ The following element specifications are all equivalent.
 #+BEGIN_SRC elisp
   (defun mk-elem(o)
     (cond
-     ((and (listp o) (equal (car o) 'lisp))
-      (let ((res (eval (cadr o))))
-        res))
      ((listp o)
       (multiple-value-bind (nm id cls attrs) (parse-elem-name (symbol-name (car o)))
         (let* ((attrs (seq-filter
@@ -235,10 +240,16 @@ The following element specifications are all equivalent.
 #+END_SRC
 
 ** Template processor
+This is the implementation section of the template processor. This
+file can be processed using org-babel-tangle to produce a
+=~/.emacs.d/yatl.el= file. The package is named =yatl= for "Yet
+Another Template Language" and =(require 'yatl)= to access it.
+
 *** compile-fn
 This is a helper function to examine each form and turn it into a form
-that can be evaluated. What we want is the ability to mix lisp code
-with our element markup code. We want this to be as seemless as possible. Consider the following example.
+that can be passed to =mk-elem=. What we want is the ability to mix
+lisp code with our element markup code. We want this to be as seemless
+as possible. Consider the following example.
 
 #+BEGIN_EXAMPLE
 (html5 (head) (body (concat "Hello, " "World!")))
@@ -246,12 +257,13 @@ with our element markup code. We want this to be as seemless as possible. Consid
 
 =html5= will be defined as a macro later. We need to treat =head=,
 =body= as HTML elements and =concat= as a built-in function. For
-convenience, we would also want to be able to write our functions and
-macros. To meet this requirement, we need a way to work with
-unevaluated Lisp forms and modify it so that it can be evaluated to
-yield valid HTML content. A Lisp macro doesn't evaluate its arguments
-and is the perfect tool for this job. (Unfortunately, elisp has no
-support for reader macros which would have been simpler.)
+convenience, we would also want to be able to write our own functions
+and macros, if we so desire. To meet this requirement, we need a way
+to work with unevaluated Lisp forms and modify it so that it can be
+evaluated to yield valid HTML content. A Lisp macro doesn't evaluate
+its arguments and is the perfect tool for this job. (Unfortunately,
+elisp has no support for reader macros which would made this task
+simpler.)
 
 =compile-fn= looks for forms which might be function or macro
 invocations. It calls itself on the arguments and returns a
@@ -285,9 +297,9 @@ override its meaning by writing it as ='div=.
 #+END_SRC
 
 *** Compile macro
-Macro which applies =compile-fn= and concatenates the values
-returned. This must be a macro as the S-expressions are not directly
-evaluatable.
+Macro which applies =compile-fn= to its arguments and concatenates the
+values returned. This must be a macro as the S-expressions are not
+directly evaluatable.
 
 That is our +first+ second attempt at designing this template language
 and its processor. Stay tuned for future posts where I will show its
@@ -298,8 +310,7 @@ use with org-mode.
     `(list
       ,@(mapcar
          #'compile-fn
-         forms
-         )))
+         forms)))
 
   (assert (equal (compile 1) '(1)))
   (assert (equal (compile (+ 1 2)) '(3)))
@@ -334,9 +345,15 @@ with Lisp function and macros. Let's define a few test fixtures.
   (defun test-function (&rest forms)
     (apply #'concat forms))
 
-  (assert (equal (html5) "<!DOCTYPE html>\n<html>\n</html>"))
+  (assert
+   (equal
+    (html5)
+    "<!DOCTYPE html>\n<html>\n</html>"))
 
-  (assert (equal (html5 (head) (body)) "<!DOCTYPE html>\n<html>\n<head/>\n<body/>\n</html>"))
+  (assert
+   (equal
+    (html5 (head) (body))
+    "<!DOCTYPE html>\n<html>\n<head/>\n<body/>\n</html>"))
 
   (assert
    (equal
@@ -344,10 +361,19 @@ with Lisp function and macros. Let's define a few test fixtures.
     "<!DOCTYPE html>\n<html>\n<body>\nfoobar\n</body>\n</html>"))
 
   (assert
-   (equal (html5 (body (test-macro (test-macro))))
-          "<!DOCTYPE html>\n<html>\n<body>\n<div style=\"{display:flex}\"><div style=\"{display:flex}\"></div></div>\n</body>\n</html>"))
-  (assert (equal (html5 (head)) "<!DOCTYPE html>\n<html>\n<head/>\n\n</html>"))
-  (assert (equal (html5 (head (style))) "<!DOCTYPE html>\n<html>\n<head>\n<style/>\n\n</head>\n\n</html>"))
+   (equal
+    (html5 (body (test-macro (test-macro))))
+    "<!DOCTYPE html>\n<html>\n<body>\n<div style=\"{display:flex}\"><div style=\"{display:flex}\"></div></div>\n</body>\n</html>"))
+
+  (assert
+   (equal
+    (html5 (head))
+    "<!DOCTYPE html>\n<html>\n<head/>\n\n</html>"))
+
+  (assert
+   (equal
+    (html5 (head (style)))
+    "<!DOCTYPE html>\n<html>\n<head>\n<style/>\n\n</head>\n\n</html>"))
 #+END_SRC
 
 *** Provide our module
