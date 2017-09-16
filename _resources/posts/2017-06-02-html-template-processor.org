@@ -305,7 +305,7 @@ That is our +first+ second attempt at designing this template language
 and its processor. Stay tuned for future posts where I will show its
 use with org-mode.
 
-#+BEGIN_SRC
+#+BEGIN_SRC elisp
   (defmacro compile(&rest forms)
     `(list
       ,@(mapcar
@@ -368,12 +368,12 @@ with Lisp function and macros. Let's define a few test fixtures.
   (assert
    (equal
     (html5 (head))
-    "<!DOCTYPE html>\n<html>\n<head/>\n\n</html>"))
+    "<!DOCTYPE html>\n<html>\n<head/>\n</html>"))
 
   (assert
    (equal
     (html5 (head (style)))
-    "<!DOCTYPE html>\n<html>\n<head>\n<style/>\n\n</head>\n\n</html>"))
+    "<!DOCTYPE html>\n<html>\n<head>\n<style/>\n\n</head>\n</html>"))
 #+END_SRC
 
 *** Provide our module
