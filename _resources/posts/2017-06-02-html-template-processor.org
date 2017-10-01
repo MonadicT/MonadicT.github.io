@@ -329,7 +329,7 @@ and its processor. Stay tuned for future posts where I will show its
 use with org-mode.
 
 #+BEGIN_SRC elisp
-  (yatl-compile(&rest forms)
+  (defmacro yatl-compile(&rest forms)
     `(list
       ,@(mapcar
          #'yatl-compile-fn
