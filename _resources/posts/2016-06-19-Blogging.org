@@ -1,5 +1,6 @@
 #+title: Blogging with emacs and org-mode
 #+tags: emacs, Jekyll, Static
+#+publish-date: 2016-06-19
 #+options: toc:nil num:nil tex:t LaTeX:t
 #+latex_header_extra: \usepackage{showexpl, url, tikz, xcolor}
 

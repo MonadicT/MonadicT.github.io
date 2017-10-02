@@ -1,5 +1,6 @@
 #+Title: Writing a parser using Parsec
 #+tags: Haskell, Parsec, DSL
+#+publish-date: 2016-11-27
 #+options: toc:nil num:nil tex:t LaTeX:t
 #+latex_header_extra: \usepackage{showexpl, url, tikz, xcolor}
 

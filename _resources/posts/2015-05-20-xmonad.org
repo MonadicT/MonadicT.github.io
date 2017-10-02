@@ -1,5 +1,6 @@
 #+TITLE: Configuring xmonad
 #+tags: tip, X, xmonad
+#+publish-date: 2015-05-20
 #+options: toc:nil num:nil tex:t
 
 #+LATEX_HEADER: \usepackage{tikz,showexpl}
