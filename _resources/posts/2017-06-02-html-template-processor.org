@@ -282,41 +282,49 @@ happens to be Lisp function. When we want to use =div= as element, we
 override its meaning by writing it as ='div=.
 
 #+BEGIN_SRC elisp
-      (defun yatl-compile-fn (form)
-        (cond
-         ((symbolp form) form)
-         ((numberp form) form)
-         ((stringp form) form)
-         ((and (listp form) (listp (car form)) (eq (caar form) 'quote))
-          (yatl-mk-elem `(,(cadar form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
-         ((and (listp form) (eq (car form) 'lambda))
-          (let* ((args-list (cadr form))
-                 (forms (cddr form))
-                 (new-forms (mapcar #'yatl-compile-fn forms)))
+  (defun yatl-compile-fn (form)
+    (cond
+     ((symbolp form) form)
+     ((numberp form) form)
+     ((stringp form) form)
+     ((listp form)
+      (cond
+       ;; quoted form
+       ((and (car form) (listp (car form)) (eq (caar form) 'quote))
+        (yatl-mk-elem `(,(cadar form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
+       ;; lambda form
+       ((and (eq (car form) 'lambda))
+        (let* ((args-list (cadr form))
+               (forms (cddr form))
+               (new-forms (mapcar #'yatl-compile-fn forms)))
           `(lambda ,args-list ,@new-forms)))
-         ((and (listp form) (special-form-p (car form)))
-          ;; cond, let,let*, require special handling
-          (cond
-           ((eq (car form) 'let)
-            (let* ((bindings (cadr form))
-                   (forms (cddr form))
-                   (new-bindings (mapcar
-                                  (lambda (binding)
-                                    (if (listp binding)
-                                        `(,(car binding) ,(yatl-compile-fn (cadr binding)))
-                                      binding))
-                                  bindings))
-                   (new-forms (mapcar #'yatl-compile-fn forms)))
-              `(let ,new-bindings ,@new-forms)))
-           (t `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))))
-         ((and (listp form) (macrop (car form)))
-          (eval `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
-         ((and (listp form) (fboundp (car form)))
-          `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))
-         ((listp form)
-          `(yatl-mk-elem (list ',(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
-         (t (throw 'Unhandled form))))
-
+       ;; special form
+       ((and (special-form-p (car form)))
+        ;; cond, let,let*, require special handling
+        (cond
+         ((eq (car form) 'let)
+          (let* ((bindings (cadr form))
+                 (forms (cddr form))
+                 (new-bindings (mapcar
+                                (lambda (binding)
+                                  (if (listp binding)
+                                      `(,(car binding) ,(yatl-compile-fn (cadr binding)))
+                                    binding))
+                                bindings))
+                 (new-forms (mapcar #'yatl-compile-fn forms)))
+            `(let ,new-bindings ,@new-forms)))
+         (t `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))))
+       ;; macro defn
+       ((and (macrop (car form)))
+        (eval `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
+       ;; function
+       ((and (symbolp (car form)) (fboundp (car form)))
+        `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))
+       ;; List of lists. Don't process?
+       ((not (symbolp (car form)))
+        form)
+       (t `(yatl-mk-elem (list ',(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))))
+     (t (throw 'Unhandled form))))
 #+END_SRC
 
 *** Yatl-Compile macro
@@ -402,6 +410,11 @@ with Lisp function and macros. Let's define a few test fixtures.
    (equal
     (yatl-html5 (head (style)))
     "<!DOCTYPE html>\n<html>\n<head>\n<style/>\n\n</head>\n</html>"))
+
+  (assert
+   (equal
+    (yatl-html5 (let ((l '((a . 1) (b . 2)))) "foo"))
+    "<!DOCTYPE html>\n<html>\nfoo\n</html>"))
 #+END_SRC
 
 *** Provide our module
