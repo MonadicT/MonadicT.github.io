@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8>"/>
+ <title>
+MonadicT
+</title>
+ <base href="https://MonadicT.github.io/"/>
+ <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
+ of 2017-12-09>"/>
+ <meta name="author" content="Praki Prakash"/>
+ <link href="blog-style.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div id="blog-header" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle" id="xblog-header"><h1><div id="blog-title">MonadicT</div></h1><div>Search <form action="http://www.google.com/search" id="searchform"
+method="get"><div><input class="box" id="s" name="q" type="text" />
+<input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
+</div></form></div></div><div class="blog-margin-right"></div></div>
+<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
+<img height="48px" width="48px"
+   title="Visit my Twitter page"
+   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  href="https://github.com/MonadicT"><img id="github-logo"
+  height="48" width="48" src="/images/github.png"/></a></div></div><div class="blog-margin-right"></div></div> <div id="blog-content">
+<div id="blog-content-left">
+
+</div>
+ <div id="blog-content-middle">
+<p>
+I do most of my work in <code>emacs</code> and blogging is no
+exception. But, everytime I start a blog post, I go through a small
+learning curve around the tools I use. I am going to put an end to it,
+once and for all :)
+</p>
+
+<div id="outline-container-org1944abf" class="outline-2">
+<h2 id="org1944abf">Emacs setup</h2>
+<div class="outline-text-2" id="text-org1944abf">
+<p>
+Obviously, you need <code>org-mode</code>. Version <code>8.*</code> is preferred and there
+are many breaking changes from its previous versions. If you are using
+a recent vintage <code>emacs</code>, <code>org-mode</code> is already bundled. Unless you
+are running into a bug involving advanced usage, there should be no
+need to upgrade <code>org-mode</code>. But, I do recommend cloning repo
+<code>org-mode</code> and installing it from the source. It's really fun to
+experience how smooth building it is compared to some of our internal
+software!
+</p>
+
+<p>
+We need to tell <code>org-mode</code> what source languages to process for export
+and whether it should prompt before processing a source block written
+in some language. We do that by customizing <code>org-babel-load-langauges</code>
+variable. We redefine <code>org-confirm-babel-evaluate</code> to skip asking for
+confirmation for the languages.
+</p>
+
+<p>
+We also set <code>org-src-fontify-natively</code> so that the source blocks are
+fontified as well.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-emacs-lisp">;; Load org export extensions
+(require 'ox-latex)
+
+;; org-mode should process these languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (python . t)
+   (clojure . t)
+   (latex . t)))
+
+;; We don't want the "confirm evaluation" prompt for these languages
+(defun my-org-confirm-babel-evaluate (lang body)
+  (not (or (string= lang "python")
+           (string= lang "emacs-lisp")
+           (string= lang "dot")
+           (string= lang "latex"))))
+(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+(setq org-src-fontify-natively t)
+
+</code></pre>
+</div>
+</div>
+
+<div id="outline-container-orgee5b2d0" class="outline-3">
+<h3 id="orgee5b2d0">Source blocks</h3>
+<div class="outline-text-3" id="text-orgee5b2d0">
+<p>
+Source code blocks are delimited by <code>#+BEGIN_SRC lang</code> and
+<code>#+END_SRC</code>. <code>emacs</code> evaluates the source block and uses the result in
+export. Source block parameters, <code>:results</code> and <code>:exports</code> are
+particularly useful in this context.
+</p>
+
+<p>
+<code>:results</code> can have the following options specified.
+</p>
+
+<p>
+collection is either <code>value</code> or <code>output</code>. The first option instructs
+  <code>org-mode</code> to capture the return value of evaluation and use it in
+  exporting. The second option causes any output written to <code>STDOUT</code>
+  to be used as the value of the source block.
+</p>
+
+<p>
+type is one of <code>table, vector</code>, <code>list</code>, <code>scalar</code>, <code>verbatim</code> or
+  <code>file</code>.  By default, result is handled as a <code>table</code> or <code>scalar</code>
+  depending on the value. Results of type <code>scalar</code> or <code>verbatim</code> are
+  not converted to tables. A result type of <code>file</code> points to the file
+  where the result is stored and causes a file link to be inserted.
+</p>
+
+<p>
+format is one of:
+</p>
+<ul class="org-ul">
+<li><code>raw</code> results are inserted directly into the buffer</li>
+<li><code>org</code> results are enclosed in a <code>#+BEGIN_SRC org</code> block</li>
+<li><code>html</code> results are assumed to be <code>HTML</code> and enclosed in a <code>#+BEGIN_SRC html</code> block</li>
+<li><code>latex</code> results assumed to be LaTeX and are enclosed in a BEGIN<sub>LaTeX</sub> block</li>
+<li><code>code</code> result are assumed to be parsable code and are enclosed in a code block</li>
+<li><code>pp</code> result is converted to pretty-printed code and is enclosed in a code block.</li>
+<li><code>drawer</code> result is wrapped in a RESULTS drawer</li>
+</ul>
+
+<p>
+handling is one of
+</p>
+<ul class="org-ul">
+<li><code>silent</code> results are not inserted into the buffer</li>
+<li><code>replace</code> any existing value is replaced with value</li>
+<li><code>append</code> result is appended to existing</li>
+<li><code>prepend</code> reslult is prepended to existing</li>
+</ul>
+
+<p>
+<code>:exports</code> can have one of the following values.
+</p>
+<ul class="org-ul">
+<li><code>code</code> body of source block is inserted into the buffer</li>
+<li><code>results</code> result of source block evaluation is inserted into the buffer</li>
+<li><code>both</code> code and results are inserted into the buffer</li>
+<li><code>none</code> neither code nor results are inserted into the buffer</li>
+</ul>
+
+<p>
+Here is a Python source code block which exports code and results.
+</p>
+
+<pre class="example">
+#+BEGIN_SRC python :results value :exports both
+# A simple Python source block
+return 42
+#+END_SRC
+</pre>
+
+<div class="org-src-container">
+<pre><code class="src src-python"># A simple Python source block
+return 42
+</code></pre>
+</div>
+
+<pre class="example">
+42
+
+</pre>
+
+<p>
+Here is another Python source block whose output is captured and only the results is exported.
+</p>
+
+<pre class="example">
+#+BEGIN_SRC python :results output :exports results
+print "Hello, world!"
+return 42
+#+END_SRC
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfce5af5" class="outline-2">
+<h2 id="orgfce5af5">Blog post</h2>
+<div class="outline-text-2" id="text-orgfce5af5">
+</div>
+<div id="outline-container-org9c45b47" class="outline-3">
+<h3 id="org9c45b47">Header</h3>
+<div class="outline-text-3" id="text-org9c45b47">
+<p>
+A blog post begins with the following.
+</p>
+<pre class="example">
+#+TITLE: Blogging with org-mode
+#+tags: emacs org-mode blogging
+#+options: toc:nil num:nil tex:t LaTeX:t
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org415c3e9" class="outline-3">
+<h3 id="org415c3e9">Including a \LaTeX generated figure</h3>
+<div class="outline-text-3" id="text-org415c3e9">
+<p>
+Here is a \LaTeX{} block to generate an image in the exported
+document. By default, the result type is <b>latex</b> and the output is
+wrapped in <code>#:BEGIN_LaTeX...#:END_LaTeX</code> block. Note that there are
+no temporary graphics files generated at all.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-latex">\let\earth\relax
+\input{eltex1}
+\begin{figure}
+\begin{center}
+\begin{picture}(40,60)(0,0)
+\grid{10}{8}
+\end{picture}
+\end{center}
+\end{figure}
+</code></pre>
+</div>
+
+<p>
+For latex source code blocks, default value of <code>:results</code> is <code>output</code>
+and <code>:exports</code> is <code>results</code>.
+</p>
+
+<p>
+In contrast, the following block creates
+a graphic file as specified by <code>:file</code> argument. <code>:results</code> is
+specified as <code>output file raw</code> which causes the output to be
+interpreted as a file link. Note the use of <code>raw</code> without which the
+file link will be wrapped into a latex block.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org69a5f82" class="outline-3">
+<h3 id="org69a5f82">Including a graphviz diagram</h3>
+<div class="outline-text-3" id="text-org69a5f82">
+<p>
+We need to have <i>graphviz</i> installed on the system. <i>emacs</i> should be
+able to find <code>dot</code> command. As usual, Windows is a pain but <i>I have
+become comfortably numb</i> :)
+</p>
+
+<p>
+You might need to locate and copy <code>ob-dot.el</code> to a location where
+<code>emacs</code> will find it.
+</p>
+
+<div class="figure">
+<p><img src="dotfig.png" alt="dotfig.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3376eb1" class="outline-2">
+<h2 id="org3376eb1">Publishing</h2>
+<div class="outline-text-2" id="text-org3376eb1">
+<p>
+My blogging host is at <a href="https://mondiact.github.io">https://mondiact.github.io</a>. My Github user id is
+<i>MonadicT</i> and the repo named
+<code>https://github.com/MonadicT/MonadicT.github.io</code> is the source of
+posts. Github runs a restricted version of <a href="https://jekyllrb.com">Jekyll</a> on
+this repo and generates a static website which is published on
+<i>github.io</i>. Unfortunately, the restricted version doesn't let us do
+tags and a blog post without tags is not all that useful.
+</p>
+
+<p>
+The workaround is to do all the processing locally and generate the
+static website and push it to github. And, we tell github to not run
+Jekyll on our repo. The presence of <code>.nojekyll</code> in the root directory
+tells github to run Jekyll.
+</p>
+
+<p>
+All we need is a way to generate the posts locally and make it
+available. While it can be done with Jekyll running on our system, I
+chose to use a tool called <a href="http://nakkaya.com/static.html">Static</a> implemented in Clojure. The
+following bash command starts static and rebuilds the site when posts
+change.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-bash">java -jar ../static/target/static-app.jar --watch
+
+</code></pre>
+</div>
+
+
+<p>
+When the post is complete, we need to commit all the files to git and push it to Github.
+</p>
+<div class="org-src-container">
+<pre><code class="src src-bash">git status
+git add &lt;new posts&gt;
+git commit -am "Commit message"
+git push
+</code></pre>
+</div>
+
+<p>
+Just like that, the new post appears on Github in all its glory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0a7156f" class="outline-2">
+<h2 id="org0a7156f">Troubleshooting</h2>
+<div class="outline-text-2" id="text-org0a7156f">
+<p>
+There are many moving parts in <code>org-mode</code> and when things go wrong,
+debugging is taxing. Google is our friend and one particularly nasty
+bug I hit was the messed up state of <code>org-mode</code>. This magical sequence,
+<code>C-U M-x org-reload</code>, fixed my issue with "wrong type argument" error.
+</p>
+</div>
+</div>
+
+</div>
+ <div id="blog-content-right"/>
+
+</div>
+ <div class=" blog-footer">
+Copyright &copy; 2014-2018, Praki Prakash
+</div>
+
+</body>
+</html>
