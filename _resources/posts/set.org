@@ -1,0 +1,425 @@
+#+TITLE: Single ended tubeamplifier
+#+AUTHOR: Praki Prakash
+#+latex_header_extra: \usepackage{tikz,circuitikz}
+
+* Theory
+- C_i -- input coupling capacitor. Isolates grid circuit from dc
+  voltage. Controls the frequency response of stage.
+- R_g -- grid resistor. Provides a reference voltage
+  (ground). Usuually a high value (1MOhm). Controls the frequency
+  response of stage.
+- R_k -- cathode resistor which develops cathode bias
+  voltage. Controls the headroom and linearity of the stage. If this
+  resistor is unbypassed, also controls the gain.
+- C_k -- cathode bypass capacitor which bypasses the cathode resistor
+  to ground for AC signals. Without this, there is will be negative
+  feedback. C_k must be large enough compared to R_k to avoid
+  affecting the frequency response (gain is boosted at higher
+  frequencies than lower frequencies).
+- R_p -- plate load resistor. Output voltage is developed by the plate
+  current flowing through it. This resistor controls the gain and
+  the output impedance of the stage.
+- C_o -- output coupling capacitor. Isolates DC plate DC voltage from
+  the next output stage. Controls the frequency of the stage along
+  with input resistance of the the next stage.
+- R_l -- load resistor (also the grid resistor of the next
+  stage). Controls the midband gain of the stage. If it is made 10X
+  larger than R_p, it can be ignored in calculations.
+
+Biasing:
+- Choose R_p to be 2X internal plate resistance.
+- Draw a load line representing plate resistor.
+- Find bias point, the intersection of the grid bias voltage curve and
+  the plate current axis at the plate voltage point that gives
+  the desired range of plate voltage swing as the grid voltage varies
+  from cutoff to saturation.
+- V_g = grid bias voltage at the bias point
+- I_p  = plate current at the bias point
+- Cathode resistor value: Rk = V_g/I_p
+
+Gain:
+- Total resistance, R_a = R_p || R_l
+- A_V = (\mu * R_a)/(R_a + ra)
+
+Voltage gain in dBv:
+- dB = 20 * log(V1/V2)
+
+Input impedance:
+- For low frequencies, approximately equal to R_g. At higher
+  frequencies, impedance drops due to Miller's capacitance.
+
+Frequency response:
+- Low frequency response controlled by C_i and R_g (high-pass band
+  filter). lower -3dB frequency, f = 1/(2*pi*R_g*C_i).
+- High frequency response controlled by input capacitance of the stage
+  and output resistance of the stage driving this.
+
+Output impedance:
+- R = ra || R_p
+
+(see http://www.aikenamps.com/index.php/designing-common-cathode-triode-amplifiers)
+
+* Tube data
+** 6N2P, 6N2P-EV (6H2n, 6H2n-EB)
+http://tone-lizard.com/wp-content/uploads/2015/08/6n2p-6%D0%9D2%D0%9F.pdf?048df8
+
+*General*
+Twin triode, used as an low frequency power amplifier.
+
+*General characteristics*
+
+V_F=6.3V, V_A=250V, V_G= - 1.5V):
+
+| Type                                  | 6N2P      | 6N2PEV    | 12AX7 |
+| Filament (heater) current, mA         | 340±35    | 340±35    |   300 |
+| Anode current, mA                     | 1.8±0,5   | 2.3±0.9   |     1 |
+| Reverse grid current, mkA             | £0.5      | £0,1      |       |
+| Dissipate cathode-heater current, mkA | --        | £15       |       |
+| Mutual conductance, mA/V              | 2,25±0.45 | 2.1±0.45  |       |
+| Gain coefficient                      | 97.5±17.5 | 100±15    |       |
+| Inter electrode capacitance, pF       | 2.25±0.45 | 2.35±0.35 |       |
+
+*Limited operating values*
+| Type                              |    6N2P |  6N2PEV | 12AX7 |
+| Filament voltage, V               | 5.7-6.9 | 5.7-6.6 |       |
+| Anode voltage, V                  |     300 |     300 |   300 |
+| Cathode - heater voltage, V       |     100 |     100 |   180 |
+| Cathode current, mA               |      10 |      10 |     8 |
+| Anode dissipation (each triode) W |       1 |     0.8 |     1 |
+| Resistance in grid circuit, MOhm  |     0.5 |       1 |     1 |
+
+
+*Socket type*
+9-pin
+
+Tubedepot (Belton - $2.75)
+
+A_{v} = µ * R_{tot} / ( rP + R_{tot} + ( RK * ( µ + 1 )))
+
+** 6P3S, 6P3S-E (6n3C, 6n3C-E)
+*General*
+Beam tetrode, used in output stages of low frequency amplifiers.
+
+*General characteristics*
+| Type                   | 6P3S | 6P3S-E |
+| Filament voltage, Volt |  6.3 |    6.3 |
+| Anode voltage, Volt    |  250 |    250 |
+| 1st grid voltage, Volt |  -14 |    -14 |
+| 2nd grid voltage, Volt |  250 |    250 |
+
+| Type                             | 6P3S       | 6P3S-E          |
+| Filament (heater) current, mA    | 900±90     | 880±40          |
+| Anode current, mA                | 72±18      | 73±13           |
+| 2nd grid current, mA             | <= 9       | <= 6            |
+| 1st grid reverse current, mkA    | £ 3        | £ 0.5           |
+| Cathode current, mA no less than | 275        | -               |
+| Output power, W                  | > 5.4      | > 5.8           |
+| Mutual conductance, mA/V         | 5.2 to 6.8 | 5.2 to 6.8      |
+| Internal resistance, kΩ          | 25         | no more than 65 |
+
+From another source
+|  Vf |  Af |  Va |  Vs |  Vg | mAa | mAs | ra     | gm | Pout | Pdiss |
+| 6.3 | 0.9 | 350 | 250 | -14 |  72 |   5 | 22,500 |  6 |  6.5 |    19 |
+
+*Limited operating values*
+| Type                               |  6P3S |    6P3S-E |
+| Filament voltage, V                | 5.7-7 |     6-6.6 |
+| Anode voltage, V                   |   375 |       250 |
+| 2nd grid voltage, V                |   300 |       250 |
+| Cathode - heater voltage, V        |   100 | 90 / -200 |
+| Cathode current, mA                |     - |        90 |
+| Anode dissipation, W               |    20 |      20.5 |
+| 2nd grid dissipation, W            |  2.75 |         2 |
+| Resistance in 1st grid circuit, kΩ |   500 |       150 |
+
+
+*Socket type*
+RSH5-1 8-pin socket
+
+Tubedepot ($1.95)
+
+Pin layout
+| 1 | 2 | 3 |  4 |  5 | 6 | 7 |    8 | base  |
+| m | f | a | g2 | g1 | - | f | k,g3 | octal |
+
+a - anode
+f - heater
+g1 - screen
+g2 - grid
+g3 - ???
+k - cathode
+
+* Input stage
+- Tube: 6N2P
+- Plate current: 0.5mA
+- B+: 150V
+- Grid voltage: -1V
+- R_l: 50/0.0005 = 100k
+- R_k: 1/0.0005 = 2k
+- R_{k2}: 0-2k
+- C_k: 47mF
+- R_g: 1M
+- R_s: 4.7k
+- Z_{out}: r_P||R_l = 80*100/(80+100) = 44.44k
+
+Coupling capacitor:
+- Z_{out} = (r_P||R_l) + R_{load} = 44.44+1000= 1.044M
+- Minimum C_c = 1(2*3.14*20*1044000) = 7.62e-9 F
+- Use 5X: 47nF
+
+* Output stage
+- Output power: 10W
+- Output power from a pentode is roughly half of anode power dissipation.
+- Max anode dissipation: 19W
+- B+ voltage: 275V
+- OPT impedance: 5K (turns ratio: 25)
+- Z = V_a * V_a / P_a (rule of thumb)
+- 5000 = V_a * V_a / 19; V_a = sqrt(5000*19) = 308V
+- 5000 = V_a * V_a / 15; V_a = sqrt(5000*19) = 275V (use Pa of 15W)
+- Peak anode voltage rating:
+
+Quiescent Ia = 75mA
+Quiescent screen current = 75/7 = 10.7mA (1:7 I_a to I_{g2})
+Total current through Rg2 = 15.7 (?)
+Typical values for Rg2 = 470 ohms t0 1K.
+Voltage drop across Rg2 = 470 * 15.7
+Power dissipated = 470 * (0.0157 * 0.0157) = 116mW
+
+
+* Power supply
+Transformer - Edcor XPWR009 Power transformer for a 120V, 60Hz. or
+240V, 50/60Hz. line to 550V (275-0-275) at 175mA center tapped, 6.3V
+at 4A and 5V at 3A.
+
+V_L = 250V
+I_L = 2 * 70 = 140mA
+V_{mains} = 120V
+f_{mains} = 60Hz
+
+N = 275/120 = 2.29
+
+Rectified (unfiltered) voltage = 1.414 * 275 = 389V
+
+Dropping resistor = (389 - 250)/0.140 = 139/0,140 = 992 Ohms
+Power = 0.14 * 0.14 * 992 = 19 W
+
+Parts:
+
+Rectifiers:
+| 6CA4 |
+
+Resistors:
+| Quantity | Value | Power | Notes                |
+|        2 |   150 | 5w    | Also get 100 and 200 |
+|        1 |   200 | 5W    |                      |
+|        1 |  470K | 2W    | Bleeder?             |
+
+Capacitors:
+| Quantity | Value | Rating | Notes            |
+|        1 | 47mf  |        | First filter cap |
+|        2 | 200mf | 400V   | RC-stage         |
+
+Misc
+| 1 | 1A Slow blow fuse  |
+| 1 | Fuse holder        |
+| 1 | Toggle switch      |
+| 1 | Pilot lamp         |
+| 1 | 9-pin noval socket |
+| 2 | 1.5H 56ohm chokes  |
+
+
+
+* Output transformer
+** XSE15-8-5K 15W
+- Single-ended tube output transformer for 5K Ohms to secondary
+  impedance 8 ohms.
+
+
+| Wattage                      | 	15W           |
+| Max. Current                 | 	100mA         |
+| Primary (input) Impedance    | 	5K Ohms       |
+| Primary (input) DCR          | 	90 Ohms       |
+| Primary (input) Inductance   | 	3H            |
+| Screen/Grid Tap	          | 40%               |
+| Secondary (output) Impedance | 8 Ohms            |
+| Secondary (output) DCR	   | <1 Ohm            |
+| Frequency Response	       | 70~18K Hz., <1dBu |
+| THD+Noise	                | <0.1% @ 1K Hz     |
+
+#+BEGIN_LATEX
+\begin{figure}[h!]
+  \begin{center}
+    \begin{circuitikz}
+      \draw (0,0)
+      to[V,v=$U_q$] (0,2) % The voltage source
+      to[short] (2,2)
+      to[R=$R_1$] (2,0) % The resistor
+      to[short] (0,0);
+    \end{circuitikz}
+    \caption{My first circuit.}
+  \end{center}
+\end{figure}
+#+END_LATEX
+* Construction tips
+Resistors:
+- Metal film has lowest noise
+- Carbon comp has warmer tones but poor drift and noise
+- Carbon film resistors are a good choice
+- Use 2W 750V resistors for plate load resistors
+- For power supply decouling resistors, use 5W 1% 750V metal oxide resistors
+- Screen grid resistors - 5W 1% 750V  metal oxide flameproof resistors
+- Potentiometers - alpha
+
+Capacitors:
+- polypropylene film/foil
+- Silver mica or polystyrene for low-pF caps
+
+
+* Parts
+Resistors:
+| Count | Type | Value | Rating | Notes                 |
+|     2 |      | 470   | 1/2W   | Grid stopper (R1, R6) |
+|     1 |      | 1M    |        | Grid resistor (R2)    |
+|     1 |      | 1K    |        | Cathode (R3)          |
+|     1 |      | 100K  | 1/2W   | Anode resistor (R4)   |
+|     1 |      | 470K  |        | Grid resistor (R5)    |
+|     1 |      | 120   |        | Cathode (R7)          |
+|     1 |      | 100   |        | Screen (R8)           |
+
+Capacitors:
+| Type | Value  | Rating | Notes          |
+|      | 0.47mf | 400V   | Coupling       |
+|      | 100mf  | 16V    | Cathode bypass |
+|      | 22mf   | 16V    | Cathode bypass |
+|      |        |        |                |
+
+Potentiometers:
+|2| 100K Log    |
+|4| 100K Linear |
+
+Fuse:
+|||
+
+Switch:
+| 2 | Toggle switch |
+
+Tube sockets:
+| 4 | 8-pin socket |
+| 4 | 9-pin socket |
+
+Turret board:
+
+* Literature
+
+[[http://www.valvewizard.co.uk/Common_Gain_Stage.pdf][Explanation of common-cathode triode gain-stage]]
+
+[[http://www.valvewizard.co.uk/se.html][Single-ended output stage]]
+
+[[https://www.tubecad.com/2007/10/blog0122.htm][How to Design an SE Power Amplifier - Tube CAD Journal]]
+
+[[http://www.valveheart-bg.com/theory/triodeSE.html][Calculation of Singe Ended Triode Amplifier]]
+
+[[http://www.sarris.info/main/set-el84-tube-amp-diy-project][SET EL84 tube amp DIY project]]
+
+[[https://community.klipsch.com/index.php?/topic/139448-built-a-new-triode-amplifier/][Steven Deckert's ZEN Triode 2W x2 stereo amp]]
+
+[[http://www.clarisonus.com/Archives/TubeTheory/Ken-Rad%201936%20The%206L6%20Beam%20Power%20Amplifier.pdf][The 6L6 Beam Power Amplifier]]
+
+[[https://robrobinette.com/How_Amps_Work.htm][How Tube Amplifiers Work]]
+
+** Elliott Sound Products	Valves (Vacuum Tubes) - Biasing and Gain
+http://sound.whsites.net/valves/bias-gain.HTML
+
+- Cathode bias resistor must be bypassed to get maximum gain and
+  minimum noise
+- Absolute maximum input level is determined by voltage across the
+  cathode resistor
+- If cathode resutor voltage is +1V, grid input voltage must never
+  exceed +1V at positive peaks. If it does, grid will become positive
+  and draw current, resulting in distortion,
+- For high input levels, the signal must be attenuated before it
+  reaches the grid,
+- Valve's maximum cathode current must not be exceeded
+- Maximum plate dissipation must not be exceeded
+
+Basic parameters of 12AX7
+| V_a (V) | I_a (mA) | V_g(V) |  g_m | \mu | r_P (k) |
+|     250 |      1.2 |     -2 | 1600 | 100 |    62.5 |
+|     100 |      0.5 |     -1 | 1250 | 100 |      80 |
+
+- First step in valve amp design, determine the operational characteristics
+- Pick plate current (say, 0.5mA)
+- From plate current, determine grid voltage, (-1V)
+- Calculate plate load resistor value (for B+ of 150V, need 50V drop at 0.5mA. R = 50/0.5 = 100k)
+- Plate resistor is in parallel with r_p and R_g of next stage, the total resistance is 42.5k (how?)
+- At 100V, mutual conductance is 1.25mA/V. If input is varied by
+  100mV, valve current will vary by $1.25*0.1=0.125mA$. This current
+  across 42.5k total load resistance develops 5.3V which results in a gain of 53.
+- The gain can be reduced by increasing the grid resistor of the next
+  stage or adding a bias resistor to the cathode circuit (why do we need to reduce the gain?)
+
+-  R_s - Small resistance in series with control grid - stopper -
+  prevents the valve from detecting AM radio signals. It acts to
+  prevent high-frequency parasitic oscillations in the tube. Limits
+  grid current when tube is driven into positive grid region.
+
+  This resistor must be directly soldered to the pin with a very short
+  lead and should be placed after the grid-to-ground resistor (1M)
+
+  Grid resistor values are usually between 0-68K. Higher values drop the
+  frequency response.
+
+- Grid to ground resistor (R_G) - 1M
+- Cathode resistor (R_k) - 2k
+- R_P - 100k
+- R_L 1M
+- C_k - cathode bypass
+- C_c - coupling capacitor
+
+Gain calculation in cathode resistance bypassed
+
+$R_{source} = r_P + ( \mu * R_K )$
+
+R_{tot} = R_P || R_{load}
+
+A_v = \mu / (( R_{source} / R_{tot} ) + 1 )
+** Grid resistors
+http://www.aikenamps.com/index.php/grid-resistors-why-are-they-used
+
+http://www.aikenamps.com/index.php/technical-q-a
+* Glossary
+Class A amplifier: grid bias and applied grid voltage are such that
+plate current flows at all times.
+
+Plate curves: plate current as a function of plate voltage and grid
+voltage.
+
+Anode resistance, r_a: ratio of change in anode voltage to change of
+anode current. (r_a=\Delta{}V_a/\Delta{}I_a)
+
+Amplification factor, \mu: ratio of anode voltage to grid voltage for a fixed anode
+current (\mu=\Delta{}V_a/\Delta{}V_g)
+
+Transconductance, g_m: g_m=\Delta{}I_a/\Delta{}V_g
+
+Loadline:
+
+Input coupling capacitor: Isolates the grid circuit from DC voltage
+from the previous stage. This capacitor along with the grid resistor
+determines the frequency response of the stage.
+
+Grid resistor: provides a reference voltage
+for the grid circuit. Usually a high value (1M). This determines the
+input impedance for the stage.
+
+Cathode resistor, R_k: provides cathode bias voltage. Cathode current
+through this resistor develops a positive voltage at the cathode of
+tube. This positive voltage results in a negative grid voltage. This
+resistor controls the headroom, linearity of the stage. When
+unbypassed, it also controls the gain.
+
+Cathode bypass capacitor, C_k: bypasses AC signals to ground.
+
+Plate load resistor, R_p: develops output signal voltage when plate
+current flows through it. The value of the plate resistance controls
+the gain.  It also controls the output impedance of the stage.

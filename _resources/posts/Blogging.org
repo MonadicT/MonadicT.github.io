@@ -1,6 +1,8 @@
 #+title: Blogging with emacs and org-mode
+#+summary: A description of emacs-based blogging workflow and unused now.
 #+tags: emacs, Jekyll, Static
 #+publish-date: 2016-06-19
+#+export_file_name: ../../2016/BloggingWithEmacsAndOrgMode.html
 #+options: toc:nil num:nil tex:t LaTeX:t
 #+latex_header_extra: \usepackage{showexpl, url, tikz, xcolor}
 
@@ -204,7 +206,7 @@ digraph data_relationships {
 [[file:dotfig.png]]
 
 * Publishing
-My blogging host is at [[mondiact.github.io]]. My Github user id is
+My blogging host is at [[https://MondiacT.github.io]]. My Github user id is
 /MonadicT/ and the repo named
 =https://github.com/MonadicT/MonadicT.github.io= is the source of
 posts. Github runs a restricted version of [[https://jekyllrb.com][Jekyll]] on

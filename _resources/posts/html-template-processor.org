@@ -1,7 +1,8 @@
 #+title: Yet another template language and processor
+#+summary: A DSL for HTML documents implemented in elisp, org-mode.
 #+tags: template, lisp, HTML, DSL
 #+publish-date: 2017-06-02
-#+summary: A DSL for HTML documents implemented in elisp, org-mode.
+#+export_file_name: ../../2017/YetAnotherTemplatelanguageAndProcessor.html
 #+property: header-args:elisp :tangle "~/.emacs.d/lisp/yatl.el"
 
 * Motivation
@@ -24,7 +25,7 @@ represented as below.
 #+END_EXAMPLE
 
 A template defined using this form is passed to =html5= macro which
-returns a string representaion of equivalent HTML.
+returns a string representation of equivalent HTML.
 
 Our template language allows mixing standard Lisp code with
 templates. For most part, this mixing is achieved without any explicit
@@ -35,7 +36,7 @@ element clashes with a built-in or macro name, the normal processing
 can be overridden by quoting it. For example, =(div x y)= is
 interpreted as a Lisp expression, whereas, =('div (span))= is treated
 as an element. Also, =(div?id)= is also treated as an element
-definition due to the the appended attributes.
+definition due to the appended attributes.
 
 Note that, we don't define any specific function or macros for various
 elements. We could certainly do that if there was some reason to
@@ -88,27 +89,29 @@ functions in Lisp to address specific needs.
 
   ;;; Code:
 #+END_SRC
+
+#+RESULTS:
+
 ** Parsing key-value string
 In our templating language, attributes are introduced with =@=
-character, followed by the atttribute name and its value. *=*
+character, followed by the attribute name and its value. *=*
 separates the name and value.
 
 This function tries to be robust to malformed strings.
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defun yatl-parse-kvp(s)
-    (let (res)
-      (mapconcat
-       (lambda (kv-str)
-         (let* ((kv (split-string kv-str "="))
-                (key (car kv))
-                (val (cadr kv))
-                (val (or val ""))
-                (val (if (string-match "^\".*\"$" val)
-                         val
-                       (format "\"%s\"" val))))
-           (concat key "=" val)))
-       (split-string s "@" t)
-       " ")))
+    (mapconcat
+     (lambda (kv-str)
+       (let* ((kv (split-string kv-str "="))
+              (key (car kv))
+              (val (cadr kv))
+              (val (or val ""))
+              (val (if (string-match "^\".*\"$" val)
+                       val
+                     (format "\"%s\"" val))))
+         (concat key "=" val)))
+     (split-string s "@" t)
+     " "))
 
   (assert (string-equal (yatl-parse-kvp "") ""))
   (assert (string-equal (yatl-parse-kvp "@") ""))
@@ -123,19 +126,28 @@ This function tries to be robust to malformed strings.
 
 ** Parse element name
 Parses element name and returns the list of element name, id, class
-and attributes. Multiple class names but id must be unique. Id is
-introdued by =?=, class name with =.= and attribute with =@=. The
-notaion =?= is chosen as a prompt for identity (who am i?) and @ for
-attribute.
+and attributes. Multiple class names are allowed but id must be
+unique. Id is introduced by =?=, class name with =.= and attribute with
+=@=. The notation =?= is chosen as a prompt for identity (who am i?)
+and @ for attribute.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defun yatl-parse-elem-name(s)
     (let ((nm-id-cls (list '() '() '() '()))
-          attrs idx buf)
+          attrs idx buf escape string)
       (setq  idx 0)
       (mapcar
        (lambda (c)
          (cond
+          (escape (progn
+                    (setq escape nil)
+                    (push c (nth idx nm-id-cls))))
+          ((eq c ?\\)
+           (setq escape t))
+          ((eq c ?\")
+           (setq string (not string)))
+          (string
+           (push c (nth idx nm-id-cls)))
           ((eq c ?.) (progn
                        (setq idx 2)
                        (push ?  (nth idx nm-id-cls))))
@@ -154,6 +166,12 @@ attribute.
             (concat (reverse (caddr nm-id-cls)))
             (yatl-parse-kvp (concat (reverse (nth 3 nm-id-cls)))))))
 
+  (assert (equal (yatl-parse-elem-name "img@foo=\"http://foo.bar/baaz\"")
+                 '("img" "" "" "foo=\"http://foo.bar/baaz\"")))
+
+  (assert (equal (yatl-parse-elem-name "div")
+                 '("div" "" "" "")))
+
   (assert (equal (yatl-parse-elem-name "div")
                  '("div" "" "" "")))
   (assert (equal (yatl-parse-elem-name "div?id")
@@ -166,7 +184,7 @@ attribute.
 #+END_SRC
 
 ** Return string representation
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defun as-string(o)
     (cond
      ((stringp o) o)
@@ -184,8 +202,8 @@ each form in the template and processes it as follows.
   include shorthand notation for id, class and attribute
   specifications. Also, an element's attributes can be specified
   separately from the element name by prefixing it with @. Child
-  elements are processed recusrsivley with =mk-elem=. The result is
-  the string form of eqvivalent HTML.
+  elements are processed recursively with =mk-elem=. The result is
+  the string form of equivalent HTML.
 - If the child is an atom, its string representation is returned.
 
 The following element specifications are all equivalent.
@@ -195,34 +213,25 @@ The following element specifications are all equivalent.
 (div @id=id @class=cls @attr=val)
 #+END_EXAMPLE
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defun yatl-mk-elem(o)
     (cond
      ((listp o)
       (multiple-value-bind (nm id cls attrs) (yatl-parse-elem-name (symbol-name (car o)))
-        (let* ((attrs (seq-filter
-                       (lambda (s)
-                         (and (symbolp s)
-                              (s-starts-with? "@" (as-string s))))
-                       (cdr o)))
-               (children (seq-filter
-                          (lambda (s)
-                            (or (listp s)
-                                (not (s-starts-with? "@" (as-string s)))))
-                          (cdr o)))
-               (attrs-s (mapconcat #'yatl-parse-kvp (mapcar #'symbol-name attrs) " "))
+        (let* ((children (cdr o))
                (children-s (mapconcat (lambda (x) (as-string x)) children " ")))
           (concat
            (format "<%s" nm)
            (unless (string-empty-p id) (format " id=\"%s\"" id))
            (unless (string-empty-p cls) (format " class=\"%s\"" cls))
-           (unless (string-empty-p attrs-s) (format " %s" attrs-s))
+           (unless (string-empty-p attrs) (format " %s" attrs))
            (if (not children)
                (format "/>\n")
              (format ">\n%s\n</%s>\n" children-s nm))))))
      ((symbolp o) (symbol-name o))
      ((stringp o) o)
      (t (format "%S" o))))
+
 
   (assert (string-equal (yatl-mk-elem "a")
                         "a"))
@@ -236,11 +245,13 @@ The following element specifications are all equivalent.
   (assert (string-equal (yatl-mk-elem '(div?id.c1.c2))
                         "<div id=\"id\" class=\" c1 c2\"/>\n"))
 
-  (assert (string-equal (yatl-mk-elem '(div?id.c1 @foo=bar@fit=bit))
+  (assert (string-equal (yatl-mk-elem '(div?id.c1@foo=bar@fit=bit))
                         "<div id=\"id\" class=\" c1\" foo=\"bar\" fit=\"bit\"/>\n"))
 
   (assert (string-equal (yatl-mk-elem '(foo 1 2)) "<foo>\n1 2\n</foo>\n"))
 
+  (assert (string-equal (yatl-mk-elem '(img@src=\"http://example.com/images/fubar.png\"))
+                        "<img src=\"http://example.com/images/fubar.png\"/>\n"))
 #+END_SRC
 
 ** Template processor
@@ -252,7 +263,7 @@ Another Template Language" and =(require 'yatl)= to access it.
 *** yatl-compile-fn
 This is a helper function to examine each form and turn it into a form
 that can be passed to =yatl-mk-elem=. What we want is the ability to mix
-lisp code with our element markup code. We want this to be as seemless
+lisp code with our element markup code. We want this to be as seamless
 as possible. Consider the following example.
 
 #+BEGIN_EXAMPLE
@@ -272,7 +283,7 @@ simpler.)
 =yatl-compile-fn= looks for forms which might be function or macro
 invocations. It calls itself on the arguments and returns a
 potentially modified form. If the list is neither a function nor a
-macro invocation, then it is an element defintion in our notation
+macro invocation, then it is an element definition in our notation
 which is handled by invoking =yatl-mk-elem=.
 
 The ability to mix Lisp code with our element description works, we
@@ -281,7 +292,7 @@ application. Consider the need to describe a 'div' element. =div= also
 happens to be Lisp function. When we want to use =div= as element, we
 override its meaning by writing it as ='div=.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defun yatl-compile-fn (form)
     (cond
      ((symbolp form) form)
@@ -327,7 +338,7 @@ override its meaning by writing it as ='div=.
      (t (throw 'Unhandled form))))
 #+END_SRC
 
-*** Yatl-Compile macro
+*** yatl-Compile macro
 A macro which applies =yatl-compile-fn= to its arguments and concatenates the
 values returned. This must be a macro as the S-expressions can't be
 evaluated directly.
@@ -336,7 +347,7 @@ That is our +first+ second attempt at designing this template language
 and its processor. Stay tuned for future posts where I will show its
 use with org-mode.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defmacro yatl-compile(&rest forms)
     `(list
       ,@(mapcar
@@ -354,12 +365,25 @@ use with org-mode.
   (assert (equal (yatl-compile (let ((x 1) (y 2)) (+ x y))) '(3)))
   (assert (equal (yatl-compile (let ((x 1) (y 2) (z (span "foobar"))) z))
                  '("<span>\nfoobar\n</span>\n")))
+  (assert (equal (yatl-compile (img?id@src=\"http://foo.bar/baaz.jpg\"))
+                 '("<img id=\"id\" src=\"http://foo.bar/baaz.jpg\"/>\n")))
+#+END_SRC
+
+*** yatl-compile-string
+Occasionally, we need to create forms at run-time and =yatl-compile=
+macro doesn't evaluate its arguments. This function provides an escape
+hatch for these cases.
+
+#+BEGIN_SRC elisp :results silent
+  (defun yatl-compile-string(fmt &rest args)
+    (let ((s (apply #'format fmt args)))
+      (eval (yatl-compile-fn (list (make-symbol s))))))
 #+END_SRC
 
 *** html5 macro
 Macro which wraps the yatl-compiled forms in HTML5 boilerplate.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defmacro yatl-html5(&rest forms)
     `(concat
       "<!DOCTYPE html>\n<html>\n"
@@ -367,11 +391,17 @@ Macro which wraps the yatl-compiled forms in HTML5 boilerplate.
       "</html>"))
 #+END_SRC
 
-*** Yatl-Compile macro tests
+*** HTML fragment generator
+#+BEGIN_SRC elisp :results silent
+  (defmacro yatl-html-frag(&rest forms)
+    `(concat
+      (mapconcat (lambda (x) (format "%s" x)) (yatl-compile ,@forms) "")))
+#+END_SRC
+*** yatl-Compile macro tests
 We make sure our =yatl-html5= works as expected when we mix our notation
 with Lisp function and macros. Let's define a few test fixtures.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (defmacro test-macro (&rest forms)
     `(concat
       "<div style=\"{display:flex}\">"
@@ -414,13 +444,13 @@ with Lisp function and macros. Let's define a few test fixtures.
   (assert
    (equal
     (yatl-html5 (let ((l '((a . 1) (b . 2)))) "foo"))
-    "<!DOCTYPE html>\n<html>\nfoo\n</html>"))
+    "<!DOCTYPE html>\n<html>\nfoo</html>"))
 #+END_SRC
 
 *** Provide our module
-Make this package requirable.
+Make this package available.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC elisp :results silent
   (provide 'yatl)
   ;;; yatl.el ends here
 #+END_SRC

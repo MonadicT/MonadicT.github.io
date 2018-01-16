@@ -1,7 +1,10 @@
 #+title: Static Blog Site Generator
+#+summary: Descrption of elisp code which generates this blog site from a set of org-mode files,
 #+tags: emacs elisp blog
-#+publish-date: 2017-10-01
+#publish-date: 2017-10-01
 #+options: toc:nil num:nil
+
+* Introduction
 
 * Org document processing
 ** Parse org document and build keywords
@@ -45,15 +48,6 @@ HTML document.
 
 ** Process-org-doc
 
-#+begin_src elisp :noweb-ref util-fn :eval no
-  (defun process-org-doc()
-    (let* ((keywords (build-keywords))
-           (content-type (get-keyword keywords "content-type"))
-           (template (get-keyword keywords "template")))
-      (message template)))
-  (process-org-doc)
-#+END_SRC
-
 '(add-to-list 'load-path "~/.emacs.d")
 '(add-to-list 'load-path "~/.emacs.d/elpa")
 '(add-to-list 'load-path "~/.emacs.d/elpa/clojure-mode-2.1.1")
@@ -73,13 +67,42 @@ HTML document.
 (progn (org-html-export-as-html nil nil nil t nil)
 (with-current-buffer \"*Org HTML Export*\" (princ (org-no-properties (buffer-string)))))
 
-(defun foo()
-  (interactive)
-  (let ((content (org-html-export-as-html nil nil nil t nil))
-        (props (org-buffer-property-keys t)))
-    (message "STR: %s" props)))
+#+begin_src elisp :noweb-ref util-fn :eval no
+  (defun process-org-doc()
+    (let* ((keywords (build-keywords))
+           (content-type (get-keyword keywords "content-type"))
+           (template (get-keyword keywords "template")))
+      (message template)))
+  (process-org-doc)
+#+END_SRC
 
-processor
+#+begin_src elisp :noweb-ref util-fn :eval no
+  (defun xxxextract-post-body(post)
+    (let (content)
+      (with-temp-buffer
+        (find-file (concat posts-dir "/" post))
+        (org-html-export-as-html nil nil nil t nil)
+        (with-current-buffer
+            "*Org HTML Export*"
+          (setq content (org-no-properties (buffer-string)))
+          (kill-buffer (current-buffer))))
+      (kill-buffer (current-buffer))
+      content))
+
+  (defun extract-post-body(buffer)
+    (let (content)
+      (org-html-export-as-html nil nil nil t nil)
+      (with-current-buffer
+          "*Org HTML Export*"
+        (setq content (org-no-properties (buffer-string))))
+      (kill-buffer "*Org HTML Export*")
+      content))
+
+  (let ((post-body  (extract-post-body (current-buffer))))
+    (with-temp-file "~/post.html"
+      (insert post-body)))
+#+end_src
+
 
 ** Post files
 Returns list of org files from post directory.
@@ -194,11 +217,12 @@ Construction of CSS string.
       .centered { text-align: center; }
       .blurb { padding-top: 1em; }
       .content-header { font-weight: bold; font-size: 2.5em; padding-bottom: 0.5em; }
-      .post-title { color: ${text-primary-color}; font-size: 200%; font-weight: bold; }
+      .post-title { color: ${text-primary-color}; font-size: 125%; }
       .post-summary { color: ${secondary-text-color}; padding-top: 0.5em; padding-bottom: 1em; }
       .post-tags { font-weight: xbold; color: ${secondary-text-color}; padding-bottom: 0.5em; }
       .pub-date { font-weight: xbold; color: ${secondary-text-color}; padding-bottom: 2em; }
       .anchor-plain { text-decoration: none; color: inherit; font-weight: bold; }
+      a:hover {  color: ${accent-color}; opacity: 50%; }
       "
    'aget
    <<css-consts>>)
@@ -355,7 +379,9 @@ Construction of CSS string.
  #+END_SRC
 
 * HTML generation
-** Html
+** Home page
+Homepage content is the list of articles rendered using a common site template.
+
 #+BEGIN_SRC elisp :tangle yes :file ~/bloghome.html :noweb yes :results silent
   (require 'yatl)
   (require 's)
@@ -364,8 +390,3 @@ Construction of CSS string.
    <<head>>
    <<body>>)
  #+End_SRC
-
-* Local variables
-# local variables:
-# xxeval: (add-hook 'after-save-hook 'eval-org-buffer t t)
-# end:

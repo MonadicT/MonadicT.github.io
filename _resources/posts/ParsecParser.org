@@ -1,6 +1,8 @@
-#+Title: Writing a parser using Parsec
+#+title: Writing a parser using Parsec
+#+summary: My Haskell experiemnts with creating a parser for a small language.
 #+tags: Haskell, Parsec, DSL
 #+publish-date: 2016-11-27
+#+export_file_name: ../../2016/WritingAParserUsingParsec.html
 #+options: toc:nil num:nil tex:t LaTeX:t
 #+latex_header_extra: \usepackage{showexpl, url, tikz, xcolor}
 

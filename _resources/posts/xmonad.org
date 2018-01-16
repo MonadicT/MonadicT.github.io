@@ -1,11 +1,13 @@
-#+TITLE: Configuring xmonad
+#+title: Configuring XMonad
+#+summary: A walk-through of XMonad Window Manager configuration steps
 #+tags: tip, X, xmonad
 #+publish-date: 2015-05-20
+#+export_file_name: ../../2015/ConfiguringXMonad.html
 #+options: toc:nil num:nil tex:t
 
 #+LATEX_HEADER: \usepackage{tikz,showexpl}
 
-[[http://www.xmonad.org][xmonad]] is a minimal tiling window manager. This post shows how to
+[[http://www.xmonad.org][XMonad]] is a minimal tiling window manager. This post shows how to
 setup xmnoad on a Ubuntu 14.04 machine and configure it in small
 steps. xmonad configuration is done through a Haskell program and this
 proves to be one of the major obstacles to using xmonad

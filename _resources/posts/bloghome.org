@@ -1,0 +1,328 @@
+#+title: Blog template
+#+tags:
+#+options: toc:nil num:nil
+
+* Org document processing
+** Parse org document and build keywords
+#+BEGIN_SRC elisp :results silent
+  (defun build-keywords()
+    (org-element-map
+        (org-element-parse-buffer 'element)
+        'keyword
+      (lambda (kw)
+        (cons (org-element-property :key kw)
+              (org-element-property :value kw)))))
+#+END_SRC
+
+** Get keyword
+#+BEGIN_SRC elisp :results silent
+  (defun get-keyword(keywords key &optional default-value)
+    (if-let ((kw-value (cdr (assoc-ignore-case key keywords))))
+    kw-value
+      default-value))
+#+END_SRC
+
+** Process template
+Template should be a bunch of =#+include= directives. Each of these is
+exported to a HTML div element and the whole thing is wrapped into a
+HTML document.
+
+#+BEGIN_SRC elisp :results silent
+  (defun process-template (template org-file)
+    (with-temp-buffer
+      (find-file template)
+      (org-element-map
+          (org-element-parse-buffer 'element)
+          'keyword
+        ;;org-element-all-elements
+        (lambda (o)
+          (let* ((key (org-element-property :key o))
+                 (value (org-element-property :value o)))
+            (if (eq key "include")
+                (message value)))))))
+#+END_SRC
+
+** Process-org-doc
+
+#+BEGIN_SRC elisp :results silent
+  (defun process-org-doc()
+    (let* ((keywords (build-keywords))
+           (content-type (get-keyword keywords "content-type"))
+           (template (get-keyword keywords "template")))
+      (message template)))
+  (process-org-doc)
+#+END_SRC
+
+'(add-to-list 'load-path "~/.emacs.d")
+'(add-to-list 'load-path "~/.emacs.d/elpa")
+'(add-to-list 'load-path "~/.emacs.d/elpa/clojure-mode-2.1.1")
+'(require 'htmlize)
+'(require 'org)
+'(require 'org-list)
+'(require 'ox-html)
+'(require 'ob)
+'(global-font-lock-mode 1)
+'(require 'clojure-mode)
+'(set-face-foreground 'font-lock-string-face "#afafff")
+'(set-face-foreground 'font-lock-keyword-face "#ff5f00")
+'(set-face-foreground 'font-lock-function-name-face "#d7af00")
+'(set-face-foreground 'font-lock-builtin-face "#afd700")
+'(set-face-foreground 'font-lock-comment-face "#008787")
+(find-file f)
+(progn (org-html-export-as-html nil nil nil t nil)
+(with-current-buffer \"*Org HTML Export*\" (princ (org-no-properties (buffer-string)))))
+
+(defun foo()
+  (interactive)
+  (let ((content (org-html-export-as-html nil nil nil t nil))
+        (props (org-buffer-property-keys t)))
+    (message "STR: %s" props)))
+
+processor
+
+** List of posts
+#+BEGIN_SRC emacs-lisp :results silent
+  (defconst posts-dir "~/stuff/github/MonadicT.github.io/_resources/posts")
+  (defun post-list()
+    (mapcar
+     (lambda (org-file)
+       (with-temp-buffer
+         (find-file (concat posts-dir "/" org-file))
+         (let ((key-val-list
+                (org-element-map
+                    (org-element-parse-buffer 'element)
+                    'keyword
+                  ;; org-element-all-elements
+                  (lambda (o)
+                    (let* ((key (org-element-property :key o))
+                           (value (org-element-property :value o)))
+                      (list key value))))))
+           (kill-buffer (current-buffer))
+           (cons (list "FILE" org-file) key-val-list))))
+       (directory-files posts-dir nil ".*\.org$")))
+
+#+END_SRC
+* HTML generation
+** Font
+#+BEGIN_SRC elisp :eval no :noweb-ref fonts
+   (link@href=http://fonts.googleapis.com/css?family=Merriweather&\#8217@rel=stylesheet@type=text/css)
+#+END_SRC
+
+** Styles
+CSS Styles used in this blog are managed using interpolated
+strings. The code below is an association list which is used to build
+CSS string later.
+
+#+BEGIN_SRC elisp :results silent
+  (setq css-consts
+        '(("dark-primary-color"    . "#616161")
+          ("default-primary-color" . "#9E9E9E")
+          ("light-primary-color"   . "#F5F5F5")
+          ("text-primary-color"    . "red")
+          ("accent-color"          . "#FF5722")
+          ("primary-text-color"    . "#212121")
+          ("secondary-text-color"  . "#757575")
+          ("accent-text-color"     . "#FF5722")
+          ("divider-color"         . "#BDBDBD")))
+#+END_SRC
+
+Construction of CSS string.
+
+#+BEGIN_SRC emacs-lisp :noweb-ref styles :noweb yes :results silent
+  (s-format
+   "
+      .dark-primary-color    { background: ${dark-primary-color}; }
+      .default-primary-color { background: ${default-primary-color}; }
+      .light-primary-color   { background: ${light-primary-color}; }
+      .text-primary-color    { color: ${text-primary-color}; }
+      .accent-color          { background: ${accent-color}; }
+      .primary-text-color    { color: ${primary-text-color}; }
+      .secondary-text-color  { color: ${secondary-text-color}; }
+      .accent-text-color     { color: ${accent-text-color}; }
+      .divider-color         { border-color: ${divider-color}; }
+
+      ,* { font-family: ‘Merriweather’, Georgia, serif; }
+      html { clear: both; height: 100%; width: 100% }
+      body { margin: 0; padding: 0; height: 100%; width: 100%; display: flex; flex-direction: column }
+      .header { position: relative; padding: 1em; margin-left: 20%; margin-right: 20% }
+      .site-links { padding-top: 0.5em; }
+      .site-links > a { font-size: 125%; text-decoration: none; color: ${accent-color}; }
+      .content { padding: 1em; margin-left: 20%; margin-right: 20%; flex: 1;
+                 display: flex; flex-direction: row; }
+      .content-main { flex: 4; }
+      .divider { flex: 0; background-color: ${divider-color}; }
+      .sidebar { flex: 1; border-left: 1px solid; padding: 0.5em; }
+      .footer { padding: 0.5em; margin-left: 20%; margin-right: 20%; text-align: center; }
+      .title { font-size: 3.5em; font-weight: bold }
+      .search-box { position: absolute; top: .5em; right: 1em; width: 40%; }
+      .social-media { position: absolute; bottom: .2em; right: 0.5em; display:
+                      flex; flex-direction: row; align-items: center; }
+      .centered { text-align: center; }
+      .blurb { padding-top: 1em; }
+      .content-header { font-weight: bold; font-size: 2.5em; padding-bottom: 0.5em; }
+      .post-title { color: ${text-primary-color}; font-size: 200%; font-weight: bold; }
+      .post-tags { font-weight: bold; color: ${secondary-text-color}; padding-bottom: 2em; }
+      .anchor-plain { text-decoration: none; color: inherit; font-weight: bold; }
+      "
+   'aget css-consts)
+
+#+END_SRC
+
+** Scripts
+ #+BEGIN_SRC emacs-lisp :noweb-ref scripts :results silent
+ "
+   (function() {
+     var cx = '006684519581021422604:pp6qplctmrc';
+     var gcse = document.createElement('script');
+     gcse.type = 'text/javascript';
+     gcse.async = true;
+     gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+     var s = document.getElementsByTagName('script')[0];
+     s.parentNode.insertBefore(gcse, s);
+   })();
+ "
+ #+END_SRC
+
+** Head
+ #+BEGIN_SRC emacs-lisp :eval no :noweb-ref head
+   (head
+    <<fonts>>
+    (style
+     <<styles>>)
+    (script
+     <<scripts>>))
+ #+END_SRC
+
+** Search
+ #+BEGIN_SRC emacs-lisp :noweb-ref search :eval no
+ (span.search-box "<gcse:search></gcse:search>")
+ #+END_SRC
+** Social media
+*** Twitter link.
+ #+BEGIN_SRC emacs-lisp :noweb-ref twitter :results silent
+   "
+   <a target=\"_new\" href=\"https://twitter.com/MonadicT\">
+   <span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
+   <img height=\"48px\" width=\"48px\"
+        title=\"Visit my Twitter page\"
+        src=\"twitter.png\"/></a>
+   "
+ #+END_SRC
+
+*** Github link
+ "<a id=\"github-link\" target=\"_new\"
+     href=\"https://github.com/MonadicT\"><img id=\"github-logo\"
+     height=\"48\" width=\"48\" src=\"github.png\"/></a>"
+
+ #+BEGIN_SRC emacs-lisp :noweb-ref github :results silent
+ "
+ <a href='//github.com/MonadicT'
+ style='text-decoration:none;'
+ target='_top'>
+ <img alt='Github'
+ src='http://monadict.github.io/images/GitHub-Mark-32px.png'
+ style='border:0;width:32px;height:32px;'
+ title='GitHub'>
+ </a>
+ "
+ #+END_SRC
+
+*** Container
+ #+BEGIN_SRC emacs-lisp :noweb-ref social-media :eval no
+   (span.social-media
+    <<github>>
+    <<twitter>>
+    )
+ #+END_SRC
+
+** Site links
+ #+BEGIN_SRC emacs-lisp :noweb-ref site-links :eval no
+ (div.site-links
+   (a@href=/ "Articles")
+   (a@href=/ "Resume")
+   (a@href=/ "About"))
+ #+END_SRC
+
+** Posts
+#+BEGIN_SRC emacs-lisp :noweb-ref posts-list :eval no
+  (mapconcat
+   (lambda (l)
+     (let ((file (cadr (assoc "FILE" l)))
+           (title (cadr (assoc "TITLE" l)))
+           (tags (cadr (assoc "TAGS" l))))
+       (concat
+        "<div class=\"post-title\" ><a class=\"anchor-plain\" href='" file "'>" title "</a></div>"
+        "<div class=\"post-tags\">" tags "</div>")))
+   (post-list)
+   "\n")
+#+END_SRC
+
+** Header
+ #+BEGIN_SRC emacs-lisp :noweb-ref header :eval no
+   (div.header.dark-primary-color.accent-text-color
+    (span.title "MonadicT")
+    <<social-media>>
+    <<site-links>>)
+
+ #+END_SRC
+
+** Footer
+ #+BEGIN_SRC emacs-lisp :noweb-ref footer :eval no
+   (div.footer.default-primary-color.text-primary-color
+    "&copy; 2013-"
+    (format-time-string "%Y")
+    "Praki Prakash")
+ #+END_SRC
+
+** Content
+*** Sidebar
+ #+BEGIN_SRC emacs-lisp :noweb-ref sidebar :results silent :eval no
+   (div.sidebar
+    "<img src='http://monadict.github.io/images/praki-outline.png' style='float:left;padding:.5em'/>"
+    (div.centered.secondary-text-color "PRAKI PRAKASH")
+    (div.blurb.secondary-text-color
+     "Chief Architect at <a =class=\"anchor-plain\"
+     href=\"www.picarro.com\">Picarro. Inc.</a> With wide-ranging
+     experience in managing, guiding and building dependable
+     software systems.</p>
+
+     I am a hands-on architect and passionate about
+     programming. I strive to build software without incidental
+     complexity. I believe in Functional Programming and
+     model-driven software development.</p>
+
+     My favorite programming
+     languages are Haskell, Lisp (various), SmallTalk, Groovy and
+     lately, Rust. I write software in Java, Python and C/C++."))
+ #+END_SRC
+
+*** Posts list
+ #+BEGIN_SRC emacs-lisp :noweb-ref content :eval no
+   (div.content.light-primary-color
+    (div.content-main
+     (div.content-header "Articles")
+     <<posts-list>>)
+    <<sidebar>>)
+ #+END_SRC
+
+** Body
+ #+BEGIN_SRC emacs-lisp :noweb-ref body :eval no
+ (body.default-primary-color
+    <<header>>
+    <<content>>
+    <<footer>>)
+ #+END_SRC
+
+** Html
+#+BEGIN_SRC emacs-lisp :tangle yes :file ~/bloghome.html :noweb yes :results silent
+   (require 'yatl)
+   (require 's)
+   (html5
+    <<head>>
+    <<body>>)
+ #+End_SRC
+
+* Local variables
+# local variables:
+# eval: (add-hook 'after-save-hook 'eval-org-buffer t t)
+# end:

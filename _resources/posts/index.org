@@ -1,0 +1,137 @@
+#+title: MonadictT
+#+options: num:nil html-style:nil
+* Posts
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/2018/blog-site-generator.html">
+Yet Another Emacs Static-site Generator
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+A static site generator implemented entirely in emacs.
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2018-01-31
+</div>
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/2017/YetAnotherTemplatelanguageAndProcessor.html">
+Yet another template language and processor
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+A DSL for HTML documents implemented in elisp, org-mode.
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2017-06-02
+</div>
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/2016/WritingAParserUsingParsec.html">
+Writing a parser using Parsec
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+My Haskell experiemnts with creating a parser for a small language.
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2016-11-27
+</div>
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/2016/BloggingWithEmacsAndOrgMode.html">
+Blogging with emacs and org-mode
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+A description of emacs-based blogging workflow and unused now.
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2016-06-19
+</div>
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/2015/ConfiguringXMonad.html">
+Configuring XMonad
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+A walk-through of XMonad Window Manager configuration steps
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2015-05-20
+</div>
+
+
+#+END_EXPORT
