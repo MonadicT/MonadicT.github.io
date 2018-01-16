@@ -1,0 +1,13 @@
+#+title: Tree patters nmatching
+#+tags: pattern matching
+#+property: header-args:elisp :tangle tpat.el
+
+** Tree to string
+#+BEGIN_SRC elisp
+(defun tree-to-str(tree)
+)
+
+#+END_SRC
+
+#+RESULTS:
+: 1

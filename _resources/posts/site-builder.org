@@ -1,0 +1,22 @@
+#+title: Static Site Builder
+#+tags: lisp, HTML
+#+property: header-args:elisp :tangle ssb.el
+
+* H1
+#+BEGIN_SRC elisp
+(require 'yatl)
+#+END_SRC
+
+* H1
+#+BEGIN_SRC elisp
+  (defcustom posts-dir "~/stuff/github/MonadicT.github.io/_resources/posts" "doc")
+
+  (list-directory posts-dir)
+
+#+END_SRC
+* H2
+#+BEGIN_SRC elisp
+  (defun build-site()
+    )
+
+#+END_SRC
