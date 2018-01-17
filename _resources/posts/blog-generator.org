@@ -752,6 +752,7 @@ Function to regenerate the full site. This is bound to =C-c C-g=.
 
 *** Create new blog post
 A template for creating a new blog post.
+
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-new-post()
     (interactive)
@@ -760,8 +761,6 @@ A template for creating a new blog post.
 #+publish-date: 2018-01-31
 #+export_file_name: ../../yyyy/TBD
 #+tags: TBD
-
-* TBD
-"))
+#+option: num:nil"))
 
 #+END_SRC
