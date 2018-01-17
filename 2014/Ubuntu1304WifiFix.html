@@ -28,42 +28,44 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
  <div id="blog-content-middle">
-<div id="outline-container-org0ed0992" class="outline-2">
-<h2 id="org0ed0992">About Me</h2>
-<div class="outline-text-2" id="text-org0ed0992">
-<img src="http://MonadicT.github.io/images/praki.jpg" style="float:left;padding-right:20px"/>
 
+<div id="outline-container-orgeadf2c3" class="outline-2">
+<h2 id="orgeadf2c3">Fixing Wi-Fi connection issues in Ubuntu 13.04</h2>
+<div class="outline-text-2" id="text-orgeadf2c3">
 <p>
-Praki Prakash is a programmer based in San Francisco bay area. He
-prefers to call himself a programmer even though he has held numerous
-technical and management roles. He is the <b>Chief Architect</b> at
-<a href="http://www.picarro.com">Picarro, Inc</a>. His previous roles include <i>Master Technologist</i> at HP,
-<i>Staff Engineer</i> at VMware, <i>Engineering Manager</i> at Yahoo. He is
-also the founder of GuidingWave Technologies.
+I have used Ubuntu for almost a decade now. I have always thought it
+had a pretty good chance of being the alternative to MS Windows. After
+the recent Windows 8 release, which definitely makes a Linux
+alternative all the more imperative, I find it strangely ironic that
+Ubuntu seems to be emulating just that. Sigh.
 </p>
 
 <p>
-Praki is passionate about functional programming. He has programmed
-extensively in <b>Clojure</b>, <b>ClojureScript</b> and dabbles occasionally in
-<b>Rust</b>, <b>Go</b>, <b>Elixir</b> and <b>Haskell</b>. He has been involved in a number
-of projects using <b>Java</b>, <b>Python</b>, <b>Groovy</b>, <b>JavaScript</b>,
-<b>SmallTalk</b> and <b>C/C++</b> technologies.
+Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi
+connectivity, restarting network-manager or networking will not
+help. Reboot seems to be the only remedy after that.  Here are a
+couple of bugs reported on this issue.
 </p>
 
 <p>
-Praki's favorite editor is <b>Emacs</b> and he maintains this website using
-custom elisp packages. You can read about these packages at <a href="https://monadict.github.io">TBD</a>.
+<a href="https://bugs.launchpad.net/ubuntu/+bug/1072518">https://bugs.launchpad.net/ubuntu/+bug/1072518</a>
+<a href="https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507">https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507</a>
 </p>
 
 <p>
-Besides software, Praki's interests include Woodworking, Medium-format
-Photography, Single-ended Triode Amplifiers. He collects Jazz and
-Blues vinyl records. He is also a bold cook unafraid of trying exotic
-dishes.
+There are many workarounds you can find on the net. However, on my
+laptop, what seems to work always is the following.
 </p>
 
+<div class="org-src-container">
+<pre><code class="src src-bash">sudo modprobe -r wl
+sudo modprobe wl
+</code></pre>
+</div>
+
 <p>
-You can follow Praki on <a href="https://twitter.com/MonadicT">Twitter</a> and <a href="https://monadict.github.io">Github</a>.
+Of course, the real solution may be to start using Arch Linux or
+something much simpler than the Windows-wannabe Ubuntu :)
 </p>
 </div>
 </div>

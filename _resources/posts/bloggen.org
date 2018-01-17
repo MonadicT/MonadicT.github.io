@@ -6,8 +6,8 @@
 
 * Introduction
 
-* Org document processing
-** Parse org document and build keywords
+** Org document processing
+*** Parse org document and build keywords
 #+begin_src elisp :noweb-ref util-fn :eval no
   (defun build-keywords()
     (org-element-map
@@ -18,7 +18,7 @@
               (org-element-property :value kw)))))
 #+end_src
 
-** Get keyword
+*** Get keyword
 #+begin_src elisp :noweb-ref util-fn :eval no
   (defun get-keyword(keywords key &optional default-value)
     (if-let ((kw-value (cdr (assoc-ignore-case key keywords))))
@@ -26,7 +26,7 @@
       default-value))
 #+END_SRC
 
-** Process template
+*** Process template
 Template should be a bunch of =#+include= directives. Each of these is
 exported to a HTML div element and the whole thing is wrapped into a
 HTML document.
@@ -46,7 +46,7 @@ HTML document.
                 (message value)))))))
 #+END_SRC
 
-** Process-org-doc
+*** Process-org-doc
 
 '(add-to-list 'load-path "~/.emacs.d")
 '(add-to-list 'load-path "~/.emacs.d/elpa")
@@ -378,8 +378,8 @@ Construction of CSS string.
     <<footer>>)
  #+END_SRC
 
-* HTML generation
-** Home page
+** HTML generation
+*** Home page
 Homepage content is the list of articles rendered using a common site template.
 
 #+BEGIN_SRC elisp :tangle yes :file ~/bloghome.html :noweb yes :results silent

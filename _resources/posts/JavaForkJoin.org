@@ -1,0 +1,38 @@
+#+title: Java Fork/Join Framework - an exemplar of elegant design
+#+summary:
+#+publish-date: 2014-02-26
+#+export_file_name: ../../2014/JavaForkJoinFramework.html
+#+options: num:nil
+
+#+tags: java "work stealing", scheduling
+
+* Java Fork/Join Framework - an exemplar of elegant design
+It's rare to see a well-crafted solution to a thorny problem. With
+multicore hardware becoming the norm a few years ago, we needed a way
+to take advantage of all those cores. In Java, we already have
+threads and synchronization constructs, right? What could be easier
+than throwing together a bunch of interfaces, classes and threads at
+this problem?
+
+The answer is not whether it is easier or harder. The question should
+really be about the right way to do it. The realization of Fork/Join
+implementation in Java is quite an impressive piece of
+engineering. Engineering as in recognizing the essence of the problem
+and solving it just right. Of course, the credit also goes to the
+original work done in Cilk project at MIT.
+
+I won't try to distill the contents of relevant papers in this
+post. You should really read Doug Lea's paper and the Cilk-5 paper
+would be a bonus read after that. Link to these papers are right here.
+
+[[http://gee.cs.oswego.edu/dl/papers/fj.pdf][A Java Fork/Join Framework]]
+
+[[http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013][The
+Implementation of the Cilk-5 Multithreaded Language]]
+
+The design of work-stealing and the implementation of underlying deque
+is full of deep insights into the problem and clever solutions. I
+never thought [[https://en.wikipedia.org/wiki/Dekker's_algorithm][Dekker's algorithm]], which provides mutual exclusion
+between two processes, would ever be usable in a real-world
+solution. I suppose, some solutions are waiting for just the right
+problem.

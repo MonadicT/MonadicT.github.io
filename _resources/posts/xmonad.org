@@ -7,6 +7,7 @@
 
 #+LATEX_HEADER: \usepackage{tikz,showexpl}
 
+* Configuring XMonad
 [[http://www.xmonad.org][XMonad]] is a minimal tiling window manager. This post shows how to
 setup xmnoad on a Ubuntu 14.04 machine and configure it in small
 steps. xmonad configuration is done through a Haskell program and this

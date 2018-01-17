@@ -4,6 +4,7 @@
 #+publish-date: 2017-06-02
 #+export_file_name: ../../2017/YetAnotherTemplatelanguageAndProcessor.html
 #+property: header-args:elisp :tangle "~/.emacs.d/lisp/yatl.el"
+#+options: num:nil
 
 * Motivation
 Writing HTML by hand is error-prone and just not fun. On the other
@@ -11,7 +12,7 @@ hand, a simple templating language that integrates the power of a
 functional programming language with org-mode sounds like a fun
 weekend exercise!
 
-* Template language
+** Template language
 Our template language is based on S-Expressions (Lisp syntax). We use
 S-expressions to represent HTML elements. An element has a name and
 optionally, a unique id, one or more class names, one or more
@@ -56,8 +57,8 @@ The template below generates a well-formed HTML document.
 That is all there is to our template language. It requires the user to
 know the element names and attributes. But, you can write helper
 functions in Lisp to address specific needs.
-* Template processor
-** Standard header
+** Template processor
+*** Standard header
 #+BEGIN_SRC elisp
     ;;; yatl.el --- Yet another templating language
 
@@ -92,7 +93,7 @@ functions in Lisp to address specific needs.
 
 #+RESULTS:
 
-** Parsing key-value string
+*** Parsing key-value string
 In our templating language, attributes are introduced with =@=
 character, followed by the attribute name and its value. *=*
 separates the name and value.
@@ -124,7 +125,7 @@ This function tries to be robust to malformed strings.
 
 #+RESULTS:
 
-** Parse element name
+*** Parse element name
 Parses element name and returns the list of element name, id, class
 and attributes. Multiple class names are allowed but id must be
 unique. Id is introduced by =?=, class name with =.= and attribute with
@@ -183,7 +184,7 @@ and @ for attribute.
 
 #+END_SRC
 
-** Return string representation
+*** Return string representation
 #+BEGIN_SRC elisp :results silent
   (defun as-string(o)
     (cond
@@ -192,7 +193,7 @@ and @ for attribute.
      ((symbolp o) (symbol-name o))
      (t o)))
 #+END_SRC
-** Convert a list to HTML element
+*** Convert a list to HTML element
 This is the workhorse of our template processor. =mk-elem= inspects
 each form in the template and processes it as follows.
 
@@ -254,13 +255,13 @@ The following element specifications are all equivalent.
                         "<img src=\"http://example.com/images/fubar.png\"/>\n"))
 #+END_SRC
 
-** Template processor
+*** Template processor
 This is the implementation section of the template processor. This
 file can be processed using org-babel-tangle to produce a
 =~/.emacs.d/yatl.el= file. The package is named =yatl= for "Yet
 Another Template Language" and =(require 'yatl)= to access it.
 
-*** yatl-compile-fn
+**** yatl-compile-fn
 This is a helper function to examine each form and turn it into a form
 that can be passed to =yatl-mk-elem=. What we want is the ability to mix
 lisp code with our element markup code. We want this to be as seamless
@@ -338,7 +339,7 @@ override its meaning by writing it as ='div=.
      (t (throw 'Unhandled form))))
 #+END_SRC
 
-*** yatl-Compile macro
+**** yatl-Compile macro
 A macro which applies =yatl-compile-fn= to its arguments and concatenates the
 values returned. This must be a macro as the S-expressions can't be
 evaluated directly.
@@ -369,7 +370,7 @@ use with org-mode.
                  '("<img id=\"id\" src=\"http://foo.bar/baaz.jpg\"/>\n")))
 #+END_SRC
 
-*** yatl-compile-string
+**** yatl-compile-string
 Occasionally, we need to create forms at run-time and =yatl-compile=
 macro doesn't evaluate its arguments. This function provides an escape
 hatch for these cases.
@@ -380,7 +381,7 @@ hatch for these cases.
       (eval (yatl-compile-fn (list (make-symbol s))))))
 #+END_SRC
 
-*** html5 macro
+**** html5 macro
 Macro which wraps the yatl-compiled forms in HTML5 boilerplate.
 
 #+BEGIN_SRC elisp :results silent
@@ -391,13 +392,13 @@ Macro which wraps the yatl-compiled forms in HTML5 boilerplate.
       "</html>"))
 #+END_SRC
 
-*** HTML fragment generator
+**** HTML fragment generator
 #+BEGIN_SRC elisp :results silent
   (defmacro yatl-html-frag(&rest forms)
     `(concat
       (mapconcat (lambda (x) (format "%s" x)) (yatl-compile ,@forms) "")))
 #+END_SRC
-*** yatl-Compile macro tests
+**** yatl-Compile macro tests
 We make sure our =yatl-html5= works as expected when we mix our notation
 with Lisp function and macros. Let's define a few test fixtures.
 
@@ -447,7 +448,7 @@ with Lisp function and macros. Let's define a few test fixtures.
     "<!DOCTYPE html>\n<html>\nfoo</html>"))
 #+END_SRC
 
-*** Provide our module
+**** Provide our module
 Make this package available.
 
 #+BEGIN_SRC elisp :results silent

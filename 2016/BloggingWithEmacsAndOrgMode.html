@@ -5,7 +5,7 @@
  <title>
 MonadicT
 </title>
- <base href="https://MonadicT.github.io/"/>
+ <base href="http://localhost:8000/"/>
  <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
  of 2017-12-09>"/>
  <meta name="author" content="Praki Prakash"/>
@@ -28,16 +28,21 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
  <div id="blog-content-middle">
+
+<div id="outline-container-org569acc0" class="outline-2">
+<h2 id="org569acc0">Blogging with emacs and org-mode</h2>
+<div class="outline-text-2" id="text-org569acc0">
 <p>
 I do most of my work in <code>emacs</code> and blogging is no
 exception. But, everytime I start a blog post, I go through a small
 learning curve around the tools I use. I am going to put an end to it,
 once and for all :)
 </p>
+</div>
 
-<div id="outline-container-org1944abf" class="outline-2">
-<h2 id="org1944abf">Emacs setup</h2>
-<div class="outline-text-2" id="text-org1944abf">
+<div id="outline-container-org8e34877" class="outline-3">
+<h3 id="org8e34877">Emacs setup</h3>
+<div class="outline-text-3" id="text-org8e34877">
 <p>
 Obviously, you need <code>org-mode</code>. Version <code>8.*</code> is preferred and there
 are many breaking changes from its previous versions. If you are using
@@ -87,9 +92,9 @@ fontified as well.
 </div>
 </div>
 
-<div id="outline-container-orgee5b2d0" class="outline-3">
-<h3 id="orgee5b2d0">Source blocks</h3>
-<div class="outline-text-3" id="text-orgee5b2d0">
+<div id="outline-container-org4462ea7" class="outline-4">
+<h4 id="org4462ea7">Source blocks</h4>
+<div class="outline-text-4" id="text-org4462ea7">
 <p>
 Source code blocks are delimited by <code>#+BEGIN_SRC lang</code> and
 <code>#+END_SRC</code>. <code>emacs</code> evaluates the source block and uses the result in
@@ -185,13 +190,13 @@ return 42
 </div>
 </div>
 
-<div id="outline-container-orgfce5af5" class="outline-2">
-<h2 id="orgfce5af5">Blog post</h2>
-<div class="outline-text-2" id="text-orgfce5af5">
+<div id="outline-container-orgd6c974b" class="outline-3">
+<h3 id="orgd6c974b">Blog post</h3>
+<div class="outline-text-3" id="text-orgd6c974b">
 </div>
-<div id="outline-container-org9c45b47" class="outline-3">
-<h3 id="org9c45b47">Header</h3>
-<div class="outline-text-3" id="text-org9c45b47">
+<div id="outline-container-orge9c18b6" class="outline-4">
+<h4 id="orge9c18b6">Header</h4>
+<div class="outline-text-4" id="text-orge9c18b6">
 <p>
 A blog post begins with the following.
 </p>
@@ -203,9 +208,9 @@ A blog post begins with the following.
 </div>
 </div>
 
-<div id="outline-container-org415c3e9" class="outline-3">
-<h3 id="org415c3e9">Including a \LaTeX generated figure</h3>
-<div class="outline-text-3" id="text-org415c3e9">
+<div id="outline-container-org8a0a824" class="outline-4">
+<h4 id="org8a0a824">Including a \LaTeX generated figure</h4>
+<div class="outline-text-4" id="text-org8a0a824">
 <p>
 Here is a \LaTeX{} block to generate an image in the exported
 document. By default, the result type is <b>latex</b> and the output is
@@ -241,9 +246,9 @@ file link will be wrapped into a latex block.
 </div>
 </div>
 
-<div id="outline-container-org69a5f82" class="outline-3">
-<h3 id="org69a5f82">Including a graphviz diagram</h3>
-<div class="outline-text-3" id="text-org69a5f82">
+<div id="outline-container-org34da28e" class="outline-4">
+<h4 id="org34da28e">Including a graphviz diagram</h4>
+<div class="outline-text-4" id="text-org34da28e">
 <p>
 We need to have <i>graphviz</i> installed on the system. <i>emacs</i> should be
 able to find <code>dot</code> command. As usual, Windows is a pain but <i>I have
@@ -263,9 +268,9 @@ You might need to locate and copy <code>ob-dot.el</code> to a location where
 </div>
 </div>
 
-<div id="outline-container-org3376eb1" class="outline-2">
-<h2 id="org3376eb1">Publishing</h2>
-<div class="outline-text-2" id="text-org3376eb1">
+<div id="outline-container-org1394f8b" class="outline-3">
+<h3 id="org1394f8b">Publishing</h3>
+<div class="outline-text-3" id="text-org1394f8b">
 <p>
 My blogging host is at <a href="https://mondiact.github.io">https://mondiact.github.io</a>. My Github user id is
 <i>MonadicT</i> and the repo named
@@ -315,15 +320,16 @@ Just like that, the new post appears on Github in all its glory.
 </div>
 </div>
 
-<div id="outline-container-org0a7156f" class="outline-2">
-<h2 id="org0a7156f">Troubleshooting</h2>
-<div class="outline-text-2" id="text-org0a7156f">
+<div id="outline-container-org1a31511" class="outline-3">
+<h3 id="org1a31511">Troubleshooting</h3>
+<div class="outline-text-3" id="text-org1a31511">
 <p>
 There are many moving parts in <code>org-mode</code> and when things go wrong,
 debugging is taxing. Google is our friend and one particularly nasty
 bug I hit was the messed up state of <code>org-mode</code>. This magical sequence,
 <code>C-U M-x org-reload</code>, fixed my issue with "wrong type argument" error.
 </p>
+</div>
 </div>
 </div>
 

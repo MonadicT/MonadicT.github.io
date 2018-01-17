@@ -4,6 +4,7 @@
 #+export_file_name: ../../2018/blog-site-generator.html
 #+html_head: <link rel="stylesheet" type="text/css" href="style.css" />
 #+tags: "static site", "emacs"
+#+options: num:nil
 # Evaluate with: C-c C-v C-b
 
 * Blog site generator
@@ -33,8 +34,8 @@ executing =blog-gen-new-post=.
 
 ** Design description
 - Customizable variables describe
-* Implementation
-** Dependencies
+** Implementation
+*** Dependencies
 Not many! =yatl= is my Elisp package for generating Html fragments
 from s-expressions.
 
@@ -43,7 +44,7 @@ from s-expressions.
 (require 'yatl)
 #+END_SRC
 
-** Useful macros/functions
+*** Useful macros/functions
 *** Assert utlity
 #+BEGIN_SRC elisp :results silent :exports code
 (defmacro assert-equal (actual expected)
@@ -261,7 +262,7 @@ introdued by |?|, class name with |.| and attribute with |!|.
 
 #+END_SRC
 
-** Variables
+*** Variables
 #+BEGIN_SRC elisp :results silent
   (require 'ox-html)
 
@@ -311,7 +312,7 @@ introdued by |?|, class name with |.| and attribute with |!|.
 
 #+END_SRC
 
-** Inner template generator
+*** Inner template generator
 This function is called from Org-export machinery.
 
 #+BEGIN_SRC elisp :results silent
@@ -334,7 +335,7 @@ This function is called from Org-export machinery.
 
 #+END_SRC
 
-** twitter-link
+*** twitter-link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-twitter-link()
     "<a target=\"_new\" href=\"https://twitter.com/MonadicT\">
@@ -344,7 +345,7 @@ This function is called from Org-export machinery.
      src=\"/images/twitter.png\"/></a>")
 #+END_SRC
 
-** github-link
+*** github-link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-github-link()
     "<a id=\"github-link\" target=\"_new\"
@@ -352,28 +353,28 @@ This function is called from Org-export machinery.
     height=\"48\" width=\"48\" src=\"/images/github.png\"/></a>")
 #+END_SRC
 
-** Home link
+*** Home link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-home-link()
     "<a href=\"/index.html\">Home</a>")
 
 #+END_SRC
 
-** Articles link
+*** Articles link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-articles-link()
     "<a href=\"/articles.html\">Articles</a>")
 
 #+END_SRC
 
-** About link
+*** About link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-about-link()
     "<a href=\"/about.html\">About</a>")
 
 #+END_SRC
 
-** Site links
+*** Site links
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-site-links()
     (concat
@@ -384,7 +385,7 @@ This function is called from Org-export machinery.
      "</div>"))
 #+END_SRC
 
-** top-matter
+*** top-matter
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-top-matter()
     (concat
@@ -408,7 +409,7 @@ This function is called from Org-export machinery.
      "</div>"))
 #+END_SRC
 
-** Search form
+*** Search form
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-search-form()
     "<div>Search <form action=\"http://www.google.com/search\" id=\"searchform\"
@@ -417,7 +418,7 @@ This function is called from Org-export machinery.
   </div></form></div>")
 #+END_SRC
 
-** Social media icons
+*** Social media icons
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-social-media-icons()
     (concat
@@ -749,11 +750,18 @@ Function to regenerate the full site. This is bound to =C-c C-g=.
       (global-set-key (kbd "C-c C-g") #'blog-gen-publish)
 #+END_SRC
 
-*** Blog template
+*** Create new blog post
+A template for creating a new blog post.
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-new-post()
     (interactive)
-    (insert "#+title: TBD\n
-  ,#+options: toc:nil num: nil\n"))
+    (insert "#+title: TBD
+#+summary: TBD
+#+publish-date: 2018-01-31
+#+export_file_name: ../../yyyy/TBD
+#+tags: TBD
+
+* TBD
+"))
 
 #+END_SRC

@@ -6,12 +6,13 @@
 #+options: toc:nil num:nil tex:t LaTeX:t
 #+latex_header_extra: \usepackage{showexpl, url, tikz, xcolor}
 
+* Blogging with emacs and org-mode
 I do most of my work in =emacs= and blogging is no
 exception. But, everytime I start a blog post, I go through a small
 learning curve around the tools I use. I am going to put an end to it,
 once and for all :)
 
-* Emacs setup
+** Emacs setup
 Obviously, you need =org-mode=. Version =8.*= is preferred and there
 are many breaking changes from its previous versions. If you are using
 a recent vintage =emacs=, =org-mode= is already bundled. Unless you
@@ -53,7 +54,7 @@ fontified as well.
 
 #+END_SRC
 
-** Source blocks
+*** Source blocks
 Source code blocks are delimited by =#+BEGIN_SRC lang= and
 =#+END_SRC=. =emacs= evaluates the source block and uses the result in
 export. Source block parameters, =:results= and =:exports= are
@@ -131,8 +132,8 @@ netsh interface portproxy show all
 netsh interface portproxy delete v4tov4 listenport=5555 listenaddress=127.0.0.1
 #+END_SRC
 
-* Blog post
-** Header
+** Blog post
+*** Header
 A blog post begins with the following.
 #+BEGIN_EXAMPLE
 #+TITLE: Blogging with org-mode
@@ -140,7 +141,7 @@ A blog post begins with the following.
 #+options: toc:nil num:nil tex:t LaTeX:t
 #+END_EXAMPLE
 
-** Including a \LaTeX generated figure
+*** Including a \LaTeX generated figure
 Here is a \LaTeX{} block to generate an image in the exported
 document. By default, the result type is *latex* and the output is
 wrapped in =#:BEGIN_LaTeX...#:END_LaTeX= block. Note that there are
@@ -179,7 +180,7 @@ file link will be wrapped into a latex block.
 \end{figure}
 #+END_SRC
 
-** Including a graphviz diagram
+*** Including a graphviz diagram
 We need to have /graphviz/ installed on the system. /emacs/ should be
 able to find =dot= command. As usual, Windows is a pain but /I have
 become comfortably numb/ :)
@@ -205,7 +206,7 @@ digraph data_relationships {
 #+RESULTS:
 [[file:dotfig.png]]
 
-* Publishing
+** Publishing
 My blogging host is at [[https://MondiacT.github.io]]. My Github user id is
 /MonadicT/ and the repo named
 =https://github.com/MonadicT/MonadicT.github.io= is the source of
@@ -241,7 +242,7 @@ git push
 
 Just like that, the new post appears on Github in all its glory.
 
-* Troubleshooting
+** Troubleshooting
 There are many moving parts in =org-mode= and when things go wrong,
 debugging is taxing. Google is our friend and one particularly nasty
 bug I hit was the messed up state of =org-mode=. This magical sequence,

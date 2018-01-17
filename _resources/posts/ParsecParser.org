@@ -101,11 +101,11 @@ The result of parsing will be an abstract syntax tree (AST). In
 further posts, I will implement evaluation of the tree or use it
 generate code.
 
-* Implementation
+** Implementation
 Using Parsec in applicative style leads to remarkably concise and
 simple implementation.
 
-** Module declaration
+*** Module declaration
 Lists exports from this module. We export lower-level parse functions
 for testing purposes.
 
@@ -113,7 +113,7 @@ for testing purposes.
 module Parser (Expr(..), Stmt(..), dslP, parse, exprP, stmtP) where
 #+END_SRC
 
-** Imports
+*** Imports
 Notable imports are Parsec and friends. We also import some functions
 from =Control.Applicative=.
 
@@ -127,7 +127,7 @@ import Text.ParserCombinators.Parsec.Language (emptyDef)
 import qualified Text.ParserCombinators.Parsec.Token as Token
 #+END_SRC
 
-** Lexer
+*** Lexer
 #+BEGIN_SRC haskell :tangle Parser.hs
 tokenDef = Token.makeTokenParser $ emptyDef
      { Token.commentStart    = "/*"
@@ -162,7 +162,7 @@ parens = Token.parens tokenDef
 braces = Token.braces tokenDef
 #+END_SRC
 
-** Data types
+*** Data types
 #+BEGIN_SRC haskell :tangle Parser.hs
 data Expr =
     Add Expr Expr
@@ -199,12 +199,12 @@ data Stmt =
     deriving (Show, Eq)
 #+END_SRC
 
-** Useful combinators
+*** Useful combinators
 #+BEGIN_SRC haskell :tangle Parser.hs
 commaSep p  = p `sepBy` (symbol ",")
 #+END_SRC
 
-** Expression parser
+*** Expression parser
 This is the expression parser. This accepts semantically invalid
 expressions as there is no distinction between numerical, string and
 boolean expressions. In a future post, I will implement a semantic
@@ -259,7 +259,7 @@ callP = Call <$> ident <*> parens (commaSep exprP)
 notP = reservedOp "!" <|> reserved "not"
 #+END_SRC
 
-** Statement parser
+*** Statement parser
 #+BEGIN_SRC haskell :tangle Parser.hs
 stmtP :: Parser Stmt
 stmtP =   assignP
@@ -289,14 +289,14 @@ breakP = reserved "break" *> return Break
 continueP = reserved "continue" *> return Continue
 #+END_SRC
 
-** DSL Parser
+*** DSL Parser
 
 #+BEGIN_SRC haskell :tangle Parser.hs
 dslP :: Parser [Stmt]
 dslP = ws *> many stmtP <* eof
 #+END_SRC
 
-** Most problematic areas
+*** Most problematic areas
 With Parsec, it turns out to be important to order the parsers and
 adorn them with =try=. This was most evident in =factorP=. Very
 briefly, when there are two parsers one of which is a prefix of the
@@ -307,12 +307,12 @@ position.
 
 Other than this, using Parsec to build parsers is pretty straightforward.
 
-* Test program
+** Test program
 Here is test program that verifies the correctness of the parser. The
 tokenizer seems to have a bug. It correctly parses "1.2" as =D 1.2=
 but parses =-1.2= as =I (-1)=. I will defer this issue for now!
 
-** Module imports
+*** Module imports
 #+BEGIN_SRC haskell :tangle ParserTest.hs
 import Text.Parsec (parseTest)
 import Data.List (intercalate)
@@ -320,7 +320,7 @@ import Text.Parsec.String
 import Parser
 #+END_SRC
 
-** Expression tests
+*** Expression tests
 Testing expression parsing.
 #+BEGIN_SRC haskell :tangle ParserTest.hs
 exprTests :: [(String, Expr)]
@@ -364,7 +364,7 @@ exprTests = [("10", I 10)
          ]
 #+END_SRC
 
-** Statement tests
+*** Statement tests
 Testing statement parsing.
 #+BEGIN_SRC haskell :tangle ParserTest.hs
 stmtTests :: [(String, Stmt)]
@@ -380,7 +380,7 @@ stmtTests = [ ("x := 1", Assign (V "x") (I 1))
             ]
 #+END_SRC
 
-** Dsl tests
+*** Dsl tests
 Example DSL and its expected result.
 #+BEGIN_SRC haskell :tangle ParserTest.hs
 dslTests :: [(String, [Stmt])]
@@ -389,7 +389,7 @@ dslTests =  [ ("x := 1 y:= 2", [Assign (V "x") (I 1), Assign (V "y") (I 2)])
             ]
 #+END_SRC
 
-** Test runner
+*** Test runner
 =testParser= accepts a list of input and expected results of parsing
 them. Inputs that don't produce the expected results are printed.
 #+BEGIN_SRC haskell :tangle ParserTest.hs
@@ -408,7 +408,7 @@ testParser p tests = do
 
 #+END_SRC
 
-** Main program
+*** Main program
 Runs all tests defined above.
 #+BEGIN_SRC haskell :tangle ParserTest.hs
 main :: IO ()

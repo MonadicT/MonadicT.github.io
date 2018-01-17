@@ -28,42 +28,50 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
  <div id="blog-content-middle">
-<div id="outline-container-org0ed0992" class="outline-2">
-<h2 id="org0ed0992">About Me</h2>
-<div class="outline-text-2" id="text-org0ed0992">
-<img src="http://MonadicT.github.io/images/praki.jpg" style="float:left;padding-right:20px"/>
 
+<div id="outline-container-org25b9c8a" class="outline-2">
+<h2 id="org25b9c8a">Java Fork/Join Framework - an exemplar of elegant design</h2>
+<div class="outline-text-2" id="text-org25b9c8a">
 <p>
-Praki Prakash is a programmer based in San Francisco bay area. He
-prefers to call himself a programmer even though he has held numerous
-technical and management roles. He is the <b>Chief Architect</b> at
-<a href="http://www.picarro.com">Picarro, Inc</a>. His previous roles include <i>Master Technologist</i> at HP,
-<i>Staff Engineer</i> at VMware, <i>Engineering Manager</i> at Yahoo. He is
-also the founder of GuidingWave Technologies.
+It's rare to see a well-crafted solution to a thorny problem. With
+multicore hardware becoming the norm a few years ago, we needed a way
+to take advantage of all those cores. In Java, we already have
+threads and synchronization constructs, right? What could be easier
+than throwing together a bunch of interfaces, classes and threads at
+this problem?
 </p>
 
 <p>
-Praki is passionate about functional programming. He has programmed
-extensively in <b>Clojure</b>, <b>ClojureScript</b> and dabbles occasionally in
-<b>Rust</b>, <b>Go</b>, <b>Elixir</b> and <b>Haskell</b>. He has been involved in a number
-of projects using <b>Java</b>, <b>Python</b>, <b>Groovy</b>, <b>JavaScript</b>,
-<b>SmallTalk</b> and <b>C/C++</b> technologies.
+The answer is not whether it is easier or harder. The question should
+really be about the right way to do it. The realization of Fork/Join
+implementation in Java is quite an impressive piece of
+engineering. Engineering as in recognizing the essence of the problem
+and solving it just right. Of course, the credit also goes to the
+original work done in Cilk project at MIT.
 </p>
 
 <p>
-Praki's favorite editor is <b>Emacs</b> and he maintains this website using
-custom elisp packages. You can read about these packages at <a href="https://monadict.github.io">TBD</a>.
+I won't try to distill the contents of relevant papers in this
+post. You should really read Doug Lea's paper and the Cilk-5 paper
+would be a bonus read after that. Link to these papers are right here.
 </p>
 
 <p>
-Besides software, Praki's interests include Woodworking, Medium-format
-Photography, Single-ended Triode Amplifiers. He collects Jazz and
-Blues vinyl records. He is also a bold cook unafraid of trying exotic
-dishes.
+<a href="http://gee.cs.oswego.edu/dl/papers/fj.pdf">A Java Fork/Join Framework</a>
 </p>
 
 <p>
-You can follow Praki on <a href="https://twitter.com/MonadicT">Twitter</a> and <a href="https://monadict.github.io">Github</a>.
+<a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013">The
+Implementation of the Cilk-5 Multithreaded Language</a>
+</p>
+
+<p>
+The design of work-stealing and the implementation of underlying deque
+is full of deep insights into the problem and clever solutions. I
+never thought <a href="https://en.wikipedia.org/wiki/Dekker's_algorithm">Dekker's algorithm</a>, which provides mutual exclusion
+between two processes, would ever be usable in a real-world
+solution. I suppose, some solutions are waiting for just the right
+problem.
 </p>
 </div>
 </div>
