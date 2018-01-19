@@ -12,6 +12,11 @@ body {
     background-color: #dfe3ee
 }
 
+a {
+    color: #930;
+    text-decoration: none
+}
+
 #blog-title {
     font-size: 1.5em;
     color: #dfe3ee;

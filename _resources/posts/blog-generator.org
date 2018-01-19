@@ -517,7 +517,7 @@ This function is called from Org-export machinery.
         (title blog-gen-title)
         (yatl-compile-string
          "base@href=\"%s\""
-         (if blog-gen-local "http://localhost:8000/" "https://MonadicT.github.io/"))
+         (blog-gen-base-url))
         (yatl-compile-string "meta@name=generator@content=\"%s\">" (emacs-version))
         (yatl-compile-string "meta@name=author@content=\"%s\"" blog-gen-author)
         (link@href=\"blog-style.css\"@rel=\"stylesheet\"))
@@ -601,6 +601,12 @@ This is a Boolean flag set to use =base= url for generated html files.
 #+BEGIN_SRC elisp :results silent :noweb-ref vars
 (setq blog-gen-local t)
 #+END_SRC
+
+#+BEGIN_SRC elisp :results silent :noweb-ref
+  (defun blog-gen-base-url()
+    (if blog-gen-local "http://localhost:8000/" "https://MonadicT.github.io/"))
+
+#+END_SRC
 *** Extract post details
 Extracts post title, summary and =publish-date= from the file. Nil is
 returned if =publish-date= is not present.
@@ -622,7 +628,7 @@ returned if =publish-date= is not present.
         (puthash "export_file_name" export-file-name details)
         (puthash "tags" (blog-gen-get-keyword-value kws "tags" "") details)
         (puthash "target" (blog-gen-get-keyword-value kws "target" "") details)
-        (puthash "href" (concat "http:" href) details)
+        (puthash "href" (concat (blog-gen-base-url) href) details)
         (unless (string-match "blog-generator.org" f) (kill-buffer))
         details)))
 #+END_SRC
@@ -693,43 +699,43 @@ Exports all =.org= post files to =.html= files.
 Generates list of articles.
 
 #+BEGIN_SRC elisp :results silent :noweb-ref fns
-    (defun blog-gen-create-articles()
-      (with-temp-buffer
-        (find-file "index.org")
-        (erase-buffer)
-        (insert "#+title: MonadictT\n")
-        (insert "#+options: num:nil html-style:nil\n")
-        (insert "* Posts\n")
-        (let ((posts (blog-gen-order-posts
-                      (blog-gen-published-posts
-                       (blog-gen-post-files)))))
-          (mapcar
-           (lambda (post)
-             (let* ((title (gethash "title" post))
-                    (summary (gethash "summary"  post))
-                    (export-file-name (gethash "export_file_name"  post))
-                    (export-file-name
-                     (let ((href export-file-name))
-                       (while (string-match "^\\.\\./" href)
-                         (setq href (substring href 3)))
-                       href))
-                    (publish-date (gethash "publish-date" post))
-                    (l (list (make-symbol (format "a@href=\"/%s\"" export-file-name)) title)))
-               (html-export
-                (yatl-html-frag
-                 (div.post-title
-                  (eval (yatl-compile-fn l)))))
-               (html-export
-                (yatl-html-frag
-                 (div.post-summary summary)) "\n\n")
-               (html-export
-                (yatl-html-frag
-                 (div.post-publish-date "Published: " publish-date)) "\n")))
-           posts))
-        (save-buffer)
-        (when (file-exists-p "../../articles.html")
-          (delete-file "../../articles.html"))
-        (org-export-to-file 'blog "../../articles.html")))
+  (defun blog-gen-create-articles()
+    (with-temp-buffer
+      (find-file "index.org")
+      (erase-buffer)
+      (insert "#+title: MonadictT\n")
+      (insert "#+options: num:nil html-style:nil\n")
+      (insert "* Posts\n")
+      (let ((posts (blog-gen-order-posts
+                    (blog-gen-published-posts
+                     (blog-gen-post-files)))))
+        (mapcar
+         (lambda (post)
+           (let* ((title (gethash "title" post))
+                  (summary (gethash "summary"  post))
+                  (export-file-name (gethash "export_file_name"  post))
+                  (export-file-name
+                   (let ((href export-file-name))
+                     (while (string-match "^\\.\\./" href)
+                       (setq href (substring href 3)))
+                     href))
+                  (publish-date (gethash "publish-date" post))
+                  (l (list (make-symbol (format "a@href=\"/%s\"" export-file-name)) title)))
+             (html-export
+              (yatl-html-frag
+               (div.post-title
+                (eval (yatl-compile-fn l)))))
+             (html-export
+              (yatl-html-frag
+               (div.post-summary summary)) "\n\n")
+             (html-export
+              (yatl-html-frag
+               (div.post-publish-date "Published: " publish-date)) "\n")))
+         posts))
+      (save-buffer)
+      (when (file-exists-p "../../articles.html")
+        (delete-file "../../articles.html"))
+      (org-export-to-file 'blog "../../articles.html")))
 #+END_SRC
 
 *** Tags generation
@@ -825,7 +831,7 @@ Function to regenerate the full site. This is bound to =C-c C-g=.
 #+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-publish(prod)
     (interactive "P")
-    (if prod (setq blog-gen-local nil) (setq local t))
+    (if prod (setq blog-gen-local nil) (setq blog-gen-local t))
     (let ((posts (blog-gen-post-files)))
       (blog-gen-create-posts)
       (blog-gen-create-articles)
