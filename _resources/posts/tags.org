@@ -1,0 +1,57 @@
+#+title: Tags
+#+options: num:nil
+* Tags
+** blog
+- [[http:bloggen.html][Static Blog Site Generator]]
+** DSL
+- [[http:2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+- [[http:2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
+** elisp
+- [[http:bloggen.html][Static Blog Site Generator]]
+** emacs
+- [[http:2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
+- [[http:bloggen.html][Static Blog Site Generator]]
+- [[http:2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
+- [[http:2018/blog-site-generator.html][Rate-limiting Functions]]
+- [[http:2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
+** Garbage Collection
+- [[http:2014/JavaReferences.html][Java References]]
+** Haskell
+- [[http:2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
+** HTML
+- [[http:][Static Site Builder]]
+- [[http:2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+** Java
+- [[http:2014/JavaReferences.html][Java References]]
+- [[http:2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
+** Jekyll
+- [[http:2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
+** lisp
+- [[http:][Static Site Builder]]
+- [[http:2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+** network
+- [[http:2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
+** Parsec
+- [[http:2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
+** pattern matching
+- [[http:][Tree patters nmatching]]
+** scheduling
+- [[http:2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
+** static site
+- [[http:2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
+- [[http:2018/blog-site-generator.html][Rate-limiting Functions]]
+- [[http:2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
+** template
+- [[http:2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+** tip
+- [[http:2015/ConfiguringXMonad.html][Configuring XMonad]]
+- [[http:2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
+- [[http:2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
+** Ubuntu
+- [[http:2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
+** work stealing
+- [[http:2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
+** X
+- [[http:2015/ConfiguringXMonad.html][Configuring XMonad]]
+** xmonad
+- [[http:2015/ConfiguringXMonad.html][Configuring XMonad]]

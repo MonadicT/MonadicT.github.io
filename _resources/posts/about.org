@@ -9,25 +9,14 @@
    (img@src=\"http://MonadicT.github.io/images/praki.jpg\"@style=\"float:left\;padding-right:20px\"))
 #+END_SRC
 
-Praki Prakash is a programmer based in San Francisco bay area. He
-prefers to call himself a programmer even though he has held numerous
-technical and management roles. He is the *Chief Architect* at
-[[http://www.picarro.com][Picarro, Inc]]. His previous roles include /Master Technologist/ at HP,
-/Staff Engineer/ at VMware, /Engineering Manager/ at Yahoo. He is
-also the founder of GuidingWave Technologies.
+*Chief Architect* at [[http://www.picarro.com][Picarro, Inc]]. Previous roles include /Master
+Technologist/ at HP Inc, /Staff Engineer/ at VMware Inc, /Engineering Manager/
+at Yahoo Inc.
 
-Praki is passionate about functional programming. He has programmed
-extensively in *Clojure*, *ClojureScript* and dabbles occasionally in
-*Rust*, *Go*, *Elixir* and *Haskell*. He has been involved in a number
-of projects using *Java*, *Python*, *Groovy*, *JavaScript*,
-*SmallTalk* and *C/C++* technologies.
-
-Praki's favorite editor is *Emacs* and he maintains this website using
-custom elisp packages. You can read about these packages at [[https://MonadicT.github.io][TBD]].
-
-Besides software, Praki's interests include Woodworking, Medium-format
-Photography, Single-ended Triode Amplifiers. He collects Jazz and
-Blues vinyl records. He is also a bold cook unafraid of trying exotic
-dishes.
+Passionate about functional programming. Programmed extensively in
+*Clojure*, *ClojureScript* and dabbles occasionally in *Rust*, *Go*,
+*Elixir* and *Haskell*. Involved in a number of projects
+using *Java*, *Python*, *Groovy*, *JavaScript*, *SmallTalk* and
+*C/C++* technologies.
 
 You can follow Praki on [[https://twitter.com/MonadicT][Twitter]] and [[https://MonadicT.github.io][Github]].

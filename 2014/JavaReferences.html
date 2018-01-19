@@ -5,7 +5,7 @@
  <title>
 MonadicT
 </title>
- <base href="http://localhost:8000/"/>
+ <base href="https://MonadicT.github.io/"/>
  <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
  of 2017-12-09>"/>
  <meta name="author" content="Praki Prakash"/>
@@ -17,7 +17,7 @@ MonadicT
 method="get"><div><input class="box" id="s" name="q" type="text" />
 <input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
 </div></form></div></div><div class="blog-margin-right"></div></div>
-<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
 <span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
 <img height="48px" width="48px"
    title="Visit my Twitter page"
@@ -29,9 +29,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
  <div id="blog-content-middle">
 
-<div id="outline-container-orgc1a131c" class="outline-2">
-<h2 id="orgc1a131c">Java References</h2>
-<div class="outline-text-2" id="text-orgc1a131c">
+<div id="outline-container-orgb86be00" class="outline-2">
+<h2 id="orgb86be00">Java References</h2>
+<div class="outline-text-2" id="text-orgb86be00">
 <p>
 Perhaps the first trick of performance improvement is caching. Every
 programmer knows that performance of programs can be improved if
@@ -73,9 +73,9 @@ illustrate the general ideas.
 </p>
 </div>
 
-<div id="outline-container-orge497fb0" class="outline-3">
-<h3 id="orge497fb0">Building a GC-friendly cache</h3>
-<div class="outline-text-3" id="text-orge497fb0">
+<div id="outline-container-orgb944089" class="outline-3">
+<h3 id="orgb944089">Building a GC-friendly cache</h3>
+<div class="outline-text-3" id="text-orgb944089">
 <p>
 Say, your software creates something that is expensive and we would like
 to improve the overall performance by caching instances of it once
@@ -179,9 +179,9 @@ automatically get smaller when memory becomes scarce, what are
 </div>
 </div>
 
-<div id="outline-container-org40a0f59" class="outline-3">
-<h3 id="org40a0f59">Weak Hash Map</h3>
-<div class="outline-text-3" id="text-org40a0f59">
+<div id="outline-container-orgd6b97ed" class="outline-3">
+<h3 id="orgd6b97ed">Weak Hash Map</h3>
+<div class="outline-text-3" id="text-orgd6b97ed">
 <p>
 The JDK documentation for <b>WeakReference</b> says, weak references are
 used to build canonicalized mappings. A canonicalized mapping to an
@@ -214,9 +214,9 @@ the key will never become weakly referenced.
 </div>
 </div>
 
-<div id="outline-container-orgf5b11d9" class="outline-3">
-<h3 id="orgf5b11d9">Phantom Reference</h3>
-<div class="outline-text-3" id="text-orgf5b11d9">
+<div id="outline-container-orgd36ccbe" class="outline-3">
+<h3 id="orgd36ccbe">Phantom Reference</h3>
+<div class="outline-text-3" id="text-orgd36ccbe">
 <p>
 Now we come to the last scenario discussed in the beginning. Java
 objects can have a <b>finalize</b> method in which you can perform cleanup

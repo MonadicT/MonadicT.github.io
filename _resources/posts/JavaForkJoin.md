@@ -1,7 +1,7 @@
 ---
 title: Java Fork/Join Framework - an exemplar of elegant design
 layout: post
-tags: programming design
+tags: programming, design, Java
 ---
 
 It's rare to see a well-crafted solution to a thorny problem. With

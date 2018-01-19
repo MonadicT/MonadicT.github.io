@@ -5,7 +5,7 @@
  <title>
 MonadicT
 </title>
- <base href="http://localhost:8000/"/>
+ <base href="https://MonadicT.github.io/"/>
  <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
  of 2017-12-09>"/>
  <meta name="author" content="Praki Prakash"/>
@@ -17,7 +17,7 @@ MonadicT
 method="get"><div><input class="box" id="s" name="q" type="text" />
 <input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
 </div></form></div></div><div class="blog-margin-right"></div></div>
-<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
 <span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
 <img height="48px" width="48px"
    title="Visit my Twitter page"
@@ -29,9 +29,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
  <div id="blog-content-middle">
 
-<div id="outline-container-orgbf6387c" class="outline-2">
-<h2 id="orgbf6387c">Configuring XMonad</h2>
-<div class="outline-text-2" id="text-orgbf6387c">
+<div id="outline-container-orgbd926cb" class="outline-2">
+<h2 id="orgbd926cb">Configuring XMonad</h2>
+<div class="outline-text-2" id="text-orgbd926cb">
 <p>
 <a href="http://www.xmonad.org">XMonad</a> is a minimal tiling window manager. This post shows how to
 setup xmnoad on a Ubuntu 14.04 machine and configure it in small
@@ -44,9 +44,9 @@ well, let's stop right there! You get the idea!
 </p>
 </div>
 
-<div id="outline-container-orgd2ecf2f" class="outline-3">
-<h3 id="orgd2ecf2f">Installing xmonad</h3>
-<div class="outline-text-3" id="text-orgd2ecf2f">
+<div id="outline-container-org342face" class="outline-3">
+<h3 id="org342face">Installing xmonad</h3>
+<div class="outline-text-3" id="text-org342face">
 <p>
 My usual sequence for setting up a Linux computer is to install Ubuntu
 or something similar. The distribution you use really doesn't matter
@@ -81,9 +81,9 @@ X-GNOME-Autostart-Notify=true
 </div>
 </div>
 
-<div id="outline-container-org1b0885b" class="outline-3">
-<h3 id="org1b0885b">Configuring xmonad</h3>
-<div class="outline-text-3" id="text-org1b0885b">
+<div id="outline-container-orgdb8a12c" class="outline-3">
+<h3 id="orgdb8a12c">Configuring xmonad</h3>
+<div class="outline-text-3" id="text-orgdb8a12c">
 <p>
 xmonad runs happily with no custom configuration. However, it is going to be
 a bland experience. Customizing xmonad requires you to have a
@@ -92,9 +92,9 @@ main focus of this post.
 </p>
 </div>
 
-<div id="outline-container-orgc33b207" class="outline-4">
-<h4 id="orgc33b207">Hello, xmonad.hs</h4>
-<div class="outline-text-4" id="text-orgc33b207">
+<div id="outline-container-org9f365df" class="outline-4">
+<h4 id="org9f365df">Hello, xmonad.hs</h4>
+<div class="outline-text-4" id="text-org9f365df">
 <p>
 This is the simplest configuration of XMonad window manager. It just
 runs xmonad with <i>defaultConfig</i>. <i>defaultConfig</i> is just a record
@@ -110,9 +110,9 @@ main = xmonad defaultConfig
 </div>
 </div>
 
-<div id="outline-container-orgc99269b" class="outline-4">
-<h4 id="orgc99269b">Taking back our Alt key</h4>
-<div class="outline-text-4" id="text-orgc99269b">
+<div id="outline-container-org5ea3cb7" class="outline-4">
+<h4 id="org5ea3cb7">Taking back our Alt key</h4>
+<div class="outline-text-4" id="text-org5ea3cb7">
 <p>
 If you are an <i>emacs</i> user, you are likely to be missing some favorite
 Alt key combinations. Let's change XMonad key to the Window key, which
@@ -130,9 +130,9 @@ main = xmonad defaultConfig {
 </div>
 </div>
 
-<div id="outline-container-org74a27f2" class="outline-4">
-<h4 id="org74a27f2">Configuring XMonad for a Desktop Environment</h4>
-<div class="outline-text-4" id="text-org74a27f2">
+<div id="outline-container-org60a145a" class="outline-4">
+<h4 id="org60a145a">Configuring XMonad for a Desktop Environment</h4>
+<div class="outline-text-4" id="text-org60a145a">
 <p>
 A list of configuration options can be seen at <a href="http://xmonad.org/xmonad-docs/xmonad/XMonad-Core.html#t:XConfig">XConfig</a>. Generally, we
 run Xmonad in a  <a href="http://en.wikipedia.org/wiki/Desktop_environment">Desktop Environment</a>. In such cases, Xmonad
@@ -162,9 +162,9 @@ reads its standard input stream and displays it in the window it creates.
 </div>
 </div>
 
-<div id="outline-container-org7f82223" class="outline-4">
-<h4 id="org7f82223">Configuring dzen2 and conky</h4>
-<div class="outline-text-4" id="text-org7f82223">
+<div id="outline-container-org09d276d" class="outline-4">
+<h4 id="org09d276d">Configuring dzen2 and conky</h4>
+<div class="outline-text-4" id="text-org09d276d">
 <p>
 dzen2 can be configured using ~/.Xresource<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Let's set foreground and background colors for dzen2
 as below.
@@ -247,9 +247,9 @@ main = do
 </div>
 </div>
 </div>
-<div id="outline-container-orgbbd1b6f" class="outline-4">
-<h4 id="orgbbd1b6f">Displaying window manager log</h4>
-<div class="outline-text-4" id="text-orgbbd1b6f">
+<div id="outline-container-org214721d" class="outline-4">
+<h4 id="org214721d">Displaying window manager log</h4>
+<div class="outline-text-4" id="text-org214721d">
 <p>
 All window managers maintain the current state of the desktop and
 xmonad is no exception. Xmonad has a <i>logHook</i> which is called
@@ -291,9 +291,9 @@ main = do
 </div>
 </div>
 
-<div id="outline-container-orgbb7310a" class="outline-4">
-<h4 id="orgbb7310a">Configuring terminal window</h4>
-<div class="outline-text-4" id="text-orgbb7310a">
+<div id="outline-container-orgf8e8b74" class="outline-4">
+<h4 id="orgf8e8b74">Configuring terminal window</h4>
+<div class="outline-text-4" id="text-orgf8e8b74">
 <p>
 The default terminal window in my environment is <b>xterm</b>. I like
 <b>urxvt</b> with the following parameters.
@@ -343,9 +343,9 @@ main = do
 </div>
 </div>
 
-<div id="outline-container-orgcaa6736" class="outline-4">
-<h4 id="orgcaa6736">Function key support</h4>
-<div class="outline-text-4" id="text-orgcaa6736">
+<div id="outline-container-org5e674bc" class="outline-4">
+<h4 id="org5e674bc">Function key support</h4>
+<div class="outline-text-4" id="text-org5e674bc">
 <p>
 At this point, many Fn keys don't work as expected. Support for
 multimedia keys can be added by extending the <i>desktopConfig</i> element
@@ -410,9 +410,9 @@ this snippet and we are done!
 </div>
 </div>
 </div>
-<div id="outline-container-orgfb1347a" class="outline-4">
-<h4 id="orgfb1347a">Startup actions</h4>
-<div class="outline-text-4" id="text-orgfb1347a">
+<div id="outline-container-orgceecfb2" class="outline-4">
+<h4 id="orgceecfb2">Startup actions</h4>
+<div class="outline-text-4" id="text-orgceecfb2">
 <p>
 Now for the very last bits of my configuration. When I start my
 session, I would like to have my editor, browser and a few terminal

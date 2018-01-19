@@ -1,6 +1,6 @@
 #+title: Blogging with emacs and org-mode
 #+summary: A description of emacs-based blogging workflow and unused now.
-#+tags: emacs, Jekyll, Static
+#+tags: emacs, Jekyll, static site
 #+publish-date: 2016-06-19
 #+export_file_name: ../../2016/BloggingWithEmacsAndOrgMode.html
 #+options: toc:nil num:nil tex:t LaTeX:t

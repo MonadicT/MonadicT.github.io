@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8>"/>
+ <title>
+MonadicT
+</title>
+ <base href="https://MonadicT.github.io/"/>
+ <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
+ of 2017-12-09>"/>
+ <meta name="author" content="Praki Prakash"/>
+ <link href="blog-style.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div id="blog-header" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle" id="xblog-header"><h1><div id="blog-title">MonadicT</div></h1><div>Search <form action="http://www.google.com/search" id="searchform"
+method="get"><div><input class="box" id="s" name="q" type="text" />
+<input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
+</div></form></div></div><div class="blog-margin-right"></div></div>
+<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
+<img height="48px" width="48px"
+   title="Visit my Twitter page"
+   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  href="https://github.com/MonadicT"><img id="github-logo"
+  height="48" width="48" src="/images/github.png"/></a></div></div><div class="blog-margin-right"></div></div> <div id="blog-content">
+<div id="blog-content-left">
+
+</div>
+ <div id="blog-content-middle">
+
+<div id="outline-container-orgb2d5bca" class="outline-2">
+<h2 id="orgb2d5bca">Motivation</h2>
+<div class="outline-text-2" id="text-orgb2d5bca">
+<p>
+Writing HTML by hand is error-prone and just not fun. On the other
+hand, a simple templating language that integrates the power of a
+functional programming language with org-mode sounds like a fun
+weekend exercise!
+</p>
+</div>
+
+<div id="outline-container-org254b531" class="outline-3">
+<h3 id="org254b531">Template language</h3>
+<div class="outline-text-3" id="text-org254b531">
+<p>
+Our template language is based on S-Expressions (Lisp syntax). We use
+S-expressions to represent HTML elements. An element has a name and
+optionally, a unique id, one or more class names, one or more
+attributes, and child elements. In S-expression form, this is
+represented as below.
+</p>
+
+<pre class="example">
+(yatl-elem-name?my-id.cls1.cls2@atrr1\=val1@attr2\=val2
+    (child-elem1...)
+    ...)
+</pre>
+
+<p>
+A template defined using this form is passed to <code>html5</code> macro which
+returns a string representation of equivalent HTML.
+</p>
+
+<p>
+Our template language allows mixing standard Lisp code with
+templates. For most part, this mixing is achieved without any explicit
+notation. A form which looks like a function or macro invocation is
+evaluated as such. A list whose first element is neither a function
+nor a macro is treated as an element markup. When the name of an
+element clashes with a built-in or macro name, the normal processing
+can be overridden by quoting it. For example, <code>(div x y)</code> is
+interpreted as a Lisp expression, whereas, <code>('div (span))</code> is treated
+as an element. Also, <code>(div?id)</code> is also treated as an element
+definition due to the appended attributes.
+</p>
+
+<p>
+Note that, we don't define any specific function or macros for various
+elements. We could certainly do that if there was some reason to
+eliminate duplication or error handling. This approach makes
+our template language infinitely extensible.
+</p>
+
+<p>
+The template below generates a well-formed HTML document.
+</p>
+
+<pre class="example">
+(yatl-html5
+    (head)
+    (body
+        (div#content
+            (concat "Hello, " World!"))))
+</pre>
+
+<p>
+That is all there is to our template language. It requires the user to
+know the element names and attributes. But, you can write helper
+functions in Lisp to address specific needs.
+</p>
+</div>
+</div>
+<div id="outline-container-orged1a0a2" class="outline-3">
+<h3 id="orged1a0a2">Template processor</h3>
+<div class="outline-text-3" id="text-orged1a0a2">
+</div>
+<div id="outline-container-org26cd2a7" class="outline-4">
+<h4 id="org26cd2a7">Standard header</h4>
+<div class="outline-text-4" id="text-org26cd2a7">
+<div class="org-src-container">
+<pre><code class="src src-elisp">  ;;; yatl.el --- Yet another templating language
+
+;; Copyright (C) 2017 Praki Prakash
+
+;; Author: Praki Prakash &lt;praki.prakash.gmail.com&gt;
+;; Created: 2 July 2017
+;; Keywords: DSL, HTML, template
+;; Homepage: http://MonadicT.github.io/
+
+;; This file is not part of GNU Emacs.
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+;;; Commentary:
+
+;; Put a description of the package here
+
+;;; Code:
+</code></pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeded3e2" class="outline-4">
+<h4 id="orgeded3e2">Parsing key-value string</h4>
+<div class="outline-text-4" id="text-orgeded3e2">
+<p>
+In our templating language, attributes are introduced with <code>@</code>
+character, followed by the attribute name and its value. <b>=</b>
+separates the name and value.
+</p>
+
+<p>
+This function tries to be robust to malformed strings.
+</p>
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defun yatl-parse-kvp(s)
+  (mapconcat
+   (lambda (kv-str)
+     (let* ((kv (split-string kv-str "="))
+            (key (car kv))
+            (val (cadr kv))
+            (val (or val ""))
+            (val (if (string-match "^\".*\"$" val)
+                     val
+                   (format "\"%s\"" val))))
+       (concat key "=" val)))
+   (split-string s "@" t)
+   " "))
+
+(assert (string-equal (yatl-parse-kvp "") ""))
+(assert (string-equal (yatl-parse-kvp "@") ""))
+(assert (string-equal (yatl-parse-kvp "@a") "a=\"\""))
+(assert (string-equal (yatl-parse-kvp "@a=") "a=\"\""))
+(assert (string-equal (yatl-parse-kvp "@a=b") "a=\"b\""))
+(assert (string-equal (yatl-parse-kvp "@a=b@c=d") "a=\"b\" c=\"d\""))
+
+</code></pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0384553" class="outline-4">
+<h4 id="org0384553">Parse element name</h4>
+<div class="outline-text-4" id="text-org0384553">
+<p>
+Parses element name and returns the list of element name, id, class
+and attributes. Multiple class names are allowed but id must be
+unique. Id is introduced by <code>?</code>, class name with <code>.</code> and attribute with
+<code>@</code>. The notation <code>?</code> is chosen as a prompt for identity (who am i?)
+and @ for attribute.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defun yatl-parse-elem-name(s)
+  (let ((nm-id-cls (list '() '() '() '()))
+        attrs idx buf escape string)
+    (setq  idx 0)
+    (mapcar
+     (lambda (c)
+       (cond
+        (escape (progn
+                  (setq escape nil)
+                  (push c (nth idx nm-id-cls))))
+        ((eq c ?\\)
+         (setq escape t))
+        ((eq c ?\")
+         (setq string (not string)))
+        (string
+         (push c (nth idx nm-id-cls)))
+        ((eq c ?.) (progn
+                     (setq idx 2)
+                     (push ?  (nth idx nm-id-cls))))
+        ((eq c ??) (progn
+                     (if (null (cadr nm-id-cls))
+                         (setq idx 1)
+                       (error "ID specified again!"))))
+        ((eq c ?@) (progn
+                     (setq idx 3)
+                     (push c (nth idx nm-id-cls))))
+        ((eq idx -1) (error "Expect one of \".,+,#'"))
+        (t (push c (nth idx nm-id-cls)))))
+     s)
+    (list (concat (reverse (car nm-id-cls)))
+          (concat (reverse (cadr nm-id-cls)))
+          (concat (reverse (caddr nm-id-cls)))
+          (yatl-parse-kvp (concat (reverse (nth 3 nm-id-cls)))))))
+
+(assert (equal (yatl-parse-elem-name "img@foo=\"http://foo.bar/baaz\"")
+               '("img" "" "" "foo=\"http://foo.bar/baaz\"")))
+
+(assert (equal (yatl-parse-elem-name "div")
+               '("div" "" "" "")))
+
+(assert (equal (yatl-parse-elem-name "div")
+               '("div" "" "" "")))
+(assert (equal (yatl-parse-elem-name "div?id")
+               '("div" "id" "" "")))
+(assert (equal (yatl-parse-elem-name "div?id.c1.c2")
+               '("div" "id" " c1 c2" "")))
+(assert (equal (yatl-parse-elem-name "div?id.c1.c2@foo=bar@baz=qux")
+               '("div" "id" " c1 c2" "foo=\"bar\" baz=\"qux\"")))
+
+</code></pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd29804b" class="outline-4">
+<h4 id="orgd29804b">Return string representation</h4>
+<div class="outline-text-4" id="text-orgd29804b">
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defun as-string(o)
+  (cond
+   ((stringp o) o)
+   ((numberp o) (format "%S" o))
+   ((symbolp o) (symbol-name o))
+   (t o)))
+</code></pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdb02de8" class="outline-4">
+<h4 id="orgdb02de8">Convert a list to HTML element</h4>
+<div class="outline-text-4" id="text-orgdb02de8">
+<p>
+This is the workhorse of our template processor. <code>mk-elem</code> inspects
+each form in the template and processes it as follows.
+</p>
+
+<ul class="org-ul">
+<li>If a list passed to <code>mk-elem</code> is assumed to be an element
+specifications with the first element as the name, followed by
+attribute specifications and child elements. Element's name can
+include shorthand notation for id, class and attribute
+specifications. Also, an element's attributes can be specified
+separately from the element name by prefixing it with @. Child
+elements are processed recursively with <code>mk-elem</code>. The result is
+the string form of equivalent HTML.</li>
+<li>If the child is an atom, its string representation is returned.</li>
+</ul>
+
+<p>
+The following element specifications are all equivalent.
+</p>
+<pre class="example">
+(div?id.cls@attr=val)
+(div @id=id!class=cls!attr=val)
+(div @id=id @class=cls @attr=val)
+</pre>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defun yatl-mk-elem(o)
+  (cond
+   ((listp o)
+    (multiple-value-bind (nm id cls attrs) (yatl-parse-elem-name (symbol-name (car o)))
+      (let* ((children (cdr o))
+             (children-s (mapconcat (lambda (x) (as-string x)) children " ")))
+        (concat
+         (format "&lt;%s" nm)
+         (unless (string-empty-p id) (format " id=\"%s\"" id))
+         (unless (string-empty-p cls) (format " class=\"%s\"" cls))
+         (unless (string-empty-p attrs) (format " %s" attrs))
+         (if (not children)
+             (format "/&gt;\n")
+           (format "&gt;\n%s\n&lt;/%s&gt;\n" children-s nm))))))
+   ((symbolp o) (symbol-name o))
+   ((stringp o) o)
+   (t (format "%S" o))))
+
+
+(assert (string-equal (yatl-mk-elem "a")
+                      "a"))
+
+(assert (string-equal (yatl-mk-elem '(div))
+                      "&lt;div/&gt;\n"))
+
+(assert (string-equal (yatl-mk-elem '(div?id))
+                      "&lt;div id=\"id\"/&gt;\n"))
+
+(assert (string-equal (yatl-mk-elem '(div?id.c1.c2))
+                      "&lt;div id=\"id\" class=\" c1 c2\"/&gt;\n"))
+
+(assert (string-equal (yatl-mk-elem '(div?id.c1@foo=bar@fit=bit))
+                      "&lt;div id=\"id\" class=\" c1\" foo=\"bar\" fit=\"bit\"/&gt;\n"))
+
+(assert (string-equal (yatl-mk-elem '(foo 1 2)) "&lt;foo&gt;\n1 2\n&lt;/foo&gt;\n"))
+
+(assert (string-equal (yatl-mk-elem '(img@src=\"http://example.com/images/fubar.png\"))
+                      "&lt;img src=\"http://example.com/images/fubar.png\"/&gt;\n"))
+</code></pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org47d286a" class="outline-4">
+<h4 id="org47d286a">Template processor</h4>
+<div class="outline-text-4" id="text-org47d286a">
+<p>
+This is the implementation section of the template processor. This
+file can be processed using org-babel-tangle to produce a
+<code>~/.emacs.d/yatl.el</code> file. The package is named <code>yatl</code> for "Yet
+Another Template Language" and <code>(require 'yatl)</code> to access it.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgb8d1265"></a>yatl-compile-fn<br />
+<div class="outline-text-5" id="text-orgb8d1265">
+<p>
+This is a helper function to examine each form and turn it into a form
+that can be passed to <code>yatl-mk-elem</code>. What we want is the ability to mix
+lisp code with our element markup code. We want this to be as seamless
+as possible. Consider the following example.
+</p>
+
+<pre class="example">
+(html5 (head) (body (concat "Hello, " "World!")))
+</pre>
+
+<p>
+<code>html5</code> will be defined as a macro later. We need to treat <code>head</code>,
+<code>body</code> as HTML elements and <code>concat</code> as a built-in function. For
+convenience, we would also want to be able to write our own functions
+and macros, if we so desire. To meet this requirement, we need a way
+to work with evaluated Lisp forms and modify it so that it can be
+evaluated to yield valid HTML content. A Lisp macro doesn't evaluate
+its arguments and is the perfect tool for this job. (Unfortunately,
+elisp has no support for reader macros which would made this task
+simpler.)
+</p>
+
+<p>
+<code>yatl-compile-fn</code> looks for forms which might be function or macro
+invocations. It calls itself on the arguments and returns a
+potentially modified form. If the list is neither a function nor a
+macro invocation, then it is an element definition in our notation
+which is handled by invoking <code>yatl-mk-elem</code>.
+</p>
+
+<p>
+The ability to mix Lisp code with our element description works, we
+need the ability to override the automatic recognition of function
+application. Consider the need to describe a 'div' element. <code>div</code> also
+happens to be Lisp function. When we want to use <code>div</code> as element, we
+override its meaning by writing it as <code>'div</code>.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defun yatl-compile-fn (form)
+  (cond
+   ((symbolp form) form)
+   ((numberp form) form)
+   ((stringp form) form)
+   ((listp form)
+    (cond
+     ;; quoted form
+     ((and (car form) (listp (car form)) (eq (caar form) 'quote))
+      (yatl-mk-elem `(,(cadar form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
+     ;; lambda form
+     ((and (eq (car form) 'lambda))
+      (let* ((args-list (cadr form))
+             (forms (cddr form))
+             (new-forms (mapcar #'yatl-compile-fn forms)))
+        `(lambda ,args-list ,@new-forms)))
+     ;; special form
+     ((and (special-form-p (car form)))
+      ;; cond, let,let*, require special handling
+      (cond
+       ((eq (car form) 'let)
+        (let* ((bindings (cadr form))
+               (forms (cddr form))
+               (new-bindings (mapcar
+                              (lambda (binding)
+                                (if (listp binding)
+                                    `(,(car binding) ,(yatl-compile-fn (cadr binding)))
+                                  binding))
+                              bindings))
+               (new-forms (mapcar #'yatl-compile-fn forms)))
+          `(let ,new-bindings ,@new-forms)))
+       (t `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))))
+     ;; macro defn
+     ((and (macrop (car form)))
+      (eval `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
+     ;; function
+     ((and (symbolp (car form)) (fboundp (car form)))
+      `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))
+     ;; List of lists. Don't process?
+     ((not (symbolp (car form)))
+      form)
+     (t `(yatl-mk-elem (list ',(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))))
+   (t (throw 'Unhandled form))))
+</code></pre>
+</div>
+</div>
+</li>
+
+<li><a id="org0f4db1d"></a>yatl-Compile macro<br />
+<div class="outline-text-5" id="text-org0f4db1d">
+<p>
+A macro which applies <code>yatl-compile-fn</code> to its arguments and concatenates the
+values returned. This must be a macro as the S-expressions can't be
+evaluated directly.
+</p>
+
+<p>
+That is our <del>first</del> second attempt at designing this template language
+and its processor. Stay tuned for future posts where I will show its
+use with org-mode.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defmacro yatl-compile(&amp;rest forms)
+  `(list
+    ,@(mapcar
+       #'yatl-compile-fn
+       forms)))
+
+(assert (equal (yatl-compile 1) '(1)))
+(assert (equal (yatl-compile (+ 1 2)) '(3)))
+(assert (equal (yatl-compile (span "foo")) '("&lt;span&gt;\nfoo\n&lt;/span&gt;\n")))
+(assert (equal (yatl-compile (span)) '("&lt;span/&gt;\n")))
+(assert (equal (yatl-compile (if t (span))) '("&lt;span/&gt;\n")))
+(assert (equal (yatl-compile (div (span))) '("&lt;div&gt;\n&lt;span/&gt;\n\n&lt;/div&gt;\n")))
+
+(assert (equal (yatl-compile (let (x) x)) '(nil)))
+(assert (equal (yatl-compile (let ((x 1) (y 2)) (+ x y))) '(3)))
+(assert (equal (yatl-compile (let ((x 1) (y 2) (z (span "foobar"))) z))
+               '("&lt;span&gt;\nfoobar\n&lt;/span&gt;\n")))
+(assert (equal (yatl-compile (img?id@src=\"http://foo.bar/baaz.jpg\"))
+               '("&lt;img id=\"id\" src=\"http://foo.bar/baaz.jpg\"/&gt;\n")))
+</code></pre>
+</div>
+</div>
+</li>
+
+<li><a id="orge4fc7eb"></a>yatl-compile-string<br />
+<div class="outline-text-5" id="text-orge4fc7eb">
+<p>
+Occasionally, we need to create forms at run-time and <code>yatl-compile</code>
+macro doesn't evaluate its arguments. This function provides an escape
+hatch for these cases.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defun yatl-compile-string(fmt &amp;rest args)
+  (let ((s (apply #'format fmt args)))
+    (eval (yatl-compile-fn (list (make-symbol s))))))
+</code></pre>
+</div>
+</div>
+</li>
+
+<li><a id="orga3c99c6"></a>html5 macro<br />
+<div class="outline-text-5" id="text-orga3c99c6">
+<p>
+Macro which wraps the yatl-compiled forms in HTML5 boilerplate.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defmacro yatl-html5(&amp;rest forms)
+  `(concat
+    "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n"
+    (mapconcat (lambda (x) (format "%s" x)) (yatl-compile ,@forms) "")
+    "&lt;/html&gt;"))
+</code></pre>
+</div>
+</div>
+</li>
+
+<li><a id="orge6dfde7"></a>HTML fragment generator<br />
+<div class="outline-text-5" id="text-orge6dfde7">
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defmacro yatl-html-frag(&amp;rest forms)
+  `(concat
+    (mapconcat (lambda (x) (format "%s" x)) (yatl-compile ,@forms) "")))
+</code></pre>
+</div>
+</div>
+</li>
+<li><a id="org607f88e"></a>yatl-Compile macro tests<br />
+<div class="outline-text-5" id="text-org607f88e">
+<p>
+We make sure our <code>yatl-html5</code> works as expected when we mix our notation
+with Lisp function and macros. Let's define a few test fixtures.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(defmacro test-macro (&amp;rest forms)
+  `(concat
+    "&lt;div style=\"{display:flex}\"&gt;"
+    ,@forms
+    "&lt;/div&gt;"))
+
+(defun test-function (&amp;rest forms)
+  (apply #'concat forms))
+
+(assert
+ (equal
+  (yatl-html5)
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;/html&gt;"))
+
+(assert
+ (equal
+  (yatl-html5 (head) (body))
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head/&gt;\n&lt;body/&gt;\n&lt;/html&gt;"))
+
+(assert
+ (equal
+  (yatl-html5 (body (test-function "foo" "bar")))
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\nfoobar\n&lt;/body&gt;\n&lt;/html&gt;"))
+
+(assert
+ (equal
+  (yatl-html5 (body (test-macro (test-macro))))
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\n&lt;div style=\"{display:flex}\"&gt;&lt;div style=\"{display:flex}\"&gt;&lt;/div&gt;&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;"))
+
+(assert
+ (equal
+  (yatl-html5 (head))
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head/&gt;\n&lt;/html&gt;"))
+
+(assert
+ (equal
+  (yatl-html5 (head (style)))
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n&lt;style/&gt;\n\n&lt;/head&gt;\n&lt;/html&gt;"))
+
+(assert
+ (equal
+  (yatl-html5 (let ((l '((a . 1) (b . 2)))) "foo"))
+  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\nfoo&lt;/html&gt;"))
+</code></pre>
+</div>
+</div>
+</li>
+
+<li><a id="org238353a"></a>Provide our module<br />
+<div class="outline-text-5" id="text-org238353a">
+<p>
+Make this package available.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(provide 'yatl)
+;;; yatl.el ends here
+</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+ <div id="blog-content-right"/>
+
+</div>
+ <div class=" blog-footer">
+Copyright &copy; 2014-2018, Praki Prakash
+</div>
+
+</body>
+</html>

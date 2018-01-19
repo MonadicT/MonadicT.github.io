@@ -3,7 +3,7 @@
 #+publish-date:
 #+export_file_name: ../../2018/blog-site-generator.html
 #+html_head: <link rel="stylesheet" type="text/css" href="style.css" />
-#+tags: "static site", "emacs"
+#+tags: static site, emacs
 #+options: num:nil
 
 * Rate-limiting Functions

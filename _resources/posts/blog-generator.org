@@ -1,9 +1,9 @@
-#+title: Yet Another Emacs Static-site Generator
+#+title: Yet Another Emacs Static Site Generator
 #+summary: A static site generator implemented entirely in emacs.
 #+publish-date: 2018-01-31
 #+export_file_name: ../../2018/blog-site-generator.html
 #+html_head: <link rel="stylesheet" type="text/css" href="style.css" />
-#+tags: "static site", "emacs"
+#+tags: static site, emacs
 #+options: num:nil
 # Evaluate with: C-c C-v C-b
 
@@ -39,14 +39,14 @@ executing =blog-gen-new-post=.
 Not many! =yatl= is my Elisp package for generating Html fragments
 from s-expressions.
 
-#+BEGIN_SRC elisp :results silent :exports code
+#+BEGIN_SRC elisp :results silent :exports code :noweb-ref requires
 (require 'cl)
 (require 'yatl)
 #+END_SRC
 
 *** Useful macros/functions
 *** Assert utlity
-#+BEGIN_SRC elisp :results silent :exports code
+#+BEGIN_SRC elisp :results silent :exports code :noweb-ref fns
 (defmacro assert-equal (actual expected)
   `(when (not (equal ,actual ,expected))
      (error "Actual: %s expected: %s"
@@ -263,7 +263,7 @@ introdued by |?|, class name with |.| and attribute with |!|.
 #+END_SRC
 
 *** Variables
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref vars
   (require 'ox-html)
 
    ;;; Variables and options
@@ -374,6 +374,13 @@ This function is called from Org-export machinery.
 
 #+END_SRC
 
+*** Tags link
+#+BEGIN_SRC elisp :results silent
+  (defun blog-gen-tags-link()
+    "<a href=\"/tags.html\">Tags</a>")
+
+#+END_SRC
+
 *** Site links
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-site-links()
@@ -381,6 +388,7 @@ This function is called from Org-export machinery.
      "<div  id=\"site-links\">"
      (blog-gen-home-link)
      (blog-gen-articles-link)
+     (blog-gen-tags-link)
      (blog-gen-about-link)
      "</div>"))
 #+END_SRC
@@ -509,7 +517,7 @@ This function is called from Org-export machinery.
         (title blog-gen-title)
         (yatl-compile-string
          "base@href=\"%s\""
-         (if local "http://localhost:8000/" "https://MonadicT.github.io/"))
+         (if blog-gen-local "http://localhost:8000/" "https://MonadicT.github.io/"))
         (yatl-compile-string "meta@name=generator@content=\"%s\">" (emacs-version))
         (yatl-compile-string "meta@name=author@content=\"%s\"" blog-gen-author)
         (link@href=\"blog-style.css\"@rel=\"stylesheet\"))
@@ -547,7 +555,7 @@ This function is called from Org-export machinery.
 
 *** Return keywords from org-file
 Returns list of OrgMode keywords from the current document.
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-get-all-keywords()
     (org-element-map
         (org-element-parse-buffer 'element)
@@ -563,7 +571,7 @@ Returns list of OrgMode keywords from the current document.
 *** Get keyword
 Returns value of =key= or =default-value= if =key= doesn't exist in =keywords=.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-get-keyword-value(keywords key &optional default-value)
     (if-let ((kw-value (cdr (assoc-ignore-case key keywords))))
         kw-value
@@ -573,7 +581,7 @@ Returns value of =key= or =default-value= if =key= doesn't exist in =keywords=.
 ** Blog publishing
 *** Blog source directory
 The root directory where the source for blogs is kept.
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref vars
   (defcustom blog-gen-root-dir
     "~/stuff/github/MonadicT.github.io"
     "")
@@ -582,7 +590,7 @@ The root directory where the source for blogs is kept.
 *** Blog posts directory
 The subdirectory where =.org= files are stored.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref vars
   (defcustom blog-gen-posts-dir
     "_resources/posts"
     "")
@@ -590,26 +598,31 @@ The subdirectory where =.org= files are stored.
 
 *** Publishing locally
 This is a Boolean flag set to use =base= url for generated html files.
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref vars
 (setq blog-gen-local t)
 #+END_SRC
 *** Extract post details
 Extracts post title, summary and =publish-date= from the file. Nil is
 returned if =publish-date= is not present.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-post-details (f)
     (with-temp-buffer
       (find-file f)
       (let* ((kws (blog-gen-get-all-keywords))
-             (details (make-hash-table  :test #'equal)))
+             (details (make-hash-table  :test #'equal))
+             (export-file-name (blog-gen-get-keyword-value kws "export_file_name" nil))
+             (href (or export-file-name "")))
+        (while (string-match "^\\.\\./" href)
+          (setq href (substring href 3)))
         (puthash "post-file" f details)
         (puthash "title" (blog-gen-get-keyword-value kws "title" "") details)
         (puthash "summary" (blog-gen-get-keyword-value kws "summary" "") details)
         (puthash "publish-date" (blog-gen-get-keyword-value kws "publish-date" nil) details)
-        (puthash "export_file_name" (blog-gen-get-keyword-value kws "export_file_name" nil) details)
+        (puthash "export_file_name" export-file-name details)
         (puthash "tags" (blog-gen-get-keyword-value kws "tags" "") details)
         (puthash "target" (blog-gen-get-keyword-value kws "target" "") details)
+        (puthash "href" (concat "http:" href) details)
         (unless (string-match "blog-generator.org" f) (kill-buffer))
         details)))
 #+END_SRC
@@ -618,7 +631,7 @@ returned if =publish-date= is not present.
 Returns list of posts stored in =.org= files. =.org= files such as
 =index.org=, =about.org= are not returned as posts.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-post-files()
     (let* ((posts-dir (concat blog-gen-root-dir "/" blog-gen-posts-dir))
            (org-files (directory-files posts-dir t "[a-ZA-Z0-9_-]*\\.org$"))
@@ -635,23 +648,23 @@ Returns list of posts stored in =.org= files. =.org= files such as
 #+END_SRC
 
 *** Published post files
-Returns published posts (posts which have =publish-date= keyword).
+Returns published posts (posts which have =export_file_name= keyword).
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-published-posts (posts)
-    (seq-filter (lambda (p) (gethash "publish-date" p)) posts))
+    (seq-filter (lambda (p) (gethash "export_file_name" p)) posts))
 #+END_SRC
 
 *** Order post files
 Orders posts by =publish-date= descending.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-order-posts(posts)
     (seq-sort (lambda (a b) (string> (gethash "publish-date" a) (gethash "publish-date" b))) posts))
 #+END_SRC
 
 *** Macro to generate =html_export= blocks
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defmacro html-export(&rest content)
     `(progn (insert "#+BEGIN_EXPORT html\n")
             (insert ,@content)
@@ -660,7 +673,7 @@ Orders posts by =publish-date= descending.
 
 *** Articles generation
 Exports all =.org= post files to =.html= files.
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-create-posts()
     (let ((posts (blog-gen-published-posts
                   (blog-gen-post-files))))
@@ -679,7 +692,7 @@ Exports all =.org= post files to =.html= files.
 *** Articles page generation
 Generates list of articles.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
     (defun blog-gen-create-articles()
       (with-temp-buffer
         (find-file "index.org")
@@ -719,8 +732,78 @@ Generates list of articles.
         (org-export-to-file 'blog "../../articles.html")))
 #+END_SRC
 
+*** Tags generation
+Posts have a =#+tags= header and tags are separated by =,=. This
+function builds a hashtable of tags to a list posts from =posts=.
+
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
+  (defun create-tag-post-map(posts)
+    (let ((tag-post-map (make-hash-table :test 'equal)))
+      (mapcar
+       (lambda(post)
+         (let ((title (gethash "title" post))
+               (tags (mapcar #'s-trim (split-string (gethash "tags" post) "[,]+"))))
+           (mapcar
+            (lambda (tag)
+              (when (not (string-empty-p tag))
+                (puthash tag (cons post (gethash tag tag-post-map '())) tag-post-map)))
+            tags)))
+       posts)
+      tag-post-map))
+#+END_SRC
+
+Tags should be ordered in lexicographic order. This function returns
+tags in ascending order.
+
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
+  (defun sorted-keys(tag-post-map)
+    (let ((keys '()))
+      (maphash
+       (lambda (k v) (setq keys (cons k keys)))
+       tag-post-map)
+      (seq-sort (lambda (a b) (string-lessp (upcase a) (upcase b))) keys)))
+#+END_SRC
+
+Once we have the =tag-post-map=, we can generate an =org-mode=
+representation of it. The tag is listed as second-level header with a
+bullet list of anchors to posts.
+
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
+  (defun blog-gen-create-tags(posts)
+    (let* ((tag-post-map (create-tag-post-map posts))
+           (tags  (sorted-keys tag-post-map)))
+      (with-temp-buffer
+        (find-file "tags.org")
+        (erase-buffer)
+        (insert "#+title: Tags\n")
+        (insert "#+options: num:nil\n")
+        (insert "* Tags\n")
+        (mapcar
+         (lambda (tag)
+           (let ((post-list (gethash tag tag-post-map)))
+             (insert "** " tag "\n")
+             (mapcar
+              (lambda (post)
+                (princ post)
+                (let ((title (gethash "title" post))
+                      (href  (gethash "href" post)))
+                  (insert "- [[" href "][" title "]]\n")))
+              post-list)))
+         tags)
+        (write-file "tags.org")
+        (org-export-to-file 'blog "../../tags.html")
+        (kill-buffer))))
+
+
+  ;;  (setq x (blog-gen-post-files))
+
+  ;;  (blog-gen-create-tags x)
+
+  ;;  (require 'blog-gen)
+#+END_SRC
+
 *** About page generation.
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-create-about()
     (with-temp-buffer
       (find-file "about.org")
@@ -731,7 +814,7 @@ Generates list of articles.
 *** Home page generation
 For now, /Home/ points to /Articles/.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-create-home()
     (copy-file "../../articles.html" "../../index.html" t))
 #+END_SRC
@@ -739,21 +822,23 @@ For now, /Home/ points to /Articles/.
 *** Generates blog,
 Function to regenerate the full site. This is bound to =C-c C-g=.
 
-#+BEGIN_SRC elisp :results silent
-      (defun blog-gen-publish(prod)
-        (interactive "P")
-        (if prod (setq local nil) (setq local t))
-        (blog-gen-create-posts)
-        (blog-gen-create-articles)
-        (blog-gen-create-about)
-        (blog-gen-create-home))
-      (global-set-key (kbd "C-c C-g") #'blog-gen-publish)
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
+  (defun blog-gen-publish(prod)
+    (interactive "P")
+    (if prod (setq blog-gen-local nil) (setq local t))
+    (let ((posts (blog-gen-post-files)))
+      (blog-gen-create-posts)
+      (blog-gen-create-articles)
+      (blog-gen-create-tags posts)
+      (blog-gen-create-about)
+      (blog-gen-create-home)))
+  (global-set-key (kbd "C-c C-g") #'blog-gen-publish)
 #+END_SRC
 
 *** Create new blog post
 A template for creating a new blog post.
 
-#+BEGIN_SRC elisp :results silent
+#+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-new-post()
     (interactive)
     (insert "#+title: TBD
@@ -763,4 +848,37 @@ A template for creating a new blog post.
 #+tags: TBD
 #+option: num:nil"))
 
+#+END_SRC
+
+*** Tangled elisp file
+All the functions described above are tangled into
+~/.emacs.d/lisp/blog-gen.el. A =require= in =.emacs= will make this
+available for use.
+
+#+BEGIN_SRC elisp :noweb-ref header :eval no
+  ;;; blog-gen.el --- Static site generator in emacs and org-mode
+
+  ;; Copyright (C) 2017-2018 Praki Prakash
+
+  ;; Author: Praki Prakash
+  ;; Maintainer: Praki Prakash
+  ;; Created: 2017-12-31
+  ;; Keywords: languages
+  ;; Homepage: https://MonadicT.gihub.io
+
+  ;; This file is not part of GNU Emacs.
+#+END_SRC
+
+#+BEGIN_SRC elisp :results silent :tangle ~/.emacs.d/lisp/blog-gen.el :noweb yes
+<<header>>
+;;; Dependencies ----------------------
+<<requires>>
+
+;;; Variables
+<<vars>>
+
+;;; Functions ------------------------
+<<fns>>
+(provide 'blog-gen)
+;;; blog-gen.el ends here
 #+END_SRC

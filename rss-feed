@@ -27,17 +27,17 @@ fine. It is helpful to review type signatures for &lt;code&gt;&amp;lt;$&amp;gt;&
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;)
-(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Functor&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; (a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; b) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b
+&lt;pre class=&quot;src src-haskell&quot;&gt;:t (&amp;lt;$&amp;gt;)
+(&amp;lt;$&amp;gt;) :: Functor f =&amp;gt; (a -&amp;gt; b) -&amp;gt; f a -&amp;gt; f b
 
-&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;)
-(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Applicative&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; f (a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; b) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b
+:t (&amp;lt;*&amp;gt;)
+(&amp;lt;*&amp;gt;) :: Applicative f =&amp;gt; f (a -&amp;gt; b) -&amp;gt; f a -&amp;gt; f b
 
-&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&lt;/span&gt;)
-(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;&amp;lt;*&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Applicative&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f a
+:t (&amp;lt;*)
+(&amp;lt;*) :: Applicative f =&amp;gt; f a -&amp;gt; f b -&amp;gt; f a
 
-&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;:&lt;/span&gt;t (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt;)
-(&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;*&amp;gt;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Applicative&lt;/span&gt; f &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; f a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; f b
+:t (*&amp;gt;)
+(*&amp;gt;) :: Applicative f =&amp;gt; f a -&amp;gt; f b -&amp;gt; f b
 &lt;/pre&gt;
 &lt;/div&gt;
 
@@ -136,7 +136,7 @@ for testing purposes.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;module&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;(&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;..&lt;/span&gt;), &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;(&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;..&lt;/span&gt;), dslP, parse, exprP, stmtP) &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt;
+&lt;pre class=&quot;src src-haskell&quot;&gt;module Parser (Expr(..), Stmt(..), dslP, parse, exprP, stmtP) where
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -152,13 +152,13 @@ from &lt;code&gt;Control.Applicative&lt;/code&gt;.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Control.Applicative&lt;/span&gt; (liftA2, pure, (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&lt;/span&gt;), (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt;))
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec.String&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt;)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Char&lt;/span&gt; (digit, letter,
+&lt;pre class=&quot;src src-haskell&quot;&gt;import Control.Applicative (liftA2, pure, (&amp;lt;*&amp;gt;), (&amp;lt;$&amp;gt;), (&amp;lt;*), (*&amp;gt;))
+import Text.Parsec
+import Text.Parsec.String (Parser)
+import Text.ParserCombinators.Parsec.Char (digit, letter,
        alphaNum, lower, upper)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Language&lt;/span&gt; (emptyDef)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;qualified&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.ParserCombinators.Parsec.Token&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;as&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;
+import Text.ParserCombinators.Parsec.Language (emptyDef)
+import qualified Text.ParserCombinators.Parsec.Token as Token
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -169,37 +169,37 @@ from &lt;code&gt;Control.Applicative&lt;/code&gt;.
 &lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-3&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;tokenDef&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;makeTokenParser &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; emptyDef
-     { &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentStart    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/*&quot;&lt;/span&gt;
-            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentEnd      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*/&quot;&lt;/span&gt;
-            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;commentLine     &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;//&quot;&lt;/span&gt;
-            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identStart      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; letter
-            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identLetter     &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; alphaNum
-            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedNames   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [ &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;break&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;continue&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;else&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;while&quot;&lt;/span&gt;
-                                      ]
-            , &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedOpNames &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;:=&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;|&quot;&lt;/span&gt;
-                                      , &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;and&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;or&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not&quot;&lt;/span&gt;]
-            }
+&lt;pre class=&quot;src src-haskell&quot;&gt;tokenDef = Token.makeTokenParser $ emptyDef
+     { Token.commentStart    = &quot;/*&quot;
+	    , Token.commentEnd      = &quot;*/&quot;
+	    , Token.commentLine     = &quot;//&quot;
+	    , Token.identStart      = letter
+	    , Token.identLetter     = alphaNum
+	    , Token.reservedNames   = [ &quot;break&quot;
+				      , &quot;continue&quot;
+				      , &quot;else&quot;
+				      , &quot;false&quot;
+				      , &quot;if&quot;
+				      , &quot;print&quot;
+				      , &quot;true&quot;
+				      , &quot;while&quot;
+				      ]
+	    , Token.reservedOpNames = [&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;/&quot;, &quot;:=&quot;
+				      , &quot;&amp;lt;&quot;, &quot;&amp;gt;&quot;, &quot;|&quot;
+				      , &quot;and&quot;, &quot;or&quot;, &quot;not&quot;]
+	    }
 
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;reserved&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reserved tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;reservedOp&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;reservedOp tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ident&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;identifier tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;integer&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;integer tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;float&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;float tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stringLit&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;stringLiteral tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ws&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;whiteSpace tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;symbol&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;symbol tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;parens&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;parens tokenDef
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;braces&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Token&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;braces tokenDef
+reserved = Token.reserved tokenDef
+reservedOp = Token.reservedOp tokenDef
+ident = Token.identifier tokenDef
+integer = Token.integer tokenDef
+float = Token.float tokenDef
+stringLit = Token.stringLiteral tokenDef
+ws = Token.whiteSpace tokenDef
+symbol = Token.symbol tokenDef
+parens = Token.parens tokenDef
+braces = Token.braces tokenDef
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -210,39 +210,39 @@ from &lt;code&gt;Control.Applicative&lt;/code&gt;.
 &lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-4&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;data&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Div&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Less&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Greater&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Le&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ge&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ne&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;]
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Integer&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Double&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;
-    &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;deriving&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Show&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt;)
+&lt;pre class=&quot;src src-haskell&quot;&gt;data Expr =
+    Add Expr Expr
+    | Sub Expr Expr
+    | Mul Expr Expr
+    | Div Expr Expr
+    | Eq Expr Expr
+    | Less Expr Expr
+    | Greater Expr Expr
+    | Le Expr Expr
+    | Ge Expr Expr
+    | Ne Expr Expr
+    | And Expr Expr
+    | Or Expr Expr
+    | Not Expr
+    | Neg Expr
+    | Call String [Expr]
+    | V String
+    | I Integer
+    | D Double
+    | S String
+    | T
+    | F
+    deriving (Show, Eq)
 
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;data&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Block&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;]
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;]
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Maybe&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;)
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;While&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Break&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Continue&lt;/span&gt;
-    &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;deriving&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Show&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt;)
+data Stmt =
+    Assign Expr Expr
+    | Block [Stmt]
+    | Print [Expr]
+    | If Expr Stmt (Maybe Stmt)
+    | While Expr Stmt
+    | Break
+    | Continue
+    deriving (Show, Eq)
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -253,7 +253,7 @@ from &lt;code&gt;Control.Applicative&lt;/code&gt;.
 &lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-5&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;commaSep&lt;/span&gt; p  &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; p &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`sepBy`&lt;/span&gt; (symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;,&quot;&lt;/span&gt;)
+&lt;pre class=&quot;src src-haskell&quot;&gt;commaSep p  = p `sepBy` (symbol &quot;,&quot;)
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -271,52 +271,52 @@ pass over the AST which will flag invalid expressions.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;--&lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;exprP = termP `chainl1` termopP&lt;/span&gt;
+&lt;pre class=&quot;src src-haskell&quot;&gt;exprP :: Parser Expr
+--exprP = termP `chainl1` termopP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; bexprP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; bopP
+exprP = bexprP `chainl1` bopP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;bexprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; rexprP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; relopP
+bexprP = rexprP `chainl1` relopP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;rexprP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; termP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; termopP
+rexprP = termP `chainl1` termopP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;termP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;termP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; factorP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`chainl1`&lt;/span&gt; factoropP
+termP :: Parser Expr
+termP = factorP `chainl1` factoropP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;factorP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;factorP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (notP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; factorP)
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; factorP)
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; factorP
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; try float
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; try integer
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; stringLit
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; try callP
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ident
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; parens exprP
+factorP :: Parser Expr
+factorP = Not &amp;lt;$&amp;gt; (notP *&amp;gt; factorP)
+   &amp;lt;|&amp;gt; Neg &amp;lt;$&amp;gt; (symbol &quot;-&quot; *&amp;gt; factorP)
+   &amp;lt;|&amp;gt; symbol &quot;+&quot; *&amp;gt; factorP
+   &amp;lt;|&amp;gt; D &amp;lt;$&amp;gt; try float
+   &amp;lt;|&amp;gt; I &amp;lt;$&amp;gt; try integer
+   &amp;lt;|&amp;gt; S &amp;lt;$&amp;gt; stringLit
+   &amp;lt;|&amp;gt; reserved &quot;true&quot; *&amp;gt; return T
+   &amp;lt;|&amp;gt; reserved &quot;false&quot; *&amp;gt; return F
+   &amp;lt;|&amp;gt; try callP
+   &amp;lt;|&amp;gt; V &amp;lt;$&amp;gt; ident
+   &amp;lt;|&amp;gt; parens exprP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;relopP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; (reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt;
-           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Less&lt;/span&gt;
-           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;gt;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Greater&lt;/span&gt;
-           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;!=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ne&lt;/span&gt;
-           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Le&lt;/span&gt;
-           &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;lt;=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Ge&lt;/span&gt;)
+relopP = (reservedOp &quot;=&quot; *&amp;gt; return Eq
+	   &amp;lt;|&amp;gt; reservedOp &quot;&amp;lt;&quot; *&amp;gt; return Less
+	   &amp;lt;|&amp;gt; reservedOp &quot;&amp;gt;&quot; *&amp;gt; return Greater
+	   &amp;lt;|&amp;gt; reservedOp &quot;!=&quot; *&amp;gt; return Ne
+	   &amp;lt;|&amp;gt; reservedOp &quot;&amp;lt;=&quot; *&amp;gt; return Le
+	   &amp;lt;|&amp;gt; reservedOp &quot;&amp;lt;=&quot; *&amp;gt; return Ge)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;bopP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;|&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt;
-       &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&amp;amp;&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt;
-       &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;or&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt;
-       &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;and&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt;
+bopP = symbol &quot;|&quot; *&amp;gt; return Or
+       &amp;lt;|&amp;gt; symbol &quot;&amp;amp;&quot; *&amp;gt; return And
+       &amp;lt;|&amp;gt; reserved &quot;or&quot; *&amp;gt; return Or
+       &amp;lt;|&amp;gt; reserved &quot;and&quot; *&amp;gt; return And
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;termopP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt;
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt;  return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt;
+termopP = symbol &quot;+&quot; *&amp;gt; return Add
+   &amp;lt;|&amp;gt; symbol &quot;-&quot; *&amp;gt;  return Sub
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;factoropP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;*&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt;
-   &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; symbol &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;/&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Div&lt;/span&gt;
+factoropP = symbol &quot;*&quot; *&amp;gt; return Mul
+   &amp;lt;|&amp;gt; symbol &quot;/&quot; *&amp;gt; return Div
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;callP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ident &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; parens (commaSep exprP)
+callP = Call &amp;lt;$&amp;gt; ident &amp;lt;*&amp;gt; parens (commaSep exprP)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;notP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;!&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not&quot;&lt;/span&gt;
+notP = reservedOp &quot;!&quot; &amp;lt;|&amp;gt; reserved &quot;not&quot;
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -327,32 +327,32 @@ pass over the AST which will flag invalid expressions.
 &lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-7&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;   assignP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; blockP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; printP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; try ifElseP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; ifP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; whileP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; breakP
-      &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;|&amp;gt;&lt;/span&gt; continueP
+&lt;pre class=&quot;src src-haskell&quot;&gt;stmtP :: Parser Stmt
+stmtP =   assignP
+      &amp;lt;|&amp;gt; blockP
+      &amp;lt;|&amp;gt; printP
+      &amp;lt;|&amp;gt; try ifElseP
+      &amp;lt;|&amp;gt; ifP
+      &amp;lt;|&amp;gt; whileP
+      &amp;lt;|&amp;gt; breakP
+      &amp;lt;|&amp;gt; continueP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;blockP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Block&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; braces (many stmtP)
+blockP = Block &amp;lt;$&amp;gt; braces (many stmtP)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;printP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; (commaSep exprP))
+printP = Print &amp;lt;$&amp;gt; (reserved &quot;print&quot; &amp;gt;&amp;gt; (commaSep exprP))
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;assignP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; exprP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; (reservedOp &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;:=&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP)
+assignP = Assign &amp;lt;$&amp;gt; exprP &amp;lt;*&amp;gt; (reservedOp &quot;:=&quot; &amp;gt;&amp;gt; exprP)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ifP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ((reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; stmtP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Nothing&lt;/span&gt;
+ifP = If &amp;lt;$&amp;gt; ((reserved &quot;if&quot;) &amp;gt;&amp;gt; exprP) &amp;lt;*&amp;gt; stmtP &amp;lt;*&amp;gt; return Nothing
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;ifElseP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; ((reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if&quot;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; stmtP
-                 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; ((reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;else&quot;&lt;/span&gt;) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Just&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; stmtP))
+ifElseP = If &amp;lt;$&amp;gt; ((reserved &quot;if&quot;) &amp;gt;&amp;gt; exprP) &amp;lt;*&amp;gt; stmtP
+		 &amp;lt;*&amp;gt; ((reserved &quot;else&quot;) *&amp;gt; (Just &amp;lt;$&amp;gt; stmtP))
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;whileP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;While&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;$&amp;gt;&lt;/span&gt; (reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;while&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; exprP) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&amp;gt;&lt;/span&gt; stmtP
+whileP = While &amp;lt;$&amp;gt; (reserved &quot;while&quot; &amp;gt;&amp;gt; exprP) &amp;lt;*&amp;gt; stmtP
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;breakP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;break&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Break&lt;/span&gt;
+breakP = reserved &quot;break&quot; *&amp;gt; return Break
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;continueP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; reserved &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;continue&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; return &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Continue&lt;/span&gt;
+continueP = reserved &quot;continue&quot; *&amp;gt; return Continue
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -363,8 +363,8 @@ pass over the AST which will flag invalid expressions.
 &lt;div class=&quot;outline-text-3&quot; id=&quot;text-2-8&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;]
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslP&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; ws &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;*&amp;gt;&lt;/span&gt; many stmtP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;*&lt;/span&gt; eof
+&lt;pre class=&quot;src src-haskell&quot;&gt;dslP :: Parser [Stmt]
+dslP = ws *&amp;gt; many stmtP &amp;lt;* eof
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -405,10 +405,10 @@ but parses &lt;code&gt;-1.2&lt;/code&gt; as &lt;code&gt;I (-1)&lt;/code&gt;. I w
 &lt;div class=&quot;outline-text-3&quot; id=&quot;text-3-1&quot;&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec&lt;/span&gt; (parseTest)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Data.List&lt;/span&gt; (intercalate)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Text.Parsec.String&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt;
+&lt;pre class=&quot;src src-haskell&quot;&gt;import Text.Parsec (parseTest)
+import Data.List (intercalate)
+import Text.Parsec.String
+import Parser
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -422,45 +422,45 @@ Testing expression parsing.
 &lt;/p&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Expr&lt;/span&gt;)]
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;exprTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [(&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;10&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 10)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;- 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1.2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-1.2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;- 1.3&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;3))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\&quot;a\&quot;&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;false&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + -2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + 2 * 3&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 3)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 - 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 - 2 * 3&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Sub&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 3)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + 2 * 3 / 4&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Div&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Mul&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 3)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 4)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 + a&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Add&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 = a&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 = 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true and true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true &amp;amp; true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true | true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true or true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;1 = 2 &amp;amp; 2 = 4&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 4)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a = b &amp;amp; c = d&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a = b | c = d&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;(a | b) &amp;amp; (c | d)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;(a &amp;amp; b) | (c &amp;amp; d)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Or&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;a&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;b&quot;&lt;/span&gt;)) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;And&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;c&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;d&quot;&lt;/span&gt;)))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;-(1.2)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Neg&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;+(1.2)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;D&lt;/span&gt; 1&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;2)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;not not true&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Not&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;))
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;true = false&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;F&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo()&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;[]&lt;/span&gt;)
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo(1)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1])
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo(1, true)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt;])
-         , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo(1, 2)&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Call&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;foo&quot;&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2])
-         ]
+&lt;pre class=&quot;src src-haskell&quot;&gt;exprTests :: [(String, Expr)]
+exprTests = [(&quot;10&quot;, I 10)
+	 , (&quot;-1&quot;, Neg (I 1))
+	 , (&quot;- 1&quot;, Neg (I 1))
+	 , (&quot;1.2&quot;, D 1.2)
+	 , (&quot;-1.2&quot;, Neg (D 1.2))
+	 , (&quot;- 1.3&quot;, Neg (D 1.3))
+	 , (&quot;a&quot;, V &quot;a&quot;)
+	 , (&quot;\&quot;a\&quot;&quot;, S &quot;a&quot;)
+	 , (&quot;true&quot;, T)
+	 , (&quot;false&quot;, F)
+	 , (&quot;1 + 2&quot;, Add (I 1) (I 2))
+	 , (&quot;1 + -2&quot;, Add (I 1) (Neg (I 2)))
+	 , (&quot;1 + 2 * 3&quot;, Add (I 1) (Mul (I 2) (I 3)))
+	 , (&quot;1 - 2&quot;, Sub (I 1) (I 2))
+	 , (&quot;1 - 2 * 3&quot;, Sub (I 1) (Mul (I 2) (I 3)))
+	 , (&quot;1 + 2 * 3 / 4&quot;, Add (I 1) (Div (Mul (I 2) (I 3)) (I 4)))
+	 , (&quot;1 + a&quot;, Add (I 1) (V &quot;a&quot;))
+	 , (&quot;1 = a&quot;, Eq (I 1) (V &quot;a&quot;))
+	 , (&quot;1 = 2&quot;, Eq (I 1) (I 2))
+	 , (&quot;true and true&quot;, And T T)
+	 , (&quot;true &amp;amp; true&quot;, And T T)
+	 , (&quot;true | true&quot;, Or T T)
+	 , (&quot;true or true&quot;, Or T T)
+	 , (&quot;1 = 2 &amp;amp; 2 = 4&quot;, And (Eq (I 1) (I 2)) (Eq (I 2) (I 4)))
+	 , (&quot;a = b &amp;amp; c = d&quot;, And (Eq (V &quot;a&quot;) (V &quot;b&quot;)) (Eq (V &quot;c&quot;) (V &quot;d&quot;)))
+	 , (&quot;a = b | c = d&quot;, Or (Eq (V &quot;a&quot;) (V &quot;b&quot;)) (Eq (V &quot;c&quot;) (V &quot;d&quot;)))
+	 , (&quot;(a | b) &amp;amp; (c | d)&quot;, And (Or (V &quot;a&quot;) (V &quot;b&quot;)) (Or (V &quot;c&quot;) (V &quot;d&quot;)))
+	 , (&quot;(a &amp;amp; b) | (c &amp;amp; d)&quot;, Or (And (V &quot;a&quot;) (V &quot;b&quot;)) (And (V &quot;c&quot;) (V &quot;d&quot;)))
+	 , (&quot;-(1.2)&quot;, Neg (D 1.2))
+	 , (&quot;+(1.2)&quot;, D 1.2)
+	 , (&quot;not true&quot;, Not T)
+	 , (&quot;not not true&quot;, Not (Not T))
+	 , (&quot;true = false&quot;, Eq T F)
+	 , (&quot;foo()&quot;, Call &quot;foo&quot; [])
+	 , (&quot;foo(1)&quot;, Call &quot;foo&quot; [I 1])
+	 , (&quot;foo(1, true)&quot;, Call &quot;foo&quot; [I 1, T])
+	 , (&quot;foo(1, 2)&quot;, Call &quot;foo&quot; [I 1, I 2])
+	 ]
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -474,17 +474,17 @@ Testing statement parsing.
 &lt;/p&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;)]
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;stmtTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [ (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x := 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1))
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print 1, 2&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2])
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;print 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1])
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;{}&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Block&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;[]&lt;/span&gt;)
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if true print \&quot;T\&quot; else print \&quot;F\&quot;&quot;&lt;/span&gt;,
-               &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;T&quot;&lt;/span&gt;]) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Just&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;S&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;F&quot;&lt;/span&gt;])))
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;if true print 1&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;If&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;T&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Print&lt;/span&gt; [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1]) &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Nothing&lt;/span&gt;)
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;break&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Break&lt;/span&gt;)
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;continue&quot;&lt;/span&gt;, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Continue&lt;/span&gt;)
-            ]
+&lt;pre class=&quot;src src-haskell&quot;&gt;stmtTests :: [(String, Stmt)]
+stmtTests = [ (&quot;x := 1&quot;, Assign (V &quot;x&quot;) (I 1))
+	    , (&quot;print 1, 2&quot;, Print [I 1, I 2])
+	    , (&quot;print 1&quot;, Print [I 1])
+	    , (&quot;{}&quot;, Block [])
+	    , (&quot;if true print \&quot;T\&quot; else print \&quot;F\&quot;&quot;,
+	       If T (Print [S &quot;T&quot;]) (Just (Print [S &quot;F&quot;])))
+	    , (&quot;if true print 1&quot;, If T (Print [I 1]) Nothing)
+	    , (&quot;break&quot;, Break)
+	    , (&quot;continue&quot;, Continue)
+	    ]
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -498,10 +498,10 @@ Example DSL and its expected result.
 &lt;/p&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Stmt&lt;/span&gt;])]
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;dslTests&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt;  [ (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x := 1 y:= 2&quot;&lt;/span&gt;, [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1), &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;y&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 2)])
-            , (&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; x := 1 &quot;&lt;/span&gt;, [&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Assign&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;V&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;x&quot;&lt;/span&gt;) (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;I&lt;/span&gt; 1)])
-            ]
+&lt;pre class=&quot;src src-haskell&quot;&gt;dslTests :: [(String, [Stmt])]
+dslTests =  [ (&quot;x := 1 y:= 2&quot;, [Assign (V &quot;x&quot;) (I 1), Assign (V &quot;y&quot;) (I 2)])
+	    , (&quot; x := 1 &quot;, [Assign (V &quot;x&quot;) (I 1)])
+	    ]
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -516,18 +516,18 @@ them. Inputs that don't produce the expected results are printed.
 &lt;/p&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;testParser&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Eq&lt;/span&gt; a, &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Show&lt;/span&gt; a) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Parser&lt;/span&gt; a &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; [(&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;String&lt;/span&gt;, a)] &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IO&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;()&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;testParser&lt;/span&gt; p tests &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
-  putStr (intercalate &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\r\n&quot;&lt;/span&gt;
-           (filter (not &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; null)
-             (map
-               (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;\&lt;/span&gt;(s, e, r) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;case&lt;/span&gt; r &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;of&lt;/span&gt;
-                  &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Right&lt;/span&gt; ast &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;if&lt;/span&gt; e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;==&lt;/span&gt; ast
-                        &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;then&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;-- &lt;/span&gt;&lt;span style=&quot;color: #008787; font-weight: bold; font-style: italic;&quot;&gt;&quot;Parsed: &quot; ++  s&lt;/span&gt;
-                        &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;else&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Error: &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; s &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; Exp: &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt;
-                              show e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; Act: &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; show ast
-                  &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Left&lt;/span&gt; e &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Parse error: \n&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; show e)
-               (map (&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;\&lt;/span&gt;(s, e) &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;-&amp;gt;&lt;/span&gt; (s, e, parse p s s)) tests))))
+&lt;pre class=&quot;src src-haskell&quot;&gt;testParser:: (Eq a, Show a) =&amp;gt; Parser a -&amp;gt; [(String, a)] -&amp;gt; IO ()
+testParser p tests = do
+  putStr (intercalate &quot;\r\n&quot;
+	   (filter (not . null)
+	     (map
+	       (\(s, e, r) -&amp;gt; case r of
+		  Right ast -&amp;gt; if e == ast
+			then &quot;&quot; -- &quot;Parsed: &quot; ++  s
+			else &quot;Error: &quot; ++ s ++ &quot; Exp: &quot; ++
+			      show e ++ &quot; Act: &quot; ++ show ast
+		  Left e -&amp;gt; &quot;Parse error: \n&quot; ++ show e)
+	       (map (\(s, e) -&amp;gt; (s, e, parse p s s)) tests))))
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -541,12 +541,12 @@ Runs all tests defined above.
 &lt;/p&gt;
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;::&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;IO&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;()&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+&lt;pre class=&quot;src src-haskell&quot;&gt;main :: IO ()
+main = do
    testParser exprP exprTests
    testParser stmtP stmtTests
    testParser dslP dslTests
-   putStr &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\nDONE!\n&quot;&lt;/span&gt;
+   putStr &quot;\nDONE!\n&quot;
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -938,8 +938,8 @@ update syntax to change the options.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; xmonad defaultConfig
+&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
+main = xmonad defaultConfig
 &lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -957,9 +957,9 @@ XMonad to use Windows key instead of Alt.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; xmonad defaultConfig {
-  modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
+&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
+main = xmonad defaultConfig {
+  modMask = mod4Mask
 }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -980,10 +980,10 @@ shown below.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; xmonad desktopConfig {
-    modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
+&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
+import XMonad.Config.Desktop
+main = xmonad desktopConfig {
+    modMask = mod4Mask
 }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -1073,15 +1073,15 @@ We can now see how to configure Xmonad to start conky and dzen2.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
+&lt;pre class=&quot;src src-haskell&quot;&gt;import XMonad
+import XMonad.Config.Desktop
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16 -ta r&quot;&lt;/span&gt;
+conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16 -ta r&quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+main = do
       spawnPipe conkyStatusBar
       xmonad desktopConfig {
-          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
+	  modMask = mod4Mask
       }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -1101,30 +1101,30 @@ customized to pipe the log information to another &lt;i&gt;dzen2&lt;/i&gt; proce
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;System.IO&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.Run&lt;/span&gt; (spawnPipe)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.DynamicLog&lt;/span&gt; (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt; (ewmhDesktopsLogHook)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.SetWMName&lt;/span&gt; (setWMName)
+&lt;pre class=&quot;src src-haskell&quot;&gt;import System.IO
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Util.Run (spawnPipe)
+import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
+import XMonad.Hooks.SetWMName (setWMName)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;foreground&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;yellow&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;&lt;/span&gt;
+foreground = &quot;yellow&quot;
+conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;xmonadStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;\&lt;/span&gt;
-&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;        \-bg &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; background &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot; -fg &quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;++&lt;/span&gt; foreground
+xmonadStatusBar = &quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot; ++ &quot;\
+	\-bg &quot; ++ background ++ &quot; -fg &quot; ++ foreground
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+main = do
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; spawnPipe xmonadStatusBar
+      xmproc &amp;lt;- spawnPipe xmonadStatusBar
       xmonad desktopConfig {
-          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
-          , logHook    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; dynamicLogWithPP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; defaultPP
-                         { ppOutput &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; hPutStrLn xmproc
-                           , ppOrder &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; take 3 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; drop 0
-                          }
+	  modMask = mod4Mask
+	  , logHook    = dynamicLogWithPP $ defaultPP
+			 { ppOutput = hPutStrLn xmproc
+			   , ppOrder = take 3 . drop 0
+			  }
       }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -1151,32 +1151,32 @@ Adding this to my &lt;i&gt;xmonad.hs&lt;/i&gt;, it now looks as below.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;System.IO&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.Run&lt;/span&gt; (spawnPipe)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.DynamicLog&lt;/span&gt; (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt; (ewmhDesktopsLogHook)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.SetWMName&lt;/span&gt; (setWMName)
+&lt;pre class=&quot;src src-haskell&quot;&gt;import System.IO
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Util.Run (spawnPipe)
+import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
+import XMonad.Hooks.SetWMName (setWMName)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;foreground&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;yellow&quot;&lt;/span&gt;
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;&lt;/span&gt;
+foreground = &quot;yellow&quot;
+conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;xmonadStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;&lt;/span&gt;
+xmonadStatusBar = &quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;myTerminal&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;&lt;/span&gt;
+myTerminal = &quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+main = do
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; spawnPipe xmonadStatusBar
+      xmproc &amp;lt;- spawnPipe xmonadStatusBar
       xmonad desktopConfig {
-          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
-          , logHook    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; dynamicLogWithPP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; defaultPP
-                         { ppOutput &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; hPutStrLn xmproc
-                           , ppOrder &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; take 3 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; drop 0
-                          }
-          , terminal &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; myTerminal
+	  modMask = mod4Mask
+	  , logHook    = dynamicLogWithPP $ defaultPP
+			 { ppOutput = hPutStrLn xmproc
+			   , ppOrder = take 3 . drop 0
+			  }
+	  , terminal = myTerminal
       }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -1196,44 +1196,44 @@ your specific system configuration and here is what works on mine.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;Graphics.X11.ExtraTypes.XF86&lt;/span&gt; (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;System.IO&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Config.Desktop&lt;/span&gt;
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.DynamicLog&lt;/span&gt; (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.EwmhDesktops&lt;/span&gt; (ewmhDesktopsLogHook)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Hooks.SetWMName&lt;/span&gt; (setWMName)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Prompt&lt;/span&gt; (defaultXPConfig)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Prompt.RunOrRaise&lt;/span&gt; (runOrRaisePrompt)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.EZConfig&lt;/span&gt; (additionalKeys)
-&lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;import&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;XMonad.Util.Run&lt;/span&gt; (spawnPipe)
+&lt;pre class=&quot;src src-haskell&quot;&gt;import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
+import System.IO
+import XMonad
+import XMonad.Config.Desktop
+import XMonad.Hooks.DynamicLog (defaultPP, ppOutput, ppOrder, dynamicLogWithPP)
+import XMonad.Hooks.EwmhDesktops (ewmhDesktopsLogHook)
+import XMonad.Hooks.SetWMName (setWMName)
+import XMonad.Prompt (defaultXPConfig)
+import XMonad.Prompt.RunOrRaise (runOrRaisePrompt)
+import XMonad.Util.EZConfig (additionalKeys)
+import XMonad.Util.Run (spawnPipe)
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;conkyStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;&lt;/span&gt;
+conkyStatusBar = &quot;conky |dzen2 -x 400 -y 0 -h 16  -ta r&quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;xmonadStatusBar&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;&lt;/span&gt;
+xmonadStatusBar = &quot;dzen2 -ta l -x 0 -y 0 -w 600 -e 'entertitle=uncollapse' -h 16 &quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;myTerminal&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;&lt;/span&gt;
+myTerminal = &quot;urxvt -bg black -fg yellow -fade 30 -fadecolor white&quot;
 
-&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;main&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
+main = do
       spawnPipe conkyStatusBar
       spawnPipe xmonadStatusBar
-      xmproc &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; spawnPipe xmonadStatusBar
-      xmonad &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; desktopConfig {
-          modMask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; mod4Mask
-          , logHook    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; dynamicLogWithPP &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; defaultPP
-                         { ppOutput &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; hPutStrLn xmproc
-                           , ppOrder &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; take 3 &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; drop 0
-                          }
-          , terminal &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; myTerminal
-        }
-        &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;`additionalKeys`&lt;/span&gt;
-          [((mod4Mask &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.|.&lt;/span&gt; controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
-           , ((0, xF86XK_AudioLowerVolume), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;amixer set Master 1-&quot;&lt;/span&gt;)
-           , ((0, xF86XK_AudioRaiseVolume), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;amixer set Master 1+&quot;&lt;/span&gt;)
-           , ((0, xF86XK_AudioMute), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;amixer -D pulse set Master 1+ toggle&quot;&lt;/span&gt;)
-           , ((0, xF86XK_MonBrightnessDown), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;xbacklight -10&quot;&lt;/span&gt;)
-           , ((0, xF86XK_MonBrightnessUp), spawn &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;xbacklight +10&quot;&lt;/span&gt;)
-          ]
+      xmproc &amp;lt;- spawnPipe xmonadStatusBar
+      xmonad $ desktopConfig {
+	  modMask = mod4Mask
+	  , logHook    = dynamicLogWithPP $ defaultPP
+			 { ppOutput = hPutStrLn xmproc
+			   , ppOrder = take 3 . drop 0
+			  }
+	  , terminal = myTerminal
+	}
+	`additionalKeys`
+	  [((mod4Mask .|. controlMask, xK_f), runOrRaisePrompt defaultXPConfig)
+	   , ((0, xF86XK_AudioLowerVolume), spawn &quot;amixer set Master 1-&quot;)
+	   , ((0, xF86XK_AudioRaiseVolume), spawn &quot;amixer set Master 1+&quot;)
+	   , ((0, xF86XK_AudioMute), spawn &quot;amixer -D pulse set Master 1+ toggle&quot;)
+	   , ((0, xF86XK_MonBrightnessDown), spawn &quot;xbacklight -10&quot;)
+	   , ((0, xF86XK_MonBrightnessUp), spawn &quot;xbacklight +10&quot;)
+	  ]
 &lt;/pre&gt;
 &lt;/div&gt;
 
@@ -1266,11 +1266,11 @@ augmented with more spawn commands.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;xmonad &lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;$&lt;/span&gt; desktopConfig {
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;...&lt;/span&gt;
-    , startupHook &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;do&lt;/span&gt;
-        spawnOnce &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;google-chrome --class chrome&quot;&lt;/span&gt;
-        spawnOnce &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io&quot;&lt;/span&gt;
+&lt;pre class=&quot;src src-haskell&quot;&gt;xmonad $ desktopConfig {
+    ...
+    , startupHook = do
+	spawnOnce &quot;google-chrome --class chrome&quot;
+	spawnOnce &quot;urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io&quot;
 
   }
 &lt;/pre&gt;
@@ -1291,26 +1291,26 @@ as shown below.
 
 &lt;div class=&quot;org-src-container&quot;&gt;
 
-&lt;pre class=&quot;src src-haskell&quot;&gt;&lt;span style=&quot;color: #d7af00; font-weight: bold;&quot;&gt;myManageHook&lt;/span&gt;
-    &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; composeAll &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt; concat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt;
-      [ [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; c &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doFloat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; c &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; myFloats]
-      , [title &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; t &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doFloat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; t &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; myOtherFloats]
-      , [resource &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; r &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doFloat &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;|&lt;/span&gt; r &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;-&lt;/span&gt; myIgnores]
-      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Gimp&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doF (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;shift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;5:misc&quot;&lt;/span&gt;)]
-      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;VirtualBox&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doF (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;shift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;5:misc&quot;&lt;/span&gt;)]
-      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Wine&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doF (&lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;W&lt;/span&gt;&lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;.&lt;/span&gt;shift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;5:misc&quot;&lt;/span&gt;)]
-      , [className &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;chrome&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doShift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;2&quot;&lt;/span&gt;]
-      , [title &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;logs&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doShift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;3&quot;&lt;/span&gt;]
-      , [title &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=?&lt;/span&gt; &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;cljswatch&quot;&lt;/span&gt; &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;--&amp;gt;&lt;/span&gt; doShift &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;4&quot;&lt;/span&gt;]
+&lt;pre class=&quot;src src-haskell&quot;&gt;myManageHook
+    = composeAll . concat $
+      [ [className =? c --&amp;gt; doFloat | c &amp;lt;- myFloats]
+      , [title =? t --&amp;gt; doFloat | t &amp;lt;- myOtherFloats]
+      , [resource =? r --&amp;gt; doFloat | r &amp;lt;- myIgnores]
+      , [className =? &quot;Gimp&quot; --&amp;gt; doF (W.shift &quot;5:misc&quot;)]
+      , [className =? &quot;VirtualBox&quot; --&amp;gt; doF (W.shift &quot;5:misc&quot;)]
+      , [className =? &quot;Wine&quot; --&amp;gt; doF (W.shift &quot;5:misc&quot;)]
+      , [className =? &quot;chrome&quot; --&amp;gt; doShift &quot;2&quot;]
+      , [title =? &quot;logs&quot; --&amp;gt; doShift &quot;3&quot;]
+      , [title =? &quot;cljswatch&quot; --&amp;gt; doShift &quot;4&quot;]
       ]
-    &lt;span style=&quot;color: #ff5f00; font-weight: bold;&quot;&gt;where&lt;/span&gt;
-      myFloats &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Gimp&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Nvidia-settings&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;XCalc&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;XFontSel&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Xmessage&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;xmms&quot;&lt;/span&gt;]
-      myOtherFloats &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; [&lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Downloads&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Firefox - Restore Previous Session&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Save As...&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Ediff&quot;&lt;/span&gt;, &lt;span style=&quot;color: #afafff; font-style: italic;&quot;&gt;&quot;Ediff&amp;lt;2&amp;gt;&quot;&lt;/span&gt;]
-      myIgnores &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; &lt;span style=&quot;font-weight: bold; text-decoration: underline;&quot;&gt;[]&lt;/span&gt;
+    where
+      myFloats = [&quot;Gimp&quot;, &quot;Nvidia-settings&quot;, &quot;XCalc&quot;, &quot;XFontSel&quot;, &quot;Xmessage&quot;, &quot;xmms&quot;]
+      myOtherFloats = [&quot;Downloads&quot;, &quot;Firefox - Restore Previous Session&quot;, &quot;Save As...&quot;, &quot;Ediff&quot;, &quot;Ediff&amp;lt;2&amp;gt;&quot;]
+      myIgnores = []
 
- xmonad &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;$&lt;/span&gt; desktopConfig {
-          &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;...&lt;/span&gt;
-          , manageHook &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;=&lt;/span&gt; myManageHook &lt;span style=&quot;font-weight: bold; font-style: italic;&quot;&gt;&amp;lt;+&amp;gt;&lt;/span&gt; manageHook defaultConfig
+ xmonad $ desktopConfig {
+	  ...
+	  , manageHook = myManageHook &amp;lt;+&amp;gt; manageHook defaultConfig
 }
 &lt;/pre&gt;
 &lt;/div&gt;
@@ -1482,20 +1482,51 @@ paranoia and distrust of everything.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-</description></item><item><title>Java Fork/Join Framework - an exemplar of elegant design</title><link>http://MonadicT.github.io/2014/02/26/JavaForkJoin/</link><pubDate>Wed, 26 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;It's rare to see a well-crafted solution to a thorny problem. With multicore hardware becoming the norm a few years ago, we needed a way to take advantage of all those cores. In Java, we already have threads and synchronization constructs, right? What could be easier than throwing together a bunch of interfaces, classes and threads at this problem?&lt;/p&gt;&lt;p&gt;The answer is not whether it is easier or harder. The question should really be about the right way to do it. The realization of Fork/Join implementation in Java is quite an impressive piece of engineering. Engineering as in recognizing the essence of the problem and solving it just right. Of course, the credit also goes to the original work done in Cilk project at MIT.&lt;/p&gt;&lt;p&gt;I won't try to distill the contents of relevant papers in this post. You should really read Doug Lea's paper and the Cilk-5 paper would be a bonus read after that. Link to these papers are right here.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://gee.cs.oswego.edu/dl/papers/fj.pdf&quot;&gt;A Java Fork/Join Framework&lt;/a&gt;&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013&quot;&gt;The Implementation of the Cilk-5 Multithreaded Language&lt;/a&gt;&lt;/p&gt;&lt;p&gt;The design of work-stealing and the implementation of underlying deque is full of deep insights into the problem and clever solutions. I never thought &lt;a href=&quot;https://en.wikipedia.org/wiki/Dekker's_algorithm&quot;&gt;Dekker's algorithm&lt;/a&gt;, which provides mutual exclusion between two processes, would ever be usable in a real-world solution. I suppose, some solutions are waiting for just the right problem.&lt;/p&gt;</description></item><item><title>How to fix Wi-Fi connection issues in Ubuntu 13.04</title><link>http://MonadicT.github.io/2014/02/25/Ubuntu-Network_trouble/</link><pubDate>Tue, 25 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;I have used Ubuntu for almost a decade now. I have always thought it had a pretty good chance of being the alternative to MS Windows. After the recent Windows 8 release, which definitely makes a Linux alternative all the more imperative, I find it strangely ironic that Ubuntu seems to be emulating just that. Sigh.&lt;/p&gt;&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;&lt;p&gt;https://bugs.launchpad.net/ubuntu/+bug/1072518 https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507&lt;/p&gt;&lt;p&gt;There are many workarounds you can find on the net. However, on my laptop, what seems to work always is the following.&lt;/p&gt;&lt;p&gt;&lt;code&gt;sh
+</description></item><item><title>Java Fork/Join Framework - an exemplar of elegant design</title><link>http://MonadicT.github.io/2014/02/26/JavaForkJoin/</link><pubDate>Wed, 26 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;It's rare to see a well-crafted solution to a thorny problem. With multicore hardware becoming the norm a few years ago, we needed a way to take advantage of all those cores. In Java, we already have threads and synchronization constructs, right? What could be easier than throwing together a bunch of interfaces, classes and threads at this problem?&lt;/p&gt;
+&lt;p&gt;The answer is not whether it is easier or harder. The question should really be about the right way to do it. The realization of Fork/Join implementation in Java is quite an impressive piece of engineering. Engineering as in recognizing the essence of the problem and solving it just right. Of course, the credit also goes to the original work done in Cilk project at MIT.&lt;/p&gt;
+&lt;p&gt;I won't try to distill the contents of relevant papers in this post. You should really read Doug Lea's paper and the Cilk-5 paper would be a bonus read after that. Link to these papers are right here.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://gee.cs.oswego.edu/dl/papers/fj.pdf&quot;&gt;A Java Fork/Join Framework&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.52.2013&quot;&gt;The Implementation of the Cilk-5 Multithreaded Language&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The design of work-stealing and the implementation of underlying deque is full of deep insights into the problem and clever solutions. I never thought &lt;a href=&quot;https://en.wikipedia.org/wiki/Dekker's_algorithm&quot;&gt;Dekker's algorithm&lt;/a&gt;, which provides mutual exclusion between two processes, would ever be usable in a real-world solution. I suppose, some solutions are waiting for just the right problem.&lt;/p&gt;</description></item><item><title>How to fix Wi-Fi connection issues in Ubuntu 13.04</title><link>http://MonadicT.github.io/2014/02/25/Ubuntu-Network_trouble/</link><pubDate>Tue, 25 Feb 2014 00:00:00 -0800</pubDate><description>&lt;p&gt;I have used Ubuntu for almost a decade now. I have always thought it had a pretty good chance of being the alternative to MS Windows. After the recent Windows 8 release, which definitely makes a Linux alternative all the more imperative, I find it strangely ironic that Ubuntu seems to be emulating just that. Sigh.&lt;/p&gt;
+&lt;p&gt;Rant over and now for a prductivity tip. When Ubuntu loses Wi-Fi connectivity, restarting network-manager or networking will not help. Reboot seems to be the only remedy after that. Here are a couple of bugs reported on this issue.&lt;/p&gt;
+&lt;p&gt;https://bugs.launchpad.net/ubuntu/+bug/1072518 https://bugs.launchpad.net/ubuntu/+source/dbus/+bug/1102507&lt;/p&gt;
+&lt;p&gt;There are many workarounds you can find on the net. However, on my laptop, what seems to work always is the following.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sh
 sudo modprobe -r wl
 sudo modprobe wl
-&lt;/code&gt;&lt;/p&gt;&lt;p&gt;Of course, the real solution may be to start using Arch Linux or something much simpler than the Windows-wannabe Ubuntu :)&lt;/p&gt;</description></item><item><title>core.async for throttling a Clojure function</title><link>http://MonadicT.github.io/2014/02/23/rate-limited-fns/</link><pubDate>Sun, 23 Feb 2014 00:00:00 -0800</pubDate><description>&lt;h3&gt;Introduction&lt;/h3&gt;&lt;p&gt;Most of the time, we want our functions to execute as fast as possible. But sometimes, that is not quite what is desirable. For example, if we are interfacing to an external service, we may be expected to be a friendly user of it and not bombard it with requests. While it's reasonable to expect that the service will have its own throttling mechanism, it's still a technique worth knowing.&lt;/p&gt;&lt;p&gt;Throttling or rate limiting is widely used in network traffic management. &lt;a href=&quot;https://en.wikipedia.org/wiki/Token_bucket&quot;&gt;Token bucket&lt;/a&gt; and &lt;a href=&quot;https://en.wikipedia.org/wiki/Leaky_bucket&quot;&gt;Leaky bucket&lt;/a&gt; are two commonly used algorithms. We will implement a token-based rate limiter using &lt;em&gt;core.async&lt;/em&gt;.&lt;/p&gt;&lt;p&gt;What follows is a simple Clojure macro which defines a self-governing function.&lt;/p&gt;&lt;h3&gt;How it works&lt;/h3&gt;&lt;p&gt;The function waits for a token before proceeding and the token is only issued at the specified intervals. The waiting and token granting logic is based on &lt;em&gt;core.async&lt;/em&gt; channel constructs. Each throttled function has an associated channel on which it waits to get a token. A token granter waits for an interval of time on a &lt;em&gt;timeout&lt;/em&gt; channel and sends the token on the token channel. This ensures that the function will never execute more frequently than the desired interval. The &lt;em&gt;rendezvous&lt;/em&gt; model used by &lt;em&gt;core.async&lt;/em&gt; channels ensures that the token granter waits until a prior granted token is consumed.&lt;/p&gt;&lt;p&gt;Note that the body of the function is wrapped in an anonymous function within the generated wrapper function and invoked with an &lt;em&gt;apply&lt;/em&gt;.&lt;/p&gt;&lt;h3&gt;defn-throttled&lt;/h3&gt;&lt;p&gt;Clojure code for implementing a throttled function. &lt;em&gt;defn-throttled&lt;/em&gt; is a macro resembling Clojure's &lt;em&gt;defn&lt;/em&gt; but with an additional interval specifier preceding the argument vector.&lt;/p&gt;
-&lt;script src=&quot;https://gist.github.com/MonadicT/9182004.js&quot;&gt;
-&lt;/script&gt;</description></item><item><title>Java Reference Objects</title><link>http://MonadicT.github.io/2014/01/24/Java-References/</link><pubDate>Fri, 24 Jan 2014 00:00:00 -0800</pubDate><description>&lt;h3&gt;Introduction&lt;/h3&gt;&lt;p&gt;Perhaps the first trick of performance improvement is caching. Every programmer knows that performance of programs can be improved if somethings are cached in memory rather than recalculating or reading from disk everytime. However, balancing caching with memory needs of rest of the program is tricky. You can afford to cache a lot when demand for memory from rest of the program is small. But the cache should trim some of its entries when memory is needed by other parts of her program.&lt;/p&gt;&lt;p&gt;Consider another scenario. You have a class, say &lt;strong&gt;F&lt;/strong&gt;, you would like to extend and associate some data with it. But &lt;strong&gt;F&lt;/strong&gt; is final and you don't have the ability to change it. Ideally, you would like to have an instance of some other class &lt;strong&gt;G&lt;/strong&gt; associated with each instance of &lt;strong&gt;F&lt;/strong&gt;. You could use a hash map with &lt;strong&gt;aF&lt;/strong&gt; as key and associate &lt;strong&gt;aG&lt;/strong&gt; with it. While this works, when you don't need &lt;strong&gt;aF&lt;/strong&gt; anymore, &lt;strong&gt;aF&lt;/strong&gt; and &lt;strong&gt;aG&lt;/strong&gt; hang around in memory because they are in the hash map.&lt;/p&gt;&lt;p&gt;For our last scenario, consider an object which uses some resource. When the object is reclaimed by the garbage collector, the resource should also be freed. Ideally, we would like this to happen without tracking the object's lifetime and explicitly initiating resource cleanup. Note that &lt;em&gt;finalize&lt;/em&gt; method intended for object cleanup action is considered a nonstarter.&lt;/p&gt;&lt;p&gt;In all these cases, we would like the garbage collector to understand a bit more about the references our code keeps. The &lt;em&gt;Reference&lt;/em&gt; class and its subclasses in &lt;strong&gt;java.lang.ref&lt;/strong&gt; package provide us with the tools to interact with the garbage collector. Each of the above scenarios described above can be handled with a special type of &lt;strong&gt;Reference&lt;/strong&gt; object. The rest of the post shows some Java code to illustrate the general ideas.&lt;/p&gt;&lt;h3&gt;Building a GC-friendly cache&lt;/h3&gt;&lt;p&gt;Say, your software creates something that is expensive and we would like to improve the overall performance by caching instances of it once they are created. We might want to go about building a cache that allows us to do something like this.&lt;/p&gt;
+&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Of course, the real solution may be to start using Arch Linux or something much simpler than the Windows-wannabe Ubuntu :)&lt;/p&gt;</description></item><item><title>core.async for throttling a Clojure function</title><link>http://MonadicT.github.io/2014/02/23/rate-limited-fns/</link><pubDate>Sun, 23 Feb 2014 00:00:00 -0800</pubDate><description></description></item><item><title>Java Reference Objects</title><link>http://MonadicT.github.io/2014/01/24/Java-References/</link><pubDate>Fri, 24 Jan 2014 00:00:00 -0800</pubDate><description>&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Perhaps the first trick of performance improvement is caching. Every programmer knows that performance of programs can be improved if somethings are cached in memory rather than recalculating or reading from disk everytime. However, balancing caching with memory needs of rest of the program is tricky. You can afford to cache a lot when demand for memory from rest of the program is small. But the cache should trim some of its entries when memory is needed by other parts of her program.&lt;/p&gt;
+&lt;p&gt;Consider another scenario. You have a class, say &lt;strong&gt;F&lt;/strong&gt;, you would like to extend and associate some data with it. But &lt;strong&gt;F&lt;/strong&gt; is final and you don't have the ability to change it. Ideally, you would like to have an instance of some other class &lt;strong&gt;G&lt;/strong&gt; associated with each instance of &lt;strong&gt;F&lt;/strong&gt;. You could use a hash map with &lt;strong&gt;aF&lt;/strong&gt; as key and associate &lt;strong&gt;aG&lt;/strong&gt; with it. While this works, when you don't need &lt;strong&gt;aF&lt;/strong&gt; anymore, &lt;strong&gt;aF&lt;/strong&gt; and &lt;strong&gt;aG&lt;/strong&gt; hang around in memory because they are in the hash map.&lt;/p&gt;
+&lt;p&gt;For our last scenario, consider an object which uses some resource. When the object is reclaimed by the garbage collector, the resource should also be freed. Ideally, we would like this to happen without tracking the object's lifetime and explicitly initiating resource cleanup. Note that &lt;em&gt;finalize&lt;/em&gt; method intended for object cleanup action is considered a nonstarter.&lt;/p&gt;
+&lt;p&gt;In all these cases, we would like the garbage collector to understand a bit more about the references our code keeps. The &lt;em&gt;Reference&lt;/em&gt; class and its subclasses in &lt;strong&gt;java.lang.ref&lt;/strong&gt; package provide us with the tools to interact with the garbage collector. Each of the above scenarios described above can be handled with a special type of &lt;strong&gt;Reference&lt;/strong&gt; object. The rest of the post shows some Java code to illustrate the general ideas.&lt;/p&gt;
+&lt;h3&gt;Building a GC-friendly cache&lt;/h3&gt;
+&lt;p&gt;Say, your software creates something that is expensive and we would like to improve the overall performance by caching instances of it once they are created. We might want to go about building a cache that allows us to do something like this.&lt;/p&gt;
 &lt;ul&gt;
   &lt;li&gt;Insert items into cache without worrying about the number of entries  in it.&lt;/li&gt;
   &lt;li&gt;When the program runs short of memory, discard some or all cached entries.&lt;/li&gt;
   &lt;li&gt;When a cache lookup finds a discarded entry, treat it the same as item not in cache.&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;The trick to accomplishing all this without a lot of house keeping is to wrap the cached values in instances of &lt;strong&gt;java.lang.Ref.SoftReference&lt;/strong&gt;. The garbage collector has a notion of variable strength references. A normal reference to an object, also called strong reference, is one where the object is reachable from the roots of the program through a list of normal references. Instances which have strong references to them are not eligible for garbage collection. An object with a &lt;em&gt;SoftReference&lt;/em&gt; doesn't have any strong references to it and the garbage collector is free to reclaim it at its discretion.&lt;/p&gt;&lt;p&gt;The following gist illustrates how the garbage collector treats soft references to objects. Notice that a garbage collection cycle which reclaims enough memory will leave the soft references unclaimed. When memory is scarce, however, soft references will be reclaimed by garbage collection.&lt;/p&gt;
+&lt;/ul&gt;
+&lt;p&gt;The trick to accomplishing all this without a lot of house keeping is to wrap the cached values in instances of &lt;strong&gt;java.lang.Ref.SoftReference&lt;/strong&gt;. The garbage collector has a notion of variable strength references. A normal reference to an object, also called strong reference, is one where the object is reachable from the roots of the program through a list of normal references. Instances which have strong references to them are not eligible for garbage collection. An object with a &lt;em&gt;SoftReference&lt;/em&gt; doesn't have any strong references to it and the garbage collector is free to reclaim it at its discretion.&lt;/p&gt;
+&lt;p&gt;The following gist illustrates how the garbage collector treats soft references to objects. Notice that a garbage collection cycle which reclaims enough memory will leave the soft references unclaimed. When memory is scarce, however, soft references will be reclaimed by garbage collection.&lt;/p&gt;
 &lt;script src=&quot;https://gist.github.com/MonadicT/8655216.js&quot;&gt;
-&lt;/script&gt;&lt;p&gt;Here is the output produced by this code. You can see that soft references get cleared when memory is scarce.&lt;/p&gt;&lt;p&gt;{% highlight bash %} $ java SoftReferenceTest Populating cache with 1000 objects Count of objects in cache after population: 1000 Count of objects in cache after System.gc: 1000 Triggering OutOfMemoryError Count of objects in cache after OOME: 10 $ {% endhighlight bash %}&lt;/p&gt;&lt;p&gt;What would happen if we used &lt;em&gt;java.lang.ref.WeakReference&lt;/em&gt; instead of &lt;em&gt;SoftReference&lt;/em&gt;? The difference between soft and weak references is in how aggressively garbage collector reclaims them. JDK documentation for &lt;em&gt;WeakReference&lt;/em&gt; states that when garbage collector determines an object to be only weakly reachable, it will clear all weak references to that object. In contrast, when garbage collector determines an object to be softly reachable, it &lt;em&gt;may&lt;/em&gt; clear soft references to it.&lt;/p&gt;&lt;p&gt;Here is another gist illustrating the difference between &lt;em&gt;SoftReference&lt;/em&gt; and &lt;em&gt;WeakReference&lt;/em&gt;. This gist replaces all occurrences of &lt;em&gt;SoftReference&lt;/em&gt; with &lt;em&gt;WeakReference&lt;/em&gt;. From the run output, you can see that the weak references to objects don't seem to survive the process of building the hash map and System.gc() call clears them immediately.&lt;/p&gt;
+&lt;/script&gt;
+&lt;p&gt;Here is the output produced by this code. You can see that soft references get cleared when memory is scarce.&lt;/p&gt;
+&lt;p&gt;{% highlight bash %} $ java SoftReferenceTest Populating cache with 1000 objects Count of objects in cache after population: 1000 Count of objects in cache after System.gc: 1000 Triggering OutOfMemoryError Count of objects in cache after OOME: 10 $ {% endhighlight bash %}&lt;/p&gt;
+&lt;p&gt;What would happen if we used &lt;em&gt;java.lang.ref.WeakReference&lt;/em&gt; instead of &lt;em&gt;SoftReference&lt;/em&gt;? The difference between soft and weak references is in how aggressively garbage collector reclaims them. JDK documentation for &lt;em&gt;WeakReference&lt;/em&gt; states that when garbage collector determines an object to be only weakly reachable, it will clear all weak references to that object. In contrast, when garbage collector determines an object to be softly reachable, it &lt;em&gt;may&lt;/em&gt; clear soft references to it.&lt;/p&gt;
+&lt;p&gt;Here is another gist illustrating the difference between &lt;em&gt;SoftReference&lt;/em&gt; and &lt;em&gt;WeakReference&lt;/em&gt;. This gist replaces all occurrences of &lt;em&gt;SoftReference&lt;/em&gt; with &lt;em&gt;WeakReference&lt;/em&gt;. From the run output, you can see that the weak references to objects don't seem to survive the process of building the hash map and System.gc() call clears them immediately.&lt;/p&gt;
 &lt;script src=&quot;https://gist.github.com/MonadicT/8655216.js&quot;&gt;
-&lt;/script&gt;&lt;p&gt;Output from running the above gist.&lt;/p&gt;&lt;p&gt;{% highlight bash %} $ java WeakReferenceTest Populating cache with 1000 objects Count of objects in cache after population: 278 Count of objects in cache after System.gc: 10 Triggering OutOfMemoryError Count of objects in cache after OOME: 10 $ {% endhighlight bash %}&lt;/p&gt;&lt;p&gt;While $SoftReference$ looks great for building caches which automatically get smaller when memory becomes scarce, what are $WeakReferences$ good for? That is the subject of next section.&lt;/p&gt;&lt;h3&gt;Weak Hash Map&lt;/h3&gt;&lt;p&gt;The JDK documentation for $WeakReference$ says, weak references are used to build canonicalized mappings. A canonicalized mapping to an object always resolves to the same object. Consider the use case described at the beginning where we would like to associate additional information with an instance of a final class. Obviously, we should be able to retrieve the same information that we associated with the object at all times. While we could use a hash map with the object as key, all the housekeeping will have to be done by the developer.&lt;/p&gt;&lt;p&gt;This where a $WeakReference$ proves handy. Instead of storing the key of the object directly, the key is wrapped in $WeakReference$. Say we have an object instance and with it we associate some information. We can query the weak hash map with the object as the key. If the object instance gets reclaimed, the only reference to it would be its use as a key in the weak hash map. As we saw earlier, garbage collector reclaims weak references right away and the key is put on a queue. When any operations are invoked on the weak hash map, all weak references waiting in the queue are removed from the map.&lt;/p&gt;&lt;p&gt;Note that keys used in $WeakHashMap$ should not have any embedded strong references to them in the code and nor in the additional information we associated with it as the value. If the key is an interned string, the key will never become weakly referenced.&lt;/p&gt;&lt;h3&gt;Phantom Reference&lt;/h3&gt;&lt;p&gt;Now we come to the last scenario discussed in the beginning. Java objects can have a &lt;em&gt;finalize&lt;/em&gt; method in which you can perform cleanup actions. Java doesn't specify how soon the &lt;em&gt;finalize&lt;/em&gt; method will be invoked and which thread will execute the method. Joshua Bloch, author of &lt;em&gt;Effective Java&lt;/em&gt;, also points out the performance penalty of defining &lt;em&gt;finalize&lt;/em&gt; and strongly recommends avoiding it. &lt;em&gt;finalize&lt;/em&gt; seems to be one of the features of Java better left untouched. Thankfully, &lt;em&gt;PhantomReference&lt;/em&gt; is designed to address the problem of executing cleanup actions in a safe manner.&lt;/p&gt;&lt;p&gt;Using &lt;em&gt;PhantomReference&lt;/em&gt; requires a little more effort than other reference types. For starters, phantom references don't return their referent ever. That prevents you from creating strong references to an object that has been finalized. It also requires you to subclass &lt;em&gt;PhantomReference&lt;/em&gt; and maintain data needed to cleanup the referent when it is reclaimed. Phantom references must also be associated with a reference queue and a background thread is required to monitor the queue for references enqueued by garbage collector and do the cleanup actions as necessary.&lt;/p&gt;&lt;p&gt;Here is a gist which shows how phantom references should be used. Real code should probably be structured so that each object needing cleanup action should return an instance of &lt;em&gt;PhantomReference&lt;/em&gt; subclass encapsulating the cleanup data.&lt;/p&gt;
+&lt;/script&gt;
+&lt;p&gt;Output from running the above gist.&lt;/p&gt;
+&lt;p&gt;{% highlight bash %} $ java WeakReferenceTest Populating cache with 1000 objects Count of objects in cache after population: 278 Count of objects in cache after System.gc: 10 Triggering OutOfMemoryError Count of objects in cache after OOME: 10 $ {% endhighlight bash %}&lt;/p&gt;
+&lt;p&gt;While $SoftReference$ looks great for building caches which automatically get smaller when memory becomes scarce, what are $WeakReferences$ good for? That is the subject of next section.&lt;/p&gt;
+&lt;h3&gt;Weak Hash Map&lt;/h3&gt;
+&lt;p&gt;The JDK documentation for $WeakReference$ says, weak references are used to build canonicalized mappings. A canonicalized mapping to an object always resolves to the same object. Consider the use case described at the beginning where we would like to associate additional information with an instance of a final class. Obviously, we should be able to retrieve the same information that we associated with the object at all times. While we could use a hash map with the object as key, all the housekeeping will have to be done by the developer.&lt;/p&gt;
+&lt;p&gt;This where a $WeakReference$ proves handy. Instead of storing the key of the object directly, the key is wrapped in $WeakReference$. Say we have an object instance and with it we associate some information. We can query the weak hash map with the object as the key. If the object instance gets reclaimed, the only reference to it would be its use as a key in the weak hash map. As we saw earlier, garbage collector reclaims weak references right away and the key is put on a queue. When any operations are invoked on the weak hash map, all weak references waiting in the queue are removed from the map.&lt;/p&gt;
+&lt;p&gt;Note that keys used in $WeakHashMap$ should not have any embedded strong references to them in the code and nor in the additional information we associated with it as the value. If the key is an interned string, the key will never become weakly referenced.&lt;/p&gt;
+&lt;h3&gt;Phantom Reference&lt;/h3&gt;
+&lt;p&gt;Now we come to the last scenario discussed in the beginning. Java objects can have a &lt;em&gt;finalize&lt;/em&gt; method in which you can perform cleanup actions. Java doesn't specify how soon the &lt;em&gt;finalize&lt;/em&gt; method will be invoked and which thread will execute the method. Joshua Bloch, author of &lt;em&gt;Effective Java&lt;/em&gt;, also points out the performance penalty of defining &lt;em&gt;finalize&lt;/em&gt; and strongly recommends avoiding it. &lt;em&gt;finalize&lt;/em&gt; seems to be one of the features of Java better left untouched. Thankfully, &lt;em&gt;PhantomReference&lt;/em&gt; is designed to address the problem of executing cleanup actions in a safe manner.&lt;/p&gt;
+&lt;p&gt;Using &lt;em&gt;PhantomReference&lt;/em&gt; requires a little more effort than other reference types. For starters, phantom references don't return their referent ever. That prevents you from creating strong references to an object that has been finalized. It also requires you to subclass &lt;em&gt;PhantomReference&lt;/em&gt; and maintain data needed to cleanup the referent when it is reclaimed. Phantom references must also be associated with a reference queue and a background thread is required to monitor the queue for references enqueued by garbage collector and do the cleanup actions as necessary.&lt;/p&gt;
+&lt;p&gt;Here is a gist which shows how phantom references should be used. Real code should probably be structured so that each object needing cleanup action should return an instance of &lt;em&gt;PhantomReference&lt;/em&gt; subclass encapsulating the cleanup data.&lt;/p&gt;
 &lt;script src=&quot;https://gist.github.com/MonadicT/8695437.js&quot;&gt;
 &lt;/script&gt;</description></item></channel></rss>

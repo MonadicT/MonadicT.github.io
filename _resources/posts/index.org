@@ -4,7 +4,7 @@
 #+BEGIN_EXPORT html
 <div class=" post-title">
 <a href="/2018/blog-site-generator.html">
-Yet Another Emacs Static-site Generator
+Yet Another Emacs Static Site Generator
 </a>
 
 </div>
@@ -23,6 +23,33 @@ A static site generator implemented entirely in emacs.
 #+BEGIN_EXPORT html
 <div class=" post-publish-date">
 Published:  2018-01-31
+</div>
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/bloggen.html">
+Static Blog Site Generator
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+Descrption of elisp code which generates this blog site from a set of org-mode files,
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2017-10-01
 </div>
 
 
@@ -131,6 +158,33 @@ A walk-through of XMonad Window Manager configuration steps
 #+BEGIN_EXPORT html
 <div class=" post-publish-date">
 Published:  2015-05-20
+</div>
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-title">
+<a href="/2014/SafeguardingSecretsWithGunPG.html">
+Safeguarding Secrets with GnuPG
+</a>
+
+</div>
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-summary">
+How to store secrets on your computer and the emacs interface to access it.
+</div>
+
+
+
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<div class=" post-publish-date">
+Published:  2014-03-08
 </div>
 
 

@@ -4,7 +4,7 @@
 #+export_file_name: ../../2014/JavaForkJoinFramework.html
 #+options: num:nil
 
-#+tags: java "work stealing", scheduling
+#+tags: Java, work stealing, scheduling
 
 * Java Fork/Join Framework - an exemplar of elegant design
 It's rare to see a well-crafted solution to a thorny problem. With

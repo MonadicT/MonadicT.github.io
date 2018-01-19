@@ -2,7 +2,7 @@
 #+summary: Productivity tip on fixing Wi-Fi conectivity issues on Ubuntu 13.04
 #+publish-date: 2014-02-14
 #+export_file_name: ../../2014/Ubuntu1304WifiFix.html
-#+tags: ubuntu, network, troubleshoot, tip
+#+tags: Ubuntu, network, tip
 #+options: num:nil
 
 * Fixing Wi-Fi connection issues in Ubuntu 13.04
