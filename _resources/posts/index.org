@@ -30,33 +30,6 @@ Published:  2018-01-31
 
 #+BEGIN_EXPORT html
 <div class=" post-title">
-<a href="/bloggen.html">
-Static Blog Site Generator
-</a>
-
-</div>
-
-#+END_EXPORT
-
-#+BEGIN_EXPORT html
-<div class=" post-summary">
-Descrption of elisp code which generates this blog site from a set of org-mode files,
-</div>
-
-
-
-#+END_EXPORT
-
-#+BEGIN_EXPORT html
-<div class=" post-publish-date">
-Published:  2017-10-01
-</div>
-
-
-#+END_EXPORT
-
-#+BEGIN_EXPORT html
-<div class=" post-title">
 <a href="/2017/YetAnotherTemplatelanguageAndProcessor.html">
 Yet another template language and processor
 </a>

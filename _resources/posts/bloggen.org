@@ -1,8 +1,8 @@
 #+title: Static Blog Site Generator
 #+summary: Descrption of elisp code which generates this blog site from a set of org-mode files,
 #+tags: emacs, elisp, blog
-#+publish-date: 2017-10-01
-#+export_file_name: ../../bloggen.html
+#publish-date:
+#export_file_name:
 #+options: toc:nil num:nil
 
 * Introduction
