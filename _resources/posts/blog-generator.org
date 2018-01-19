@@ -12,7 +12,7 @@
 Org-mode has a flexible export framework which can be leveraged to
 generate Html content suitable for publishing with Jekyll, a static
 site generator. This post describes the elisp package I use to
-maintain my blog at [[https://MonadicT.github.io]].
+maintain my blog at [[https://MonadicT.github.io][MonadicT.github.io]].
 
 Blog entries are written as a regular =.org= file. A post should have
 a =#+title=, =#+summary=, =#+publish_date=, =#+tags= and

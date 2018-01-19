@@ -9,7 +9,7 @@
    (img@src=\"http://MonadicT.github.io/images/praki.jpg\"@style=\"float:left\;padding-right:20px\"))
 #+END_SRC
 
-*Chief Architect* at [[http://www.picarro.com][Picarro, Inc]]. Previous roles include /Master
+/Chief Architect/ at [[http://www.picarro.com][Picarro, Inc]]. Previous roles include /Master
 Technologist/ at HP Inc, /Staff Engineer/ at VMware Inc, /Engineering Manager/
 at Yahoo Inc.
 
