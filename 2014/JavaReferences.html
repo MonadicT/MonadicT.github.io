@@ -5,7 +5,7 @@
  <title>
 MonadicT
 </title>
- <base href="https://MonadicT.github.io"/>
+ <base href="https://MonadicT.github.io/"/>
  <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
  of 2017-12-09>"/>
  <meta name="author" content="Praki Prakash"/>
@@ -29,9 +29,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
  <div id="blog-content-middle">
 
-<div id="outline-container-org7c24788" class="outline-2">
-<h2 id="org7c24788">Java References</h2>
-<div class="outline-text-2" id="text-org7c24788">
+<div id="outline-container-org7ea5de7" class="outline-2">
+<h2 id="org7ea5de7">Java References</h2>
+<div class="outline-text-2" id="text-org7ea5de7">
 <p>
 Perhaps the first trick of performance improvement is caching. Every
 programmer knows that performance of programs can be improved if
@@ -73,9 +73,9 @@ illustrate the general ideas.
 </p>
 </div>
 
-<div id="outline-container-org5de743b" class="outline-3">
-<h3 id="org5de743b">Building a GC-friendly cache</h3>
-<div class="outline-text-3" id="text-org5de743b">
+<div id="outline-container-org2bf3ae9" class="outline-3">
+<h3 id="org2bf3ae9">Building a GC-friendly cache</h3>
+<div class="outline-text-3" id="text-org2bf3ae9">
 <p>
 Say, your software creates something that is expensive and we would like
 to improve the overall performance by caching instances of it once
@@ -179,9 +179,9 @@ automatically get smaller when memory becomes scarce, what are
 </div>
 </div>
 
-<div id="outline-container-orgc95c32d" class="outline-3">
-<h3 id="orgc95c32d">Weak Hash Map</h3>
-<div class="outline-text-3" id="text-orgc95c32d">
+<div id="outline-container-orgb92ee86" class="outline-3">
+<h3 id="orgb92ee86">Weak Hash Map</h3>
+<div class="outline-text-3" id="text-orgb92ee86">
 <p>
 The JDK documentation for <b>WeakReference</b> says, weak references are
 used to build canonicalized mappings. A canonicalized mapping to an
@@ -214,9 +214,9 @@ the key will never become weakly referenced.
 </div>
 </div>
 
-<div id="outline-container-org779bee0" class="outline-3">
-<h3 id="org779bee0">Phantom Reference</h3>
-<div class="outline-text-3" id="text-org779bee0">
+<div id="outline-container-org8889c42" class="outline-3">
+<h3 id="org8889c42">Phantom Reference</h3>
+<div class="outline-text-3" id="text-org8889c42">
 <p>
 Now we come to the last scenario discussed in the beginning. Java
 objects can have a <b>finalize</b> method in which you can perform cleanup
