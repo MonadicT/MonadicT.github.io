@@ -2,56 +2,56 @@
 #+options: num:nil
 * Tags
 ** blog
-- [[http://localhost:8000/][Static Blog Site Generator]]
+- [[https://MonadicT.github.io/][Static Blog Site Generator]]
 ** DSL
-- [[http://localhost:8000/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
-- [[http://localhost:8000/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
+- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+- [[https://MonadicT.github.io/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
 ** elisp
-- [[http://localhost:8000/][Static Blog Site Generator]]
+- [[https://MonadicT.github.io/][Static Blog Site Generator]]
 ** emacs
-- [[http://localhost:8000/2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
-- [[http://localhost:8000/][Static Blog Site Generator]]
-- [[http://localhost:8000/2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
-- [[http://localhost:8000/2018/blog-site-generator.html][Rate-limiting Functions]]
-- [[http://localhost:8000/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
+- [[https://MonadicT.github.io/2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
+- [[https://MonadicT.github.io/][Static Blog Site Generator]]
+- [[https://MonadicT.github.io/2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
+- [[https://MonadicT.github.io/2018/blog-site-generator.html][Rate-limiting Functions]]
+- [[https://MonadicT.github.io/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
 ** Garbage Collection
-- [[http://localhost:8000/2014/JavaReferences.html][Java References]]
+- [[https://MonadicT.github.io/2014/JavaReferences.html][Java References]]
 ** Haskell
-- [[http://localhost:8000/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
+- [[https://MonadicT.github.io/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
 ** HTML
-- [[http://localhost:8000/][Static Site Builder]]
-- [[http://localhost:8000/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+- [[https://MonadicT.github.io/][Static Site Builder]]
+- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
 ** Java
-- [[http://localhost:8000/2014/JavaReferences.html][Java References]]
-- [[http://localhost:8000/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
+- [[https://MonadicT.github.io/2014/JavaReferences.html][Java References]]
+- [[https://MonadicT.github.io/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
 ** Jekyll
-- [[http://localhost:8000/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
+- [[https://MonadicT.github.io/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
 ** lisp
-- [[http://localhost:8000/][Static Site Builder]]
-- [[http://localhost:8000/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+- [[https://MonadicT.github.io/][Static Site Builder]]
+- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
 ** network
-- [[http://localhost:8000/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
+- [[https://MonadicT.github.io/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
 ** Parsec
-- [[http://localhost:8000/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
+- [[https://MonadicT.github.io/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
 ** pattern matching
-- [[http://localhost:8000/][Tree patters nmatching]]
+- [[https://MonadicT.github.io/][Tree patters nmatching]]
 ** scheduling
-- [[http://localhost:8000/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
+- [[https://MonadicT.github.io/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
 ** static site
-- [[http://localhost:8000/2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
-- [[http://localhost:8000/2018/blog-site-generator.html][Rate-limiting Functions]]
-- [[http://localhost:8000/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
+- [[https://MonadicT.github.io/2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
+- [[https://MonadicT.github.io/2018/blog-site-generator.html][Rate-limiting Functions]]
+- [[https://MonadicT.github.io/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
 ** template
-- [[http://localhost:8000/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
+- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
 ** tip
-- [[http://localhost:8000/2015/ConfiguringXMonad.html][Configuring XMonad]]
-- [[http://localhost:8000/2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
-- [[http://localhost:8000/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
+- [[https://MonadicT.github.io/2015/ConfiguringXMonad.html][Configuring XMonad]]
+- [[https://MonadicT.github.io/2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
+- [[https://MonadicT.github.io/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
 ** Ubuntu
-- [[http://localhost:8000/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
+- [[https://MonadicT.github.io/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
 ** work stealing
-- [[http://localhost:8000/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
+- [[https://MonadicT.github.io/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
 ** X
-- [[http://localhost:8000/2015/ConfiguringXMonad.html][Configuring XMonad]]
+- [[https://MonadicT.github.io/2015/ConfiguringXMonad.html][Configuring XMonad]]
 ** xmonad
-- [[http://localhost:8000/2015/ConfiguringXMonad.html][Configuring XMonad]]
+- [[https://MonadicT.github.io/2015/ConfiguringXMonad.html][Configuring XMonad]]

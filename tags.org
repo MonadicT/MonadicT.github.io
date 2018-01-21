@@ -1,57 +1,226 @@
-#+title: Tags
-#+options: num:nil
-* Tags
-** blog
-- [[https://MonadicT.github.io/][Static Blog Site Generator]]
-** DSL
-- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
-- [[https://MonadicT.github.io/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
-** elisp
-- [[https://MonadicT.github.io/][Static Blog Site Generator]]
-** emacs
-- [[https://MonadicT.github.io/2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
-- [[https://MonadicT.github.io/][Static Blog Site Generator]]
-- [[https://MonadicT.github.io/2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
-- [[https://MonadicT.github.io/2018/blog-site-generator.html][Rate-limiting Functions]]
-- [[https://MonadicT.github.io/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
-** Garbage Collection
-- [[https://MonadicT.github.io/2014/JavaReferences.html][Java References]]
-** Haskell
-- [[https://MonadicT.github.io/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
-** HTML
-- [[https://MonadicT.github.io/][Static Site Builder]]
-- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
-** Java
-- [[https://MonadicT.github.io/2014/JavaReferences.html][Java References]]
-- [[https://MonadicT.github.io/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
-** Jekyll
-- [[https://MonadicT.github.io/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
-** lisp
-- [[https://MonadicT.github.io/][Static Site Builder]]
-- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
-** network
-- [[https://MonadicT.github.io/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
-** Parsec
-- [[https://MonadicT.github.io/2016/WritingAParserUsingParsec.html][Writing a parser using Parsec]]
-** pattern matching
-- [[https://MonadicT.github.io/][Tree patters nmatching]]
-** scheduling
-- [[https://MonadicT.github.io/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
-** static site
-- [[https://MonadicT.github.io/2018/blog-site-generator.html][Yet Another Emacs Static Site Generator]]
-- [[https://MonadicT.github.io/2018/blog-site-generator.html][Rate-limiting Functions]]
-- [[https://MonadicT.github.io/2016/BloggingWithEmacsAndOrgMode.html][Blogging with emacs and org-mode]]
-** template
-- [[https://MonadicT.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html][Yet another template language and processor]]
-** tip
-- [[https://MonadicT.github.io/2015/ConfiguringXMonad.html][Configuring XMonad]]
-- [[https://MonadicT.github.io/2014/SafeguardingSecretsWithGunPG.html][Safeguarding Secrets with GnuPG]]
-- [[https://MonadicT.github.io/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
-** Ubuntu
-- [[https://MonadicT.github.io/2014/Ubuntu1304WifiFix.html][Ubuntu Network Trouble]]
-** work stealing
-- [[https://MonadicT.github.io/2014/JavaForkJoinFramework.html][Java Fork/Join Framework - an exemplar of elegant design]]
-** X
-- [[https://MonadicT.github.io/2015/ConfiguringXMonad.html][Configuring XMonad]]
-** xmonad
-- [[https://MonadicT.github.io/2015/ConfiguringXMonad.html][Configuring XMonad]]
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8>"/>
+ <title>
+MonadicT
+</title>
+ <base href="https://MonadicT.github.io/"/>
+ <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
+ of 2017-12-09>"/>
+ <meta name="author" content="Praki Prakash"/>
+ <link href="blog-style.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div id="blog-header" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle" id="xblog-header"><h1><div id="blog-title">MonadicT</div></h1><div>Search <form action="http://www.google.com/search" id="searchform"
+method="get"><div><input class="box" id="s" name="q" type="text" />
+<input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
+</div></form></div></div><div class="blog-margin-right"></div></div>
+<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
+<img height="48px" width="48px"
+   title="Visit my Twitter page"
+   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  href="https://github.com/MonadicT"><img id="github-logo"
+  height="48" width="48" src="/images/github.png"/></a></div></div><div class="blog-margin-right"></div></div> <div id="blog-content">
+<div id="blog-content-left">
+
+</div>
+ <div id="blog-content-middle">
+<div id="outline-container-org7e2a708" class="outline-2">
+<h2 id="org7e2a708">Tags</h2>
+<div class="outline-text-2" id="text-org7e2a708">
+</div>
+<div id="outline-container-orgb5c29b6" class="outline-3">
+<h3 id="orgb5c29b6">blog</h3>
+<div class="outline-text-3" id="text-orgb5c29b6">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/">Static Blog Site Generator</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org009f59c" class="outline-3">
+<h3 id="org009f59c">DSL</h3>
+<div class="outline-text-3" id="text-org009f59c">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html">Yet another template language and processor</a></li>
+<li><a href="https://monadict.github.io/2016/WritingAParserUsingParsec.html">Writing a parser using Parsec</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga01c7f2" class="outline-3">
+<h3 id="orga01c7f2">elisp</h3>
+<div class="outline-text-3" id="text-orga01c7f2">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/">Static Blog Site Generator</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7345c47" class="outline-3">
+<h3 id="org7345c47">emacs</h3>
+<div class="outline-text-3" id="text-org7345c47">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/SafeguardingSecretsWithGunPG.html">Safeguarding Secrets with GnuPG</a></li>
+<li><a href="https://monadict.github.io/">Static Blog Site Generator</a></li>
+<li><a href="https://monadict.github.io/2018/blog-site-generator.html">Yet Another Emacs Static Site Generator</a></li>
+<li><a href="https://monadict.github.io/2018/blog-site-generator.html">Rate-limiting Functions</a></li>
+<li><a href="https://monadict.github.io/2016/BloggingWithEmacsAndOrgMode.html">Blogging with emacs and org-mode</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0b5beed" class="outline-3">
+<h3 id="org0b5beed">Garbage Collection</h3>
+<div class="outline-text-3" id="text-org0b5beed">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/JavaReferences.html">Java References</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2a0305b" class="outline-3">
+<h3 id="org2a0305b">Haskell</h3>
+<div class="outline-text-3" id="text-org2a0305b">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2016/WritingAParserUsingParsec.html">Writing a parser using Parsec</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org8b75888" class="outline-3">
+<h3 id="org8b75888">HTML</h3>
+<div class="outline-text-3" id="text-org8b75888">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/">Static Site Builder</a></li>
+<li><a href="https://monadict.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html">Yet another template language and processor</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf8a6251" class="outline-3">
+<h3 id="orgf8a6251">Java</h3>
+<div class="outline-text-3" id="text-orgf8a6251">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/JavaReferences.html">Java References</a></li>
+<li><a href="https://monadict.github.io/2014/JavaForkJoinFramework.html">Java Fork/Join Framework - an exemplar of elegant design</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org04dc1ff" class="outline-3">
+<h3 id="org04dc1ff">Jekyll</h3>
+<div class="outline-text-3" id="text-org04dc1ff">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2016/BloggingWithEmacsAndOrgMode.html">Blogging with emacs and org-mode</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2543f9f" class="outline-3">
+<h3 id="org2543f9f">lisp</h3>
+<div class="outline-text-3" id="text-org2543f9f">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/">Static Site Builder</a></li>
+<li><a href="https://monadict.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html">Yet another template language and processor</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org279432b" class="outline-3">
+<h3 id="org279432b">network</h3>
+<div class="outline-text-3" id="text-org279432b">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/Ubuntu1304WifiFix.html">Ubuntu Network Trouble</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgde6131b" class="outline-3">
+<h3 id="orgde6131b">Parsec</h3>
+<div class="outline-text-3" id="text-orgde6131b">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2016/WritingAParserUsingParsec.html">Writing a parser using Parsec</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org9aa002f" class="outline-3">
+<h3 id="org9aa002f">pattern matching</h3>
+<div class="outline-text-3" id="text-org9aa002f">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/">Tree patters nmatching</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org537029a" class="outline-3">
+<h3 id="org537029a">scheduling</h3>
+<div class="outline-text-3" id="text-org537029a">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/JavaForkJoinFramework.html">Java Fork/Join Framework - an exemplar of elegant design</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd616b1d" class="outline-3">
+<h3 id="orgd616b1d">static site</h3>
+<div class="outline-text-3" id="text-orgd616b1d">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2018/blog-site-generator.html">Yet Another Emacs Static Site Generator</a></li>
+<li><a href="https://monadict.github.io/2018/blog-site-generator.html">Rate-limiting Functions</a></li>
+<li><a href="https://monadict.github.io/2016/BloggingWithEmacsAndOrgMode.html">Blogging with emacs and org-mode</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb583a59" class="outline-3">
+<h3 id="orgb583a59">template</h3>
+<div class="outline-text-3" id="text-orgb583a59">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2017/YetAnotherTemplatelanguageAndProcessor.html">Yet another template language and processor</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd6444b5" class="outline-3">
+<h3 id="orgd6444b5">tip</h3>
+<div class="outline-text-3" id="text-orgd6444b5">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2015/ConfiguringXMonad.html">Configuring XMonad</a></li>
+<li><a href="https://monadict.github.io/2014/SafeguardingSecretsWithGunPG.html">Safeguarding Secrets with GnuPG</a></li>
+<li><a href="https://monadict.github.io/2014/Ubuntu1304WifiFix.html">Ubuntu Network Trouble</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org781575d" class="outline-3">
+<h3 id="org781575d">Ubuntu</h3>
+<div class="outline-text-3" id="text-org781575d">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/Ubuntu1304WifiFix.html">Ubuntu Network Trouble</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7c35b6f" class="outline-3">
+<h3 id="org7c35b6f">work stealing</h3>
+<div class="outline-text-3" id="text-org7c35b6f">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2014/JavaForkJoinFramework.html">Java Fork/Join Framework - an exemplar of elegant design</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf44e02a" class="outline-3">
+<h3 id="orgf44e02a">X</h3>
+<div class="outline-text-3" id="text-orgf44e02a">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2015/ConfiguringXMonad.html">Configuring XMonad</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb51d2ed" class="outline-3">
+<h3 id="orgb51d2ed">xmonad</h3>
+<div class="outline-text-3" id="text-orgb51d2ed">
+<ul class="org-ul">
+<li><a href="https://monadict.github.io/2015/ConfiguringXMonad.html">Configuring XMonad</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+</div>
+ <div id="blog-content-right"/>
+
+</div>
+ <div class=" blog-footer">
+Copyright &copy; 2014-2018, Praki Prakash
+</div>
+
+</body>
+</html>

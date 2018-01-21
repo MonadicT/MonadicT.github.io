@@ -583,7 +583,7 @@ Returns value of =key= or =default-value= if =key= doesn't exist in =keywords=.
 The root directory where the source for blogs is kept.
 #+BEGIN_SRC elisp :results silent :noweb-ref vars
   (defcustom blog-gen-root-dir
-    "~/stuff/github/MonadicT.github.io"
+    "~/stuff/github/MonadicT.github.io/"
     "")
 #+END_SRC
 
@@ -733,9 +733,11 @@ Generates list of articles.
                (div.post-publish-date "Published: " publish-date)) "\n")))
          posts))
       (save-buffer)
-      (when (file-exists-p "../../articles.html")
-        (delete-file "../../articles.html"))
-      (org-export-to-file 'blog "../../articles.html")))
+      (let ((out-file (concat blog-gen-root-dir "articles.html")))
+        (when (file-exists-p out-file)
+          (delete-file out-file))
+        (org-export-to-file 'blog out-file))
+      (delete-file "index.org")))
 #+END_SRC
 
 *** Tags generation
@@ -797,7 +799,9 @@ bullet list of anchors to posts.
               post-list)))
          tags)
         (write-file "tags.org")
-        (org-export-to-file 'blog "../../tags.html")
+        (let ((out-file (concat blog-gen-root-dir "tags.html")))
+        (message out-file)
+          (org-export-to-file 'blog out-file))
         (kill-buffer))))
 
 
@@ -837,7 +841,10 @@ Function to regenerate the full site. This is bound to =C-c C-g=.
       (blog-gen-create-articles)
       (blog-gen-create-tags posts)
       (blog-gen-create-about)
-      (blog-gen-create-home)))
+      (blog-gen-create-home))
+    (when prod
+      (when (blog-gen-file-contains-p "localhost")
+        (error "localhost references in file"))))
   (global-set-key (kbd "C-c C-g") #'blog-gen-publish)
 #+END_SRC
 
