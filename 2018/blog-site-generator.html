@@ -41,13 +41,13 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
 
-<div id="outline-container-org2d17acb" class="outline-2">
-<h2 id="org2d17acb">Blog site generator</h2>
-<div class="outline-text-2" id="text-org2d17acb">
+<div id="outline-container-org10ecdf7" class="outline-2">
+<h2 id="org10ecdf7">Blog site generator</h2>
+<div class="outline-text-2" id="text-org10ecdf7">
 </div>
-<div id="outline-container-org243289d" class="outline-3">
-<h3 id="org243289d">Overview</h3>
-<div class="outline-text-3" id="text-org243289d">
+<div id="outline-container-orgf6e13b8" class="outline-3">
+<h3 id="orgf6e13b8">Overview</h3>
+<div class="outline-text-3" id="text-orgf6e13b8">
 <p>
 Org-mode has a flexible export framework which can be leveraged to
 generate Html content suitable for publishing with Jekyll, a static
@@ -83,21 +83,21 @@ executing <code>blog-gen-new-post</code>.
 </div>
 </div>
 
-<div id="outline-container-org084f7f0" class="outline-3">
-<h3 id="org084f7f0">Design description</h3>
-<div class="outline-text-3" id="text-org084f7f0">
+<div id="outline-container-org24bfca3" class="outline-3">
+<h3 id="org24bfca3">Design description</h3>
+<div class="outline-text-3" id="text-org24bfca3">
 <ul class="org-ul">
 <li>Customizable variables describe</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org15c4d33" class="outline-3">
-<h3 id="org15c4d33">Implementation</h3>
-<div class="outline-text-3" id="text-org15c4d33">
+<div id="outline-container-org73abda1" class="outline-3">
+<h3 id="org73abda1">Implementation</h3>
+<div class="outline-text-3" id="text-org73abda1">
 </div>
-<div id="outline-container-org365fd30" class="outline-4">
-<h4 id="org365fd30">Dependencies</h4>
-<div class="outline-text-4" id="text-org365fd30">
+<div id="outline-container-org5b35958" class="outline-4">
+<h4 id="org5b35958">Dependencies</h4>
+<div class="outline-text-4" id="text-org5b35958">
 <p>
 Not many! <code>yatl</code> is my Elisp package for generating Html fragments
 from s-expressions.
@@ -111,12 +111,12 @@ from s-expressions.
 </div>
 </div>
 
-<div id="outline-container-org5083bbe" class="outline-4">
-<h4 id="org5083bbe">Useful macros/functions</h4>
+<div id="outline-container-orgfe8bb2f" class="outline-4">
+<h4 id="orgfe8bb2f">Useful macros/functions</h4>
 </div>
-<div id="outline-container-orgd4d7ac8" class="outline-4">
-<h4 id="orgd4d7ac8">Assert utlity</h4>
-<div class="outline-text-4" id="text-orgd4d7ac8">
+<div id="outline-container-org269ae65" class="outline-4">
+<h4 id="org269ae65">Assert utlity</h4>
+<div class="outline-text-4" id="text-org269ae65">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defmacro assert-equal (actual expected)
   `(when (not (equal ,actual ,expected))
@@ -128,9 +128,9 @@ from s-expressions.
 </div>
 </div>
 
-<div id="outline-container-org81174ad" class="outline-4">
-<h4 id="org81174ad">Key-value string parser</h4>
-<div class="outline-text-4" id="text-org81174ad">
+<div id="outline-container-orgcd528c4" class="outline-4">
+<h4 id="orgcd528c4">Key-value string parser</h4>
+<div class="outline-text-4" id="text-orgcd528c4">
 <p>
 Parses key-value string of form <i>@key=val@key=val</i>.
 </p>
@@ -173,9 +173,9 @@ Parses key-value string of form <i>@key=val@key=val</i>.
 </div>
 </div>
 
-<div id="outline-container-org5fdf1d5" class="outline-4">
-<h4 id="org5fdf1d5">Parse element name</h4>
-<div class="outline-text-4" id="text-org5fdf1d5">
+<div id="outline-container-org7ab0057" class="outline-4">
+<h4 id="org7ab0057">Parse element name</h4>
+<div class="outline-text-4" id="text-org7ab0057">
 <p>
 Parses element name and returns the list of element name, id, class
 and attributes. Multiple class names but id must be unique. Id is
@@ -223,9 +223,9 @@ introdued by |?|, class name with |.| and attribute with |!|.
 </div>
 </div>
 
-<div id="outline-container-orgf9fc55d" class="outline-4">
-<h4 id="orgf9fc55d">Return string representation</h4>
-<div class="outline-text-4" id="text-orgf9fc55d">
+<div id="outline-container-org6a79386" class="outline-4">
+<h4 id="org6a79386">Return string representation</h4>
+<div class="outline-text-4" id="text-org6a79386">
 <div class="org-src-container">
 <pre><code class="src src-elisp"> (defun blog-gen-as-string(o)
    (cond
@@ -239,9 +239,9 @@ introdued by |?|, class name with |.| and attribute with |!|.
 </div>
 </div>
 
-<div id="outline-container-orga0b9092" class="outline-4">
-<h4 id="orga0b9092">Custom Variables</h4>
-<div class="outline-text-4" id="text-orga0b9092">
+<div id="outline-container-orga7652c6" class="outline-4">
+<h4 id="orga7652c6">Custom Variables</h4>
+<div class="outline-text-4" id="text-orga7652c6">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(require 'ox-html)
 
@@ -294,9 +294,9 @@ introdued by |?|, class name with |.| and attribute with |!|.
 </div>
 </div>
 
-<div id="outline-container-orgb18091a" class="outline-4">
-<h4 id="orgb18091a">Inner template generator</h4>
-<div class="outline-text-4" id="text-orgb18091a">
+<div id="outline-container-org2be1597" class="outline-4">
+<h4 id="org2be1597">Inner template generator</h4>
+<div class="outline-text-4" id="text-org2be1597">
 <p>
 This function is called from Org-export machinery.
 </p>
@@ -324,9 +324,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-org874ae9a" class="outline-4">
-<h4 id="org874ae9a">twitter-link</h4>
-<div class="outline-text-4" id="text-org874ae9a">
+<div id="outline-container-orgec4c526" class="outline-4">
+<h4 id="orgec4c526">twitter-link</h4>
+<div class="outline-text-4" id="text-orgec4c526">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-twitter-link()
   "&lt;a target=\"_new\" href=\"https://twitter.com/MonadicT\"&gt;
@@ -339,9 +339,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-org9bb55d1" class="outline-4">
-<h4 id="org9bb55d1">github-link</h4>
-<div class="outline-text-4" id="text-org9bb55d1">
+<div id="outline-container-orgffe33d3" class="outline-4">
+<h4 id="orgffe33d3">github-link</h4>
+<div class="outline-text-4" id="text-orgffe33d3">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-github-link()
   "&lt;a id=\"github-link\" target=\"_new\"
@@ -352,9 +352,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-org1214783" class="outline-4">
-<h4 id="org1214783">Home link</h4>
-<div class="outline-text-4" id="text-org1214783">
+<div id="outline-container-orgc710008" class="outline-4">
+<h4 id="orgc710008">Home link</h4>
+<div class="outline-text-4" id="text-orgc710008">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-home-link()
   "&lt;a href=\"/index.html\"&gt;Home&lt;/a&gt;")
@@ -364,9 +364,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-org4d17954" class="outline-4">
-<h4 id="org4d17954">Articles link</h4>
-<div class="outline-text-4" id="text-org4d17954">
+<div id="outline-container-org3d372f5" class="outline-4">
+<h4 id="org3d372f5">Articles link</h4>
+<div class="outline-text-4" id="text-org3d372f5">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-articles-link()
   "&lt;a href=\"/articles.html\"&gt;Articles&lt;/a&gt;")
@@ -376,9 +376,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-org639fe7b" class="outline-4">
-<h4 id="org639fe7b">About link</h4>
-<div class="outline-text-4" id="text-org639fe7b">
+<div id="outline-container-org6fbb328" class="outline-4">
+<h4 id="org6fbb328">About link</h4>
+<div class="outline-text-4" id="text-org6fbb328">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-about-link()
   "&lt;a href=\"/about.html\"&gt;About&lt;/a&gt;")
@@ -388,9 +388,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-orgcc1a8cb" class="outline-4">
-<h4 id="orgcc1a8cb">Tags link</h4>
-<div class="outline-text-4" id="text-orgcc1a8cb">
+<div id="outline-container-org64d1b86" class="outline-4">
+<h4 id="org64d1b86">Tags link</h4>
+<div class="outline-text-4" id="text-org64d1b86">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-tags-link()
   "&lt;a href=\"/tags.html\"&gt;Tags&lt;/a&gt;")
@@ -400,9 +400,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-org2782e42" class="outline-4">
-<h4 id="org2782e42">Site links</h4>
-<div class="outline-text-4" id="text-org2782e42">
+<div id="outline-container-org33d39fc" class="outline-4">
+<h4 id="org33d39fc">Site links</h4>
+<div class="outline-text-4" id="text-org33d39fc">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-site-links()
   (concat
@@ -417,9 +417,9 @@ This function is called from Org-export machinery.
 </div>
 </div>
 
-<div id="outline-container-orgc061957" class="outline-4">
-<h4 id="orgc061957">Top matter</h4>
-<div class="outline-text-4" id="text-orgc061957">
+<div id="outline-container-orge8f4d96" class="outline-4">
+<h4 id="orge8f4d96">Top matter</h4>
+<div class="outline-text-4" id="text-orge8f4d96">
 <p>
 Generates the header and the banner. Here is one limitation of
 <code>yatl-compile-string</code> which can generate a single element with dynamic
@@ -443,9 +443,9 @@ content but not nested elements as needed here.
 </div>
 </div>
 
-<div id="outline-container-org6507b67" class="outline-4">
-<h4 id="org6507b67">Search form</h4>
-<div class="outline-text-4" id="text-org6507b67">
+<div id="outline-container-orga6650aa" class="outline-4">
+<h4 id="orga6650aa">Search form</h4>
+<div class="outline-text-4" id="text-orga6650aa">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-search-form()
   "&lt;div&gt;Search &lt;form action=\"http://www.google.com/search\" id=\"searchform\"
@@ -457,9 +457,9 @@ method=\"get\"&gt;&lt;div&gt;&lt;input class=\"box\" id=\"s\" name=\"q\" type=\"
 </div>
 </div>
 
-<div id="outline-container-orgd2e73a2" class="outline-4">
-<h4 id="orgd2e73a2">Social media icons</h4>
-<div class="outline-text-4" id="text-orgd2e73a2">
+<div id="outline-container-org12d8bdd" class="outline-4">
+<h4 id="org12d8bdd">Social media icons</h4>
+<div class="outline-text-4" id="text-org12d8bdd">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-social-media-icons()
   (concat
@@ -473,9 +473,9 @@ method=\"get\"&gt;&lt;div&gt;&lt;input class=\"box\" id=\"s\" name=\"q\" type=\"
 </div>
 </div>
 
-<div id="outline-container-org221fec0" class="outline-3">
-<h3 id="org221fec0">Mode implementation</h3>
-<div class="outline-text-3" id="text-org221fec0">
+<div id="outline-container-orgb7208b8" class="outline-3">
+<h3 id="orgb7208b8">Mode implementation</h3>
+<div class="outline-text-3" id="text-orgb7208b8">
 <div class="org-src-container">
 <pre><code class="src src-elisp"> ;;; Define backend
 
@@ -594,9 +594,9 @@ method=\"get\"&gt;&lt;div&gt;&lt;input class=\"box\" id=\"s\" name=\"q\" type=\"
 </div>
 </div>
 
-<div id="outline-container-org9da1e03" class="outline-3">
-<h3 id="org9da1e03">Styles</h3>
-<div class="outline-text-3" id="text-org9da1e03">
+<div id="outline-container-org7151ba1" class="outline-3">
+<h3 id="org7151ba1">Styles</h3>
+<div class="outline-text-3" id="text-org7151ba1">
 <p>
 CSS Styles used in this blog are managed using interpolated
 strings. The code below is an association list which is used to build
@@ -604,9 +604,9 @@ CSS string later.
 </p>
 </div>
 
-<div id="outline-container-orgf34470e" class="outline-4">
-<h4 id="orgf34470e">Color definitions</h4>
-<div class="outline-text-4" id="text-orgf34470e">
+<div id="outline-container-org534fc1e" class="outline-4">
+<h4 id="org534fc1e">Color definitions</h4>
+<div class="outline-text-4" id="text-org534fc1e">
 <p>
 CSS color definitions.
 </p>
@@ -678,9 +678,9 @@ CSS color definitions.
 </div>
 
 
-<div id="outline-container-org88d3a4a" class="outline-4">
-<h4 id="org88d3a4a">HTML element styling</h4>
-<div class="outline-text-4" id="text-org88d3a4a">
+<div id="outline-container-org913829b" class="outline-4">
+<h4 id="org913829b">HTML element styling</h4>
+<div class="outline-text-4" id="text-org913829b">
 <p>
 Style definitions for general html elements.
 </p>
@@ -708,9 +708,9 @@ a:hover {  color: &lt;&lt;accent-color&gt;&gt;; opacity: 0.5; }
 </div>
 </div>
 
-<div id="outline-container-org699bfe9" class="outline-4">
-<h4 id="org699bfe9">Page layout styling</h4>
-<div class="outline-text-4" id="text-org699bfe9">
+<div id="outline-container-orga2933ee" class="outline-4">
+<h4 id="orga2933ee">Page layout styling</h4>
+<div class="outline-text-4" id="text-orga2933ee">
 <div class="org-src-container">
 <pre><code class="src src-css">h2 {
     color: &lt;&lt;accent-text-color&gt;&gt;;
@@ -736,9 +736,9 @@ a:hover {  color: &lt;&lt;accent-color&gt;&gt;; opacity: 0.5; }
 </div>
 </div>
 
-<div id="outline-container-org7cadc1c" class="outline-4">
-<h4 id="org7cadc1c">Site links styling</h4>
-<div class="outline-text-4" id="text-org7cadc1c">
+<div id="outline-container-orgeda729d" class="outline-4">
+<h4 id="orgeda729d">Site links styling</h4>
+<div class="outline-text-4" id="text-orgeda729d">
 <div class="org-src-container">
 <pre><code class="src src-elisp">#site-links {
 }
@@ -762,9 +762,9 @@ a:hover {  color: &lt;&lt;accent-color&gt;&gt;; opacity: 0.5; }
 </div>
 </div>
 
-<div id="outline-container-orgc74de5f" class="outline-4">
-<h4 id="orgc74de5f">Post styling</h4>
-<div class="outline-text-4" id="text-orgc74de5f">
+<div id="outline-container-orgee2d124" class="outline-4">
+<h4 id="orgee2d124">Post styling</h4>
+<div class="outline-text-4" id="text-orgee2d124">
 <div class="org-src-container">
 <pre><code class="src src-elisp">.post-title {
     font-size: 1.25em;
@@ -801,9 +801,9 @@ a:hover {  color: &lt;&lt;accent-color&gt;&gt;; opacity: 0.5; }
 </div>
 </div>
 
-<div id="outline-container-org32deee0" class="outline-4">
-<h4 id="org32deee0">Class definitions</h4>
-<div class="outline-text-4" id="text-org32deee0">
+<div id="outline-container-org41b7e22" class="outline-4">
+<h4 id="org41b7e22">Class definitions</h4>
+<div class="outline-text-4" id="text-org41b7e22">
 <div class="org-src-container">
 <pre><code class="src src-elisp">.margin-row {
     display: flex;
@@ -848,9 +848,9 @@ a:hover {  color: &lt;&lt;accent-color&gt;&gt;; opacity: 0.5; }
 </div>
 </div>
 
-<div id="outline-container-orgfd93ce2" class="outline-4">
-<h4 id="orgfd93ce2">Tangling Stylesheet</h4>
-<div class="outline-text-4" id="text-orgfd93ce2">
+<div id="outline-container-org1edaf72" class="outline-4">
+<h4 id="org1edaf72">Tangling Stylesheet</h4>
+<div class="outline-text-4" id="text-org1edaf72">
 <div class="org-src-container">
 <pre><code class="src src-css"> * { font-family: "Merriweather", Georgia, serif; }
 html { clear: both; Height: 100%; width: 100% }
@@ -972,13 +972,13 @@ h2 {
 </div>
 </div>
 
-<div id="outline-container-org6f7dc96" class="outline-3">
-<h3 id="org6f7dc96">Org-file analyzer</h3>
-<div class="outline-text-3" id="text-org6f7dc96">
+<div id="outline-container-org66c6900" class="outline-3">
+<h3 id="org66c6900">Org-file analyzer</h3>
+<div class="outline-text-3" id="text-org66c6900">
 </div>
-<div id="outline-container-org322f7f5" class="outline-4">
-<h4 id="org322f7f5">Return keywords from org-file</h4>
-<div class="outline-text-4" id="text-org322f7f5">
+<div id="outline-container-org4a95f78" class="outline-4">
+<h4 id="org4a95f78">Return keywords from org-file</h4>
+<div class="outline-text-4" id="text-org4a95f78">
 <p>
 Returns list of OrgMode keywords from the current document.
 </p>
@@ -995,9 +995,9 @@ Returns list of OrgMode keywords from the current document.
 </div>
 </div>
 
-<div id="outline-container-org65d69d2" class="outline-4">
-<h4 id="org65d69d2">Get keyword</h4>
-<div class="outline-text-4" id="text-org65d69d2">
+<div id="outline-container-org41022c6" class="outline-4">
+<h4 id="org41022c6">Get keyword</h4>
+<div class="outline-text-4" id="text-org41022c6">
 <p>
 Returns value of <code>key</code> or <code>default-value</code> if <code>key</code> doesn't exist in <code>keywords</code>.
 </p>
@@ -1013,13 +1013,13 @@ Returns value of <code>key</code> or <code>default-value</code> if <code>key</co
 </div>
 </div>
 
-<div id="outline-container-org94a76b6" class="outline-3">
-<h3 id="org94a76b6">Blog publishing</h3>
-<div class="outline-text-3" id="text-org94a76b6">
+<div id="outline-container-org07d6c75" class="outline-3">
+<h3 id="org07d6c75">Blog publishing</h3>
+<div class="outline-text-3" id="text-org07d6c75">
 </div>
-<div id="outline-container-org089bce6" class="outline-4">
-<h4 id="org089bce6">Blog source directory</h4>
-<div class="outline-text-4" id="text-org089bce6">
+<div id="outline-container-org7c3f995" class="outline-4">
+<h4 id="org7c3f995">Blog source directory</h4>
+<div class="outline-text-4" id="text-org7c3f995">
 <p>
 The root directory where the source for blogs is kept.
 </p>
@@ -1032,9 +1032,9 @@ The root directory where the source for blogs is kept.
 </div>
 </div>
 
-<div id="outline-container-org627286e" class="outline-4">
-<h4 id="org627286e">Blog posts directory</h4>
-<div class="outline-text-4" id="text-org627286e">
+<div id="outline-container-org095d2c7" class="outline-4">
+<h4 id="org095d2c7">Blog posts directory</h4>
+<div class="outline-text-4" id="text-org095d2c7">
 <p>
 The subdirectory where <code>.org</code> files are stored.
 </p>
@@ -1048,9 +1048,9 @@ The subdirectory where <code>.org</code> files are stored.
 </div>
 </div>
 
-<div id="outline-container-org329ba44" class="outline-4">
-<h4 id="org329ba44">Publishing locally</h4>
-<div class="outline-text-4" id="text-org329ba44">
+<div id="outline-container-orgf263a4f" class="outline-4">
+<h4 id="orgf263a4f">Publishing locally</h4>
+<div class="outline-text-4" id="text-orgf263a4f">
 <p>
 This is a Boolean flag set to use <code>base</code> url for generated html files.
 </p>
@@ -1067,9 +1067,9 @@ This is a Boolean flag set to use <code>base</code> url for generated html files
 </div>
 </div>
 </div>
-<div id="outline-container-org5309bd9" class="outline-4">
-<h4 id="org5309bd9">Extract post details</h4>
-<div class="outline-text-4" id="text-org5309bd9">
+<div id="outline-container-orgc2ac8e0" class="outline-4">
+<h4 id="orgc2ac8e0">Extract post details</h4>
+<div class="outline-text-4" id="text-orgc2ac8e0">
 <p>
 Extracts post title, summary and <code>publish-date</code> from the file. Nil is
 returned if <code>publish-date</code> is not present.
@@ -1100,9 +1100,9 @@ returned if <code>publish-date</code> is not present.
 </div>
 </div>
 
-<div id="outline-container-org0749d80" class="outline-4">
-<h4 id="org0749d80">Post files</h4>
-<div class="outline-text-4" id="text-org0749d80">
+<div id="outline-container-org02c7aa2" class="outline-4">
+<h4 id="org02c7aa2">Post files</h4>
+<div class="outline-text-4" id="text-org02c7aa2">
 <p>
 Returns list of posts stored in <code>.org</code> files. <code>.org</code> files such as
 <code>index.org</code>, <code>about.org</code> are not returned as posts.
@@ -1127,9 +1127,9 @@ Returns list of posts stored in <code>.org</code> files. <code>.org</code> files
 </div>
 </div>
 
-<div id="outline-container-org1540e4e" class="outline-4">
-<h4 id="org1540e4e">Published post files</h4>
-<div class="outline-text-4" id="text-org1540e4e">
+<div id="outline-container-org0341df7" class="outline-4">
+<h4 id="org0341df7">Published post files</h4>
+<div class="outline-text-4" id="text-org0341df7">
 <p>
 Returns published posts (posts which have <code>export_file_name</code> keyword).
 </p>
@@ -1142,9 +1142,9 @@ Returns published posts (posts which have <code>export_file_name</code> keyword)
 </div>
 </div>
 
-<div id="outline-container-org7b9355e" class="outline-4">
-<h4 id="org7b9355e">Order post files</h4>
-<div class="outline-text-4" id="text-org7b9355e">
+<div id="outline-container-org65fa4a2" class="outline-4">
+<h4 id="org65fa4a2">Order post files</h4>
+<div class="outline-text-4" id="text-org65fa4a2">
 <p>
 Orders posts by <code>publish-date</code> descending.
 </p>
@@ -1157,9 +1157,9 @@ Orders posts by <code>publish-date</code> descending.
 </div>
 </div>
 
-<div id="outline-container-orgf10b85d" class="outline-4">
-<h4 id="orgf10b85d">Macro to generate <code>html_export</code> blocks</h4>
-<div class="outline-text-4" id="text-orgf10b85d">
+<div id="outline-container-orgfd38ebd" class="outline-4">
+<h4 id="orgfd38ebd">Macro to generate <code>html_export</code> blocks</h4>
+<div class="outline-text-4" id="text-orgfd38ebd">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defmacro html-export(&amp;rest content)
   `(progn (insert "#+BEGIN_EXPORT html\n")
@@ -1170,9 +1170,9 @@ Orders posts by <code>publish-date</code> descending.
 </div>
 </div>
 
-<div id="outline-container-orgf8f0a08" class="outline-4">
-<h4 id="orgf8f0a08">Articles generation</h4>
-<div class="outline-text-4" id="text-orgf8f0a08">
+<div id="outline-container-orgcad5e6f" class="outline-4">
+<h4 id="orgcad5e6f">Articles generation</h4>
+<div class="outline-text-4" id="text-orgcad5e6f">
 <p>
 Exports all <code>.org</code> post files to <code>.html</code> files.
 </p>
@@ -1195,9 +1195,9 @@ Exports all <code>.org</code> post files to <code>.html</code> files.
 </div>
 </div>
 </div>
-<div id="outline-container-org0574e3c" class="outline-4">
-<h4 id="org0574e3c">Articles page generation</h4>
-<div class="outline-text-4" id="text-org0574e3c">
+<div id="outline-container-org20fe98c" class="outline-4">
+<h4 id="org20fe98c">Articles page generation</h4>
+<div class="outline-text-4" id="text-org20fe98c">
 <p>
 Generates list of articles.
 </p>
@@ -1247,9 +1247,9 @@ Generates list of articles.
 </div>
 </div>
 
-<div id="outline-container-orgc1bf3fd" class="outline-4">
-<h4 id="orgc1bf3fd">Tags generation</h4>
-<div class="outline-text-4" id="text-orgc1bf3fd">
+<div id="outline-container-orgbda408f" class="outline-4">
+<h4 id="orgbda408f">Tags generation</h4>
+<div class="outline-text-4" id="text-orgbda408f">
 <p>
 Posts have a <code>#+tags</code> header and tags are separated by <code>,</code>. This
 function builds a hashtable of tags to a list posts from <code>posts</code>.
@@ -1332,9 +1332,9 @@ bullet list of anchors to posts.
 </div>
 </div>
 
-<div id="outline-container-orgf56cb03" class="outline-4">
-<h4 id="orgf56cb03">About page generation.</h4>
-<div class="outline-text-4" id="text-orgf56cb03">
+<div id="outline-container-org2b7b708" class="outline-4">
+<h4 id="org2b7b708">About page generation.</h4>
+<div class="outline-text-4" id="text-org2b7b708">
 <div class="org-src-container">
 <pre><code class="src src-elisp">(defun blog-gen-create-about()
   (with-temp-buffer
@@ -1346,9 +1346,9 @@ bullet list of anchors to posts.
 </div>
 </div>
 
-<div id="outline-container-org4f73d98" class="outline-4">
-<h4 id="org4f73d98">Home page generation</h4>
-<div class="outline-text-4" id="text-org4f73d98">
+<div id="outline-container-orgffd919b" class="outline-4">
+<h4 id="orgffd919b">Home page generation</h4>
+<div class="outline-text-4" id="text-orgffd919b">
 <p>
 For now, <i>Home</i> points to <i>Articles</i>.
 </p>
@@ -1363,9 +1363,9 @@ For now, <i>Home</i> points to <i>Articles</i>.
 </div>
 </div>
 
-<div id="outline-container-orgdf319e4" class="outline-4">
-<h4 id="orgdf319e4">Generates blog,</h4>
-<div class="outline-text-4" id="text-orgdf319e4">
+<div id="outline-container-org2edf58b" class="outline-4">
+<h4 id="org2edf58b">Generates blog,</h4>
+<div class="outline-text-4" id="text-org2edf58b">
 <p>
 Function to regenerate the full site. This is bound to <code>C-c C-g</code>.
 </p>
@@ -1390,9 +1390,9 @@ Function to regenerate the full site. This is bound to <code>C-c C-g</code>.
 </div>
 </div>
 
-<div id="outline-container-org18ceea4" class="outline-4">
-<h4 id="org18ceea4">Create new blog post</h4>
-<div class="outline-text-4" id="text-org18ceea4">
+<div id="outline-container-org4facbcb" class="outline-4">
+<h4 id="org4facbcb">Create new blog post</h4>
+<div class="outline-text-4" id="text-org4facbcb">
 <p>
 A template for creating a new blog post.
 </p>
@@ -1412,9 +1412,9 @@ A template for creating a new blog post.
 </div>
 </div>
 
-<div id="outline-container-orgd287879" class="outline-4">
-<h4 id="orgd287879">Tangled elisp file</h4>
-<div class="outline-text-4" id="text-orgd287879">
+<div id="outline-container-orga784841" class="outline-4">
+<h4 id="orga784841">Tangled elisp file</h4>
+<div class="outline-text-4" id="text-orga784841">
 <p>
 All the functions described above are tangled into
 ~/.emacs.d/lisp/blog-gen.el. A <code>require</code> in <code>.emacs</code> will make this
