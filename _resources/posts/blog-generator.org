@@ -5,13 +5,14 @@
 #+html_head: <link rel="stylesheet" type="text/css" href="style.css" />
 #+tags: static site, emacs
 #+options: num:nil
+#+STARTUP: hideblocks
 # Evaluate with: C-c C-v C-b
 
 * Blog site generator
 ** Overview
 Org-mode has a flexible export framework which can be leveraged to
 generate Html content suitable for publishing with Jekyll, a static
-site generator. This post describes the elisp package I use to
+site generator. This post describes the elisp package which is used to
 maintain my blog at [[https://MonadicT.github.io][MonadicT.github.io]].
 
 Blog entries are written as a regular =.org= file. A post should have
@@ -26,8 +27,8 @@ individual post can be quickly examined by invoking Org export menu
 (=C-c C-e=) which shows the options for processing the buffer. =C-c
 C-e= C-f will generate a HTML file.
 
-If there is =#+publish-data= header, the post will be skipped when the
-site is regenerated.
+If there is no =#+publish-data= header, the post will be skipped when
+the site is regenerated.
 
 A new blog entry with all the required headers can be created by
 executing =blog-gen-new-post=.
@@ -145,124 +146,7 @@ introdued by |?|, class name with |.| and attribute with |!|.
   (as-string 1)
 #+END_SRC
 
-*** Convert a list to HTML element
-#+BEGIN_SRC elisp :results silent
-  (defun blog-gen-mk-elem(o)
-    (cond
-     ((and (listp o) (equal (car o) 'lisp))
-      (let ((res (eval (cadr o))))
-        res))
-     ((listp o)
-      (multiple-value-bind (nm id cls attrs) (blog-gen-parse-elem-name (symbol-name (car o)))
-        (let* ((attrs (seq-filter
-                       (lambda (s)
-                         (and (symbolp s)
-                              (s-starts-with? "@" (as-string s))))
-                       (cdr o)))
-               (children (seq-filter
-                          (lambda (s)
-                            (or (listp s)
-                                (not (s-starts-with? "@" (as-string s)))))
-                          (cdr o)))
-               (attrs-s (mapconcat #'blog-gen-parse-kvp (mapcar #'symbol-name attrs) " "))
-               (children-s (mapconcat #'blog-gen-mk-elem children " ")))
-          (concat
-           (format "<%s" nm)
-           (unless (string-empty-p id) (format " id=\"%s\"" id))
-           (unless (string-empty-p cls) (format " class=\"%s\"" cls))
-           (unless (string-empty-p attrs-s) (format " %s" attrs-s))
-           (if (string-empty-p children-s)
-               (format "/>\n")
-             (format ">\n%s\n</%s>\n" children-s nm))))))
-     ((symbolp o) (symbol-name o))
-     ((stringp o) o)
-     (t (format "%S" o))))
-
-  (assert (string-equal (blog-gen-mk-elem "a")
-                        "a"))
-
-  (assert (string-equal (blog-gen-mk-elem '(div))
-                        "<div/>\n"))
-
-  (assert (string-equal (blog-gen-mk-elem '(div?id))
-                        "<div id=\"id\"/>\n"))
-
-  (assert (string-equal (blog-gen-mk-elem '(div?id.c1.c2))
-                        "<div id=\"id\" class=\".c1.c2\"/>\n"))
-
-  (assert (string-equal (blog-gen-mk-elem '(div?id.c1 @foo=bar@fit=bit))
-                        "<div id=\"id\" class=\".c1\" foo=\"bar\" fit=\"bit\"/>\n"))
-
-  (assert (string-equal (blog-gen-mk-elem '(lisp ))
-                       nil))
-
-  (assert (string-equal (blog-gen-mk-elem (lisp 1)) "1"))
-
-  (let ((foo "BAR"))
-    (assert (string-equal (blog-gen-mk-elem '(lisp foo))
-                          "BAR")))
-#+END_SRC
-
-*** Generate HTML from list
-#+BEGIN_SRC elisp :results silent
-  (defmacro html(&rest forms)
-    `(concat
-      "<!DOCTYPE html>\n<html>\n"
-      ,(mapconcat
-        #'blog-gen-mk-elem
-        forms
-        "\n")
-      "</html>"))
-
-  (html
-   (head
-    (script @type=javascript @src=foo.js)
-    (link @rel=stylesheet @href=https://www.w3schools.com/html/styles.css))
-   (body
-    "a,b"))
-
-  (html
-   (lisp (format "%S" (+ 40 2))))
-
-  (html
-   (body
-    (div)
-    (lisp (concat  "Hello," "world! " (current-time-string)))))
-#+END_SRC
-
-#+BEGIN_SRC elisp :results silent
-    (defmacro flex-row(&rest forms)
-      `(concat
-        "<div class={display:flex;flex-direction:row;width:100}>"
-        ,@forms
-        "</div>"))
-
-    (defmacro flex-cell(flex-by &rest forms)
-      `(concat
-        (format "<div style={flex: %s}" ,flex-by)
-        ,@forms
-        "</div>"))
-
-    (flex-row (flex-cell 1) (flex-cell 2 org-version) (flex-cell 1))
-
-
-  (defmacro html-gen(&rest forms)
-    `(concat
-      "<html>\n"
-      ,@(mapconcat
-        #'car
-        forms
-        "\n")
-      "</html>"))
-
-  (blog-gen-mk-elem '(html
-             (head
-              (script src=foo))
-             (body)))
-
-#+END_SRC
-
-*** Variables
+*** Custom Variables
 #+BEGIN_SRC elisp :results silent :noweb-ref vars
   (require 'ox-html)
 
@@ -316,22 +200,22 @@ introdued by |?|, class name with |.| and attribute with |!|.
 This function is called from Org-export machinery.
 
 #+BEGIN_SRC elisp :results silent
-
   (defun blog-gen-inner-template (contents info)
     (mapconcat
      (lambda (x) (format "%s" x))
      (yatl-compile
       (body
-       (blog-gen-top-matter)
-       (div?blog-content
-        (div?blog-content-left " ")
-        (div?blog-content-middle
-         contents)
-        (div?blog-content-right))
-       (div.blog-footer
-        (format blog-gen-copyright-message
-                (format-time-string "%Y")))))
-     ""))
+       (div@style=display:flex
+        (div@style=flex:2 "")
+        (div@style=flex:6
+         (div
+          (blog-gen-top-matter)
+          contents))
+        (div@style=flex:2 "")
+        (div.blog-footer
+         (format blog-gen-copyright-message
+                 (format-time-string "%Y"))))))
+    ""))
 
 #+END_SRC
 
@@ -350,7 +234,7 @@ This function is called from Org-export machinery.
   (defun blog-gen-github-link()
     "<a id=\"github-link\" target=\"_new\"
     href=\"https://github.com/MonadicT\"><img id=\"github-logo\"
-    height=\"48\" width=\"48\" src=\"/images/github.png\"/></a>")
+    src=\"/images/github-logo.png\"/></a>")
 #+END_SRC
 
 *** Home link
@@ -393,28 +277,23 @@ This function is called from Org-export machinery.
      "</div>"))
 #+END_SRC
 
-*** top-matter
+*** Top matter
+Generates the header and the banner. Here is one limitation of
+=yatl-compile-string= which can generate a single element with dynamic
+content but not nested elements as needed here.
+
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-top-matter()
-    (concat
-     "<div id=\"blog-header\" class=\"margin-row\">"
-     "<div class=\"blog-margin-left\"></div>"
-     (format
-      "<div class=\"blog-margin-middle\" id=\"xblog-header\"><h1><div id=\"blog-title\">%s</div></h1>%s</div>"
-      blog-gen-title
-     (blog-gen-search-form))
-     "<div class=\"blog-margin-right\">"
-     "</div>"
-      "</div>\n"
-      "<div id=\"blog-banner\" class=\"margin-row\">"
-      "<div class=\"blog-margin-left\">"
-      "</div>"
-      "<div class=\"blog-margin-middle\">"
+    (yatl-html-frag
+     (div.blog-nav
+      (div?blog-title
+       blog-gen-title)
+      (blog-gen-search-form))
+     (div.blog-nav
       (blog-gen-site-links)
-      (blog-gen-social-media-icons)
-      "</div>"
-      "<div class=\"blog-margin-right\"></div>"
-     "</div>"))
+      (blog-gen-social-media-icons))
+     (div@style=border:1px "")))
+
 #+END_SRC
 
 *** Search form
@@ -549,6 +428,207 @@ This function is called from Org-export machinery.
 
   (add-to-list 'org-export-filter-body-functions
                'my-html-body-filter)
+#+END_SRC
+
+** Styles
+CSS Styles used in this blog are managed using interpolated
+strings. The code below is an association list which is used to build
+CSS string later.
+
+*** Color definitions
+CSS color definitions.
+
+- Dark primary color.
+#+BEGIN_SRC elisp :eval no :noweb-ref dark-primary-color
+#616161
+#+end_src
+
+- Default primary color
+#+BEGIN_SRC elisp :eval no :noweb-ref default-primary-color
+#9E9E9E
+#+end_src
+
+- Light primary color
+#+BEGIN_SRC elisp :eval no :noweb-ref light-primary-color
+#d3d3d3
+#+end_src
+
+- Text primary color
+#+BEGIN_SRC elisp :eval no :noweb-ref text-primary-color
+#212121
+#+end_src
+
+- Accent color
+#+BEGIN_SRC elisp :eval no :noweb-ref accent-color
+#ff5722
+#+end_src
+
+- Primary text color
+#+BEGIN_SRC elisp :eval no :noweb-ref primary-text-color
+#212121
+#+end_src
+
+- Secondary text color
+#+BEGIN_SRC elisp :eval no :noweb-ref secondary-text-color
+#757575
+#+end_src
+
+- Accent text color
+#+BEGIN_SRC elisp :eval no :noweb-ref accent-text-color
+#FF5722
+#+end_src
+
+
+*** HTML element styling
+Style definitions for general html elements.
+
+/Setting body.height to 100% paints background to visible portion of
+blog content and leaving it empty results in left and right borders at
+zero height. The only reasonable fix is to be able to specify heights
+for all layout divs to be in resolution independent units/
+
+#+begin_src elisp :noweb-ref css-els :eval no
+ * { font-family: "Merriweather", Georgia, serif; }
+html { clear: both; Height: 100%; width: 100% }
+body { margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column }
+body {
+    background-color: #dfe3ee
+}
+
+a { color: <<accent-text-color>>; text-decoration: none}
+
+a:hover {  color: <<accent-color>>; opacity: 0.5; }
+#+end_src
+
+*** Page layout styling
+
+#+begin_src css :noweb-ref css-page-layout :eval no
+h2 {
+    color: <<accent-text-color>>;
+}
+
+#blog-title {
+    font-size: 3em;
+    font-weight: bolder;
+    color: <<accent-text-color>>;
+}
+
+.blog-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #999
+}
+
+
+#+END_SRC
+
+*** Site links styling
+#+BEGIN_SRC elisp :noweb-ref css-site-links :eval no
+#site-links {
+}
+
+#site-links a {
+    color: <<accent-text-color>>;
+    font-size: 1em;
+    font-style: italic;
+    text-decoration: none;
+    padding-right: 1em
+}
+
+#social-media-icons {
+}
+
+#github-logo {
+    vertical-align: super
+}
+#+END_SRC
+
+*** Post styling
+#+BEGIN_SRC elisp :eval no :noweb-ref css-post
+.post-title {
+    font-size: 1.25em;
+    font-weight: bold;
+    color: <<accent-text-color>>;
+    border-bottom: 2px solid #ddd
+}
+
+.post-summary {
+    font-size: small;
+    color: <<secondary-text-color>>;
+    padding-top: 0.5em;
+    padding-left: 1em;
+}
+
+.post-tags {
+    font-size: small;
+    color: <<secondary-text-color>>;
+    padding-top: 1em;
+    padding-left: 1em;
+}
+
+.pub-date { font-weight: bold; color: <<secondary-text-color>>; padding-bottom: 2em; }
+
+.post-publish-date {
+    font-size: 0.75em;
+    color: #777;
+    padding-top: 0.5em;
+    padding-left: 1em;
+    padding-bottom: 1em;
+}
+#+END_SRC
+
+*** Class definitions
+#+BEGIN_SRC elisp :eval no :noweb-ref css-classes
+.margin-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.blog-margin-left, .blog-margin-right {
+    flex: 2;
+    width: 100px;
+}
+
+.blog-margin-middle {
+    flex: 6;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.blog-footer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 1em;
+    font-size: 0.5em;
+    font-weight: bold;
+    padding: 5px;
+    flex-direction: row;
+    justify-content: center;
+    border-top: solid 1px #dfe3ee;
+    color: <<accent-text-color>>; /* #3b5998, #dfe3ee, #8b9dc3*/
+    background-color: <<light-primary-color>>; /*#dfe3ee;*/
+}
+/* , #8b9dc3 */
+#+END_SRC
+
+*** Tangling Stylesheet
+
+#+BEGIN_SRC css :eval no :noweb yes :tangle ../../blog-style.css
+  <<css-els>>
+  <<css-page-layout>>
+  <<css-post>>
+  <<css-classes>>
+  <<css-site-links>>
 #+END_SRC
 
 ** Org-file analyzer
@@ -817,7 +897,7 @@ bullet list of anchors to posts.
   (defun blog-gen-create-about()
     (with-temp-buffer
       (find-file "about.org")
-      (org-export-to-file 'blog "../../about.html")
+      (org-export-to-file 'blog (concat blog-gen-root-dir "about.html"))
       (kill-buffer)))
 #+END_SRC
 
@@ -826,7 +906,9 @@ For now, /Home/ points to /Articles/.
 
 #+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-create-home()
-    (copy-file "../../articles.html" "../../index.html" t))
+    (copy-file
+     (concat blog-gen-root-dir "articles.html")
+     (concat blog-gen-root-dir "index.html") t))
 #+END_SRC
 
 *** Generates blog,
@@ -845,6 +927,7 @@ Function to regenerate the full site. This is bound to =C-c C-g=.
     (when prod
       (when (blog-gen-file-contains-p "localhost")
         (error "localhost references in file"))))
+(defun blog-gen-file-contains-p(s) nil)
   (global-set-key (kbd "C-c C-g") #'blog-gen-publish)
 #+END_SRC
 

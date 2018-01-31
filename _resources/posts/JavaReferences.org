@@ -1,5 +1,5 @@
 #+title: Java References
-#+summary:
+#+summary: Overview of Java Weak, Soft references and where they come in handy
 #+publish-date: 2014-01-24
 #+export_file_name: ../../2014/JavaReferences.html
 #+html_head: <link rel="stylesheet" type="text/css" href="style.css" />

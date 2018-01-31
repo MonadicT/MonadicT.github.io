@@ -1,5 +1,5 @@
-#+title: Java Fork/Join Framework - an exemplar of elegant design
-#+summary:
+#+title: Java Fork/Join Framework
+#+summary: An exemplar of elegant design
 #+publish-date: 2014-02-26
 #+export_file_name: ../../2014/JavaForkJoinFramework.html
 #+options: num:nil
