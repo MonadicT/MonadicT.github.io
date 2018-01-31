@@ -11,7 +11,7 @@
 
 /Chief Architect/ at [[http://www.picarro.com][Picarro, Inc]]. Previous roles include /Master
 Technologist/ at HP Inc, /Staff Engineer/ at VMware Inc, /Engineering Manager/
-at Yahoo Inc.
+at Yahoo Inc., /Member of Technical Staff/ at Westbridge Technologies, Inc.
 
 Passionate about functional programming. Programmed extensively in
 *Clojure*, *ClojureScript* and dabbles occasionally in *Rust*, *Go*,
