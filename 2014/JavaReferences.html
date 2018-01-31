@@ -13,25 +13,37 @@ MonadicT
 
 </head>
 <body>
-<div id="blog-header" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle" id="xblog-header"><h1><div id="blog-title">MonadicT</div></h1><div>Search <form action="http://www.google.com/search" id="searchform"
+<div style="display:flex">
+<div style="flex:2">
+
+</div>
+ <div style="flex:6">
+<div>
+<div class=" blog-nav">
+<div id="blog-title">
+MonadicT
+</div>
+ <div>Search <form action="http://www.google.com/search" id="searchform"
 method="get"><div><input class="box" id="s" name="q" type="text" />
 <input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
-</div></form></div></div><div class="blog-margin-right"></div></div>
-<div id="blog-banner" class="margin-row"><div class="blog-margin-left"></div><div class="blog-margin-middle"><div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div><div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+</div></form></div>
+</div>
+<div class=" blog-nav">
+<div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
 <span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
 <img height="48px" width="48px"
    title="Visit my Twitter page"
    src="/images/twitter.png"/></a><a id="github-link" target="_new"
   href="https://github.com/MonadicT"><img id="github-logo"
-  height="48" width="48" src="/images/github.png"/></a></div></div><div class="blog-margin-right"></div></div> <div id="blog-content">
-<div id="blog-content-left">
+  src="/images/github-logo.png"/></a></div>
+</div>
+<div style="border:1px">
 
 </div>
- <div id="blog-content-middle">
 
-<div id="outline-container-org2d16592" class="outline-2">
-<h2 id="org2d16592">Java References</h2>
-<div class="outline-text-2" id="text-org2d16592">
+<div id="outline-container-orgbafa1ff" class="outline-2">
+<h2 id="orgbafa1ff">Java References</h2>
+<div class="outline-text-2" id="text-orgbafa1ff">
 <p>
 Perhaps the first trick of performance improvement is caching. Every
 programmer knows that performance of programs can be improved if
@@ -73,9 +85,9 @@ illustrate the general ideas.
 </p>
 </div>
 
-<div id="outline-container-orgf556fcb" class="outline-3">
-<h3 id="orgf556fcb">Building a GC-friendly cache</h3>
-<div class="outline-text-3" id="text-orgf556fcb">
+<div id="outline-container-orga3340c5" class="outline-3">
+<h3 id="orga3340c5">Building a GC-friendly cache</h3>
+<div class="outline-text-3" id="text-orga3340c5">
 <p>
 Say, your software creates something that is expensive and we would like
 to improve the overall performance by caching instances of it once
@@ -179,9 +191,9 @@ automatically get smaller when memory becomes scarce, what are
 </div>
 </div>
 
-<div id="outline-container-org82692a2" class="outline-3">
-<h3 id="org82692a2">Weak Hash Map</h3>
-<div class="outline-text-3" id="text-org82692a2">
+<div id="outline-container-org3bdbc84" class="outline-3">
+<h3 id="org3bdbc84">Weak Hash Map</h3>
+<div class="outline-text-3" id="text-org3bdbc84">
 <p>
 The JDK documentation for <b>WeakReference</b> says, weak references are
 used to build canonicalized mappings. A canonicalized mapping to an
@@ -214,9 +226,9 @@ the key will never become weakly referenced.
 </div>
 </div>
 
-<div id="outline-container-orgb195815" class="outline-3">
-<h3 id="orgb195815">Phantom Reference</h3>
-<div class="outline-text-3" id="text-orgb195815">
+<div id="outline-container-org81a7d8e" class="outline-3">
+<h3 id="org81a7d8e">Phantom Reference</h3>
+<div class="outline-text-3" id="text-org81a7d8e">
 <p>
 Now we come to the last scenario discussed in the beginning. Java
 objects can have a <b>finalize</b> method in which you can perform cleanup
@@ -257,11 +269,15 @@ subclass encapsulating the cleanup data.
 </div>
 
 </div>
- <div id="blog-content-right"/>
+
+</div>
+ <div style="flex:2">
 
 </div>
  <div class=" blog-footer">
 Copyright &copy; 2014-2018, Praki Prakash
+</div>
+
 </div>
 
 </body>

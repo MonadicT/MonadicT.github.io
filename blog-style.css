@@ -1,91 +1,54 @@
-/*// #3b5998, #8b9dc3, #dfe3ee, #f7f7f7*/
-
-#blog-content  h2 {
-    color: #3b5998
-}
-
-#blog-content  h3 {
-    color: #8b9dc3
-}
-
+* { font-family: "Merriweather", Georgia, serif; }
+html { clear: both; Height: 100%; width: 100% }
+body { margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column }
 body {
     background-color: #dfe3ee
 }
 
-a {
-    color: #930;
-    text-decoration: none
+a { color: #FF5722; text-decoration: none}
+
+a:hover {  color: #ff5722; opacity: 0.5; }
+h2 {
+    color: #FF5722;
 }
 
 #blog-title {
-    font-size: 1.5em;
-    color: #dfe3ee;
+    font-size: 3em;
+    font-weight: bolder;
+    color: #FF5722;
 }
 
-#blog-header {
-    position: fixed;
-    top: 0;
-    height: 5em;
-    width: 100%;
-    z-index: 10;
-    color: white;
-    background-color: 	#3b5998;
-}
-
-#blog-banner {
-	position: fixed;
-	top: 5em;
-	width: 100%;
-	height: 3em;
+.blog-nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-	background: #8b9dc3;
+    border-bottom: 2px solid #999
 }
 
-#blog-content {
-	position: relative;
-	top: 8em;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-}
-
-#blog-content-left, #blog-content-right {
-    flex: 2;
-    background-color: #d8dfea
-}
-
-#blog-content-middle {
-    flex: 6;
-    padding: 1em;
-    display: flex;
-}
 
 .post-title {
     font-size: 1.25em;
     font-weight: bold;
-    color: #555;
+    color: #FF5722;
     border-bottom: 2px solid #ddd
 }
 
 .post-summary {
     font-size: small;
-    color: #777;
+    color: #757575;
     padding-top: 0.5em;
     padding-left: 1em;
 }
 
 .post-tags {
     font-size: small;
-    color: #777;
+    color: #757575;
     padding-top: 1em;
     padding-left: 1em;
 }
+
+.pub-date { font-weight: bold; color: #757575; padding-bottom: 2em; }
 
 .post-publish-date {
     font-size: 0.75em;
@@ -94,7 +57,6 @@ a {
     padding-left: 1em;
     padding-bottom: 1em;
 }
-
 .margin-row {
     display: flex;
     flex-direction: row;
@@ -117,37 +79,36 @@ a {
     width: 100%;
 }
 
-.article-title {
-    color: #ff6600
-}
-
 .blog-footer {
     display: flex;
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 1.5em;
+    height: 1em;
+    font-size: 0.5em;
+    font-weight: bold;
+    padding: 5px;
     flex-direction: row;
     justify-content: center;
     border-top: solid 1px #dfe3ee;
-    color: #3b5998;
-    xcolor: #dfe3ee; /*#8b9dc3;*/
-    background-color: #dfe3ee;
+    color: #FF5722; /* #3b5998, #dfe3ee, #8b9dc3*/
+    background-color: #d3d3d3; /*#dfe3ee;*/
 }
 /* , #8b9dc3 */
-
 #site-links {
 }
 
 #site-links a {
-    color: #dfe3ee;
-    font-size: 1.2em;
+    color: #FF5722;
+    font-size: 1em;
+    font-style: italic;
+    text-decoration: none;
+    padding-right: 1em
 }
 
 #social-media-icons {
 }
 
-#site-links a {
-    text-decoration: none;
-    padding-right: 1em
+#github-logo {
+    vertical-align: super
 }
