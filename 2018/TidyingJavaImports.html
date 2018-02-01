@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8>"/>
+ <title>
+MonadicT
+</title>
+ <base href="https://MonadicT.github.io/"/>
+ <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
+ of 2017-12-09>"/>
+ <meta name="author" content="Praki Prakash"/>
+ <link href="blog-style.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div style="display:flex">
+<div style="flex:2">
+
+</div>
+ <div style="flex:6">
+<div>
+<div class=" blog-nav">
+<div id="blog-title">
+MonadicT <div id="tagline">
+I see dead objects!
+</div>
+
+</div>
+ <div>Search <form action="http://www.google.com/search" id="searchform"
+method="get"><div><input class="box" id="s" name="q" type="text" />
+<input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
+</div></form></div>
+</div>
+<div class=" blog-nav">
+<div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
+<img height="48px" width="48px"
+   title="Visit my Twitter page"
+   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  href="https://github.com/MonadicT"><img id="github-logo"
+  src="/images/github-logo.png"/></a></div>
+</div>
+<div style="border:1px">
+
+</div>
+
+<div id="outline-container-orgffdbf51" class="outline-2">
+<h2 id="orgffdbf51"><span class="section-number-2">1</span> Tidying Java Imports</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I try to avoid programming in Java but there are those pesky times
+when Java is the right tool. I have no desire to install the 800-pound
+gorilla of IDEs, I can't quite use the <code>eclim</code> package (an Eclipse
+plugin which exposes Eclipse features through a server interface). I
+don't find the IntelliSense all that useful. However, I do want to be
+able to organize my <code>import</code> statements and remove unused classes to
+keep the clutter to a minimum. The following is a quick hack in elisp
+to accomplish the removal of unused Java classes.
+</p>
+
+<p>
+Note, this works well when you import each class by name. Wildcard
+im-ports are not handled with this.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">remove-unused-imports</span>()
+  (<span style="color: #F0DFAF; font-weight: bold;">interactive</span>)
+  (<span style="color: #F0DFAF; font-weight: bold;">save-excursion</span>
+    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((start (point-min))
+          (end (point-max))
+          imports
+          unused
+          last-import-line)
+      (beginning-of-buffer)
+      (<span style="color: #F0DFAF; font-weight: bold;">while</span> (&lt; (point) end)
+        (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((ln (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+          (<span style="color: #F0DFAF; font-weight: bold;">if</span> (string-match <span style="color: #CC9393;">"import[\t ]*.*\\.</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">(</span><span style="color: #CC9393;">[A-Za-z0-9]+</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">)</span><span style="color: #CC9393;">"</span> ln)
+              (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+                (<span style="color: #F0DFAF; font-weight: bold;">setq</span> last-import-line (count-lines 1 (point)))
+                (add-to-list
+                 'imports
+                 (list (match-string 1 ln) (line-beginning-position) (line-end-position)))))
+          (forward-line 1)))
+      (goto-line (+ last-import-line 2))
+      (narrow-to-region
+       (point)
+       end)
+      (mapcar
+       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (cls)
+         (goto-char (point-min))
+         (<span style="color: #F0DFAF; font-weight: bold;">if</span> (not (search-forward-regexp (car cls) (point-max) t))
+             (add-to-list 'unused cls)))
+       imports)
+      (widen)
+      (mapcar
+       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (cls)
+         (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((x (make-overlay (cadr cls) (caddr cls))))
+           (overlay-put x 'face '(<span style="color: #DCDCCC; font-weight: bold;">:background</span> <span style="color: #CC9393;">"grey80"</span>))))
+       unused)))
+  (message <span style="color: #CC9393;">"remove-unused-imports"</span>))
+
+(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((s <span style="color: #CC9393;">"import com.facebook.react.ReactPackage"</span>))
+  (string-match <span style="color: #CC9393;">"import[\t ]*</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">(</span><span style="color: #CC9393;">.*</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">)</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">(</span><span style="color: #CC9393;">[A-Za-z0-9]+</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">)</span><span style="color: #CC9393;">"</span> s)
+  (match-string  2 s))
+
+(global-set-key (kbd <span style="color: #CC9393;">"C-c C-i"</span>) #'remove-unused-imports)
+</code></pre>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+ <div style="flex:2">
+
+</div>
+ <div class=" blog-footer">
+Copyright &copy; 2014-2018, Praki Prakash
+</div>
+
+</div>
+
+</body>
+</html>

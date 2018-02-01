@@ -21,7 +21,10 @@ MonadicT
 <div>
 <div class=" blog-nav">
 <div id="blog-title">
-MonadicT
+MonadicT <div id="tagline">
+I see dead objects!
+</div>
+
 </div>
  <div>Search <form action="http://www.google.com/search" id="searchform"
 method="get"><div><input class="box" id="s" name="q" type="text" />
@@ -41,9 +44,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
 
-<div id="outline-container-org92287be" class="outline-2">
-<h2 id="org92287be">Blogging with emacs and org-mode</h2>
-<div class="outline-text-2" id="text-org92287be">
+<div id="outline-container-org85f7179" class="outline-2">
+<h2 id="org85f7179">Blogging with emacs and org-mode</h2>
+<div class="outline-text-2" id="text-org85f7179">
 <p>
 I do most of my work in <code>emacs</code> and blogging is no
 exception. But, everytime I start a blog post, I go through a small
@@ -52,9 +55,9 @@ once and for all :)
 </p>
 </div>
 
-<div id="outline-container-orgc216b61" class="outline-3">
-<h3 id="orgc216b61">Emacs setup</h3>
-<div class="outline-text-3" id="text-orgc216b61">
+<div id="outline-container-orgf30fd86" class="outline-3">
+<h3 id="orgf30fd86">Emacs setup</h3>
+<div class="outline-text-3" id="text-orgf30fd86">
 <p>
 Obviously, you need <code>org-mode</code>. Version <code>8.*</code> is preferred and there
 are many breaking changes from its previous versions. If you are using
@@ -80,10 +83,10 @@ fontified as well.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-emacs-lisp">;; Load org export extensions
-(require 'ox-latex)
+<pre><code class="src src-emacs-lisp"><span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Load org export extensions</span>
+(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">ox-latex</span>)
 
-;; org-mode should process these languages
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">org-mode should process these languages</span>
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
@@ -91,22 +94,22 @@ fontified as well.
    (clojure . t)
    (latex . t)))
 
-;; We don't want the "confirm evaluation" prompt for these languages
-(defun my-org-confirm-babel-evaluate (lang body)
-  (not (or (string= lang "python")
-           (string= lang "emacs-lisp")
-           (string= lang "dot")
-           (string= lang "latex"))))
-(setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
-(setq org-src-fontify-natively t)
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">We don't want the "confirm evaluation" prompt for these languages</span>
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">my-org-confirm-babel-evaluate</span> (lang body)
+  (not (<span style="color: #F0DFAF; font-weight: bold;">or</span> (string= lang <span style="color: #CC9393;">"python"</span>)
+           (string= lang <span style="color: #CC9393;">"emacs-lisp"</span>)
+           (string= lang <span style="color: #CC9393;">"dot"</span>)
+           (string= lang <span style="color: #CC9393;">"latex"</span>))))
+(<span style="color: #F0DFAF; font-weight: bold;">setq</span> org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+(<span style="color: #F0DFAF; font-weight: bold;">setq</span> org-src-fontify-natively t)
 
 </code></pre>
 </div>
 </div>
 
-<div id="outline-container-orge402e2a" class="outline-4">
-<h4 id="orge402e2a">Source blocks</h4>
-<div class="outline-text-4" id="text-orge402e2a">
+<div id="outline-container-org17ad298" class="outline-4">
+<h4 id="org17ad298">Source blocks</h4>
+<div class="outline-text-4" id="text-org17ad298">
 <p>
 Source code blocks are delimited by <code>#+BEGIN_SRC lang</code> and
 <code>#+END_SRC</code>. <code>emacs</code> evaluates the source block and uses the result in
@@ -178,8 +181,8 @@ return 42
 </pre>
 
 <div class="org-src-container">
-<pre><code class="src src-python"># A simple Python source block
-return 42
+<pre><code class="src src-python"><span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">A simple Python source block</span>
+<span style="color: #F0DFAF; font-weight: bold;">return</span> 42
 </code></pre>
 </div>
 
@@ -202,13 +205,13 @@ return 42
 </div>
 </div>
 
-<div id="outline-container-orgf83bd54" class="outline-3">
-<h3 id="orgf83bd54">Blog post</h3>
-<div class="outline-text-3" id="text-orgf83bd54">
+<div id="outline-container-orgac5fd27" class="outline-3">
+<h3 id="orgac5fd27">Blog post</h3>
+<div class="outline-text-3" id="text-orgac5fd27">
 </div>
-<div id="outline-container-org57cef98" class="outline-4">
-<h4 id="org57cef98">Header</h4>
-<div class="outline-text-4" id="text-org57cef98">
+<div id="outline-container-orgd17bddd" class="outline-4">
+<h4 id="orgd17bddd">Header</h4>
+<div class="outline-text-4" id="text-orgd17bddd">
 <p>
 A blog post begins with the following.
 </p>
@@ -220,9 +223,9 @@ A blog post begins with the following.
 </div>
 </div>
 
-<div id="outline-container-org9539122" class="outline-4">
-<h4 id="org9539122">Including a \LaTeX generated figure</h4>
-<div class="outline-text-4" id="text-org9539122">
+<div id="outline-container-org8b4d7e9" class="outline-4">
+<h4 id="org8b4d7e9">Including a \LaTeX generated figure</h4>
+<div class="outline-text-4" id="text-org8b4d7e9">
 <p>
 Here is a \LaTeX{} block to generate an image in the exported
 document. By default, the result type is <b>latex</b> and the output is
@@ -231,15 +234,15 @@ no temporary graphics files generated at all.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-latex">\let\earth\relax
-\input{eltex1}
-\begin{figure}
-\begin{center}
-\begin{picture}(40,60)(0,0)
-\grid{10}{8}
-\end{picture}
-\end{center}
-\end{figure}
+<pre><code class="src src-latex"><span style="color: #F0DFAF; font-weight: bold;">\let\earth\relax</span>
+<span style="color: #F0DFAF; font-weight: bold;">\input</span>{<span style="color: #DCDCCC; font-weight: bold;">eltex1</span>}
+<span style="color: #F0DFAF; font-weight: bold;">\begin</span>{<span style="color: #93E0E3;">figure</span>}
+<span style="color: #F0DFAF; font-weight: bold;">\begin</span>{<span style="color: #93E0E3;">center</span>}
+<span style="color: #F0DFAF; font-weight: bold;">\begin</span>{<span style="color: #93E0E3;">picture</span>}(40,60)(0,0)
+<span style="color: #F0DFAF; font-weight: bold;">\grid</span>{10}{8}
+<span style="color: #F0DFAF; font-weight: bold;">\end</span>{<span style="color: #93E0E3;">picture</span>}
+<span style="color: #F0DFAF; font-weight: bold;">\end</span>{<span style="color: #93E0E3;">center</span>}
+<span style="color: #F0DFAF; font-weight: bold;">\end</span>{<span style="color: #93E0E3;">figure</span>}
 </code></pre>
 </div>
 
@@ -258,9 +261,9 @@ file link will be wrapped into a latex block.
 </div>
 </div>
 
-<div id="outline-container-org1b773a8" class="outline-4">
-<h4 id="org1b773a8">Including a graphviz diagram</h4>
-<div class="outline-text-4" id="text-org1b773a8">
+<div id="outline-container-org3ce044f" class="outline-4">
+<h4 id="org3ce044f">Including a graphviz diagram</h4>
+<div class="outline-text-4" id="text-org3ce044f">
 <p>
 We need to have <i>graphviz</i> installed on the system. <i>emacs</i> should be
 able to find <code>dot</code> command. As usual, Windows is a pain but <i>I have
@@ -280,9 +283,9 @@ You might need to locate and copy <code>ob-dot.el</code> to a location where
 </div>
 </div>
 
-<div id="outline-container-org1d2874c" class="outline-3">
-<h3 id="org1d2874c">Publishing</h3>
-<div class="outline-text-3" id="text-org1d2874c">
+<div id="outline-container-orga64c4c1" class="outline-3">
+<h3 id="orga64c4c1">Publishing</h3>
+<div class="outline-text-3" id="text-orga64c4c1">
 <p>
 My blogging host is at <a href="https://mondiact.github.io">https://mondiact.github.io</a>. My Github user id is
 <i>MonadicT</i> and the repo named
@@ -321,7 +324,7 @@ When the post is complete, we need to commit all the files to git and push it to
 <div class="org-src-container">
 <pre><code class="src src-bash">git status
 git add &lt;new posts&gt;
-git commit -am "Commit message"
+git commit -am <span style="color: #CC9393;">"Commit message"</span>
 git push
 </code></pre>
 </div>
@@ -332,9 +335,9 @@ Just like that, the new post appears on Github in all its glory.
 </div>
 </div>
 
-<div id="outline-container-orgf6efbd1" class="outline-3">
-<h3 id="orgf6efbd1">Troubleshooting</h3>
-<div class="outline-text-3" id="text-orgf6efbd1">
+<div id="outline-container-org5971997" class="outline-3">
+<h3 id="org5971997">Troubleshooting</h3>
+<div class="outline-text-3" id="text-org5971997">
 <p>
 There are many moving parts in <code>org-mode</code> and when things go wrong,
 debugging is taxing. Google is our friend and one particularly nasty

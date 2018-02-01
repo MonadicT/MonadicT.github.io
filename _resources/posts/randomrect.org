@@ -1,0 +1,54 @@
+#+title: Creating Random Rectangles
+#+summary:
+#+publish-date: 2018-01-31
+#+tags: JavaScript, gist
+#+export_file_name: ../../2018/RandomOffsetRectangles.html
+#+options: num:nil
+
+* Creating random rectangles
+It is really critical to have the ability to simulate test data for
+your programs. Some people rely on /production data/ for their testing
+which has many undesirable ramifications. Having the ability to
+simulate data is a big advantage as you can create data that is not
+always encountered in testing. When you use production data, your
+testing is limited to what you have seen so far and no guarantee that
+your code can correctly handle all possible data conditions.
+
+To simulate a complex set of data, you compose simple building
+blocks. Recently, I needed to test the performance of an Android
+app. While random lines and circles are easy enogh to generate,
+polygons with interior holes were a little tricky. Here is my approach
+to create random rectangles with a single interior hole. You can tweak
+some of the magic numbers to control the size of the polygon.
+
+
+#+BEGIN_SRC js
+  /**
+    * Create a random rectangle around specified point.
+    *
+    * Steps:
+    * - set number of sides to a minimum of 3 and maximum of 12.
+    * - calculate theta (in radians) to 360/sides. We can imagine
+    *   lines radiating at these angles from pt
+    * - for each side, pick a random point along the radiating lines
+    * - for the inner polygon, offset the above point.
+    */
+  mk_random_polygon(pt) {
+      var x = pt.longitude, y = pt.latitude;
+      var sides = 3 + Math.floor(Math.random() * 12);
+      var theta = 2 * Math.PI / sides;
+      var pts = [], hole = [];
+      var min = 0.00009;
+      var max = 0.00002;
+      for (var i = 0; i < sides; i++) {
+          var rad = min + Math.random() * (max - min);
+          var dx = rad * Math.sin(i*theta);
+          var dy = rad  * Math.cos(i*theta);
+          pts.push({longitude: x + dx, latitude: y + dy});
+          dx = (1.3 * rad) * Math.sin(i*theta);
+          dy = (1.3 * rad)  * Math.cos(i*theta);
+          hole.push({longitude: x + dx, latitude: y + dy});
+      }
+      return [pts, hole.reverse()];
+  }
+#+END_SEC

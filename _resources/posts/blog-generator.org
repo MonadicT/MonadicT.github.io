@@ -27,7 +27,7 @@ individual post can be quickly examined by invoking Org export menu
 (=C-c C-e=) which shows the options for processing the buffer. =C-c
 C-e= C-f will generate a HTML file.
 
-If there is no =#+publish-data= header, the post will be skipped when
+If there is no =#+publish-date= header, the post will be skipped when
 the site is regenerated.
 
 A new blog entry with all the required headers can be created by
@@ -46,7 +46,9 @@ from s-expressions.
 #+END_SRC
 
 *** Useful macros/functions
-*** Assert utlity
+*** Assert utility
+A quick little macro to write assertions.
+
 #+BEGIN_SRC elisp :results silent :exports code :noweb-ref fns
 (defmacro assert-equal (actual expected)
   `(when (not (equal ,actual ,expected))
@@ -95,7 +97,7 @@ Parses key-value string of form /@key=val@key=val/.
 *** Parse element name
 Parses element name and returns the list of element name, id, class
 and attributes. Multiple class names but id must be unique. Id is
-introdued by |?|, class name with |.| and attribute with |!|.
+introduced by =?=, class name with =.= and attribute with =@=.
 
 #+BEGIN_SRC elisp :results silent
   ;; Exanple names: div, div?id, div.cls1.clas2, div!k=v!k=v
@@ -133,17 +135,6 @@ introdued by |?|, class name with |.| and attribute with |!|.
   (assert-equal (blog-gen-parse-elem-name "div?id.c1.c2@foo=bar@baz=qux")
                  '("div" "id" ".c1.c2" "foo=\"bar\" baz=\"qux\""))
 
-#+END_SRC
-
-*** Return string representation
-#+BEGIN_SRC elisp :results silent
-   (defun blog-gen-as-string(o)
-     (cond
-      ((stringp o) o)
-      ((numberp o) (number-to-string o))
-      (t (symbol-name o))))
-
-  (as-string 1)
 #+END_SRC
 
 *** Custom Variables
@@ -197,13 +188,12 @@ introdued by |?|, class name with |.| and attribute with |!|.
 #+END_SRC
 
 *** Inner template generator
-This function is called from Org-export machinery.
+This function is called from Org-export machinery. The main content of
+the article is wrapped up as a full blog page.
 
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-inner-template (contents info)
-    (mapconcat
-     (lambda (x) (format "%s" x))
-     (yatl-compile
+     (yatl-html-frag
       (body
        (div@style=display:flex
         (div@style=flex:2 "")
@@ -214,12 +204,11 @@ This function is called from Org-export machinery.
         (div@style=flex:2 "")
         (div.blog-footer
          (format blog-gen-copyright-message
-                 (format-time-string "%Y"))))))
-    ""))
+                 (format-time-string "%Y")))))))
 
 #+END_SRC
 
-*** twitter-link
+*** Twitter link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-twitter-link()
     "<a target=\"_new\" href=\"https://twitter.com/MonadicT\">
@@ -229,7 +218,7 @@ This function is called from Org-export machinery.
      src=\"/images/twitter.png\"/></a>")
 #+END_SRC
 
-*** github-link
+*** Github link
 #+BEGIN_SRC elisp :results silent
   (defun blog-gen-github-link()
     "<a id=\"github-link\" target=\"_new\"
@@ -283,16 +272,17 @@ Generates the header and the banner. Here is one limitation of
 content but not nested elements as needed here.
 
 #+BEGIN_SRC elisp :results silent
-  (defun blog-gen-top-matter()
-    (yatl-html-frag
-     (div.blog-nav
-      (div?blog-title
-       blog-gen-title)
-      (blog-gen-search-form))
-     (div.blog-nav
-      (blog-gen-site-links)
-      (blog-gen-social-media-icons))
-     (div@style=border:1px "")))
+    (defun blog-gen-top-matter()
+      (yatl-html-frag
+       (div.blog-nav
+        (div?blog-title
+         blog-gen-title
+         (div?tagline "I see dead objects!"))
+        (blog-gen-search-form))
+       (div.blog-nav
+        (blog-gen-site-links)
+        (blog-gen-social-media-icons))
+       (div@style=border:1px "")))
 
 #+END_SRC
 
@@ -513,6 +503,13 @@ h2 {
     color: <<accent-text-color>>;
 }
 
+#tagline {
+    font-size: 16px;
+    letter-spacing: 0.6em;
+    text-shadow: 2px 2px #333;
+    padding-bottom: 1em;
+}
+
 .blog-nav {
     display: flex;
     flex-direction: row;
@@ -525,7 +522,7 @@ h2 {
 #+END_SRC
 
 *** Site links styling
-#+BEGIN_SRC elisp :noweb-ref css-site-links :eval no
+#+BEGIN_SRC css :noweb-ref css-site-links :eval no
 #site-links {
 }
 
@@ -546,7 +543,7 @@ h2 {
 #+END_SRC
 
 *** Post styling
-#+BEGIN_SRC elisp :eval no :noweb-ref css-post
+#+BEGIN_SRC css :eval no :noweb-ref css-post
 .post-title {
     font-size: 1.25em;
     font-weight: bold;
@@ -580,29 +577,7 @@ h2 {
 #+END_SRC
 
 *** Class definitions
-#+BEGIN_SRC elisp :eval no :noweb-ref css-classes
-.margin-row {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.blog-margin-left, .blog-margin-right {
-    flex: 2;
-    width: 100px;
-}
-
-.blog-margin-middle {
-    flex: 6;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
+#+BEGIN_SRC css :eval no :noweb-ref css-classes
 .blog-footer {
     display: flex;
     position: fixed;
@@ -621,9 +596,9 @@ h2 {
 /* , #8b9dc3 */
 #+END_SRC
 
-*** Tangling Stylesheet
+*** Tangling Style sheet
 
-#+BEGIN_SRC css :eval no :noweb yes :tangle ../../blog-style.css
+#+BEGIN_SRC css :eval no :exports code :noweb yes :tangle ../../blog-style.css
   <<css-els>>
   <<css-page-layout>>
   <<css-post>>

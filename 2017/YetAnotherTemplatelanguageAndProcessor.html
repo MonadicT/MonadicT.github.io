@@ -21,7 +21,10 @@ MonadicT
 <div>
 <div class=" blog-nav">
 <div id="blog-title">
-MonadicT
+MonadicT <div id="tagline">
+I see dead objects!
+</div>
+
 </div>
  <div>Search <form action="http://www.google.com/search" id="searchform"
 method="get"><div><input class="box" id="s" name="q" type="text" />
@@ -41,9 +44,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
 
-<div id="outline-container-org3cb45e7" class="outline-2">
-<h2 id="org3cb45e7">Motivation</h2>
-<div class="outline-text-2" id="text-org3cb45e7">
+<div id="outline-container-org9b2a363" class="outline-2">
+<h2 id="org9b2a363">Motivation</h2>
+<div class="outline-text-2" id="text-org9b2a363">
 <p>
 Writing HTML by hand is error-prone and just not fun. On the other
 hand, a simple templating language that integrates the power of a
@@ -52,9 +55,9 @@ weekend exercise!
 </p>
 </div>
 
-<div id="outline-container-orgdb0b801" class="outline-3">
-<h3 id="orgdb0b801">Template language</h3>
-<div class="outline-text-3" id="text-orgdb0b801">
+<div id="outline-container-org2376d19" class="outline-3">
+<h3 id="org2376d19">Template language</h3>
+<div class="outline-text-3" id="text-org2376d19">
 <p>
 Our template language is based on S-Expressions (Lisp syntax). We use
 S-expressions to represent HTML elements. An element has a name and
@@ -113,51 +116,51 @@ functions in Lisp to address specific needs.
 </p>
 </div>
 </div>
-<div id="outline-container-org8c2c871" class="outline-3">
-<h3 id="org8c2c871">Template processor</h3>
-<div class="outline-text-3" id="text-org8c2c871">
+<div id="outline-container-org4ec533a" class="outline-3">
+<h3 id="org4ec533a">Template processor</h3>
+<div class="outline-text-3" id="text-org4ec533a">
 </div>
-<div id="outline-container-org704d9de" class="outline-4">
-<h4 id="org704d9de">Standard header</h4>
-<div class="outline-text-4" id="text-org704d9de">
+<div id="outline-container-orgc365400" class="outline-4">
+<h4 id="orgc365400">Standard header</h4>
+<div class="outline-text-4" id="text-orgc365400">
 <div class="org-src-container">
-<pre><code class="src src-elisp">  ;;; yatl.el --- Yet another templating language
+<pre><code class="src src-elisp">  <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">yatl.el --- Yet another templating language</span>
 
-;; Copyright (C) 2017 Praki Prakash
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Copyright (C) 2017 Praki Prakash</span>
 
-;; Author: Praki Prakash &lt;praki.prakash.gmail.com&gt;
-;; Created: 2 July 2017
-;; Keywords: DSL, HTML, template
-;; Homepage: http://MonadicT.github.io/
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Author: Praki Prakash &lt;praki.prakash.gmail.com&gt;</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Created: 2 July 2017</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Keywords: DSL, HTML, template</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Homepage: http://MonadicT.github.io/</span>
 
-;; This file is not part of GNU Emacs.
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">This file is not part of GNU Emacs.</span>
 
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">This program is free software; you can redistribute it and/or modify</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">it under the terms of the GNU General Public License as published by</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">the Free Software Foundation, either version 3 of the License, or</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">(at your option) any later version.</span>
 
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">This program is distributed in the hope that it will be useful,</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">GNU General Public License for more details.</span>
 
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">You should have received a copy of the GNU General Public License</span>
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">along with this program.  If not, see &lt;<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>&gt;.</span>
 
-;;; Commentary:
+<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Commentary:</span>
 
-;; Put a description of the package here
+<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Put a description of the package here</span>
 
-;;; Code:
+<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Code:</span>
 </code></pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb5e71d0" class="outline-4">
-<h4 id="orgb5e71d0">Parsing key-value string</h4>
-<div class="outline-text-4" id="text-orgb5e71d0">
+<div id="outline-container-orgb049655" class="outline-4">
+<h4 id="orgb049655">Parsing key-value string</h4>
+<div class="outline-text-4" id="text-orgb049655">
 <p>
 In our templating language, attributes are introduced with <code>@</code>
 character, followed by the attribute name and its value. <b>=</b>
@@ -168,35 +171,35 @@ separates the name and value.
 This function tries to be robust to malformed strings.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defun yatl-parse-kvp(s)
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">yatl-parse-kvp</span>(s)
   (mapconcat
-   (lambda (kv-str)
-     (let* ((kv (split-string kv-str "="))
+   (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (kv-str)
+     (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((kv (split-string kv-str <span style="color: #CC9393;">"="</span>))
             (key (car kv))
             (val (cadr kv))
-            (val (or val ""))
-            (val (if (string-match "^\".*\"$" val)
+            (val (<span style="color: #F0DFAF; font-weight: bold;">or</span> val <span style="color: #CC9393;">""</span>))
+            (val (<span style="color: #F0DFAF; font-weight: bold;">if</span> (string-match <span style="color: #CC9393;">"^\".*\"$"</span> val)
                      val
-                   (format "\"%s\"" val))))
-       (concat key "=" val)))
-   (split-string s "@" t)
-   " "))
+                   (format <span style="color: #CC9393;">"\"%s\""</span> val))))
+       (concat key <span style="color: #CC9393;">"="</span> val)))
+   (split-string s <span style="color: #CC9393;">"@"</span> t)
+   <span style="color: #CC9393;">" "</span>))
 
-(assert (string-equal (yatl-parse-kvp "") ""))
-(assert (string-equal (yatl-parse-kvp "@") ""))
-(assert (string-equal (yatl-parse-kvp "@a") "a=\"\""))
-(assert (string-equal (yatl-parse-kvp "@a=") "a=\"\""))
-(assert (string-equal (yatl-parse-kvp "@a=b") "a=\"b\""))
-(assert (string-equal (yatl-parse-kvp "@a=b@c=d") "a=\"b\" c=\"d\""))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-parse-kvp <span style="color: #CC9393;">""</span>) <span style="color: #CC9393;">""</span>))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-parse-kvp <span style="color: #CC9393;">"@"</span>) <span style="color: #CC9393;">""</span>))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-parse-kvp <span style="color: #CC9393;">"@a"</span>) <span style="color: #CC9393;">"a=\"\""</span>))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-parse-kvp <span style="color: #CC9393;">"@a="</span>) <span style="color: #CC9393;">"a=\"\""</span>))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-parse-kvp <span style="color: #CC9393;">"@a=b"</span>) <span style="color: #CC9393;">"a=\"b\""</span>))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-parse-kvp <span style="color: #CC9393;">"@a=b@c=d"</span>) <span style="color: #CC9393;">"a=\"b\" c=\"d\""</span>))
 
 </code></pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4a1730e" class="outline-4">
-<h4 id="org4a1730e">Parse element name</h4>
-<div class="outline-text-4" id="text-org4a1730e">
+<div id="outline-container-orgb8d4e58" class="outline-4">
+<h4 id="orgb8d4e58">Parse element name</h4>
+<div class="outline-text-4" id="text-orgb8d4e58">
 <p>
 Parses element name and returns the list of element name, id, class
 and attributes. Multiple class names are allowed but id must be
@@ -206,77 +209,77 @@ and @ for attribute.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defun yatl-parse-elem-name(s)
-  (let ((nm-id-cls (list '() '() '() '()))
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">yatl-parse-elem-name</span>(s)
+  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((nm-id-cls (list '() '() '() '()))
         attrs idx buf escape string)
-    (setq  idx 0)
+    (<span style="color: #F0DFAF; font-weight: bold;">setq</span>  idx 0)
     (mapcar
-     (lambda (c)
-       (cond
-        (escape (progn
-                  (setq escape nil)
-                  (push c (nth idx nm-id-cls))))
+     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (c)
+       (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
+        (escape (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+                  (<span style="color: #F0DFAF; font-weight: bold;">setq</span> escape nil)
+                  (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls))))
         ((eq c ?\\)
-         (setq escape t))
+         (<span style="color: #F0DFAF; font-weight: bold;">setq</span> escape t))
         ((eq c ?\")
-         (setq string (not string)))
+         (<span style="color: #F0DFAF; font-weight: bold;">setq</span> string (not string)))
         (string
-         (push c (nth idx nm-id-cls)))
-        ((eq c ?.) (progn
-                     (setq idx 2)
-                     (push ?  (nth idx nm-id-cls))))
-        ((eq c ??) (progn
-                     (if (null (cadr nm-id-cls))
-                         (setq idx 1)
-                       (error "ID specified again!"))))
-        ((eq c ?@) (progn
-                     (setq idx 3)
-                     (push c (nth idx nm-id-cls))))
-        ((eq idx -1) (error "Expect one of \".,+,#'"))
-        (t (push c (nth idx nm-id-cls)))))
+         (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls)))
+        ((eq c ?.) (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+                     (<span style="color: #F0DFAF; font-weight: bold;">setq</span> idx 2)
+                     (<span style="color: #F0DFAF; font-weight: bold;">push</span> ?  (nth idx nm-id-cls))))
+        ((eq c ??) (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+                     (<span style="color: #F0DFAF; font-weight: bold;">if</span> (null (cadr nm-id-cls))
+                         (<span style="color: #F0DFAF; font-weight: bold;">setq</span> idx 1)
+                       (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"ID specified again!"</span>))))
+        ((eq c ?@) (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
+                     (<span style="color: #F0DFAF; font-weight: bold;">setq</span> idx 3)
+                     (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls))))
+        ((eq idx -1) (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"Expect one of \".,+,#'"</span>))
+        (t (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls)))))
      s)
     (list (concat (reverse (car nm-id-cls)))
           (concat (reverse (cadr nm-id-cls)))
           (concat (reverse (caddr nm-id-cls)))
           (yatl-parse-kvp (concat (reverse (nth 3 nm-id-cls)))))))
 
-(assert (equal (yatl-parse-elem-name "img@foo=\"http://foo.bar/baaz\"")
-               '("img" "" "" "foo=\"http://foo.bar/baaz\"")))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (yatl-parse-elem-name <span style="color: #CC9393;">"img@foo=\"http://foo.bar/baaz\""</span>)
+               '(<span style="color: #CC9393;">"img"</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">"foo=\"http://foo.bar/baaz\""</span>)))
 
-(assert (equal (yatl-parse-elem-name "div")
-               '("div" "" "" "")))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (yatl-parse-elem-name <span style="color: #CC9393;">"div"</span>)
+               '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span>)))
 
-(assert (equal (yatl-parse-elem-name "div")
-               '("div" "" "" "")))
-(assert (equal (yatl-parse-elem-name "div?id")
-               '("div" "id" "" "")))
-(assert (equal (yatl-parse-elem-name "div?id.c1.c2")
-               '("div" "id" " c1 c2" "")))
-(assert (equal (yatl-parse-elem-name "div?id.c1.c2@foo=bar@baz=qux")
-               '("div" "id" " c1 c2" "foo=\"bar\" baz=\"qux\"")))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (yatl-parse-elem-name <span style="color: #CC9393;">"div"</span>)
+               '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (yatl-parse-elem-name <span style="color: #CC9393;">"div?id"</span>)
+               '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">"id"</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (yatl-parse-elem-name <span style="color: #CC9393;">"div?id.c1.c2"</span>)
+               '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">"id"</span> <span style="color: #CC9393;">" c1 c2"</span> <span style="color: #CC9393;">""</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (yatl-parse-elem-name <span style="color: #CC9393;">"div?id.c1.c2@foo=bar@baz=qux"</span>)
+               '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">"id"</span> <span style="color: #CC9393;">" c1 c2"</span> <span style="color: #CC9393;">"foo=\"bar\" baz=\"qux\""</span>)))
 
 </code></pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org6b0a8bd" class="outline-4">
-<h4 id="org6b0a8bd">Return string representation</h4>
-<div class="outline-text-4" id="text-org6b0a8bd">
+<div id="outline-container-org8f791ba" class="outline-4">
+<h4 id="org8f791ba">Return string representation</h4>
+<div class="outline-text-4" id="text-org8f791ba">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defun as-string(o)
-  (cond
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">as-string</span>(o)
+  (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
    ((stringp o) o)
-   ((numberp o) (format "%S" o))
+   ((numberp o) (format <span style="color: #CC9393;">"%S"</span> o))
    ((symbolp o) (symbol-name o))
    (t o)))
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org5da841f" class="outline-4">
-<h4 id="org5da841f">Convert a list to HTML element</h4>
-<div class="outline-text-4" id="text-org5da841f">
+<div id="outline-container-org6272810" class="outline-4">
+<h4 id="org6272810">Convert a list to HTML element</h4>
+<div class="outline-text-4" id="text-org6272810">
 <p>
 This is the workhorse of our template processor. <code>mk-elem</code> inspects
 each form in the template and processes it as follows.
@@ -304,52 +307,52 @@ The following element specifications are all equivalent.
 </pre>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defun yatl-mk-elem(o)
-  (cond
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">yatl-mk-elem</span>(o)
+  (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
    ((listp o)
-    (multiple-value-bind (nm id cls attrs) (yatl-parse-elem-name (symbol-name (car o)))
-      (let* ((children (cdr o))
-             (children-s (mapconcat (lambda (x) (as-string x)) children " ")))
+    (<span style="color: #F0DFAF; font-weight: bold;">multiple-value-bind</span> (nm id cls attrs) (yatl-parse-elem-name (symbol-name (car o)))
+      (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((children (cdr o))
+             (children-s (mapconcat (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x) (as-string x)) children <span style="color: #CC9393;">" "</span>)))
         (concat
-         (format "&lt;%s" nm)
-         (unless (string-empty-p id) (format " id=\"%s\"" id))
-         (unless (string-empty-p cls) (format " class=\"%s\"" cls))
-         (unless (string-empty-p attrs) (format " %s" attrs))
-         (if (not children)
-             (format "/&gt;\n")
-           (format "&gt;\n%s\n&lt;/%s&gt;\n" children-s nm))))))
+         (format <span style="color: #CC9393;">"&lt;%s"</span> nm)
+         (<span style="color: #F0DFAF; font-weight: bold;">unless</span> (string-empty-p id) (format <span style="color: #CC9393;">" id=\"%s\""</span> id))
+         (<span style="color: #F0DFAF; font-weight: bold;">unless</span> (string-empty-p cls) (format <span style="color: #CC9393;">" class=\"%s\""</span> cls))
+         (<span style="color: #F0DFAF; font-weight: bold;">unless</span> (string-empty-p attrs) (format <span style="color: #CC9393;">" %s"</span> attrs))
+         (<span style="color: #F0DFAF; font-weight: bold;">if</span> (not children)
+             (format <span style="color: #CC9393;">"/&gt;\n"</span>)
+           (format <span style="color: #CC9393;">"&gt;\n%s\n&lt;/%s&gt;\n"</span> children-s nm))))))
    ((symbolp o) (symbol-name o))
    ((stringp o) o)
-   (t (format "%S" o))))
+   (t (format <span style="color: #CC9393;">"%S"</span> o))))
 
 
-(assert (string-equal (yatl-mk-elem "a")
-                      "a"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem <span style="color: #CC9393;">"a"</span>)
+                      <span style="color: #CC9393;">"a"</span>))
 
-(assert (string-equal (yatl-mk-elem '(div))
-                      "&lt;div/&gt;\n"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem '(div))
+                      <span style="color: #CC9393;">"&lt;div/&gt;\n"</span>))
 
-(assert (string-equal (yatl-mk-elem '(div?id))
-                      "&lt;div id=\"id\"/&gt;\n"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem '(div?id))
+                      <span style="color: #CC9393;">"&lt;div id=\"id\"/&gt;\n"</span>))
 
-(assert (string-equal (yatl-mk-elem '(div?id.c1.c2))
-                      "&lt;div id=\"id\" class=\" c1 c2\"/&gt;\n"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem '(div?id.c1.c2))
+                      <span style="color: #CC9393;">"&lt;div id=\"id\" class=\" c1 c2\"/&gt;\n"</span>))
 
-(assert (string-equal (yatl-mk-elem '(div?id.c1@foo=bar@fit=bit))
-                      "&lt;div id=\"id\" class=\" c1\" foo=\"bar\" fit=\"bit\"/&gt;\n"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem '(div?id.c1@foo=bar@fit=bit))
+                      <span style="color: #CC9393;">"&lt;div id=\"id\" class=\" c1\" foo=\"bar\" fit=\"bit\"/&gt;\n"</span>))
 
-(assert (string-equal (yatl-mk-elem '(foo 1 2)) "&lt;foo&gt;\n1 2\n&lt;/foo&gt;\n"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem '(foo 1 2)) <span style="color: #CC9393;">"&lt;foo&gt;\n1 2\n&lt;/foo&gt;\n"</span>))
 
-(assert (string-equal (yatl-mk-elem '(img@src=\"http://example.com/images/fubar.png\"))
-                      "&lt;img src=\"http://example.com/images/fubar.png\"/&gt;\n"))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (string-equal (yatl-mk-elem '(img@src=\"http://example.com/images/fubar.png\"))
+                      <span style="color: #CC9393;">"&lt;img src=\"http://example.com/images/fubar.png\"/&gt;\n"</span>))
 </code></pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1e43eaa" class="outline-4">
-<h4 id="org1e43eaa">Template processor</h4>
-<div class="outline-text-4" id="text-org1e43eaa">
+<div id="outline-container-org7b59304" class="outline-4">
+<h4 id="org7b59304">Template processor</h4>
+<div class="outline-text-4" id="text-org7b59304">
 <p>
 This is the implementation section of the template processor. This
 file can be processed using org-babel-tangle to produce a
@@ -359,8 +362,8 @@ Another Template Language" and <code>(require 'yatl)</code> to access it.
 </div>
 
 <ul class="org-ul">
-<li><a id="orgf72b2cd"></a>yatl-compile-fn<br />
-<div class="outline-text-5" id="text-orgf72b2cd">
+<li><a id="orgfbee8b8"></a>yatl-compile-fn<br />
+<div class="outline-text-5" id="text-orgfbee8b8">
 <p>
 This is a helper function to examine each form and turn it into a form
 that can be passed to <code>yatl-mk-elem</code>. What we want is the ability to mix
@@ -401,56 +404,56 @@ override its meaning by writing it as <code>'div</code>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defun yatl-compile-fn (form)
-  (cond
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">yatl-compile-fn</span> (form)
+  (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
    ((symbolp form) form)
    ((numberp form) form)
    ((stringp form) form)
    ((listp form)
-    (cond
-     ;; quoted form
-     ((and (car form) (listp (car form)) (eq (caar form) 'quote))
+    (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
+     <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">quoted form</span>
+     ((<span style="color: #F0DFAF; font-weight: bold;">and</span> (car form) (listp (car form)) (eq (caar form) 'quote))
       (yatl-mk-elem `(,(cadar form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
-     ;; lambda form
-     ((and (eq (car form) 'lambda))
-      (let* ((args-list (cadr form))
+     <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">lambda form</span>
+     ((<span style="color: #F0DFAF; font-weight: bold;">and</span> (eq (car form) 'lambda))
+      (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((args-list (cadr form))
              (forms (cddr form))
              (new-forms (mapcar #'yatl-compile-fn forms)))
-        `(lambda ,args-list ,@new-forms)))
-     ;; special form
-     ((and (special-form-p (car form)))
-      ;; cond, let,let*, require special handling
-      (cond
+        `(<span style="color: #F0DFAF; font-weight: bold;">lambda</span> ,args-list ,@new-forms)))
+     <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">special form</span>
+     ((<span style="color: #F0DFAF; font-weight: bold;">and</span> (special-form-p (car form)))
+      <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">cond, let,let*, require special handling</span>
+      (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
        ((eq (car form) 'let)
-        (let* ((bindings (cadr form))
+        (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((bindings (cadr form))
                (forms (cddr form))
                (new-bindings (mapcar
-                              (lambda (binding)
-                                (if (listp binding)
+                              (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (binding)
+                                (<span style="color: #F0DFAF; font-weight: bold;">if</span> (listp binding)
                                     `(,(car binding) ,(yatl-compile-fn (cadr binding)))
                                   binding))
                               bindings))
                (new-forms (mapcar #'yatl-compile-fn forms)))
-          `(let ,new-bindings ,@new-forms)))
+          `(<span style="color: #F0DFAF; font-weight: bold;">let</span> ,new-bindings ,@new-forms)))
        (t `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))))
-     ;; macro defn
-     ((and (macrop (car form)))
+     <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">macro defn</span>
+     ((<span style="color: #F0DFAF; font-weight: bold;">and</span> (macrop (car form)))
       (eval `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))
-     ;; function
-     ((and (symbolp (car form)) (fboundp (car form)))
+     <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">function</span>
+     ((<span style="color: #F0DFAF; font-weight: bold;">and</span> (symbolp (car form)) (fboundp (car form)))
       `(,(car form) ,@(mapcar #'yatl-compile-fn (cdr form))))
-     ;; List of lists. Don't process?
+     <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">List of lists. Don't process?</span>
      ((not (symbolp (car form)))
       form)
      (t `(yatl-mk-elem (list ',(car form) ,@(mapcar #'yatl-compile-fn (cdr form)))))))
-   (t (throw 'Unhandled form))))
+   (t (<span style="color: #F0DFAF; font-weight: bold;">throw</span> '<span style="color: #BFEBBF;">Unhandled</span> form))))
 </code></pre>
 </div>
 </div>
 </li>
 
-<li><a id="orgf81afa3"></a>yatl-Compile macro<br />
-<div class="outline-text-5" id="text-orgf81afa3">
+<li><a id="org66e1a6e"></a>yatl-Compile macro<br />
+<div class="outline-text-5" id="text-org66e1a6e">
 <p>
 A macro which applies <code>yatl-compile-fn</code> to its arguments and concatenates the
 values returned. This must be a macro as the S-expressions can't be
@@ -464,32 +467,32 @@ use with org-mode.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defmacro yatl-compile(&amp;rest forms)
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">yatl-compile</span>(<span style="color: #7CB8BB;">&amp;rest</span> forms)
   `(list
     ,@(mapcar
        #'yatl-compile-fn
        forms)))
 
-(assert (equal (yatl-compile 1) '(1)))
-(assert (equal (yatl-compile (+ 1 2)) '(3)))
-(assert (equal (yatl-compile (span "foo")) '("&lt;span&gt;\nfoo\n&lt;/span&gt;\n")))
-(assert (equal (yatl-compile (span)) '("&lt;span/&gt;\n")))
-(assert (equal (yatl-compile (if t (span))) '("&lt;span/&gt;\n")))
-(assert (equal (yatl-compile (div (span))) '("&lt;div&gt;\n&lt;span/&gt;\n\n&lt;/div&gt;\n")))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> 1) '(1)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (+ 1 2)) '(3)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (span <span style="color: #CC9393;">"foo"</span>)) '(<span style="color: #CC9393;">"&lt;span&gt;\nfoo\n&lt;/span&gt;\n"</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (span)) '(<span style="color: #CC9393;">"&lt;span/&gt;\n"</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (<span style="color: #F0DFAF; font-weight: bold;">if</span> t (span))) '(<span style="color: #CC9393;">"&lt;span/&gt;\n"</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (div (span))) '(<span style="color: #CC9393;">"&lt;div&gt;\n&lt;span/&gt;\n\n&lt;/div&gt;\n"</span>)))
 
-(assert (equal (yatl-compile (let (x) x)) '(nil)))
-(assert (equal (yatl-compile (let ((x 1) (y 2)) (+ x y))) '(3)))
-(assert (equal (yatl-compile (let ((x 1) (y 2) (z (span "foobar"))) z))
-               '("&lt;span&gt;\nfoobar\n&lt;/span&gt;\n")))
-(assert (equal (yatl-compile (img?id@src=\"http://foo.bar/baaz.jpg\"))
-               '("&lt;img id=\"id\" src=\"http://foo.bar/baaz.jpg\"/&gt;\n")))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (<span style="color: #F0DFAF; font-weight: bold;">let</span> (x) x)) '(nil)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((x 1) (y 2)) (+ x y))) '(3)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((x 1) (y 2) (z (span <span style="color: #CC9393;">"foobar"</span>))) z))
+               '(<span style="color: #CC9393;">"&lt;span&gt;\nfoobar\n&lt;/span&gt;\n"</span>)))
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span> (equal (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> (img?id@src=\"http://foo.bar/baaz.jpg\"))
+               '(<span style="color: #CC9393;">"&lt;img id=\"id\" src=\"http://foo.bar/baaz.jpg\"/&gt;\n"</span>)))
 </code></pre>
 </div>
 </div>
 </li>
 
-<li><a id="org97540a2"></a>yatl-compile-string<br />
-<div class="outline-text-5" id="text-org97540a2">
+<li><a id="orgbc2b7cb"></a>yatl-compile-string<br />
+<div class="outline-text-5" id="text-orgbc2b7cb">
 <p>
 Occasionally, we need to create forms at run-time and <code>yatl-compile</code>
 macro doesn't evaluate its arguments. This function provides an escape
@@ -497,106 +500,106 @@ hatch for these cases.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defun yatl-compile-string(fmt &amp;rest args)
-  (let ((s (apply #'format fmt args)))
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">yatl-compile-string</span>(fmt <span style="color: #7CB8BB;">&amp;rest</span> args)
+  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((s (apply #'format fmt args)))
     (eval (yatl-compile-fn (list (make-symbol s))))))
 </code></pre>
 </div>
 </div>
 </li>
 
-<li><a id="org43e0a1e"></a>html5 macro<br />
-<div class="outline-text-5" id="text-org43e0a1e">
+<li><a id="org7a65300"></a>html5 macro<br />
+<div class="outline-text-5" id="text-org7a65300">
 <p>
 Macro which wraps the yatl-compiled forms in HTML5 boilerplate.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defmacro yatl-html5(&amp;rest forms)
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">yatl-html5</span>(<span style="color: #7CB8BB;">&amp;rest</span> forms)
   `(concat
-    "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n"
-    (mapconcat (lambda (x) (format "%s" x)) (yatl-compile ,@forms) "")
-    "&lt;/html&gt;"))
+    <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n"</span>
+    (mapconcat (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x) (format <span style="color: #CC9393;">"%s"</span> x)) (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> ,@forms) <span style="color: #CC9393;">""</span>)
+    <span style="color: #CC9393;">"&lt;/html&gt;"</span>))
 </code></pre>
 </div>
 </div>
 </li>
 
-<li><a id="org07fd5e9"></a>HTML fragment generator<br />
-<div class="outline-text-5" id="text-org07fd5e9">
+<li><a id="orgbc9c038"></a>HTML fragment generator<br />
+<div class="outline-text-5" id="text-orgbc9c038">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defmacro yatl-html-frag(&amp;rest forms)
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">yatl-html-frag</span>(<span style="color: #7CB8BB;">&amp;rest</span> forms)
   `(concat
-    (mapconcat (lambda (x) (format "%s" x)) (yatl-compile ,@forms) "")))
+    (mapconcat (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (x) (format <span style="color: #CC9393;">"%s"</span> x)) (<span style="color: #F0DFAF; font-weight: bold;">yatl-compile</span> ,@forms) <span style="color: #CC9393;">""</span>)))
 </code></pre>
 </div>
 </div>
 </li>
-<li><a id="org7a1184e"></a>yatl-Compile macro tests<br />
-<div class="outline-text-5" id="text-org7a1184e">
+<li><a id="orgc152bb6"></a>yatl-Compile macro tests<br />
+<div class="outline-text-5" id="text-orgc152bb6">
 <p>
 We make sure our <code>yatl-html5</code> works as expected when we mix our notation
 with Lisp function and macros. Let's define a few test fixtures.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(defmacro test-macro (&amp;rest forms)
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">test-macro</span> (<span style="color: #7CB8BB;">&amp;rest</span> forms)
   `(concat
-    "&lt;div style=\"{display:flex}\"&gt;"
+    <span style="color: #CC9393;">"&lt;div style=\"{display:flex}\"&gt;"</span>
     ,@forms
-    "&lt;/div&gt;"))
+    <span style="color: #CC9393;">"&lt;/div&gt;"</span>))
 
-(defun test-function (&amp;rest forms)
+(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">test-function</span> (<span style="color: #7CB8BB;">&amp;rest</span> forms)
   (apply #'concat forms))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5)
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span>)
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;/html&gt;"</span>))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5 (head) (body))
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head/&gt;\n&lt;body/&gt;\n&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span> (head) (body))
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head/&gt;\n&lt;body/&gt;\n&lt;/html&gt;"</span>))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5 (body (test-function "foo" "bar")))
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\nfoobar\n&lt;/body&gt;\n&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span> (body (test-function <span style="color: #CC9393;">"foo"</span> <span style="color: #CC9393;">"bar"</span>)))
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\nfoobar\n&lt;/body&gt;\n&lt;/html&gt;"</span>))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5 (body (test-macro (test-macro))))
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\n&lt;div style=\"{display:flex}\"&gt;&lt;div style=\"{display:flex}\"&gt;&lt;/div&gt;&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span> (body (<span style="color: #F0DFAF; font-weight: bold;">test-macro</span> (<span style="color: #F0DFAF; font-weight: bold;">test-macro</span>))))
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\n&lt;div style=\"{display:flex}\"&gt;&lt;div style=\"{display:flex}\"&gt;&lt;/div&gt;&lt;/div&gt;\n&lt;/body&gt;\n&lt;/html&gt;"</span>))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5 (head))
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head/&gt;\n&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span> (head))
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head/&gt;\n&lt;/html&gt;"</span>))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5 (head (style)))
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n&lt;style/&gt;\n\n&lt;/head&gt;\n&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span> (head (style)))
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n&lt;style/&gt;\n\n&lt;/head&gt;\n&lt;/html&gt;"</span>))
 
-(assert
+(<span style="color: #F0DFAF; font-weight: bold;">assert</span>
  (equal
-  (yatl-html5 (let ((l '((a . 1) (b . 2)))) "foo"))
-  "&lt;!DOCTYPE html&gt;\n&lt;html&gt;\nfoo&lt;/html&gt;"))
+  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span> (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((l '((a . 1) (b . 2)))) <span style="color: #CC9393;">"foo"</span>))
+  <span style="color: #CC9393;">"&lt;!DOCTYPE html&gt;\n&lt;html&gt;\nfoo&lt;/html&gt;"</span>))
 </code></pre>
 </div>
 </div>
 </li>
 
-<li><a id="org7f263f5"></a>Provide our module<br />
-<div class="outline-text-5" id="text-org7f263f5">
+<li><a id="org08bcb8f"></a>Provide our module<br />
+<div class="outline-text-5" id="text-org08bcb8f">
 <p>
 Make this package available.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(provide 'yatl)
-;;; yatl.el ends here
+<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">provide</span> '<span style="color: #BFEBBF;">yatl</span>)
+<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">yatl.el ends here</span>
 </code></pre>
 </div>
 </div>

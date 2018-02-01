@@ -21,7 +21,10 @@ MonadicT
 <div>
 <div class=" blog-nav">
 <div id="blog-title">
-MonadicT
+MonadicT <div id="tagline">
+I see dead objects!
+</div>
+
 </div>
  <div>Search <form action="http://www.google.com/search" id="searchform"
 method="get"><div><input class="box" id="s" name="q" type="text" />
@@ -41,9 +44,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
 
-<div id="outline-container-orgebea912" class="outline-2">
-<h2 id="orgebea912">Configuring XMonad</h2>
-<div class="outline-text-2" id="text-orgebea912">
+<div id="outline-container-org7a5503b" class="outline-2">
+<h2 id="org7a5503b">Configuring XMonad</h2>
+<div class="outline-text-2" id="text-org7a5503b">
 <p>
 <a href="http://www.xmonad.org">XMonad</a> is a minimal tiling window manager. This post shows how to
 setup xmnoad on a Ubuntu 14.04 machine and configure it in small
@@ -56,9 +59,9 @@ well, let's stop right there! You get the idea!
 </p>
 </div>
 
-<div id="outline-container-org0cfa503" class="outline-3">
-<h3 id="org0cfa503">Installing xmonad</h3>
-<div class="outline-text-3" id="text-org0cfa503">
+<div id="outline-container-org0c70dbd" class="outline-3">
+<h3 id="org0c70dbd">Installing xmonad</h3>
+<div class="outline-text-3" id="text-org0c70dbd">
 <p>
 My usual sequence for setting up a Linux computer is to install Ubuntu
 or something similar. The distribution you use really doesn't matter
@@ -80,10 +83,10 @@ on login.
 
 <div class="org-src-container">
 <pre><code class="src src-bash">[Desktop Entry]
-Type=Application
-Name=Xmonad
-Exec=xmonad
-NoDisplay=true
+<span style="color: #DFAF8F;">Type</span>=Application
+<span style="color: #DFAF8F;">Name</span>=Xmonad
+<span style="color: #DFAF8F;">Exec</span>=xmonad
+<span style="color: #DFAF8F;">NoDisplay</span>=true
 X-GNOME-WMName=Xmonad
 X-GNOME-Autostart-Phase=WindowManager
 X-GNOME-Provides=windowmanager
@@ -93,9 +96,9 @@ X-GNOME-Autostart-Notify=true
 </div>
 </div>
 
-<div id="outline-container-orgbcd4801" class="outline-3">
-<h3 id="orgbcd4801">Configuring xmonad</h3>
-<div class="outline-text-3" id="text-orgbcd4801">
+<div id="outline-container-orga348812" class="outline-3">
+<h3 id="orga348812">Configuring xmonad</h3>
+<div class="outline-text-3" id="text-orga348812">
 <p>
 xmonad runs happily with no custom configuration. However, it is going to be
 a bland experience. Customizing xmonad requires you to have a
@@ -104,9 +107,9 @@ main focus of this post.
 </p>
 </div>
 
-<div id="outline-container-org7e6a65a" class="outline-4">
-<h4 id="org7e6a65a">Hello, xmonad.hs</h4>
-<div class="outline-text-4" id="text-org7e6a65a">
+<div id="outline-container-org07fa35c" class="outline-4">
+<h4 id="org07fa35c">Hello, xmonad.hs</h4>
+<div class="outline-text-4" id="text-org07fa35c">
 <p>
 This is the simplest configuration of XMonad window manager. It just
 runs xmonad with <i>defaultConfig</i>. <i>defaultConfig</i> is just a record
@@ -122,9 +125,9 @@ main = xmonad defaultConfig
 </div>
 </div>
 
-<div id="outline-container-orgbb37657" class="outline-4">
-<h4 id="orgbb37657">Taking back our Alt key</h4>
-<div class="outline-text-4" id="text-orgbb37657">
+<div id="outline-container-org87d7290" class="outline-4">
+<h4 id="org87d7290">Taking back our Alt key</h4>
+<div class="outline-text-4" id="text-org87d7290">
 <p>
 If you are an <i>emacs</i> user, you are likely to be missing some favorite
 Alt key combinations. Let's change XMonad key to the Window key, which
@@ -142,9 +145,9 @@ main = xmonad defaultConfig {
 </div>
 </div>
 
-<div id="outline-container-orge35fbb9" class="outline-4">
-<h4 id="orge35fbb9">Configuring XMonad for a Desktop Environment</h4>
-<div class="outline-text-4" id="text-orge35fbb9">
+<div id="outline-container-orgfa14693" class="outline-4">
+<h4 id="orgfa14693">Configuring XMonad for a Desktop Environment</h4>
+<div class="outline-text-4" id="text-orgfa14693">
 <p>
 A list of configuration options can be seen at <a href="http://xmonad.org/xmonad-docs/xmonad/XMonad-Core.html#t:XConfig">XConfig</a>. Generally, we
 run Xmonad in a  <a href="http://en.wikipedia.org/wiki/Desktop_environment">Desktop Environment</a>. In such cases, Xmonad
@@ -174,9 +177,9 @@ reads its standard input stream and displays it in the window it creates.
 </div>
 </div>
 
-<div id="outline-container-orgc586ba4" class="outline-4">
-<h4 id="orgc586ba4">Configuring dzen2 and conky</h4>
-<div class="outline-text-4" id="text-orgc586ba4">
+<div id="outline-container-orgc494c89" class="outline-4">
+<h4 id="orgc494c89">Configuring dzen2 and conky</h4>
+<div class="outline-text-4" id="text-orgc494c89">
 <p>
 dzen2 can be configured using ~/.Xresource<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Let's set foreground and background colors for dzen2
 as below.
@@ -211,22 +214,22 @@ after <i>TEXT</i> controls what conky displays.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">own_wndow yes     # Need for display glicthes
-double_buffer yes # ditto
-update_interval 1 # Every second
-total_run_times 0 # Run for ever
-use_spacer yes    # Stop things from moving around
+<pre><code class="src src-bash">own_wndow yes     <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Need for display glicthes</span>
+double_buffer yes <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">ditto</span>
+update_interval 1 <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Every second</span>
+total_run_times 0 <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Run for ever</span>
+use_spacer yes    <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Stop things from moving around</span>
 minimum_size 250 5
 maximum_width 400
 out_to_console yes
 
 TEXT
-Load: ${loadavg 1 2 3} Cpu: %${cpu} Mem: ${mem} \
-Swap: ${swap} Wifi: ${wireless_essid wlan0} ${wireless_bitrate wlan0} \
-${wireless_link_qual_perc wlan0} \
-${exec acpi | awk '/Discharging/{print "^fg(orange)Bat:", $4,"^fg()"}/Charging/{print "Bat:", $4}'}  \
-Audio: ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f8|tr -d "[]"} \
-${time %b %d %I:%M:%S}
+Load: ${<span style="color: #DFAF8F;">loadavg</span> 1 2 3} Cpu: %${<span style="color: #DFAF8F;">cpu</span>} Mem: ${<span style="color: #DFAF8F;">mem</span>} <span style="color: #CC9393;">\</span>
+Swap: ${<span style="color: #DFAF8F;">swap</span>} Wifi: ${<span style="color: #DFAF8F;">wireless_essid</span> wlan0} ${<span style="color: #DFAF8F;">wireless_bitrate</span> wlan0} <span style="color: #CC9393;">\</span>
+${<span style="color: #DFAF8F;">wireless_link_qual_perc</span> wlan0} <span style="color: #CC9393;">\</span>
+${<span style="color: #F0DFAF; font-weight: bold;">exec</span> acpi | awk <span style="color: #CC9393;">'/Discharging/{print "^fg(orange)Bat:", $4,"^fg()"}/Charging/{print "Bat:", $4}'</span>}  <span style="color: #CC9393;">\</span>
+Audio: ${<span style="color: #F0DFAF; font-weight: bold;">exec</span> amixer -c 0 get Master | grep Mono: | cut -d <span style="color: #CC9393;">" "</span> -f8|tr -d <span style="color: #CC9393;">"[]"</span>} <span style="color: #CC9393;">\</span>
+${<span style="color: #F0DFAF; font-weight: bold;">time</span> %b %d %I:%M:%S}
 </code></pre>
 </div>
 
@@ -259,9 +262,9 @@ main = do
 </div>
 </div>
 </div>
-<div id="outline-container-orgae4e395" class="outline-4">
-<h4 id="orgae4e395">Displaying window manager log</h4>
-<div class="outline-text-4" id="text-orgae4e395">
+<div id="outline-container-org9f0a6c6" class="outline-4">
+<h4 id="org9f0a6c6">Displaying window manager log</h4>
+<div class="outline-text-4" id="text-org9f0a6c6">
 <p>
 All window managers maintain the current state of the desktop and
 xmonad is no exception. Xmonad has a <i>logHook</i> which is called
@@ -303,16 +306,16 @@ main = do
 </div>
 </div>
 
-<div id="outline-container-org65b9c11" class="outline-4">
-<h4 id="org65b9c11">Configuring terminal window</h4>
-<div class="outline-text-4" id="text-org65b9c11">
+<div id="outline-container-org1363748" class="outline-4">
+<h4 id="org1363748">Configuring terminal window</h4>
+<div class="outline-text-4" id="text-org1363748">
 <p>
 The default terminal window in my environment is <b>xterm</b>. I like
 <b>urxvt</b> with the following parameters.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">myTerminal = "urxvt -bg black -fg yellow -fade 30 -fadecolor white +sb"
+<pre><code class="src src-bash">myTerminal = <span style="color: #CC9393;">"urxvt -bg black -fg yellow -fade 30 -fadecolor white +sb"</span>
 </code></pre>
 </div>
 
@@ -355,9 +358,9 @@ main = do
 </div>
 </div>
 
-<div id="outline-container-org246260c" class="outline-4">
-<h4 id="org246260c">Function key support</h4>
-<div class="outline-text-4" id="text-org246260c">
+<div id="outline-container-org309ab13" class="outline-4">
+<h4 id="org309ab13">Function key support</h4>
+<div class="outline-text-4" id="text-org309ab13">
 <p>
 At this point, many Fn keys don't work as expected. Support for
 multimedia keys can be added by extending the <i>desktopConfig</i> element
@@ -417,14 +420,14 @@ this snippet and we are done!
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">Vol: ${exec amixer -c 0 get Master | grep Mono: | cut -d " " -f8|tr -d "[]"}
+<pre><code class="src src-bash">Vol: ${<span style="color: #F0DFAF; font-weight: bold;">exec</span> amixer -c 0 get Master | grep Mono: | cut -d <span style="color: #CC9393;">" "</span> -f8|tr -d <span style="color: #CC9393;">"[]"</span>}
 </code></pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0d8ed88" class="outline-4">
-<h4 id="org0d8ed88">Startup actions</h4>
-<div class="outline-text-4" id="text-org0d8ed88">
+<div id="outline-container-org0e71ec9" class="outline-4">
+<h4 id="org0e71ec9">Startup actions</h4>
+<div class="outline-text-4" id="text-org0e71ec9">
 <p>
 Now for the very last bits of my configuration. When I start my
 session, I would like to have my editor, browser and a few terminal

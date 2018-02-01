@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8>"/>
+ <title>
+MonadicT
+</title>
+ <base href="https://MonadicT.github.io/"/>
+ <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
+ of 2017-12-09>"/>
+ <meta name="author" content="Praki Prakash"/>
+ <link href="blog-style.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div style="display:flex">
+<div style="flex:2">
+
+</div>
+ <div style="flex:6">
+<div>
+<div class=" blog-nav">
+<div id="blog-title">
+MonadicT <div id="tagline">
+I see dead objects!
+</div>
+
+</div>
+ <div>Search <form action="http://www.google.com/search" id="searchform"
+method="get"><div><input class="box" id="s" name="q" type="text" />
+<input name="sitesearch" type="hidden" value="http://MonadicT.github.io" />
+</div></form></div>
+</div>
+<div class=" blog-nav">
+<div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
+<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
+<img height="48px" width="48px"
+   title="Visit my Twitter page"
+   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  href="https://github.com/MonadicT"><img id="github-logo"
+  src="/images/github-logo.png"/></a></div>
+</div>
+<div style="border:1px">
+
+</div>
+
+<div id="outline-container-orgdd8955f" class="outline-2">
+<h2 id="orgdd8955f">Commandline parsing in Java</h2>
+<div class="outline-text-2" id="text-orgdd8955f">
+<p>
+Despite thousands of Java CLI programs written, there is no standard
+Java library to parse command line arguments. Of course, there are
+tons of libraries which aim to fill this gap. Here is one that I like
+for its simplicity and minimal boilerplate requirements while
+supporting a decent feature set.
+</p>
+
+<p>
+We define a class listing all our options. The options are annotated
+with <code>@Option</code>. An instance of this is passed to  <code>CmdLineParser</code>.
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-java"><span style="color: #9FC59F;">/**</span>
+<span style="color: #9FC59F;"> * Class with annotated program options</span>
+<span style="color: #9FC59F;"> */</span>
+<span style="color: #F0DFAF; font-weight: bold;">import</span> <span style="color: #BFEBBF;">org</span>.<span style="color: #BFEBBF;">kohsuke</span>.<span style="color: #BFEBBF;">args4j</span>.<span style="color: #7CB8BB;">Option</span>;
+
+<span style="color: #F0DFAF; font-weight: bold;">class</span> <span style="color: #7CB8BB;">ProgramOptions</span> {
+    <span style="color: #BFEBBF;">@Option</span>(name = <span style="color: #CC9393;">"-h"</span>, aliases = { <span style="color: #CC9393;">"--host"</span> }, required = <span style="color: #BFEBBF;">false</span>,
+            usage = <span style="color: #CC9393;">"Host URL"</span>)
+    <span style="color: #7CB8BB;">String</span> <span style="color: #DFAF8F;">option</span> = <span style="color: #CC9393;">"localhost"</span>;
+
+    <span style="color: #BFEBBF;">@Option</span>(name = <span style="color: #CC9393;">"-p"</span>, aliases = { <span style="color: #CC9393;">"--port"</span> }, required = <span style="color: #BFEBBF;">false</span>,
+            usage = <span style="color: #CC9393;">"Host port"</span>)
+    <span style="color: #7CB8BB;">int</span> <span style="color: #DFAF8F;">port</span> = 3018;
+}
+</code></pre>
+</div>
+
+<p>
+In our main program, we instantiate <code>ProgramOptions</code> and
+<code>CmdLineParser</code>. The <code>CmdLineParser</code>'s <code>parseArgument</code> method is
+invoked with <code>args</code>. Upon successful parse, our <code>ProgramOptions</code>
+object will be set to values that user provided or their default
+values. Quite nice!
+</p>
+
+<div class="org-src-container">
+<pre><code class="src src-java"><span style="color: #F0DFAF; font-weight: bold;">import</span> <span style="color: #BFEBBF;">org</span>.<span style="color: #BFEBBF;">kohsuke</span>.<span style="color: #BFEBBF;">args4j</span>.<span style="color: #7CB8BB;">CmdLineException</span>;
+<span style="color: #F0DFAF; font-weight: bold;">import</span> <span style="color: #BFEBBF;">org</span>.<span style="color: #BFEBBF;">kohsuke</span>.<span style="color: #BFEBBF;">args4j</span>.<span style="color: #7CB8BB;">CmdLineParser</span>;
+
+<span style="color: #9FC59F;">/**</span>
+<span style="color: #9FC59F;">  * An example command line parser</span>
+<span style="color: #9FC59F;">  */</span>
+    <span style="color: #F0DFAF; font-weight: bold;">public</span> <span style="color: #F0DFAF; font-weight: bold;">class</span> <span style="color: #7CB8BB;">CommandLineParsing</span> {
+
+    <span style="color: #F0DFAF; font-weight: bold;">static</span> <span style="color: #7CB8BB;">ProgramOptions</span> <span style="color: #DFAF8F;">opts</span> = <span style="color: #F0DFAF; font-weight: bold;">new</span> <span style="color: #7CB8BB;">ProgramOptions</span>();
+
+    <span style="color: #F0DFAF; font-weight: bold;">static</span> <span style="color: #7CB8BB;">void</span> <span style="color: #93E0E3;">processArgs</span>(<span style="color: #7CB8BB;">String</span>[] <span style="color: #DFAF8F;">args</span>) {
+        <span style="color: #7CB8BB;">CmdLineParser</span> <span style="color: #DFAF8F;">parser</span> = <span style="color: #F0DFAF; font-weight: bold;">new</span> <span style="color: #7CB8BB;">CmdLineParser</span>(opts);
+
+        <span style="color: #F0DFAF; font-weight: bold;">try</span> {
+            parser.parseArgument(args);
+        } <span style="color: #F0DFAF; font-weight: bold;">catch</span> (<span style="color: #7CB8BB;">CmdLineException</span> <span style="color: #DFAF8F;">e</span>) {
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
+            System.exit(1);
+        }
+    }
+
+    <span style="color: #F0DFAF; font-weight: bold;">public</span> <span style="color: #F0DFAF; font-weight: bold;">static</span> <span style="color: #7CB8BB;">void</span> <span style="color: #93E0E3;">main</span>(<span style="color: #7CB8BB;">String</span>[] <span style="color: #DFAF8F;">args</span>) {
+        processArgs(args);
+    }
+}
+</code></pre>
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+ <div style="flex:2">
+
+</div>
+ <div class=" blog-footer">
+Copyright &copy; 2014-2018, Praki Prakash
+</div>
+
+</div>
+
+</body>
+</html>

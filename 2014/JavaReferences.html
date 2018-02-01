@@ -21,7 +21,10 @@ MonadicT
 <div>
 <div class=" blog-nav">
 <div id="blog-title">
-MonadicT
+MonadicT <div id="tagline">
+I see dead objects!
+</div>
+
 </div>
  <div>Search <form action="http://www.google.com/search" id="searchform"
 method="get"><div><input class="box" id="s" name="q" type="text" />
@@ -41,9 +44,9 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 
 </div>
 
-<div id="outline-container-org0b5b948" class="outline-2">
-<h2 id="org0b5b948">Java References</h2>
-<div class="outline-text-2" id="text-org0b5b948">
+<div id="outline-container-orge42b6aa" class="outline-2">
+<h2 id="orge42b6aa">Java References</h2>
+<div class="outline-text-2" id="text-orge42b6aa">
 <p>
 Perhaps the first trick of performance improvement is caching. Every
 programmer knows that performance of programs can be improved if
@@ -85,9 +88,9 @@ illustrate the general ideas.
 </p>
 </div>
 
-<div id="outline-container-org3a28411" class="outline-3">
-<h3 id="org3a28411">Building a GC-friendly cache</h3>
-<div class="outline-text-3" id="text-org3a28411">
+<div id="outline-container-org3649a1d" class="outline-3">
+<h3 id="org3649a1d">Building a GC-friendly cache</h3>
+<div class="outline-text-3" id="text-org3649a1d">
 <p>
 Say, your software creates something that is expensive and we would like
 to improve the overall performance by caching instances of it once
@@ -136,10 +139,10 @@ references get cleared when memory is scarce.
 <div class="org-src-container">
 <pre><code class="src src-bash">$ java SoftReferenceTest
 Populating cache with 1000 objects
-Count of objects in cache after population: 1000
-Count of objects in cache after System.gc: 1000
+Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after population: 1000
+Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after System.gc: 1000
 Triggering OutOfMemoryError
-Count of objects in cache after OOME: 10
+Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after OOME: 10
 $
 </code></pre>
 </div>
@@ -175,10 +178,10 @@ Output from running the above gist.
 <div class="org-src-container">
 <pre><code class="src src-bash">$ java WeakReferenceTest
 Populating cache with 1000 objects
-Count of objects in cache after population: 278
-Count of objects in cache after System.gc: 10
+Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after population: 278
+Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after System.gc: 10
 Triggering OutOfMemoryError
-Count of objects in cache after OOME: 10
+Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after OOME: 10
 $
 </code></pre>
 </div>
@@ -191,9 +194,9 @@ automatically get smaller when memory becomes scarce, what are
 </div>
 </div>
 
-<div id="outline-container-orgf70d743" class="outline-3">
-<h3 id="orgf70d743">Weak Hash Map</h3>
-<div class="outline-text-3" id="text-orgf70d743">
+<div id="outline-container-orgd3c27b5" class="outline-3">
+<h3 id="orgd3c27b5">Weak Hash Map</h3>
+<div class="outline-text-3" id="text-orgd3c27b5">
 <p>
 The JDK documentation for <b>WeakReference</b> says, weak references are
 used to build canonicalized mappings. A canonicalized mapping to an
@@ -226,9 +229,9 @@ the key will never become weakly referenced.
 </div>
 </div>
 
-<div id="outline-container-orgc087970" class="outline-3">
-<h3 id="orgc087970">Phantom Reference</h3>
-<div class="outline-text-3" id="text-orgc087970">
+<div id="outline-container-orgd424685" class="outline-3">
+<h3 id="orgd424685">Phantom Reference</h3>
+<div class="outline-text-3" id="text-orgd424685">
 <p>
 Now we come to the last scenario discussed in the beginning. Java
 objects can have a <b>finalize</b> method in which you can perform cleanup

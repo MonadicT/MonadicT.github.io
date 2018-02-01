@@ -1,0 +1,62 @@
+#+title: Tidying Java imports
+#+summary: A simple hack to remove unused imports from your Java files.
+#+publish-date: 2018-01-16
+#+export_file_name: ../../2018/TidyingJavaImports.html
+#+tags: emacs, elisp, Java
+
+* Tidying Java Imports
+I try to avoid programming in Java but there are those pesky times
+when Java is the right tool. I have no desire to install the 800-pound
+gorilla of IDEs, I can't quite use the =eclim= package (an Eclipse
+plugin which exposes Eclipse features through a server interface). I
+don't find the IntelliSense all that useful. However, I do want to be
+able to organize my =import= statements and remove unused classes to
+keep the clutter to a minimum. The following is a quick hack in elisp
+to accomplish the removal of unused Java classes.
+
+Note, this works well when you import each class by name. Wildcard
+im-ports are not handled with this.
+
+#+BEGIN_SRC elisp :results silent :tangle tidyjavaimports.el
+(defun remove-unused-imports()
+  (interactive)
+  (save-excursion
+    (let ((start (point-min))
+          (end (point-max))
+          imports
+          unused
+          last-import-line)
+      (beginning-of-buffer)
+      (while (< (point) end)
+        (let ((ln (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+          (if (string-match "import[\t ]*.*\\.\\([A-Za-z0-9]+\\)" ln)
+              (progn
+                (setq last-import-line (count-lines 1 (point)))
+                (add-to-list
+                 'imports
+                 (list (match-string 1 ln) (line-beginning-position) (line-end-position)))))
+          (forward-line 1)))
+      (goto-line (+ last-import-line 2))
+      (narrow-to-region
+       (point)
+       end)
+      (mapcar
+       (lambda (cls)
+         (goto-char (point-min))
+         (if (not (search-forward-regexp (car cls) (point-max) t))
+             (add-to-list 'unused cls)))
+       imports)
+      (widen)
+      (mapcar
+       (lambda (cls)
+         (let ((x (make-overlay (cadr cls) (caddr cls))))
+           (overlay-put x 'face '(:background "grey80"))))
+       unused)))
+  (message "remove-unused-imports"))
+
+(let ((s "import com.facebook.react.ReactPackage"))
+  (string-match "import[\t ]*\\(.*\\)\\([A-Za-z0-9]+\\)" s)
+  (match-string  2 s))
+
+(global-set-key (kbd "C-c C-i") #'remove-unused-imports)
+#+END_SRC

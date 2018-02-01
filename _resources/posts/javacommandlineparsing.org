@@ -1,0 +1,68 @@
+#+title: Commandline Parsing in Java
+#+summary: Solution to a common problem in Java command line programs
+#+publish-date: 2018-01-31
+#+tags: Java, Options, gist
+#+export_file_name: ../../2018/CommandLineParsingJava.html
+#+options: num:nil
+
+* Commandline parsing in Java
+Despite thousands of Java CLI programs written, there is no standard
+Java library to parse command line arguments. Of course, there are
+tons of libraries which aim to fill this gap. Here is one that I like
+for its simplicity and minimal boilerplate requirements while
+supporting a decent feature set.
+
+We define a class listing all our options. The options are annotated
+with =@Option=. An instance of this is passed to  =CmdLineParser=.
+
+#+BEGIN_SRC java :results silent :tangle ProgramOptions.java
+  /**
+   * Class with annotated program options
+   */
+  import org.kohsuke.args4j.Option;
+
+  class ProgramOptions {
+      @Option(name = "-h", aliases = { "--host" }, required = false,
+              usage = "Host URL")
+      String option = "localhost";
+
+      @Option(name = "-p", aliases = { "--port" }, required = false,
+              usage = "Host port")
+      int port = 3018;
+  }
+#+END_SRC
+
+In our main program, we instantiate =ProgramOptions= and
+=CmdLineParser=. The =CmdLineParser='s =parseArgument= method is
+invoked with =args=. Upon successful parse, our =ProgramOptions=
+object will be set to values that user provided or their default
+values. Quite nice!
+
+#+BEGIN_SRC java :results silent :tangle CommandLineParsing.java
+  import org.kohsuke.args4j.CmdLineException;
+  import org.kohsuke.args4j.CmdLineParser;
+
+  /**
+    ,* An example command line parser
+    ,*/
+      public class CommandLineParsing {
+
+      static ProgramOptions opts = new ProgramOptions();
+
+      static void processArgs(String[] args) {
+          CmdLineParser parser = new CmdLineParser(opts);
+
+          try {
+              parser.parseArgument(args);
+          } catch (CmdLineException e) {
+              System.err.println(e.getMessage());
+              parser.printUsage(System.err);
+              System.exit(1);
+          }
+      }
+
+      public static void main(String[] args) {
+          processArgs(args);
+      }
+  }
+#+END_SRC
