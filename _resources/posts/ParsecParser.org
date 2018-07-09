@@ -1,5 +1,5 @@
 #+title: Writing a parser using Parsec
-#+summary: My Haskell experiemnts with creating a parser for a small language.
+#+summary: My Haskell experiements with creating a parser for a small language.
 #+tags: Haskell, Parsec, DSL
 #+publish-date: 2016-11-27
 #+export_file_name: ../../2016/WritingAParserUsingParsec.html

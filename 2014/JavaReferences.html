@@ -6,10 +6,10 @@
 MonadicT
 </title>
  <base href="https://MonadicT.github.io/"/>
- <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
- of 2017-12-09>"/>
+ <meta name="generator" content="GNU Emacs 26.1 (build 1, x86_64-apple-darwin14.5.0, NS appkit-1348.17 Version 10.10.5 (Build 14F2511))
+ of 2018-05-28>"/>
  <meta name="author" content="Praki Prakash"/>
- <link href="blog-style.css" rel="stylesheet"/>
+ <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700" rel="stylesheet"> <link href="blog-style.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -33,20 +33,20 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
 <div class=" blog-nav">
 <div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
-<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
-<img height="48px" width="48px"
-   title="Visit my Twitter page"
-   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  <span style={background-color: white; height:2em;width:2em;border-radius:24px}></span>
+  <img height="48px" width="48px"
+     title="Visit my Twitter page"
+     src="/images/twitter.png"/></a><a id="github-link" target="_new"
   href="https://github.com/MonadicT"><img id="github-logo"
   src="/images/github-logo.png"/></a></div>
 </div>
 <div style="border:1px">
 
 </div>
-
-<div id="outline-container-orge42b6aa" class="outline-2">
-<h2 id="orge42b6aa">Java References</h2>
-<div class="outline-text-2" id="text-orge42b6aa">
+ 
+<div id="outline-container-org1fb5dc4" class="outline-2">
+<h2 id="org1fb5dc4">Java References</h2>
+<div class="outline-text-2" id="text-org1fb5dc4">
 <p>
 Perhaps the first trick of performance improvement is caching. Every
 programmer knows that performance of programs can be improved if
@@ -88,9 +88,9 @@ illustrate the general ideas.
 </p>
 </div>
 
-<div id="outline-container-org3649a1d" class="outline-3">
-<h3 id="org3649a1d">Building a GC-friendly cache</h3>
-<div class="outline-text-3" id="text-org3649a1d">
+<div id="outline-container-orgb4fc132" class="outline-3">
+<h3 id="orgb4fc132">Building a GC-friendly cache</h3>
+<div class="outline-text-3" id="text-orgb4fc132">
 <p>
 Say, your software creates something that is expensive and we would like
 to improve the overall performance by caching instances of it once
@@ -137,14 +137,14 @@ references get cleared when memory is scarce.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">$ java SoftReferenceTest
+<pre class="src src-bash">$ java SoftReferenceTest
 Populating cache with 1000 objects
-Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after population: 1000
-Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after System.gc: 1000
+Count of objects<span class="org-keyword"> in</span> cache after population: 1000
+Count of objects<span class="org-keyword"> in</span> cache after System.gc: 1000
 Triggering OutOfMemoryError
-Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after OOME: 10
+Count of objects<span class="org-keyword"> in</span> cache after OOME: 10
 $
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -176,14 +176,14 @@ clears them immediately.
 Output from running the above gist.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-bash">$ java WeakReferenceTest
+<pre class="src src-bash">$ java WeakReferenceTest
 Populating cache with 1000 objects
-Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after population: 278
-Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after System.gc: 10
+Count of objects<span class="org-keyword"> in</span> cache after population: 278
+Count of objects<span class="org-keyword"> in</span> cache after System.gc: 10
 Triggering OutOfMemoryError
-Count of objects<span style="color: #F0DFAF; font-weight: bold;"> in</span> cache after OOME: 10
+Count of objects<span class="org-keyword"> in</span> cache after OOME: 10
 $
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -194,9 +194,9 @@ automatically get smaller when memory becomes scarce, what are
 </div>
 </div>
 
-<div id="outline-container-orgd3c27b5" class="outline-3">
-<h3 id="orgd3c27b5">Weak Hash Map</h3>
-<div class="outline-text-3" id="text-orgd3c27b5">
+<div id="outline-container-org9a92a16" class="outline-3">
+<h3 id="org9a92a16">Weak Hash Map</h3>
+<div class="outline-text-3" id="text-org9a92a16">
 <p>
 The JDK documentation for <b>WeakReference</b> says, weak references are
 used to build canonicalized mappings. A canonicalized mapping to an
@@ -229,9 +229,9 @@ the key will never become weakly referenced.
 </div>
 </div>
 
-<div id="outline-container-orgd424685" class="outline-3">
-<h3 id="orgd424685">Phantom Reference</h3>
-<div class="outline-text-3" id="text-orgd424685">
+<div id="outline-container-org5236eec" class="outline-3">
+<h3 id="org5236eec">Phantom Reference</h3>
+<div class="outline-text-3" id="text-org5236eec">
 <p>
 Now we come to the last scenario discussed in the beginning. Java
 objects can have a <b>finalize</b> method in which you can perform cleanup

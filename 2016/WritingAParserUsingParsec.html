@@ -6,10 +6,10 @@
 MonadicT
 </title>
  <base href="https://MonadicT.github.io/"/>
- <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
- of 2017-12-09>"/>
+ <meta name="generator" content="GNU Emacs 26.1 (build 1, x86_64-apple-darwin14.5.0, NS appkit-1348.17 Version 10.10.5 (Build 14F2511))
+ of 2018-05-28>"/>
  <meta name="author" content="Praki Prakash"/>
- <link href="blog-style.css" rel="stylesheet"/>
+ <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700" rel="stylesheet"> <link href="blog-style.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -33,20 +33,20 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
 <div class=" blog-nav">
 <div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
-<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
-<img height="48px" width="48px"
-   title="Visit my Twitter page"
-   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  <span style={background-color: white; height:2em;width:2em;border-radius:24px}></span>
+  <img height="48px" width="48px"
+     title="Visit my Twitter page"
+     src="/images/twitter.png"/></a><a id="github-link" target="_new"
   href="https://github.com/MonadicT"><img id="github-logo"
   src="/images/github-logo.png"/></a></div>
 </div>
 <div style="border:1px">
 
 </div>
-
-<div id="outline-container-org0f4c1ff" class="outline-2">
-<h2 id="org0f4c1ff">Introduction</h2>
-<div class="outline-text-2" id="text-org0f4c1ff">
+ 
+<div id="outline-container-orge4aa87a" class="outline-2">
+<h2 id="orge4aa87a">Introduction</h2>
+<div class="outline-text-2" id="text-orge4aa87a">
 <p>
 I need a parser for a simple Domain Specific Language and I am writing
 it in Haskell using the Parsec combinator library. My future posts
@@ -69,7 +69,7 @@ fine. It is helpful to review type signatures for <code>&lt;$&gt;</code>, <code>
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">:t (&lt;$&gt;)
+<pre class="src src-haskell">:t (&lt;$&gt;)
 (&lt;$&gt;) :: Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 
 :t (&lt;*&gt;)
@@ -80,7 +80,7 @@ fine. It is helpful to review type signatures for <code>&lt;$&gt;</code>, <code>
 
 :t (*&gt;)
 (*&gt;) :: Applicative f =&gt; f a -&gt; f b -&gt; f b
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -159,56 +159,56 @@ generate code.
 </p>
 </div>
 
-<div id="outline-container-org660c428" class="outline-3">
-<h3 id="org660c428">Implementation</h3>
-<div class="outline-text-3" id="text-org660c428">
+<div id="outline-container-org701c52d" class="outline-3">
+<h3 id="org701c52d">Implementation</h3>
+<div class="outline-text-3" id="text-org701c52d">
 <p>
 Using Parsec in applicative style leads to remarkably concise and
 simple implementation.
 </p>
 </div>
 
-<div id="outline-container-orgecb1705" class="outline-4">
-<h4 id="orgecb1705">Module declaration</h4>
-<div class="outline-text-4" id="text-orgecb1705">
+<div id="outline-container-orgc9237db" class="outline-4">
+<h4 id="orgc9237db">Module declaration</h4>
+<div class="outline-text-4" id="text-orgc9237db">
 <p>
 Lists exports from this module. We export lower-level parse functions
 for testing purposes.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">module Parser (Expr(..), Stmt(..), dslP, parse, exprP, stmtP) where
-</code></pre>
+<pre class="src src-haskell">module Parser (Expr(..), Stmt(..), dslP, parse, exprP, stmtP) where
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org333463a" class="outline-4">
-<h4 id="org333463a">Imports</h4>
-<div class="outline-text-4" id="text-org333463a">
+<div id="outline-container-orgc8bb82a" class="outline-4">
+<h4 id="orgc8bb82a">Imports</h4>
+<div class="outline-text-4" id="text-orgc8bb82a">
 <p>
 Notable imports are Parsec and friends. We also import some functions
 from <code>Control.Applicative</code>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import Control.Applicative (liftA2, pure, (&lt;*&gt;), (&lt;$&gt;), (&lt;*), (*&gt;))
+<pre class="src src-haskell">import Control.Applicative (liftA2, pure, (&lt;*&gt;), (&lt;$&gt;), (&lt;*), (*&gt;))
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import Text.ParserCombinators.Parsec.Char (digit, letter,
        alphaNum, lower, upper)
 import Text.ParserCombinators.Parsec.Language (emptyDef)
 import qualified Text.ParserCombinators.Parsec.Token as Token
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0a1a9db" class="outline-4">
-<h4 id="org0a1a9db">Lexer</h4>
-<div class="outline-text-4" id="text-org0a1a9db">
+<div id="outline-container-org851ddb6" class="outline-4">
+<h4 id="org851ddb6">Lexer</h4>
+<div class="outline-text-4" id="text-org851ddb6">
 <div class="org-src-container">
-<pre><code class="src src-haskell">tokenDef = Token.makeTokenParser $ emptyDef
+<pre class="src src-haskell">tokenDef = Token.makeTokenParser $ emptyDef
      { Token.commentStart    = "/*"
             , Token.commentEnd      = "*/"
             , Token.commentLine     = "//"
@@ -239,16 +239,16 @@ ws = Token.whiteSpace tokenDef
 symbol = Token.symbol tokenDef
 parens = Token.parens tokenDef
 braces = Token.braces tokenDef
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org4355b40" class="outline-4">
-<h4 id="org4355b40">Data types</h4>
-<div class="outline-text-4" id="text-org4355b40">
+<div id="outline-container-org83c6356" class="outline-4">
+<h4 id="org83c6356">Data types</h4>
+<div class="outline-text-4" id="text-org83c6356">
 <div class="org-src-container">
-<pre><code class="src src-haskell">data Expr =
+<pre class="src src-haskell">data Expr =
     Add Expr Expr
     | Sub Expr Expr
     | Mul Expr Expr
@@ -281,24 +281,24 @@ data Stmt =
     | Break
     | Continue
     deriving (Show, Eq)
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge39a1ab" class="outline-4">
-<h4 id="orge39a1ab">Useful combinators</h4>
-<div class="outline-text-4" id="text-orge39a1ab">
+<div id="outline-container-orgdf024e2" class="outline-4">
+<h4 id="orgdf024e2">Useful combinators</h4>
+<div class="outline-text-4" id="text-orgdf024e2">
 <div class="org-src-container">
-<pre><code class="src src-haskell">commaSep p  = p `sepBy` (symbol ",")
-</code></pre>
+<pre class="src src-haskell">commaSep p  = p `sepBy` (symbol ",")
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org374fff4" class="outline-4">
-<h4 id="org374fff4">Expression parser</h4>
-<div class="outline-text-4" id="text-org374fff4">
+<div id="outline-container-org4c00df3" class="outline-4">
+<h4 id="org4c00df3">Expression parser</h4>
+<div class="outline-text-4" id="text-org4c00df3">
 <p>
 This is the expression parser. This accepts semantically invalid
 expressions as there is no distinction between numerical, string and
@@ -307,7 +307,7 @@ pass over the AST which will flag invalid expressions.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">exprP :: Parser Expr
+<pre class="src src-haskell">exprP :: Parser Expr
 --exprP = termP `chainl1` termopP
 
 exprP = bexprP `chainl1` bopP
@@ -353,16 +353,16 @@ factoropP = symbol "*" *&gt; return Mul
 callP = Call &lt;$&gt; ident &lt;*&gt; parens (commaSep exprP)
 
 notP = reservedOp "!" &lt;|&gt; reserved "not"
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc337187" class="outline-4">
-<h4 id="orgc337187">Statement parser</h4>
-<div class="outline-text-4" id="text-orgc337187">
+<div id="outline-container-org05a4376" class="outline-4">
+<h4 id="org05a4376">Statement parser</h4>
+<div class="outline-text-4" id="text-org05a4376">
 <div class="org-src-container">
-<pre><code class="src src-haskell">stmtP :: Parser Stmt
+<pre class="src src-haskell">stmtP :: Parser Stmt
 stmtP =   assignP
       &lt;|&gt; blockP
       &lt;|&gt; printP
@@ -388,25 +388,25 @@ whileP = While &lt;$&gt; (reserved "while" &gt;&gt; exprP) &lt;*&gt; stmtP
 breakP = reserved "break" *&gt; return Break
 
 continueP = reserved "continue" *&gt; return Continue
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc5837c5" class="outline-4">
-<h4 id="orgc5837c5">DSL Parser</h4>
-<div class="outline-text-4" id="text-orgc5837c5">
+<div id="outline-container-org11f7aeb" class="outline-4">
+<h4 id="org11f7aeb">DSL Parser</h4>
+<div class="outline-text-4" id="text-org11f7aeb">
 <div class="org-src-container">
-<pre><code class="src src-haskell">dslP :: Parser [Stmt]
+<pre class="src src-haskell">dslP :: Parser [Stmt]
 dslP = ws *&gt; many stmtP &lt;* eof
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org13bab2c" class="outline-4">
-<h4 id="org13bab2c">Most problematic areas</h4>
-<div class="outline-text-4" id="text-org13bab2c">
+<div id="outline-container-orgafa517e" class="outline-4">
+<h4 id="orgafa517e">Most problematic areas</h4>
+<div class="outline-text-4" id="text-orgafa517e">
 <p>
 With Parsec, it turns out to be important to order the parsers and
 adorn them with <code>try</code>. This was most evident in <code>factorP</code>. Very
@@ -424,9 +424,9 @@ Other than this, using Parsec to build parsers is pretty straightforward.
 </div>
 </div>
 
-<div id="outline-container-org1465aaa" class="outline-3">
-<h3 id="org1465aaa">Test program</h3>
-<div class="outline-text-3" id="text-org1465aaa">
+<div id="outline-container-org3492710" class="outline-3">
+<h3 id="org3492710">Test program</h3>
+<div class="outline-text-3" id="text-org3492710">
 <p>
 Here is test program that verifies the correctness of the parser. The
 tokenizer seems to have a bug. It correctly parses "1.2" as <code>D 1.2</code>
@@ -434,27 +434,27 @@ but parses <code>-1.2</code> as <code>I (-1)</code>. I will defer this issue for
 </p>
 </div>
 
-<div id="outline-container-orge672f2a" class="outline-4">
-<h4 id="orge672f2a">Module imports</h4>
-<div class="outline-text-4" id="text-orge672f2a">
+<div id="outline-container-orgba5ec6c" class="outline-4">
+<h4 id="orgba5ec6c">Module imports</h4>
+<div class="outline-text-4" id="text-orgba5ec6c">
 <div class="org-src-container">
-<pre><code class="src src-haskell">import Text.Parsec (parseTest)
+<pre class="src src-haskell">import Text.Parsec (parseTest)
 import Data.List (intercalate)
 import Text.Parsec.String
 import Parser
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbb1ff03" class="outline-4">
-<h4 id="orgbb1ff03">Expression tests</h4>
-<div class="outline-text-4" id="text-orgbb1ff03">
+<div id="outline-container-org6ec7fa7" class="outline-4">
+<h4 id="org6ec7fa7">Expression tests</h4>
+<div class="outline-text-4" id="text-org6ec7fa7">
 <p>
 Testing expression parsing.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-haskell">exprTests :: [(String, Expr)]
+<pre class="src src-haskell">exprTests :: [(String, Expr)]
 exprTests = [("10", I 10)
          , ("-1", Neg (I 1))
          , ("- 1", Neg (I 1))
@@ -493,19 +493,19 @@ exprTests = [("10", I 10)
          , ("foo(1, true)", Call "foo" [I 1, T])
          , ("foo(1, 2)", Call "foo" [I 1, I 2])
          ]
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5259a01" class="outline-4">
-<h4 id="org5259a01">Statement tests</h4>
-<div class="outline-text-4" id="text-org5259a01">
+<div id="outline-container-org190b6e0" class="outline-4">
+<h4 id="org190b6e0">Statement tests</h4>
+<div class="outline-text-4" id="text-org190b6e0">
 <p>
 Testing statement parsing.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-haskell">stmtTests :: [(String, Stmt)]
+<pre class="src src-haskell">stmtTests :: [(String, Stmt)]
 stmtTests = [ ("x := 1", Assign (V "x") (I 1))
             , ("print 1, 2", Print [I 1, I 2])
             , ("print 1", Print [I 1])
@@ -516,36 +516,36 @@ stmtTests = [ ("x := 1", Assign (V "x") (I 1))
             , ("break", Break)
             , ("continue", Continue)
             ]
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf57a215" class="outline-4">
-<h4 id="orgf57a215">Dsl tests</h4>
-<div class="outline-text-4" id="text-orgf57a215">
+<div id="outline-container-orgb8ac99e" class="outline-4">
+<h4 id="orgb8ac99e">Dsl tests</h4>
+<div class="outline-text-4" id="text-orgb8ac99e">
 <p>
 Example DSL and its expected result.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-haskell">dslTests :: [(String, [Stmt])]
+<pre class="src src-haskell">dslTests :: [(String, [Stmt])]
 dslTests =  [ ("x := 1 y:= 2", [Assign (V "x") (I 1), Assign (V "y") (I 2)])
             , (" x := 1 ", [Assign (V "x") (I 1)])
             ]
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1b04976" class="outline-4">
-<h4 id="org1b04976">Test runner</h4>
-<div class="outline-text-4" id="text-org1b04976">
+<div id="outline-container-org80c60ba" class="outline-4">
+<h4 id="org80c60ba">Test runner</h4>
+<div class="outline-text-4" id="text-org80c60ba">
 <p>
 <code>testParser</code> accepts a list of input and expected results of parsing
 them. Inputs that don't produce the expected results are printed.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-haskell">testParser:: (Eq a, Show a) =&gt; Parser a -&gt; [(String, a)] -&gt; IO ()
+<pre class="src src-haskell">testParser:: (Eq a, Show a) =&gt; Parser a -&gt; [(String, a)] -&gt; IO ()
 testParser p tests = do
   putStr (intercalate "\r\n"
            (filter (not . null)
@@ -558,25 +558,25 @@ testParser p tests = do
                   Left e -&gt; "Parse error: \n" ++ show e)
                (map (\(s, e) -&gt; (s, e, parse p s s)) tests))))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc14cb7e" class="outline-4">
-<h4 id="orgc14cb7e">Main program</h4>
-<div class="outline-text-4" id="text-orgc14cb7e">
+<div id="outline-container-org03155fc" class="outline-4">
+<h4 id="org03155fc">Main program</h4>
+<div class="outline-text-4" id="text-org03155fc">
 <p>
 Runs all tests defined above.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-haskell">main :: IO ()
+<pre class="src src-haskell">main :: IO ()
 main = do
    testParser exprP exprTests
    testParser stmtP stmtTests
    testParser dslP dslTests
    putStr "\nDONE!\n"
-</code></pre>
+</pre>
 </div>
 </div>
 </div>

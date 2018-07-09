@@ -6,6 +6,8 @@
 #+property: header-args:elisp :tangle "~/.emacs.d/lisp/yatl.el"
 #+options: num:nil
 
+# Tangle twith: C-c C-v t
+
 * Motivation
 Writing HTML by hand is error-prone and just not fun. On the other
 hand, a simple templating language that integrates the power of a

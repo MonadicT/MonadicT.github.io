@@ -6,10 +6,10 @@
 MonadicT
 </title>
  <base href="https://MonadicT.github.io/"/>
- <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
- of 2017-12-09>"/>
+ <meta name="generator" content="GNU Emacs 26.1 (build 1, x86_64-apple-darwin14.5.0, NS appkit-1348.17 Version 10.10.5 (Build 14F2511))
+ of 2018-05-28>"/>
  <meta name="author" content="Praki Prakash"/>
- <link href="blog-style.css" rel="stylesheet"/>
+ <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700" rel="stylesheet"> <link href="blog-style.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -33,24 +33,24 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
 <div class=" blog-nav">
 <div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
-<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
-<img height="48px" width="48px"
-   title="Visit my Twitter page"
-   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  <span style={background-color: white; height:2em;width:2em;border-radius:24px}></span>
+  <img height="48px" width="48px"
+     title="Visit my Twitter page"
+     src="/images/twitter.png"/></a><a id="github-link" target="_new"
   href="https://github.com/MonadicT"><img id="github-logo"
   src="/images/github-logo.png"/></a></div>
 </div>
 <div style="border:1px">
 
 </div>
-
-<div id="outline-container-org8705e72" class="outline-2">
-<h2 id="org8705e72">Blog site generator</h2>
-<div class="outline-text-2" id="text-org8705e72">
+ 
+<div id="outline-container-org46e6fde" class="outline-2">
+<h2 id="org46e6fde">Blog site generator</h2>
+<div class="outline-text-2" id="text-org46e6fde">
 </div>
-<div id="outline-container-orge159937" class="outline-3">
-<h3 id="orge159937">Overview</h3>
-<div class="outline-text-3" id="text-orge159937">
+<div id="outline-container-org0ddd89c" class="outline-3">
+<h3 id="org0ddd89c">Overview</h3>
+<div class="outline-text-3" id="text-org0ddd89c">
 <p>
 Org-mode has a flexible export framework which can be leveraged to
 generate Html content suitable for publishing with Jekyll, a static
@@ -86,103 +86,105 @@ executing <code>blog-gen-new-post</code>.
 </div>
 </div>
 
-<div id="outline-container-orgd8ae4c6" class="outline-3">
-<h3 id="orgd8ae4c6">Design description</h3>
-<div class="outline-text-3" id="text-orgd8ae4c6">
+<div id="outline-container-org7f31eaf" class="outline-3">
+<h3 id="org7f31eaf">Design description</h3>
+<div class="outline-text-3" id="text-org7f31eaf">
 <ul class="org-ul">
 <li>Customizable variables describe</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org7095c13" class="outline-3">
-<h3 id="org7095c13">Implementation</h3>
-<div class="outline-text-3" id="text-org7095c13">
+<div id="outline-container-org91eb8ee" class="outline-3">
+<h3 id="org91eb8ee">Implementation</h3>
+<div class="outline-text-3" id="text-org91eb8ee">
 </div>
-<div id="outline-container-orga254fd5" class="outline-4">
-<h4 id="orga254fd5">Dependencies</h4>
-<div class="outline-text-4" id="text-orga254fd5">
+<div id="outline-container-org4254240" class="outline-4">
+<h4 id="org4254240">Dependencies</h4>
+<div class="outline-text-4" id="text-org4254240">
 <p>
 Not many! <code>yatl</code> is my Elisp package for generating Html fragments
 from s-expressions.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">cl</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">yatl</span>)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">require</span> '<span class="org-constant">cl</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">subr-x</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">s</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">yatl</span>)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org26cda11" class="outline-4">
-<h4 id="org26cda11">Useful macros/functions</h4>
+<div id="outline-container-org3f8f239" class="outline-4">
+<h4 id="org3f8f239">Useful macros/functions</h4>
 </div>
-<div id="outline-container-org1b11a2c" class="outline-4">
-<h4 id="org1b11a2c">Assert utility</h4>
-<div class="outline-text-4" id="text-org1b11a2c">
+<div id="outline-container-org4dae495" class="outline-4">
+<h4 id="org4dae495">Assert utility</h4>
+<div class="outline-text-4" id="text-org4dae495">
 <p>
 A quick little macro to write assertions.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">assert-equal</span> (actual expected)
-  `(<span style="color: #F0DFAF; font-weight: bold;">when</span> (not (equal ,actual ,expected))
-     (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"Actual: %s expected: %s"</span>
-            (format <span style="color: #CC9393;">"%s"</span> ',actual)
-            (format <span style="color: #CC9393;">"%s"</span> ',expected))))
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defmacro</span> <span class="org-function-name">assert-equal</span> (actual expected)
+  `(<span class="org-keyword">when</span> (not (equal ,actual ,expected))
+     (<span class="org-warning">error</span> <span class="org-string">"Actual: %s expected: %s"</span>
+            (format <span class="org-string">"%s"</span> ',actual)
+            (format <span class="org-string">"%s"</span> ',expected))))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgcfc19f6" class="outline-4">
-<h4 id="orgcfc19f6">Key-value string parser</h4>
-<div class="outline-text-4" id="text-orgcfc19f6">
+<div id="outline-container-orgb732665" class="outline-4">
+<h4 id="orgb732665">Key-value string parser</h4>
+<div class="outline-text-4" id="text-orgb732665">
 <p>
 Parses key-value string of form <i>@key=val@key=val</i>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-parse-kvp</span>(s)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> (res)
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-parse-kvp</span>(s)
+  (<span class="org-keyword">let</span> (res)
     (mapconcat
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (kv-str)
-       (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((kv (split-string kv-str <span style="color: #CC9393;">"="</span>))
+     (<span class="org-keyword">lambda</span> (kv-str)
+       (<span class="org-keyword">let*</span> ((kv (split-string kv-str <span class="org-string">"="</span>))
               (key (car kv))
               (val (cadr kv))
-              (val (<span style="color: #F0DFAF; font-weight: bold;">if</span> (string-match <span style="color: #CC9393;">"^\".*\"$"</span> val)
+              (val (<span class="org-keyword">if</span> (string-match <span class="org-string">"^\".*\"$"</span> val)
                        val
-                     (format <span style="color: #CC9393;">"\"%s\""</span> val))))
-         (concat key <span style="color: #CC9393;">"="</span> val)))
-     (split-string s <span style="color: #CC9393;">"@"</span> t)
-     <span style="color: #CC9393;">" "</span>)))
+                     (format <span class="org-string">"\"%s\""</span> val))))
+         (concat key <span class="org-string">"="</span> val)))
+     (split-string s <span class="org-string">"@"</span> t)
+     <span class="org-string">" "</span>)))
 
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-kvp <span style="color: #CC9393;">""</span>) <span style="color: #CC9393;">""</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-kvp <span style="color: #CC9393;">"@"</span>) <span style="color: #CC9393;">""</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-kvp <span style="color: #CC9393;">"@a=b"</span>) <span style="color: #CC9393;">"a=\"b\""</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-kvp <span style="color: #CC9393;">"@a=b@c=d"</span>) <span style="color: #CC9393;">"a=\"b\" c=\"d\""</span>)
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-kvp <span class="org-string">""</span>) <span class="org-string">""</span>)
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-kvp <span class="org-string">"@"</span>) <span class="org-string">""</span>)
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-kvp <span class="org-string">"@a=b"</span>) <span class="org-string">"a=\"b\""</span>)
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-kvp <span class="org-string">"@a=b@c=d"</span>) <span class="org-string">"a=\"b\" c=\"d\""</span>)
 
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">  (<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">lisp</span> (<span style="color: #7CB8BB;">&amp;rest</span> forms)
-    `(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((res ,@forms))
+<pre class="src src-elisp">  (<span class="org-keyword">defmacro</span> <span class="org-function-name">lisp</span> (<span class="org-type">&amp;rest</span> forms)
+    `(<span class="org-keyword">let</span> ((res ,@forms))
        res))
 
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (<span style="color: #F0DFAF; font-weight: bold;">lisp</span> 1) 1)
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (<span style="color: #F0DFAF; font-weight: bold;">lisp</span> (+ 1 2 3)) 6)
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (<span style="color: #F0DFAF; font-weight: bold;">lisp</span> (concat <span style="color: #CC9393;">"a"</span> <span style="color: #CC9393;">"n"</span>)) <span style="color: #CC9393;">"an"</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (<span style="color: #F0DFAF; font-weight: bold;">lisp</span> (list 1 2 3)) '(1 2 3))
+(<span class="org-keyword">assert-equal</span> (<span class="org-keyword">lisp</span> 1) 1)
+(<span class="org-keyword">assert-equal</span> (<span class="org-keyword">lisp</span> (+ 1 2 3)) 6)
+(<span class="org-keyword">assert-equal</span> (<span class="org-keyword">lisp</span> (concat <span class="org-string">"a"</span> <span class="org-string">"n"</span>)) <span class="org-string">"an"</span>)
+(<span class="org-keyword">assert-equal</span> (<span class="org-keyword">lisp</span> (list 1 2 3)) '(1 2 3))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgfb79aca" class="outline-4">
-<h4 id="orgfb79aca">Parse element name</h4>
-<div class="outline-text-4" id="text-orgfb79aca">
+<div id="outline-container-orgffff876" class="outline-4">
+<h4 id="orgffff876">Parse element name</h4>
+<div class="outline-text-4" id="text-orgffff876">
 <p>
 Parses element name and returns the list of element name, id, class
 and attributes. Multiple class names but id must be unique. Id is
@@ -190,225 +192,230 @@ introduced by <code>?</code>, class name with <code>.</code> and attribute with 
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp"><span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Exanple names: div, div?id, div.cls1.clas2, div!k=v!k=v</span>
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-parse-elem-name</span>(s)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((nm-id-cls (list '() '() '() '()))
+<pre class="src src-elisp"><span class="org-comment-delimiter">;; </span><span class="org-comment">Exanple names: div, div?id, div.cls1.clas2, div!k=v!k=v</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-parse-elem-name</span>(s)
+  (<span class="org-keyword">let</span> ((nm-id-cls (list '() '() '() '()))
         attrs idx buf)
-    (<span style="color: #F0DFAF; font-weight: bold;">setq</span>  idx 0)
+    (<span class="org-keyword">setq</span>  idx 0)
     (mapcar
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (c)
-       (<span style="color: #F0DFAF; font-weight: bold;">cond</span>
-        ((eq c ?.) (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
-                     (<span style="color: #F0DFAF; font-weight: bold;">setq</span> idx 2)
-                     (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls))))
-        ((eq c ??) (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
-                     (<span style="color: #F0DFAF; font-weight: bold;">if</span> (null (cadr nm-id-cls))
-                         (<span style="color: #F0DFAF; font-weight: bold;">setq</span> idx 1)
-                       (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"ID specified again!"</span>))))
-        ((eq c ?@) (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
-                     (<span style="color: #F0DFAF; font-weight: bold;">setq</span> idx 3)
-                     (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls))))
-        ((eq idx -1) (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"Expect one of \".,+,#'"</span>))
-        (t (<span style="color: #F0DFAF; font-weight: bold;">push</span> c (nth idx nm-id-cls)))))
+     (<span class="org-keyword">lambda</span> (c)
+       (<span class="org-keyword">cond</span>
+        ((eq c ?.) (<span class="org-keyword">progn</span>
+                     (<span class="org-keyword">setq</span> idx 2)
+                     (<span class="org-keyword">push</span> c (nth idx nm-id-cls))))
+        ((eq c ??) (<span class="org-keyword">progn</span>
+                     (<span class="org-keyword">if</span> (null (cadr nm-id-cls))
+                         (<span class="org-keyword">setq</span> idx 1)
+                       (<span class="org-warning">error</span> <span class="org-string">"ID specified again!"</span>))))
+        ((eq c ?@) (<span class="org-keyword">progn</span>
+                     (<span class="org-keyword">setq</span> idx 3)
+                     (<span class="org-keyword">push</span> c (nth idx nm-id-cls))))
+        ((eq idx -1) (<span class="org-warning">error</span> <span class="org-string">"Expect one of \".,+,#'"</span>))
+        (t (<span class="org-keyword">push</span> c (nth idx nm-id-cls)))))
      s)
     (list (concat (reverse (car nm-id-cls)))
           (concat (reverse (cadr nm-id-cls)))
           (concat (reverse (caddr nm-id-cls)))
           (blog-gen-parse-kvp (concat (reverse (nth 3 nm-id-cls)))))))
 
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-elem-name <span style="color: #CC9393;">"div"</span>)
-             '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span>))
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-elem-name <span style="color: #CC9393;">"div?id"</span>)
-             '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">"id"</span> <span style="color: #CC9393;">""</span> <span style="color: #CC9393;">""</span>))
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-elem-name <span style="color: #CC9393;">"div?id.c1.c2"</span>)
-             '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">"id"</span> <span style="color: #CC9393;">".c1.c2"</span> <span style="color: #CC9393;">""</span>))
-(<span style="color: #F0DFAF; font-weight: bold;">assert-equal</span> (blog-gen-parse-elem-name <span style="color: #CC9393;">"div?id.c1.c2@foo=bar@baz=qux"</span>)
-               '(<span style="color: #CC9393;">"div"</span> <span style="color: #CC9393;">"id"</span> <span style="color: #CC9393;">".c1.c2"</span> <span style="color: #CC9393;">"foo=\"bar\" baz=\"qux\""</span>))
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-elem-name <span class="org-string">"div"</span>)
+             '(<span class="org-string">"div"</span> <span class="org-string">""</span> <span class="org-string">""</span> <span class="org-string">""</span>))
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-elem-name <span class="org-string">"div?id"</span>)
+             '(<span class="org-string">"div"</span> <span class="org-string">"id"</span> <span class="org-string">""</span> <span class="org-string">""</span>))
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-elem-name <span class="org-string">"div?id.c1.c2"</span>)
+             '(<span class="org-string">"div"</span> <span class="org-string">"id"</span> <span class="org-string">".c1.c2"</span> <span class="org-string">""</span>))
+(<span class="org-keyword">assert-equal</span> (blog-gen-parse-elem-name <span class="org-string">"div?id.c1.c2@foo=bar@baz=qux"</span>)
+               '(<span class="org-string">"div"</span> <span class="org-string">"id"</span> <span class="org-string">".c1.c2"</span> <span class="org-string">"foo=\"bar\" baz=\"qux\""</span>))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf8b97d3" class="outline-4">
-<h4 id="orgf8b97d3">Custom Variables</h4>
-<div class="outline-text-4" id="text-orgf8b97d3">
+<div id="outline-container-org59adc65" class="outline-4">
+<h4 id="org59adc65">Custom Variables</h4>
+<div class="outline-text-4" id="text-org59adc65">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">ox-html</span>)
+<pre class="src src-elisp">(<span class="org-keyword">require</span> '<span class="org-constant">ox-html</span>)
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Variables and options</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">Variables and options</span>
 
-(<span style="color: #F0DFAF; font-weight: bold;">defgroup</span> <span style="color: #7CB8BB;">org-export-blog</span> nil
-  <span style="color: #9FC59F;">"Options specific to RSS export back-end."</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:tag</span> <span style="color: #CC9393;">"Org Blog"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export
-  <span style="color: #DCDCCC; font-weight: bold;">:version</span> <span style="color: #CC9393;">"24.4"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:package-version</span> '(Org . <span style="color: #CC9393;">"9.0"</span>))
+(<span class="org-keyword">defgroup</span> <span class="org-type">org-export-blog</span> nil
+  <span class="org-doc">"Options specific to RSS export back-end."</span>
+  <span class="org-builtin">:tag</span> <span class="org-string">"Org Blog"</span>
+  <span class="org-builtin">:group</span> 'org-export
+  <span class="org-builtin">:version</span> <span class="org-string">"24.4"</span>
+  <span class="org-builtin">:package-version</span> '(Org . <span class="org-string">"9.0"</span>))
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-publish-url</span> <span style="color: #CC9393;">"https://MonadicT.github.io"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-publish-url</span> <span class="org-string">"https://MonadicT.github.io"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-title</span> <span style="color: #CC9393;">"MonadicT"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-title</span> <span class="org-string">"MonadicT"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-author</span> <span style="color: #CC9393;">"Praki Prakash"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-tagline</span> <span class="org-string">"I see dead objects!"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-copyright-message</span> <span style="color: #CC9393;">"Copyright &amp;copy; 2014-%s, Praki Prakash"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-author</span> <span class="org-string">"Praki Prakash"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-style-file</span> <span style="color: #CC9393;">"blog-style.css"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-copyright-message</span> <span class="org-string">"Copyright &amp;copy; 2014-%s, Praki Prakash"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-banner-file</span> <span style="color: #CC9393;">"banner.org"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-style-file</span> <span class="org-string">"blog-style.css"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-footer-file</span> <span style="color: #CC9393;">"footer.org"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-banner-file</span> <span class="org-string">"banner.org"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-</code></pre>
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-footer-file</span> <span class="org-string">"footer.org"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
+
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org2fc9115" class="outline-4">
-<h4 id="org2fc9115">Inner template generator</h4>
-<div class="outline-text-4" id="text-org2fc9115">
+<div id="outline-container-org538cff3" class="outline-4">
+<h4 id="org538cff3">Inner template generator</h4>
+<div class="outline-text-4" id="text-org538cff3">
 <p>
 This function is called from Org-export machinery. The main content of
 the article is wrapped up as a full blog page.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-inner-template</span> (contents info)
-   (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-inner-template</span> (contents info)
+   (<span class="org-keyword">yatl-html-frag</span>
     (body
      (div@style=display:flex
-      (div@style=flex:2 <span style="color: #CC9393;">""</span>)
+      (div@style=flex:2 <span class="org-string">""</span>)
       (div@style=flex:6
        (div
         (blog-gen-top-matter)
         contents))
-      (div@style=flex:2 <span style="color: #CC9393;">""</span>)
+      (div@style=flex:2 <span class="org-string">""</span>)
       (div.blog-footer
        (format blog-gen-copyright-message
-               (format-time-string <span style="color: #CC9393;">"%Y"</span>)))))))
+               (format-time-string <span class="org-string">"%Y"</span>)))))))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc028d49" class="outline-4">
-<h4 id="orgc028d49">Twitter link</h4>
-<div class="outline-text-4" id="text-orgc028d49">
+<div id="outline-container-orgb73d74b" class="outline-4">
+<h4 id="orgb73d74b">Twitter link</h4>
+<div class="outline-text-4" id="text-orgb73d74b">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-twitter-link</span>()
-  <span style="color: #9FC59F;">"&lt;a target=\"_new\" href=\"https://twitter.com/MonadicT\"&gt;</span>
-<span style="color: #9FC59F;">&lt;span style={background-color: white; height:48px;width:48px;border-radius:24px}&gt;&lt;/span&gt;</span>
-<span style="color: #9FC59F;">&lt;img height=\"48px\" width=\"48px\"</span>
-<span style="color: #9FC59F;">   title=\"Visit my Twitter page\"</span>
-<span style="color: #9FC59F;">   src=\"/images/twitter.png\"/&gt;&lt;/a&gt;"</span>)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-twitter-link</span>()
+  <span class="org-doc">"&lt;a target=\"_new\" href=\"https://twitter.com/MonadicT\"&gt;</span>
+<span class="org-doc">&lt;span style={background-color: white; height:48px;width:48px;border-radius:24px}&gt;&lt;/span&gt;</span>
+<span class="org-doc">&lt;img height=\"48px\" width=\"48px\"</span>
+<span class="org-doc">   title=\"Visit my Twitter page\"</span>
+<span class="org-doc">   src=\"/images/twitter.png\"/&gt;&lt;/a&gt;"</span>)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgbd6a4fc" class="outline-4">
-<h4 id="orgbd6a4fc">Github link</h4>
-<div class="outline-text-4" id="text-orgbd6a4fc">
+<div id="outline-container-org9e2c346" class="outline-4">
+<h4 id="org9e2c346">Github link</h4>
+<div class="outline-text-4" id="text-org9e2c346">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-github-link</span>()
-  <span style="color: #9FC59F;">"&lt;a id=\"github-link\" target=\"_new\"</span>
-<span style="color: #9FC59F;">  href=\"https://github.com/MonadicT\"&gt;&lt;img id=\"github-logo\"</span>
-<span style="color: #9FC59F;">  src=\"/images/github-logo.png\"/&gt;&lt;/a&gt;"</span>)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-github-link</span>()
+  <span class="org-doc">"&lt;a id=\"github-link\" target=\"_new\"</span>
+<span class="org-doc">  href=\"https://github.com/MonadicT\"&gt;&lt;img id=\"github-logo\"</span>
+<span class="org-doc">  src=\"/images/github-logo.png\"/&gt;&lt;/a&gt;"</span>)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org09318cf" class="outline-4">
-<h4 id="org09318cf">Home link</h4>
-<div class="outline-text-4" id="text-org09318cf">
+<div id="outline-container-orgede6583" class="outline-4">
+<h4 id="orgede6583">Home link</h4>
+<div class="outline-text-4" id="text-orgede6583">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-home-link</span>()
-  <span style="color: #9FC59F;">"&lt;a href=\"/index.html\"&gt;Home&lt;/a&gt;"</span>)
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-home-link</span>()
+  <span class="org-doc">"&lt;a href=\"/index.html\"&gt;Home&lt;/a&gt;"</span>)
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge60783f" class="outline-4">
-<h4 id="orge60783f">Articles link</h4>
-<div class="outline-text-4" id="text-orge60783f">
+<div id="outline-container-orgaada027" class="outline-4">
+<h4 id="orgaada027">Articles link</h4>
+<div class="outline-text-4" id="text-orgaada027">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-articles-link</span>()
-  <span style="color: #9FC59F;">"&lt;a href=\"/articles.html\"&gt;Articles&lt;/a&gt;"</span>)
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-articles-link</span>()
+  <span class="org-doc">"&lt;a href=\"/articles.html\"&gt;Articles&lt;/a&gt;"</span>)
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7ab28c7" class="outline-4">
-<h4 id="org7ab28c7">About link</h4>
-<div class="outline-text-4" id="text-org7ab28c7">
+<div id="outline-container-orga64532d" class="outline-4">
+<h4 id="orga64532d">About link</h4>
+<div class="outline-text-4" id="text-orga64532d">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-about-link</span>()
-  <span style="color: #9FC59F;">"&lt;a href=\"/about.html\"&gt;About&lt;/a&gt;"</span>)
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-about-link</span>()
+  <span class="org-doc">"&lt;a href=\"/about.html\"&gt;About&lt;/a&gt;"</span>)
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3482950" class="outline-4">
-<h4 id="org3482950">Tags link</h4>
-<div class="outline-text-4" id="text-org3482950">
+<div id="outline-container-org0510b5f" class="outline-4">
+<h4 id="org0510b5f">Tags link</h4>
+<div class="outline-text-4" id="text-org0510b5f">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-tags-link</span>()
-  <span style="color: #9FC59F;">"&lt;a href=\"/tags.html\"&gt;Tags&lt;/a&gt;"</span>)
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-tags-link</span>()
+  <span class="org-doc">"&lt;a href=\"/tags.html\"&gt;Tags&lt;/a&gt;"</span>)
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga941e16" class="outline-4">
-<h4 id="orga941e16">Site links</h4>
-<div class="outline-text-4" id="text-orga941e16">
+<div id="outline-container-org495a26f" class="outline-4">
+<h4 id="org495a26f">Site links</h4>
+<div class="outline-text-4" id="text-org495a26f">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-site-links</span>()
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-site-links</span>()
   (concat
-   <span style="color: #CC9393;">"&lt;div  id=\"site-links\"&gt;"</span>
+   <span class="org-string">"&lt;div  id=\"site-links\"&gt;"</span>
    (blog-gen-home-link)
    (blog-gen-articles-link)
    (blog-gen-tags-link)
    (blog-gen-about-link)
-   <span style="color: #CC9393;">"&lt;/div&gt;"</span>))
-</code></pre>
+   <span class="org-string">"&lt;/div&gt;"</span>))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga6b7409" class="outline-4">
-<h4 id="orga6b7409">Top matter</h4>
-<div class="outline-text-4" id="text-orga6b7409">
+<div id="outline-container-org11d3f45" class="outline-4">
+<h4 id="org11d3f45">Top matter</h4>
+<div class="outline-text-4" id="text-org11d3f45">
 <p>
 Generates the header and the banner. Here is one limitation of
 <code>yatl-compile-string</code> which can generate a single element with dynamic
@@ -416,187 +423,192 @@ content but not nested elements as needed here.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-top-matter</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-top-matter</span>()
+  (<span class="org-keyword">yatl-html-frag</span>
    (div.blog-nav
     (div?blog-title
      blog-gen-title
-     (div?tagline <span style="color: #CC9393;">"I see dead objects!"</span>))
+     (div?tagline blog-gen-tagline))
     (blog-gen-search-form))
    (div.blog-nav
     (blog-gen-site-links)
     (blog-gen-social-media-icons))
-   (div@style=border:1px <span style="color: #CC9393;">""</span>)))
+   (div@style=border:1px <span class="org-string">""</span>)))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc725277" class="outline-4">
-<h4 id="orgc725277">Search form</h4>
-<div class="outline-text-4" id="text-orgc725277">
+<div id="outline-container-org39e82de" class="outline-4">
+<h4 id="org39e82de">Search form</h4>
+<div class="outline-text-4" id="text-org39e82de">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-search-form</span>()
-  <span style="color: #9FC59F;">"&lt;div&gt;Search &lt;form action=\"http://www.google.com/search\" id=\"searchform\"</span>
-<span style="color: #9FC59F;">method=\"get\"&gt;&lt;div&gt;&lt;input class=\"box\" id=\"s\" name=\"q\" type=\"text\" /&gt;</span>
-<span style="color: #9FC59F;">&lt;input name=\"sitesearch\" type=\"hidden\" value=\"http://MonadicT.github.io\" /&gt;</span>
-<span style="color: #9FC59F;">&lt;/div&gt;&lt;/form&gt;&lt;/div&gt;"</span>)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-search-form</span>()
+  <span class="org-doc">"&lt;div&gt;Search &lt;form action=\"http://www.google.com/search\" id=\"searchform\"</span>
+<span class="org-doc">method=\"get\"&gt;&lt;div&gt;&lt;input class=\"box\" id=\"s\" name=\"q\" type=\"text\" /&gt;</span>
+<span class="org-doc">&lt;input name=\"sitesearch\" type=\"hidden\" value=\"http://MonadicT.github.io\" /&gt;</span>
+<span class="org-doc">&lt;/div&gt;&lt;/form&gt;&lt;/div&gt;"</span>)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga5591d1" class="outline-4">
-<h4 id="orga5591d1">Social media icons</h4>
-<div class="outline-text-4" id="text-orga5591d1">
+<div id="outline-container-org6212ce6" class="outline-4">
+<h4 id="org6212ce6">Social media icons</h4>
+<div class="outline-text-4" id="text-org6212ce6">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-social-media-icons</span>()
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-social-media-icons</span>()
   (concat
-   <span style="color: #CC9393;">"&lt;div id=\"social-media-icons\"&gt;"</span>
+   <span class="org-string">"&lt;div id=\"social-media-icons\"&gt;"</span>
    (blog-gen-twitter-link)
    (blog-gen-github-link)
-   <span style="color: #CC9393;">"&lt;/div&gt;"</span>))
-</code></pre>
+   <span class="org-string">"&lt;/div&gt;"</span>))
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org063d478" class="outline-3">
-<h3 id="org063d478">Mode implementation</h3>
-<div class="outline-text-3" id="text-org063d478">
+<div id="outline-container-org1515ca6" class="outline-3">
+<h3 id="org1515ca6">Mode implementation</h3>
+<div class="outline-text-3" id="text-org1515ca6">
 <div class="org-src-container">
-<pre><code class="src src-elisp"> <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Define backend</span>
+<pre class="src src-elisp"> <span class="org-comment-delimiter">;;; </span><span class="org-comment">Define backend</span>
 
 (org-export-define-derived-backend 'blog 'html
-  <span style="color: #DCDCCC; font-weight: bold;">:menu-entry</span>
-  '(?b <span style="color: #CC9393;">"Export to Blog"</span>
-       ((?b <span style="color: #CC9393;">"As Blog buffer"</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a s v b) (blog-gen-export-as-blog a s v)))
-        (?f <span style="color: #CC9393;">"As Blog file"</span> (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a s v b) (blog-gen-export-to-blog a s v)))
-        (?o <span style="color: #CC9393;">"As Blog file and open"</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a s v b)
-              (<span style="color: #F0DFAF; font-weight: bold;">if</span> a (blog-gen-export-to-blog t s v)
+  <span class="org-builtin">:menu-entry</span>
+  '(?b <span class="org-string">"Export to Blog"</span>
+       ((?b <span class="org-string">"As Blog buffer"</span>
+            (<span class="org-keyword">lambda</span> (a s v b) (blog-gen-export-as-blog a s v)))
+        (?f <span class="org-string">"As Blog file"</span> (<span class="org-keyword">lambda</span> (a s v b) (blog-gen-export-to-blog a s v)))
+        (?o <span class="org-string">"As Blog file and open"</span>
+            (<span class="org-keyword">lambda</span> (a s v b)
+              (<span class="org-keyword">if</span> a (blog-gen-export-to-blog t s v)
                 (org-open-file (blog-gen-export-to-blog nil s v)))))))
-  <span style="color: #DCDCCC; font-weight: bold;">:options-alist</span>
-  '((<span style="color: #DCDCCC; font-weight: bold;">:description</span> <span style="color: #CC9393;">"DESCRIPTION"</span> nil nil newline)
-    (<span style="color: #DCDCCC; font-weight: bold;">:keywords</span> <span style="color: #CC9393;">"KEYWORDS"</span> nil nil space)
-    (<span style="color: #DCDCCC; font-weight: bold;">:with-toc</span> nil nil nil) <span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Never include HTML's toc</span>
+  <span class="org-builtin">:options-alist</span>
+  '((<span class="org-builtin">:description</span> <span class="org-string">"DESCRIPTION"</span> nil nil newline)
+    (<span class="org-builtin">:keywords</span> <span class="org-string">"KEYWORDS"</span> nil nil space)
+    (<span class="org-builtin">:with-toc</span> nil nil nil) <span class="org-comment-delimiter">;; </span><span class="org-comment">Never include HTML's toc</span>
     )
-  <span style="color: #DCDCCC; font-weight: bold;">:filters-alist</span> '((<span style="color: #DCDCCC; font-weight: bold;">:filter-final-output</span> . blog-gen-final-function))
-  <span style="color: #DCDCCC; font-weight: bold;">:translate-alist</span> '((comment . (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (<span style="color: #7CB8BB;">&amp;rest</span> args) <span style="color: #9FC59F;">""</span>))
-                     (comment-block . (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (<span style="color: #7CB8BB;">&amp;rest</span> args) <span style="color: #9FC59F;">""</span>))
-                     (timestamp . (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (<span style="color: #7CB8BB;">&amp;rest</span> args) <span style="color: #9FC59F;">""</span>))
+  <span class="org-builtin">:filters-alist</span> '((<span class="org-builtin">:filter-final-output</span> . blog-gen-final-function))
+  <span class="org-builtin">:translate-alist</span> '((comment . (<span class="org-keyword">lambda</span> (<span class="org-type">&amp;rest</span> args) <span class="org-doc">""</span>))
+                     (comment-block . (<span class="org-keyword">lambda</span> (<span class="org-type">&amp;rest</span> args) <span class="org-doc">""</span>))
+                     (timestamp . (<span class="org-keyword">lambda</span> (<span class="org-type">&amp;rest</span> args) <span class="org-doc">""</span>))
                      (inner-template . blog-gen-inner-template)
                      (template . blog-gen-template)))
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Export functions</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">Export functions</span>
 
- <span style="color: #5F7F5F;">;;;</span><span style="color: #7F9F7F;">###autoload</span>
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-export-as-blog</span> (<span style="color: #7CB8BB;">&amp;optional</span> async subtreep visible-only)
-  <span style="color: #9FC59F;">"Export current buffer to a blog buffer.</span>
+ <span class="org-comment-delimiter">;;;</span><span class="org-comment">###autoload</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-export-as-blog</span> (<span class="org-type">&amp;optional</span> async subtreep visible-only)
+  <span class="org-doc">"Export current buffer to a blog buffer.</span>
 
-<span style="color: #9FC59F;"> Export is done in a buffer named \"*Org Blog Export*\", which will</span>
-<span style="color: #9FC59F;"> be displayed when `</span><span style="color: #BFEBBF;">org-export-show-temporary-export-buffer</span><span style="color: #9FC59F;">' is</span>
-<span style="color: #9FC59F;"> non-nil."</span>
-  (<span style="color: #F0DFAF; font-weight: bold;">interactive</span>)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((file (buffer-file-name (buffer-base-buffer)))))
-  (org-export-to-buffer 'blog <span style="color: #CC9393;">"*Org Blog Export*"</span>
-    async subtreep visible-only nil nil (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> () (text-mode))))
+<span class="org-doc"> Export is done in a buffer named \"*Org Blog Export*\", which will</span>
+<span class="org-doc"> be displayed when `</span><span class="org-doc"><span class="org-constant">org-export-show-temporary-export-buffer</span></span><span class="org-doc">' is</span>
+<span class="org-doc"> non-nil."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((file (buffer-file-name (buffer-base-buffer)))))
+  (org-export-to-buffer 'blog <span class="org-string">"*Org Blog Export*"</span>
+    async subtreep visible-only nil nil (<span class="org-keyword">lambda</span> () (text-mode))))
 
- <span style="color: #5F7F5F;">;;;</span><span style="color: #7F9F7F;">###autoload</span>
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-export-to-blog</span> (<span style="color: #7CB8BB;">&amp;optional</span> async subtreep visible-only)
-  <span style="color: #9FC59F;">"Export current buffer to a Blog file.</span>
-<span style="color: #9FC59F;"> Return output file's name."</span>
-  (<span style="color: #F0DFAF; font-weight: bold;">interactive</span>)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((file (buffer-file-name (buffer-base-buffer)))))
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((outfile (org-export-output-file-name
-                  (concat <span style="color: #CC9393;">"."</span> <span style="color: #CC9393;">"html"</span>) subtreep)))
+ <span class="org-comment-delimiter">;;;</span><span class="org-comment">###autoload</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-export-to-blog</span> (<span class="org-type">&amp;optional</span> async subtreep visible-only)
+  <span class="org-doc">"Export current buffer to a Blog file.</span>
+<span class="org-doc"> Return output file's name."</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((file (buffer-file-name (buffer-base-buffer)))))
+  (<span class="org-keyword">let</span> ((outfile (org-export-output-file-name
+                  (concat <span class="org-string">"."</span> <span class="org-string">"html"</span>) subtreep)))
     (org-export-to-file 'blog outfile async subtreep visible-only)))
 
- <span style="color: #5F7F5F;">;;;</span><span style="color: #7F9F7F;">###autoload</span>
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-publish-to-blog</span> (plist filename pub-dir)
-  <span style="color: #9FC59F;">"Publish an org file to Blog.</span>
+ <span class="org-comment-delimiter">;;;</span><span class="org-comment">###autoload</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-publish-to-blog</span> (plist filename pub-dir)
+  <span class="org-doc">"Publish an org file to Blog.</span>
 
-<span style="color: #9FC59F;"> FILENAME is the filename of the Org file to be published.  PLIST</span>
-<span style="color: #9FC59F;"> is the property list for the given project.  PUB-DIR is the</span>
-<span style="color: #9FC59F;"> publishing directory.</span>
+<span class="org-doc"> FILENAME is the filename of the Org file to be published.  PLIST</span>
+<span class="org-doc"> is the property list for the given project.  PUB-DIR is the</span>
+<span class="org-doc"> publishing directory.</span>
 
-<span style="color: #9FC59F;"> Return output file name."</span>
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((bf (get-file-buffer filename)))
-    (<span style="color: #F0DFAF; font-weight: bold;">if</span> bf
-        (<span style="color: #F0DFAF; font-weight: bold;">with-current-buffer</span> bf
+<span class="org-doc"> Return output file name."</span>
+  (<span class="org-keyword">let</span> ((bf (get-file-buffer filename)))
+    (<span class="org-keyword">if</span> bf
+        (<span class="org-keyword">with-current-buffer</span> bf
           (write-file filename))
       (find-file filename)
       (write-file filename) (kill-buffer)))
   (org-publish-org-too
-   'log filename (concat <span style="color: #CC9393;">"."</span> <span style="color: #CC9393;">"html"</span>) plist pub-dir))
+   'log filename (concat <span class="org-string">"."</span> <span class="org-string">"html"</span>) plist pub-dir))
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Main transcoding functions</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">Main transcoding functions</span>
 
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-template</span> (contents info)
-  <span style="color: #9FC59F;">"Return complete document string after BLOG conversion.</span>
-<span style="color: #9FC59F;"> CONTENTS is the transcoded contents string.  INFO is a plist</span>
-<span style="color: #9FC59F;"> used as a communication channel."</span>
-  (<span style="color: #F0DFAF; font-weight: bold;">yatl-html5</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-template</span> (contents info)
+  <span class="org-doc">"Return complete document string after BLOG conversion.</span>
+<span class="org-doc"> CONTENTS is the transcoded contents string.  INFO is a plist</span>
+<span class="org-doc"> used as a communication channel."</span>
+  (<span class="org-keyword">yatl-html5</span>
    (head
-    (yatl-compile-string <span style="color: #CC9393;">"meta@charset=\"%s\"&gt;"</span>
+    (yatl-compile-string <span class="org-string">"meta@charset=\"%s\"&gt;"</span>
             (symbol-name org-html-coding-system))
     (title blog-gen-title)
     (yatl-compile-string
-     <span style="color: #CC9393;">"base@href=\"%s\""</span>
+     <span class="org-string">"base@href=\"%s\""</span>
      (blog-gen-base-url))
-    (yatl-compile-string <span style="color: #CC9393;">"meta@name=generator@content=\"%s\"&gt;"</span> (emacs-version))
-    (yatl-compile-string <span style="color: #CC9393;">"meta@name=author@content=\"%s\""</span> blog-gen-author)
+    (yatl-compile-string <span class="org-string">"meta@name=generator@content=\"%s\"&gt;"</span> (emacs-version))
+    (yatl-compile-string <span class="org-string">"meta@name=author@content=\"%s\""</span> blog-gen-author)
+    <span class="org-string">"&lt;link href=\"https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700\" rel=\"stylesheet\"&gt;"</span>
     (link@href=\"blog-style.css\"@rel=\"stylesheet\"))
    contents))
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Filters</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">Filters</span>
 
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-final-function</span> (contents backend info)
-  <span style="color: #9FC59F;">"Prettify the Blog output."</span>
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-final-function</span> (contents backend info)
+  <span class="org-doc">"Prettify the Blog output."</span>
+  (<span class="org-keyword">with-temp-buffer</span>
     (xml-mode)
     (insert contents)
-    <span style="color: #5F7F5F;">;;</span><span style="color: #7F9F7F;">(indent-region (point-min) (point-max))</span>
+    <span class="org-comment-delimiter">;;</span><span class="org-comment">(indent-region (point-min) (point-max))</span>
     (buffer-substring-no-properties (point-min) (point-max))))
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Miscellaneous</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">Miscellaneous</span>
 
 
-(<span style="color: #F0DFAF; font-weight: bold;">provide</span> '<span style="color: #BFEBBF;">ox-blog</span>)
+(<span class="org-keyword">provide</span> '<span class="org-constant">ox-blog</span>)
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">ox-blog.el ends here</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">ox-blog.el ends here</span>
 
-</code></pre>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">ox-html</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">my-html-body-filter</span>(text backend info)
+<pre class="src src-elisp">(<span class="org-keyword">require</span> '<span class="org-constant">ox-html</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">my-html-body-filter</span>(text backend info)
   text)
 
 (add-to-list 'org-export-filter-body-functions
              'my-html-body-filter)
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd10eb6d" class="outline-3">
-<h3 id="orgd10eb6d">Styles</h3>
-<div class="outline-text-3" id="text-orgd10eb6d">
+<div id="outline-container-orgadd0335" class="outline-3">
+<h3 id="orgadd0335">Styles</h3>
+<div class="outline-text-3" id="text-orgadd0335">
 <p>
 CSS Styles used in this blog are managed using interpolated
 strings. The code below is an association list which is used to build
 CSS string later.
 </p>
+
+<p>
+Font sizes are specified in <i>percent</i> units which makes the content scalable.
+</p>
 </div>
 
-<div id="outline-container-org2d3f195" class="outline-4">
-<h4 id="org2d3f195">Color definitions</h4>
-<div class="outline-text-4" id="text-org2d3f195">
+<div id="outline-container-org2e0fd4c" class="outline-4">
+<h4 id="org2e0fd4c">Color definitions</h4>
+<div class="outline-text-4" id="text-org2e0fd4c">
 <p>
 CSS color definitions.
 </p>
@@ -605,72 +617,90 @@ CSS color definitions.
 <li>Dark primary color.</li>
 </ul>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#616161
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#616161</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Default primary color</li>
 </ul>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#9E9E9E
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#9E9E9E</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Light primary color</li>
 </ul>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#d3d3d3
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#d3d3d3</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Text primary color</li>
 </ul>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#212121
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#545454</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Accent color</li>
 </ul>
+<p>
+Previous color was <code>#ff5722</code>.
+</p>
+
 <div class="org-src-container">
-<pre><code class="src src-elisp">#ff5722
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#51c0ae</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Primary text color</li>
 </ul>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#212121
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#545454</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Secondary text color</li>
 </ul>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#757575
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#757575</span>
+</pre>
 </div>
 
 <ul class="org-ul">
 <li>Accent text color</li>
 </ul>
+<p>
+#FF5722
+</p>
 <div class="org-src-container">
-<pre><code class="src src-elisp">#FF5722
-</code></pre>
+<pre class="src src-css"><span class="ATTRLIST">#51c0ae</span>
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Source code background color</li>
+</ul>
+<p>
+Source code is rendered against this background color for readbility.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-css"><span class="ATTRLIST">#f2f2f2</span>
+</pre>
 </div>
 </div>
 </div>
 
-
-<div id="outline-container-orgb58156a" class="outline-4">
-<h4 id="orgb58156a">HTML element styling</h4>
-<div class="outline-text-4" id="text-orgb58156a">
+<div id="outline-container-org6e9c936" class="outline-4">
+<h4 id="org6e9c936">HTML element styling</h4>
+<div class="outline-text-4" id="text-org6e9c936">
 <p>
 Style definitions for general html elements.
 </p>
@@ -683,553 +713,642 @@ for all layout divs to be in resolution independent units/
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp"> * { font-family: <span style="color: #CC9393;">"Merriweather"</span>, Georgia, serif<span style="color: #5F7F5F;">; </span><span style="color: #7F9F7F;">}</span>
-html { clear: both<span style="color: #5F7F5F;">; </span><span style="color: #7F9F7F;">Height: 100%; width: 100% }</span>
-body { margin: 0<span style="color: #5F7F5F;">; </span><span style="color: #7F9F7F;">padding: 0; width: 100%; display: flex; flex-direction: column }</span>
-body {
-    background-color: #dfe3ee
-}
+<pre class="src src-css"> <span class="org-css-selector">* </span>{ <span class="org-css-property">font-family</span>: <span class="org-string">"Roboto"</span>; }
+ <span class="org-css-selector">html </span>{
+     <span class="org-css-property">clear</span>: both;
+     <span class="org-css-property">Height</span>: 100%;
+     <span class="org-css-property">width</span>: 100%
+ }
 
-a { color: &lt;&lt;accent-text-color&gt;&gt;<span style="color: #5F7F5F;">; </span><span style="color: #7F9F7F;">text-decoration: none}</span>
+ <span class="org-css-selector">body </span>{
+     <span class="org-css-property">margin</span>: 0; 
+     <span class="org-css-property">padding</span>: 0;
+     <span class="org-css-property">width</span>: 100%;
+     <span class="org-css-property">display</span>: flex;
+     <span class="org-css-property">flex-direction</span>: column;
+     <span class="org-css-property">color</span>: <span class="ATTRLIST-2">#545454</span>;
+     <span class="org-css-property">background-color</span>: <span class="ATTRLIST-1">#fffffd</span>;
+     <span class="org-css-property">line-height</span>: 1.35;
+     <span class="org-css-property">padding</span>: 1em;
+ }
 
-a:hover {  color: &lt;&lt;accent-color&gt;&gt;<span style="color: #5F7F5F;">; </span><span style="color: #7F9F7F;">opacity: 0.5; }</span>
-</code></pre>
+<span class="org-css-selector">a </span>{ <span class="org-css-property">color</span>: <span class="ATTRLIST">#51c0ae</span>; <span class="org-css-property">text-decoration</span>: none}
+<span class="org-css-selector">a:visited </span>{ <span class="org-css-property">color</span>: <span class="ATTRLIST">#51c0ae</span>; <span class="org-css-property">text-decoration</span>: none}
+
+<span class="org-css-selector">a:hover </span>{  <span class="org-css-property">color</span>: <span class="ATTRLIST">#51c0ae</span>; <span class="org-css-property">opacity</span>: 0.5; }
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgead18c3" class="outline-4">
-<h4 id="orgead18c3">Page layout styling</h4>
-<div class="outline-text-4" id="text-orgead18c3">
+<div id="outline-container-org05f5cb6" class="outline-4">
+<h4 id="org05f5cb6">Page layout styling</h4>
+<div class="outline-text-4" id="text-org05f5cb6">
 <div class="org-src-container">
-<pre><code class="src src-css"><span style="color: #93E0E3;">h2 </span>{
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;accent-text-color&gt;&gt;;
+<pre class="src src-css"><span class="org-css-selector">h2 </span>{
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-1">#51c0ae</span>;
 }
 
-<span style="color: #93E0E3;">#blog-title </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 3em;
-    <span style="color: #DFAF8F;">font-weight</span>: bolder;
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;accent-text-color&gt;&gt;;
+<span class="org-comment-delimiter">/* */</span>
+<span class="org-css-selector">#blog-title </span>{
+    <span class="org-css-property">font-family</span>: <span class="org-string">'Cormorant Garamond'</span>;
+    <span class="org-css-property">font-size</span>: 400%;
+    <span class="org-css-property">font-weight</span>: bolder;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-1">#51c0ae</span>;
 }
 
-<span style="color: #93E0E3;">#tagline </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 16px;
-    <span style="color: #DFAF8F;">letter-spacing</span>: 0.6em;
-    <span style="color: #DFAF8F;">text-shadow</span>: 2px 2px #333;
-    <span style="color: #DFAF8F;">padding-bottom</span>: 1em;
+<span class="org-css-selector">#tagline </span>{
+    <span class="org-css-property">font-size</span>: 20%;
+    <span class="org-css-property">font-weight</span>: lighter;
+    <span class="org-css-property">padding-bottom</span>: 1em;
 }
 
-<span style="color: #93E0E3;">.blog-nav </span>{
-    <span style="color: #DFAF8F;">display</span>: flex;
-    <span style="color: #DFAF8F;">flex-direction</span>: row;
-    <span style="color: #DFAF8F;">justify-content</span>: space-between;
-    <span style="color: #DFAF8F;">align-items</span>: center;
-    <span style="color: #DFAF8F;">border-bottom</span>: 2px solid #999
+<span class="org-css-selector">.blog-nav </span>{
+    <span class="org-css-property">display</span>: flex;
+    <span class="org-css-property">flex-direction</span>: row;
+    <span class="org-css-property">justify-content</span>: space-between;
+    <span class="org-css-property">align-items</span>: center;
+    <span class="org-css-property">border-bottom</span>: 2px solid <span class="ATTRLIST">#999</span>
 }
 
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org9e21f57" class="outline-4">
-<h4 id="org9e21f57">Site links styling</h4>
-<div class="outline-text-4" id="text-org9e21f57">
+<div id="outline-container-org8471cb0" class="outline-4">
+<h4 id="org8471cb0">Site links styling</h4>
+<div class="outline-text-4" id="text-org8471cb0">
 <div class="org-src-container">
-<pre><code class="src src-css"><span style="color: #93E0E3;">#site-links </span>{
+<pre class="src src-css"><span class="org-css-selector">#site-links </span>{
 }
 
-<span style="color: #93E0E3;">#site-links a </span>{
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;accent-text-color&gt;&gt;;
-    <span style="color: #DFAF8F;">font-size</span>: 1em;
-    <span style="color: #DFAF8F;">font-style</span>: italic;
-    <span style="color: #DFAF8F;">text-decoration</span>: none;
-    <span style="color: #DFAF8F;">padding-right</span>: 1em
+<span class="org-css-selector">#site-links a </span>{
+    <span class="org-css-property">color</span>: <span class="ATTRLIST">#51c0ae</span>;
+    <span class="org-css-property">font-size</span>: 100%;
+    <span class="org-css-property">text-decoration</span>: none;
+    <span class="org-css-property">padding-right</span>: 1em
 }
 
-<span style="color: #93E0E3;">#social-media-icons </span>{
+<span class="org-css-selector">#social-media-icons </span>{
 }
 
-<span style="color: #93E0E3;">#github-logo </span>{
-    <span style="color: #DFAF8F;">vertical-align</span>: super
+<span class="org-css-selector">#github-logo </span>{
+    <span class="org-css-property">vertical-align</span>: super
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgece61c0" class="outline-4">
-<h4 id="orgece61c0">Post styling</h4>
-<div class="outline-text-4" id="text-orgece61c0">
+<div id="outline-container-org3afc77f" class="outline-4">
+<h4 id="org3afc77f">Post styling</h4>
+<div class="outline-text-4" id="text-org3afc77f">
 <div class="org-src-container">
-<pre><code class="src src-css"><span style="color: #93E0E3;">.post-title </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 1.25em;
-    <span style="color: #DFAF8F;">font-weight</span>: bold;
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;accent-text-color&gt;&gt;;
-    <span style="color: #DFAF8F;">border-bottom</span>: 2px solid #ddd
+<pre class="src src-css"><span class="org-css-selector">.post-title </span>{
+    <span class="org-css-property">font-size</span>: 150%;
+    <span class="org-css-property">font-weight</span>: bold;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-3">#51c0ae</span>;
+    <span class="org-css-property">border-bottom</span>: 2px solid <span class="ATTRLIST-2">#ddd</span>
 }
 
-<span style="color: #93E0E3;">.post-summary </span>{
-    <span style="color: #DFAF8F;">font-size</span>: small;
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;secondary-text-color&gt;&gt;;
-    <span style="color: #DFAF8F;">padding-top</span>: 0.5em;
-    <span style="color: #DFAF8F;">padding-left</span>: 1em;
+<span class="org-css-selector">.post-summary </span>{
+    <span class="org-css-property">font-size</span>: 100%;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-1">#757575</span>;
+    <span class="org-css-property">padding-top</span>: 0.5em;
+    <span class="org-css-property">padding-left</span>: 1em;
 }
 
-<span style="color: #93E0E3;">.post-tags </span>{
-    <span style="color: #DFAF8F;">font-size</span>: small;
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;secondary-text-color&gt;&gt;;
-    <span style="color: #DFAF8F;">padding-top</span>: 1em;
-    <span style="color: #DFAF8F;">padding-left</span>: 1em;
+<span class="org-css-selector">.post-tags </span>{
+    <span class="org-css-property">font-size</span>: 80%;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-1">#757575</span>;
+    <span class="org-css-property">padding-top</span>: 1em;
+    <span class="org-css-property">padding-left</span>: 1em;
 }
 
-<span style="color: #93E0E3;">.pub-date </span>{ <span style="color: #DFAF8F;">font-weight</span>: bold; <span style="color: #DFAF8F;">color</span>: &lt;&lt;secondary-text-color&gt;&gt;; <span style="color: #DFAF8F;">padding-bottom</span>: 2em; }
-
-<span style="color: #93E0E3;">.post-publish-date </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 0.75em;
-    <span style="color: #DFAF8F;">color</span>: #777;
-    <span style="color: #DFAF8F;">padding-top</span>: 0.5em;
-    <span style="color: #DFAF8F;">padding-left</span>: 1em;
-    <span style="color: #DFAF8F;">padding-bottom</span>: 1em;
+<span class="org-css-selector">.pub-date </span>{ 
+    <span class="org-css-property">font-weight</span>: bold;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-1">#757575</span>;
+    <span class="org-css-property">padding-bottom</span>: 2em;
 }
-</code></pre>
+
+<span class="org-css-selector">.post-publish-date </span>{
+    <span class="org-css-property">font-size</span>: 80%;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST">#777</span>;
+    <span class="org-css-property">padding-top</span>: 0.5em;
+    <span class="org-css-property">padding-left</span>: 1em;
+    <span class="org-css-property">padding-bottom</span>: 1em;
+}
+
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org72fc167" class="outline-4">
-<h4 id="org72fc167">Class definitions</h4>
-<div class="outline-text-4" id="text-org72fc167">
+<div id="outline-container-orgee39795" class="outline-4">
+<h4 id="orgee39795">Org style overrides</h4>
+<div class="outline-text-4" id="text-orgee39795">
+<p>
+Here we override style information for elements generated by org-mode.
+</p>
+
 <div class="org-src-container">
-<pre><code class="src src-css"><span style="color: #93E0E3;">.blog-footer </span>{
-    <span style="color: #DFAF8F;">display</span>: flex;
-    <span style="color: #DFAF8F;">position</span>: fixed;
-    <span style="color: #DFAF8F;">bottom</span>: 0;
-    <span style="color: #DFAF8F;">width</span>: 100%;
-    <span style="color: #DFAF8F;">height</span>: 1em;
-    <span style="color: #DFAF8F;">font-size</span>: 0.5em;
-    <span style="color: #DFAF8F;">font-weight</span>: bold;
-    <span style="color: #DFAF8F;">padding</span>: 5px;
-    <span style="color: #DFAF8F;">flex-direction</span>: row;
-    <span style="color: #DFAF8F;">justify-content</span>: center;
-    <span style="color: #DFAF8F;">border-top</span>: solid 1px #dfe3ee;
-    <span style="color: #DFAF8F;">color</span>: &lt;&lt;accent-text-color&gt;&gt;; <span style="color: #5F7F5F;">/* </span><span style="color: #7F9F7F;">#3b5998, #dfe3ee, #8b9dc3</span><span style="color: #5F7F5F;">*/</span>
-    <span style="color: #DFAF8F;">background-color</span>: &lt;&lt;light-primary-color&gt;&gt;; <span style="color: #5F7F5F;">/*</span><span style="color: #7F9F7F;">#dfe3ee;</span><span style="color: #5F7F5F;">*/</span>
+<pre class="src src-css"><span class="org-css-selector">.org-src-container </span>{
+    <span class="org-css-property">border-left</span>: 0.2em solid <span class="ATTRLIST-1">#999</span>;
 }
-<span style="color: #5F7F5F;">/* </span><span style="color: #7F9F7F;">, #8b9dc3 </span><span style="color: #5F7F5F;">*/</span>
-</code></pre>
-</div>
-</div>
-</div>
 
-<div id="outline-container-orgcc67370" class="outline-4">
-<h4 id="orgcc67370">Tangling Style sheet</h4>
-<div class="outline-text-4" id="text-orgcc67370">
+<span class="org-css-selector">.src </span>{
+      <span class="org-css-property">font-family</span>: <span class="org-string">'Source Code Pro'</span>;
+      <span class="org-css-property">font-size</span>: 110%;
+      <span class="org-css-property">background-color</span>: <span class="ATTRLIST">#f2f2f2</span>;
+      <span class="org-css-property">padding</span>: 1em;
+  }
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org053fc96" class="outline-4">
+<h4 id="org053fc96">Class definitions</h4>
+<div class="outline-text-4" id="text-org053fc96">
 <div class="org-src-container">
-<pre><code class="src src-css"> <span style="color: #93E0E3;">* </span>{ <span style="color: #DFAF8F;">font-family</span>: <span style="color: #CC9393;">"Merriweather"</span>, Georgia, serif; }
-<span style="color: #93E0E3;">html </span>{ <span style="color: #DFAF8F;">clear</span>: both; <span style="color: #DFAF8F;">Height</span>: 100%; <span style="color: #DFAF8F;">width</span>: 100% }
-<span style="color: #93E0E3;">body </span>{ <span style="color: #DFAF8F;">margin</span>: 0; <span style="color: #DFAF8F;">padding</span>: 0; <span style="color: #DFAF8F;">width</span>: 100%; <span style="color: #DFAF8F;">display</span>: flex; <span style="color: #DFAF8F;">flex-direction</span>: column }
-<span style="color: #93E0E3;">body </span>{
-    <span style="color: #DFAF8F;">background-color</span>: #dfe3ee
+<pre class="src src-css"><span class="org-css-selector">.blog-footer </span>{
+    <span class="org-css-property">display</span>: flex;
+    <span class="org-css-property">position</span>: fixed;
+    <span class="org-css-property">bottom</span>: 0;
+    <span class="org-css-property">width</span>: 100%;
+    <span class="org-css-property">height</span>: 1em;
+    <span class="org-css-property">font-size</span>: 50%;
+    <span class="org-css-property">font-weight</span>: bold;
+    <span class="org-css-property">padding</span>: 5px;
+    <span class="org-css-property">flex-direction</span>: row;
+    <span class="org-css-property">justify-content</span>: center;
+    <span class="org-css-property">border-top</span>: solid 1px <span class="ATTRLIST-2">#dfe3ee</span>;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-1">#51c0ae</span>; <span class="org-comment-delimiter">/* </span><span class="org-comment">#3b5998, #dfe3ee, #8b9dc3</span><span class="org-comment-delimiter">*/</span>
+    <span class="org-css-property">background-color</span>: <span class="ATTRLIST">#d3d3d3</span>; <span class="org-comment-delimiter">/*</span><span class="org-comment">#dfe3ee;</span><span class="org-comment-delimiter">*/</span>
+}
+<span class="org-comment-delimiter">/* </span><span class="org-comment">, #8b9dc3 </span><span class="org-comment-delimiter">*/</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd8329a9" class="outline-4">
+<h4 id="orgd8329a9">Tangling Style sheet</h4>
+<div class="outline-text-4" id="text-orgd8329a9">
+<div class="org-src-container">
+<pre class="src src-css"><span class="org-css-selector">.org-src-container </span>{
+    <span class="org-css-property">border-left</span>: 0.2em solid <span class="ATTRLIST-9">#999</span>;
 }
 
-<span style="color: #93E0E3;">a </span>{ <span style="color: #DFAF8F;">color</span>: #FF5722; <span style="color: #DFAF8F;">text-decoration</span>: none}
+<span class="org-css-selector">.src </span>{
+      <span class="org-css-property">font-family</span>: <span class="org-string">'Source Code Pro'</span>;
+      <span class="org-css-property">font-size</span>: 110%;
+      <span class="org-css-property">background-color</span>: <span class="ATTRLIST-8">#f2f2f2</span>;
+      <span class="org-css-property">padding</span>: 1em;
+  }
 
-<span style="color: #DFAF8F;">a</span>:hover {  <span style="color: #DFAF8F;">color</span>: #ff5722; <span style="color: #DFAF8F;">opacity</span>: 0.5; }
-<span style="color: #93E0E3;">h2 </span>{
-    <span style="color: #DFAF8F;">color</span>: #FF5722;
+ <span class="org-css-selector">* </span>{ <span class="org-css-property">font-family</span>: <span class="org-string">"Roboto"</span>; }
+ <span class="org-css-selector">html </span>{
+     <span class="org-css-property">clear</span>: both;
+     <span class="org-css-property">Height</span>: 100%;
+     <span class="org-css-property">width</span>: 100%
+ }
+
+ <span class="org-css-selector">body </span>{
+     <span class="org-css-property">margin</span>: 0; 
+     <span class="org-css-property">padding</span>: 0;
+     <span class="org-css-property">width</span>: 100%;
+     <span class="org-css-property">display</span>: flex;
+     <span class="org-css-property">flex-direction</span>: column;
+     <span class="org-css-property">color</span>: <span class="ATTRLIST-7">#545454</span>;
+     <span class="org-css-property">background-color</span>: <span class="ATTRLIST-6">#fffffd</span>;
+     <span class="org-css-property">line-height</span>: 1.35;
+     <span class="org-css-property">padding</span>: 1em;
+ }
+
+<span class="org-css-selector">a </span>{ <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>; <span class="org-css-property">text-decoration</span>: none}
+<span class="org-css-selector">a:visited </span>{ <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>; <span class="org-css-property">text-decoration</span>: none}
+
+<span class="org-css-selector">a:hover </span>{  <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>; <span class="org-css-property">opacity</span>: 0.5; }
+<span class="org-css-selector">h2 </span>{
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>;
 }
 
-<span style="color: #93E0E3;">#blog-title </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 3em;
-    <span style="color: #DFAF8F;">font-weight</span>: bolder;
-    <span style="color: #DFAF8F;">color</span>: #FF5722;
+<span class="org-comment-delimiter">/* */</span>
+<span class="org-css-selector">#blog-title </span>{
+    <span class="org-css-property">font-family</span>: <span class="org-string">'Cormorant Garamond'</span>;
+    <span class="org-css-property">font-size</span>: 400%;
+    <span class="org-css-property">font-weight</span>: bolder;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>;
 }
 
-<span style="color: #93E0E3;">#tagline </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 16px;
-    <span style="color: #DFAF8F;">letter-spacing</span>: 0.6em;
-    <span style="color: #DFAF8F;">text-shadow</span>: 2px 2px #333;
-    <span style="color: #DFAF8F;">padding-bottom</span>: 1em;
+<span class="org-css-selector">#tagline </span>{
+    <span class="org-css-property">font-size</span>: 20%;
+    <span class="org-css-property">font-weight</span>: lighter;
+    <span class="org-css-property">padding-bottom</span>: 1em;
 }
 
-<span style="color: #93E0E3;">.blog-nav </span>{
-    <span style="color: #DFAF8F;">display</span>: flex;
-    <span style="color: #DFAF8F;">flex-direction</span>: row;
-    <span style="color: #DFAF8F;">justify-content</span>: space-between;
-    <span style="color: #DFAF8F;">align-items</span>: center;
-    <span style="color: #DFAF8F;">border-bottom</span>: 2px solid #999
+<span class="org-css-selector">.blog-nav </span>{
+    <span class="org-css-property">display</span>: flex;
+    <span class="org-css-property">flex-direction</span>: row;
+    <span class="org-css-property">justify-content</span>: space-between;
+    <span class="org-css-property">align-items</span>: center;
+    <span class="org-css-property">border-bottom</span>: 2px solid <span class="ATTRLIST-9">#999</span>
 }
 
 
-<span style="color: #93E0E3;">.post-title </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 1.25em;
-    <span style="color: #DFAF8F;">font-weight</span>: bold;
-    <span style="color: #DFAF8F;">color</span>: #FF5722;
-    <span style="color: #DFAF8F;">border-bottom</span>: 2px solid #ddd
+<span class="org-css-selector">.post-title </span>{
+    <span class="org-css-property">font-size</span>: 150%;
+    <span class="org-css-property">font-weight</span>: bold;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>;
+    <span class="org-css-property">border-bottom</span>: 2px solid <span class="ATTRLIST-4">#ddd</span>
 }
 
-<span style="color: #93E0E3;">.post-summary </span>{
-    <span style="color: #DFAF8F;">font-size</span>: small;
-    <span style="color: #DFAF8F;">color</span>: #757575;
-    <span style="color: #DFAF8F;">padding-top</span>: 0.5em;
-    <span style="color: #DFAF8F;">padding-left</span>: 1em;
+<span class="org-css-selector">.post-summary </span>{
+    <span class="org-css-property">font-size</span>: 100%;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-3">#757575</span>;
+    <span class="org-css-property">padding-top</span>: 0.5em;
+    <span class="org-css-property">padding-left</span>: 1em;
 }
 
-<span style="color: #93E0E3;">.post-tags </span>{
-    <span style="color: #DFAF8F;">font-size</span>: small;
-    <span style="color: #DFAF8F;">color</span>: #757575;
-    <span style="color: #DFAF8F;">padding-top</span>: 1em;
-    <span style="color: #DFAF8F;">padding-left</span>: 1em;
+<span class="org-css-selector">.post-tags </span>{
+    <span class="org-css-property">font-size</span>: 80%;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-3">#757575</span>;
+    <span class="org-css-property">padding-top</span>: 1em;
+    <span class="org-css-property">padding-left</span>: 1em;
 }
 
-<span style="color: #93E0E3;">.pub-date </span>{ <span style="color: #DFAF8F;">font-weight</span>: bold; <span style="color: #DFAF8F;">color</span>: #757575; <span style="color: #DFAF8F;">padding-bottom</span>: 2em; }
-
-<span style="color: #93E0E3;">.post-publish-date </span>{
-    <span style="color: #DFAF8F;">font-size</span>: 0.75em;
-    <span style="color: #DFAF8F;">color</span>: #777;
-    <span style="color: #DFAF8F;">padding-top</span>: 0.5em;
-    <span style="color: #DFAF8F;">padding-left</span>: 1em;
-    <span style="color: #DFAF8F;">padding-bottom</span>: 1em;
-}
-<span style="color: #93E0E3;">.blog-footer </span>{
-    <span style="color: #DFAF8F;">display</span>: flex;
-    <span style="color: #DFAF8F;">position</span>: fixed;
-    <span style="color: #DFAF8F;">bottom</span>: 0;
-    <span style="color: #DFAF8F;">width</span>: 100%;
-    <span style="color: #DFAF8F;">height</span>: 1em;
-    <span style="color: #DFAF8F;">font-size</span>: 0.5em;
-    <span style="color: #DFAF8F;">font-weight</span>: bold;
-    <span style="color: #DFAF8F;">padding</span>: 5px;
-    <span style="color: #DFAF8F;">flex-direction</span>: row;
-    <span style="color: #DFAF8F;">justify-content</span>: center;
-    <span style="color: #DFAF8F;">border-top</span>: solid 1px #dfe3ee;
-    <span style="color: #DFAF8F;">color</span>: #FF5722; <span style="color: #5F7F5F;">/* </span><span style="color: #7F9F7F;">#3b5998, #dfe3ee, #8b9dc3</span><span style="color: #5F7F5F;">*/</span>
-    <span style="color: #DFAF8F;">background-color</span>: #d3d3d3; <span style="color: #5F7F5F;">/*</span><span style="color: #7F9F7F;">#dfe3ee;</span><span style="color: #5F7F5F;">*/</span>
-}
-<span style="color: #5F7F5F;">/* </span><span style="color: #7F9F7F;">, #8b9dc3 </span><span style="color: #5F7F5F;">*/</span>
-<span style="color: #93E0E3;">#site-links </span>{
+<span class="org-css-selector">.pub-date </span>{ 
+    <span class="org-css-property">font-weight</span>: bold;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-3">#757575</span>;
+    <span class="org-css-property">padding-bottom</span>: 2em;
 }
 
-<span style="color: #93E0E3;">#site-links a </span>{
-    <span style="color: #DFAF8F;">color</span>: #FF5722;
-    <span style="color: #DFAF8F;">font-size</span>: 1em;
-    <span style="color: #DFAF8F;">font-style</span>: italic;
-    <span style="color: #DFAF8F;">text-decoration</span>: none;
-    <span style="color: #DFAF8F;">padding-right</span>: 1em
+<span class="org-css-selector">.post-publish-date </span>{
+    <span class="org-css-property">font-size</span>: 80%;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-2">#777</span>;
+    <span class="org-css-property">padding-top</span>: 0.5em;
+    <span class="org-css-property">padding-left</span>: 1em;
+    <span class="org-css-property">padding-bottom</span>: 1em;
 }
 
-<span style="color: #93E0E3;">#social-media-icons </span>{
+<span class="org-css-selector">.blog-footer </span>{
+    <span class="org-css-property">display</span>: flex;
+    <span class="org-css-property">position</span>: fixed;
+    <span class="org-css-property">bottom</span>: 0;
+    <span class="org-css-property">width</span>: 100%;
+    <span class="org-css-property">height</span>: 1em;
+    <span class="org-css-property">font-size</span>: 50%;
+    <span class="org-css-property">font-weight</span>: bold;
+    <span class="org-css-property">padding</span>: 5px;
+    <span class="org-css-property">flex-direction</span>: row;
+    <span class="org-css-property">justify-content</span>: center;
+    <span class="org-css-property">border-top</span>: solid 1px <span class="ATTRLIST-1">#dfe3ee</span>;
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>; <span class="org-comment-delimiter">/* </span><span class="org-comment">#3b5998, #dfe3ee, #8b9dc3</span><span class="org-comment-delimiter">*/</span>
+    <span class="org-css-property">background-color</span>: <span class="ATTRLIST">#d3d3d3</span>; <span class="org-comment-delimiter">/*</span><span class="org-comment">#dfe3ee;</span><span class="org-comment-delimiter">*/</span>
+}
+<span class="org-comment-delimiter">/* </span><span class="org-comment">, #8b9dc3 </span><span class="org-comment-delimiter">*/</span>
+<span class="org-css-selector">#site-links </span>{
 }
 
-<span style="color: #93E0E3;">#github-logo </span>{
-    <span style="color: #DFAF8F;">vertical-align</span>: super
+<span class="org-css-selector">#site-links a </span>{
+    <span class="org-css-property">color</span>: <span class="ATTRLIST-5">#51c0ae</span>;
+    <span class="org-css-property">font-size</span>: 100%;
+    <span class="org-css-property">text-decoration</span>: none;
+    <span class="org-css-property">padding-right</span>: 1em
 }
-</code></pre>
+
+<span class="org-css-selector">#social-media-icons </span>{
+}
+
+<span class="org-css-selector">#github-logo </span>{
+    <span class="org-css-property">vertical-align</span>: super
+}
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org7c8e3fa" class="outline-3">
-<h3 id="org7c8e3fa">Org-file analyzer</h3>
-<div class="outline-text-3" id="text-org7c8e3fa">
+<div id="outline-container-orgdadc65f" class="outline-3">
+<h3 id="orgdadc65f">Org-file analyzer</h3>
+<div class="outline-text-3" id="text-orgdadc65f">
 </div>
-<div id="outline-container-orgf56b26f" class="outline-4">
-<h4 id="orgf56b26f">Return keywords from org-file</h4>
-<div class="outline-text-4" id="text-orgf56b26f">
+<div id="outline-container-org8492110" class="outline-4">
+<h4 id="org8492110">Return keywords from org-file</h4>
+<div class="outline-text-4" id="text-org8492110">
 <p>
 Returns list of OrgMode keywords from the current document.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-get-all-keywords</span>()
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-get-all-keywords</span>()
   (org-element-map
       (org-element-parse-buffer 'element)
       'keyword
-    (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (kw)
-      (cons (org-element-property <span style="color: #DCDCCC; font-weight: bold;">:key</span> kw)
-            (org-element-property <span style="color: #DCDCCC; font-weight: bold;">:value</span> kw)))))
-</code></pre>
+    (<span class="org-keyword">lambda</span> (kw)
+      (cons (org-element-property <span class="org-builtin">:key</span> kw)
+            (org-element-property <span class="org-builtin">:value</span> kw)))))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd764c40" class="outline-4">
-<h4 id="orgd764c40">Get keyword</h4>
-<div class="outline-text-4" id="text-orgd764c40">
+<div id="outline-container-orgc19f79e" class="outline-4">
+<h4 id="orgc19f79e">Get keyword</h4>
+<div class="outline-text-4" id="text-orgc19f79e">
 <p>
 Returns value of <code>key</code> or <code>default-value</code> if <code>key</code> doesn't exist in <code>keywords</code>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-get-keyword-value</span>(keywords key <span style="color: #7CB8BB;">&amp;optional</span> default-value)
-  (<span style="color: #F0DFAF; font-weight: bold;">if-let</span> ((kw-value (cdr (assoc-ignore-case key keywords))))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-get-keyword-value</span>(keywords key <span class="org-type">&amp;optional</span> default-value)
+  (<span class="org-keyword">if-let</span> ((kw-value (cdr (assoc-ignore-case key keywords))))
       kw-value
     default-value))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5feab5c" class="outline-3">
-<h3 id="org5feab5c">Blog publishing</h3>
-<div class="outline-text-3" id="text-org5feab5c">
+<div id="outline-container-orgb027ea0" class="outline-3">
+<h3 id="orgb027ea0">Blog publishing</h3>
+<div class="outline-text-3" id="text-orgb027ea0">
+<p>
+To make any changes to blog generation, this file should be
+tangled. Tangling this file generates <code>~/.emacs.d/lisp/blog-gen.el</code>
+and <code>blog-style.css</code>. <code>blog-gen-publish</code> bound to <code>C-c C-g</code>, processes
+all org files and generates HTML suitable for publishing as a static
+web site on a local server. With a prefix argument, the generated HTML
+will have s different <code>base url</code> suotable for publishing to <code>github.io</code>.
+</p>
+
+<p>
+A local server for serving HTML can be run by <code>python -m http.server
+8000</code> command.
+</p>
 </div>
-<div id="outline-container-orgde2a8c7" class="outline-4">
-<h4 id="orgde2a8c7">Blog source directory</h4>
-<div class="outline-text-4" id="text-orgde2a8c7">
+
+<div id="outline-container-org22ced0e" class="outline-4">
+<h4 id="org22ced0e">Blog source directory</h4>
+<div class="outline-text-4" id="text-org22ced0e">
 <p>
 The root directory where the source for blogs is kept.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-root-dir</span>
-  <span style="color: #CC9393;">"~/stuff/github/MonadicT.github.io/"</span>
-  <span style="color: #9FC59F;">""</span>)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-root-dir</span>
+  <span class="org-string">"~/projects/MonadicT.github.io/"</span>
+  <span class="org-doc">""</span>)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgc598067" class="outline-4">
-<h4 id="orgc598067">Blog posts directory</h4>
-<div class="outline-text-4" id="text-orgc598067">
+<div id="outline-container-org7d41bbf" class="outline-4">
+<h4 id="org7d41bbf">Blog posts directory</h4>
+<div class="outline-text-4" id="text-org7d41bbf">
 <p>
 The subdirectory where <code>.org</code> files are stored.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-posts-dir</span>
-  <span style="color: #CC9393;">"_resources/posts"</span>
-  <span style="color: #9FC59F;">""</span>)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-posts-dir</span>
+  <span class="org-string">"_resources/posts/"</span>
+  <span class="org-doc">""</span>)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org837c13f" class="outline-4">
-<h4 id="org837c13f">Publishing locally</h4>
-<div class="outline-text-4" id="text-org837c13f">
+<div id="outline-container-org8c8e2ee" class="outline-4">
+<h4 id="org8c8e2ee">Publishing locally</h4>
+<div class="outline-text-4" id="text-org8c8e2ee">
 <p>
 This is a Boolean flag set to use <code>base</code> url for generated html files.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">setq</span> blog-gen-local t)
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">setq</span> blog-gen-local t)
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-base-url</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">if</span> blog-gen-local <span style="color: #CC9393;">"http://localhost:8000/"</span> <span style="color: #CC9393;">"https://MonadicT.github.io/"</span>))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-base-url</span>()
+  (<span class="org-keyword">if</span> blog-gen-local <span class="org-string">"http://localhost:8000/"</span> <span class="org-string">"https://MonadicT.github.io/"</span>))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org4cf60ba" class="outline-4">
-<h4 id="org4cf60ba">Extract post details</h4>
-<div class="outline-text-4" id="text-org4cf60ba">
+<div id="outline-container-org0a40bfd" class="outline-4">
+<h4 id="org0a40bfd">Extract post details</h4>
+<div class="outline-text-4" id="text-org0a40bfd">
 <p>
 Extracts post title, summary and <code>publish-date</code> from the file. Nil is
 returned if <code>publish-date</code> is not present.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-post-details</span> (f)
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-post-details</span> (f)
+  (<span class="org-keyword">with-temp-buffer</span>
     (find-file f)
-    (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((kws (blog-gen-get-all-keywords))
-           (details (make-hash-table  <span style="color: #DCDCCC; font-weight: bold;">:test</span> #'equal))
-           (export-file-name (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"export_file_name"</span> nil))
-           (href (<span style="color: #F0DFAF; font-weight: bold;">or</span> export-file-name <span style="color: #CC9393;">""</span>)))
-      (<span style="color: #F0DFAF; font-weight: bold;">while</span> (string-match <span style="color: #CC9393;">"^\\.\\./"</span> href)
-        (<span style="color: #F0DFAF; font-weight: bold;">setq</span> href (substring href 3)))
-      (puthash <span style="color: #CC9393;">"post-file"</span> f details)
-      (puthash <span style="color: #CC9393;">"title"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"title"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"summary"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"summary"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"publish-date"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"publish-date"</span> nil) details)
-      (puthash <span style="color: #CC9393;">"export_file_name"</span> export-file-name details)
-      (puthash <span style="color: #CC9393;">"tags"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"tags"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"target"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"target"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"href"</span> (concat (blog-gen-base-url) href) details)
-      (<span style="color: #F0DFAF; font-weight: bold;">unless</span> (string-match <span style="color: #CC9393;">"blog-generator.org"</span> f) (kill-buffer))
+    (<span class="org-keyword">let*</span> ((kws (blog-gen-get-all-keywords))
+           (details (make-hash-table  <span class="org-builtin">:test</span> #'equal))
+           (export-file-name (blog-gen-get-keyword-value kws <span class="org-string">"export_file_name"</span> nil))
+           (href (<span class="org-keyword">or</span> export-file-name <span class="org-string">""</span>)))
+      (<span class="org-keyword">while</span> (string-match <span class="org-string">"^\\.\\./"</span> href)
+        (<span class="org-keyword">setq</span> href (substring href 3)))
+      (puthash <span class="org-string">"post-file"</span> f details)
+      (puthash <span class="org-string">"title"</span> (blog-gen-get-keyword-value kws <span class="org-string">"title"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"summary"</span> (blog-gen-get-keyword-value kws <span class="org-string">"summary"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"publish-date"</span> (blog-gen-get-keyword-value kws <span class="org-string">"publish-date"</span> nil) details)
+      (puthash <span class="org-string">"export_file_name"</span> export-file-name details)
+      (puthash <span class="org-string">"tags"</span> (blog-gen-get-keyword-value kws <span class="org-string">"tags"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"target"</span> (blog-gen-get-keyword-value kws <span class="org-string">"target"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"href"</span> (concat (blog-gen-base-url) href) details)
+      (<span class="org-keyword">unless</span> (string-match <span class="org-string">"blog-generator.org"</span> f) (kill-buffer))
       details)))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3f63252" class="outline-4">
-<h4 id="org3f63252">Post files</h4>
-<div class="outline-text-4" id="text-org3f63252">
+<div id="outline-container-orgd479514" class="outline-4">
+<h4 id="orgd479514">Post files</h4>
+<div class="outline-text-4" id="text-orgd479514">
 <p>
 Returns list of posts stored in <code>.org</code> files. <code>.org</code> files such as
 <code>index.org</code>, <code>about.org</code> are not returned as posts.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-post-files</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((posts-dir (concat blog-gen-root-dir <span style="color: #CC9393;">"/"</span> blog-gen-posts-dir))
-         (org-files (directory-files posts-dir t <span style="color: #CC9393;">"[a-ZA-Z0-9_-]*\\.org$"</span>))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-post-files</span>()
+  (<span class="org-keyword">let*</span> ((posts-dir (concat blog-gen-root-dir <span class="org-string">"/"</span> blog-gen-posts-dir))
+         (org-files (directory-files posts-dir t <span class="org-string">"[a-ZA-Z0-9_-]*\\.org$"</span>))
          (org-files
           (seq-remove
-           (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (f)
-             (<span style="color: #F0DFAF; font-weight: bold;">or</span> (string-match <span style="color: #CC9393;">"index.org$"</span> f)
-                 (string-match <span style="color: #CC9393;">"about.org$"</span> f)
-                 (string-match <span style="color: #CC9393;">"sitemap.org$"</span> f)))
+           (<span class="org-keyword">lambda</span> (f)
+             (<span class="org-keyword">or</span> (string-match <span class="org-string">"index.org$"</span> f)
+                 (string-match <span class="org-string">"about.org$"</span> f)
+                 (string-match <span class="org-string">"sitemap.org$"</span> f)))
            org-files)))
     (mapcar
      #'blog-gen-post-details
      org-files)))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orge597d47" class="outline-4">
-<h4 id="orge597d47">Published post files</h4>
-<div class="outline-text-4" id="text-orge597d47">
+<div id="outline-container-orgaabd63f" class="outline-4">
+<h4 id="orgaabd63f">Published post files</h4>
+<div class="outline-text-4" id="text-orgaabd63f">
 <p>
 Returns published posts (posts which have <code>export_file_name</code> keyword).
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-published-posts</span> (posts)
-  (seq-filter (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (p) (gethash <span style="color: #CC9393;">"export_file_name"</span> p)) posts))
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-published-posts</span> (posts)
+  (seq-filter (<span class="org-keyword">lambda</span> (p) (gethash <span class="org-string">"export_file_name"</span> p)) posts))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb31e853" class="outline-4">
-<h4 id="orgb31e853">Order post files</h4>
-<div class="outline-text-4" id="text-orgb31e853">
+<div id="outline-container-orgb6515c6" class="outline-4">
+<h4 id="orgb6515c6">Order post files</h4>
+<div class="outline-text-4" id="text-orgb6515c6">
 <p>
 Orders posts by <code>publish-date</code> descending.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-order-posts</span>(posts)
-  (seq-sort (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a b) (string&gt; (gethash <span style="color: #CC9393;">"publish-date"</span> a) (gethash <span style="color: #CC9393;">"publish-date"</span> b))) posts))
-</code></pre>
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-order-posts</span>(posts)
+  (seq-sort (<span class="org-keyword">lambda</span> (a b) (string&gt; (gethash <span class="org-string">"publish-date"</span> a) (gethash <span class="org-string">"publish-date"</span> b))) posts))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org787917f" class="outline-4">
-<h4 id="org787917f">Macro to generate <code>html_export</code> blocks</h4>
-<div class="outline-text-4" id="text-org787917f">
+<div id="outline-container-org4143da8" class="outline-4">
+<h4 id="org4143da8">Macro to generate <code>html_export</code> blocks</h4>
+<div class="outline-text-4" id="text-org4143da8">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">html-export</span>(<span style="color: #7CB8BB;">&amp;rest</span> content)
-  `(<span style="color: #F0DFAF; font-weight: bold;">progn</span> (insert <span style="color: #CC9393;">"#+BEGIN_EXPORT html\n"</span>)
+<pre class="src src-elisp">(<span class="org-keyword">defmacro</span> <span class="org-function-name">html-export</span>(<span class="org-type">&amp;rest</span> content)
+  `(<span class="org-keyword">progn</span> (insert <span class="org-string">"#+BEGIN_EXPORT html\n"</span>)
           (insert ,@content)
-          (insert <span style="color: #CC9393;">"\n#+END_EXPORT\n\n"</span>)))
-</code></pre>
+          (insert <span class="org-string">"\n#+END_EXPORT\n\n"</span>)))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org26dcba2" class="outline-4">
-<h4 id="org26dcba2">Articles generation</h4>
-<div class="outline-text-4" id="text-org26dcba2">
+<div id="outline-container-org035ed69" class="outline-4">
+<h4 id="org035ed69">Articles generation</h4>
+<div class="outline-text-4" id="text-org035ed69">
 <p>
 Exports all <code>.org</code> post files to <code>.html</code> files.
 </p>
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-posts</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((posts (blog-gen-published-posts
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-posts</span>()
+  (<span class="org-keyword">let</span> ((posts (blog-gen-published-posts
                 (blog-gen-post-files))))
     (mapcar
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (post)
-       (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((post-file (gethash <span style="color: #CC9393;">"post-file"</span> post))
-             (export-file-name (gethash <span style="color: #CC9393;">"export_file_name"</span> post)))
-         (message (concat <span style="color: #CC9393;">"exporting"</span> post-file <span style="color: #CC9393;">"to"</span> export-file-name))
-         (<span style="color: #F0DFAF; font-weight: bold;">when</span> export-file-name
-           (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
+     (<span class="org-keyword">lambda</span> (post)
+       (<span class="org-keyword">let</span> ((post-file (gethash <span class="org-string">"post-file"</span> post))
+             (export-file-name (gethash <span class="org-string">"export_file_name"</span> post)))
+         (message (concat <span class="org-string">"exporting"</span> post-file <span class="org-string">"to"</span> export-file-name))
+         (<span class="org-keyword">when</span> export-file-name
+           (<span class="org-keyword">with-temp-buffer</span>
              (find-file post-file)
              (org-export-to-file 'blog export-file-name)
              (kill-buffer)))))
      posts)))
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org6133222" class="outline-4">
-<h4 id="org6133222">Articles page generation</h4>
-<div class="outline-text-4" id="text-org6133222">
+<div id="outline-container-org78b5d14" class="outline-4">
+<h4 id="org78b5d14">Articles page generation</h4>
+<div class="outline-text-4" id="text-org78b5d14">
 <p>
 Generates list of articles.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-articles</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
-    (find-file <span style="color: #CC9393;">"index.org"</span>)
-    (erase-buffer)
-    (insert <span style="color: #CC9393;">"#+title: MonadictT\n"</span>)
-    (insert <span style="color: #CC9393;">"#+options: num:nil html-style:nil\n"</span>)
-    (insert <span style="color: #CC9393;">"* Posts\n"</span>)
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((posts (blog-gen-order-posts
-                  (blog-gen-published-posts
-                   (blog-gen-post-files)))))
-      (mapcar
-       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (post)
-         (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((title (gethash <span style="color: #CC9393;">"title"</span> post))
-                (summary (gethash <span style="color: #CC9393;">"summary"</span>  post))
-                (export-file-name (gethash <span style="color: #CC9393;">"export_file_name"</span>  post))
-                (export-file-name
-                 (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((href export-file-name))
-                   (<span style="color: #F0DFAF; font-weight: bold;">while</span> (string-match <span style="color: #CC9393;">"^\\.\\./"</span> href)
-                     (<span style="color: #F0DFAF; font-weight: bold;">setq</span> href (substring href 3)))
-                   href))
-                (publish-date (gethash <span style="color: #CC9393;">"publish-date"</span> post))
-                (l (list (make-symbol (format <span style="color: #CC9393;">"a@href=\"/%s\""</span> export-file-name)) title)))
-           (<span style="color: #F0DFAF; font-weight: bold;">html-export</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
-             (div.post-title
-              (eval (yatl-compile-fn l)))))
-           (<span style="color: #F0DFAF; font-weight: bold;">html-export</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
-             (div.post-summary summary)) <span style="color: #CC9393;">"\n\n"</span>)
-           (<span style="color: #F0DFAF; font-weight: bold;">html-export</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
-             (div.post-publish-date <span style="color: #CC9393;">"Published: "</span> publish-date)) <span style="color: #CC9393;">"\n"</span>)))
-       posts))
-    (save-buffer)
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((out-file (concat blog-gen-root-dir <span style="color: #CC9393;">"articles.html"</span>)))
-      (<span style="color: #F0DFAF; font-weight: bold;">when</span> (file-exists-p out-file)
-        (delete-file out-file))
-      (org-export-to-file 'blog out-file))
-    (delete-file <span style="color: #CC9393;">"index.org"</span>)))
-</code></pre>
+<pre class="src src-elisp">  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-articles</span>()
+    (<span class="org-keyword">with-temp-buffer</span>
+      (find-file (concat blog-gen-root-dir <span class="org-string">"index.org"</span>))
+      (erase-buffer)
+      (insert <span class="org-string">"#+title: MonadictT\n"</span>)
+      (insert <span class="org-string">"#+options: num:nil html-style:nil\n"</span>)
+      (insert <span class="org-string">"#+HTML_HEAD: &lt;link href=\"https://fonts.googleapis.com/css?family=Cormorant+Garamond|Roboto\" rel=\"stylesheet\"&gt;\n"</span>)
+      (insert <span class="org-string">"#+HTML_HEAD_EXTRA: &lt;style&gt;* {font-family: 'Roboto';}&lt;/style&gt;\n"</span>)
+      (insert <span class="org-string">"#+HTML_HEAD_EXTRA: &lt;style&gt;pre {font-family: 'Segoe Print';}&lt;/style&gt;\n"</span>)
+
+      (insert <span class="org-string">"* Posts\n"</span>)
+      (<span class="org-keyword">let</span> ((posts (blog-gen-order-posts
+                    (blog-gen-published-posts
+                     (blog-gen-post-files)))))
+        (mapcar
+         (<span class="org-keyword">lambda</span> (post)
+           (<span class="org-keyword">let*</span> ((title (gethash <span class="org-string">"title"</span> post))
+                  (summary (gethash <span class="org-string">"summary"</span>  post))
+                  (export-file-name (gethash <span class="org-string">"export_file_name"</span>  post))
+                  (export-file-name
+                   (<span class="org-keyword">let</span> ((href export-file-name))
+                     (<span class="org-keyword">while</span> (string-match <span class="org-string">"^\\.\\./"</span> href)
+                       (<span class="org-keyword">setq</span> href (substring href 3)))
+                     href))
+                  (publish-date (gethash <span class="org-string">"publish-date"</span> post))
+                  (l (list (make-symbol (format <span class="org-string">"a@href=\"/%s\""</span> export-file-name)) title)))
+             (<span class="org-keyword">html-export</span>
+              (<span class="org-keyword">yatl-html-frag</span>
+               (div.post-title
+                (eval (yatl-compile-fn l)))))
+             (<span class="org-keyword">html-export</span>
+              (<span class="org-keyword">yatl-html-frag</span>
+               (div.post-summary summary)) <span class="org-string">"\n\n"</span>)
+             (<span class="org-keyword">html-export</span>
+              (<span class="org-keyword">yatl-html-frag</span>
+               (div.post-publish-date <span class="org-string">"Published: "</span> publish-date)) <span class="org-string">"\n"</span>)))
+         posts))
+      (save-buffer)
+      (<span class="org-keyword">let</span> ((out-file (concat blog-gen-root-dir <span class="org-string">"articles.html"</span>)))
+        (<span class="org-keyword">when</span> (file-exists-p out-file)
+          (delete-file out-file))
+        (org-export-to-file 'blog out-file))
+      (delete-file (concat blog-gen-root-dir <span class="org-string">"index.org"</span>))))
+<span class="org-comment-delimiter">;;</span><span class="org-comment">(blog-gen-create-articles)</span>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgf968473" class="outline-4">
-<h4 id="orgf968473">Tags generation</h4>
-<div class="outline-text-4" id="text-orgf968473">
+<div id="outline-container-orgd373dd2" class="outline-4">
+<h4 id="orgd373dd2">Tags generation</h4>
+<div class="outline-text-4" id="text-orgd373dd2">
 <p>
 Posts have a <code>#+tags</code> header and tags are separated by <code>,</code>. This
 function builds a hashtable of tags to a list posts from <code>posts</code>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">create-tag-post-map</span>(posts)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((tag-post-map (make-hash-table <span style="color: #DCDCCC; font-weight: bold;">:test</span> 'equal)))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">create-tag-post-map</span>(posts)
+  (<span class="org-keyword">let</span> ((tag-post-map (make-hash-table <span class="org-builtin">:test</span> 'equal)))
     (mapcar
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span>(post)
-       (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((title (gethash <span style="color: #CC9393;">"title"</span> post))
-             (tags (mapcar #'s-trim (split-string (gethash <span style="color: #CC9393;">"tags"</span> post) <span style="color: #CC9393;">"[,]+"</span>))))
+     (<span class="org-keyword">lambda</span>(post)
+       (<span class="org-keyword">let</span> ((title (gethash <span class="org-string">"title"</span> post))
+             (tags (mapcar #'s-trim (split-string (gethash <span class="org-string">"tags"</span> post) <span class="org-string">"[,]+"</span>))))
          (mapcar
-          (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (tag)
-            (<span style="color: #F0DFAF; font-weight: bold;">when</span> (not (string-empty-p tag))
+          (<span class="org-keyword">lambda</span> (tag)
+            (<span class="org-keyword">when</span> (not (string-empty-p tag))
               (puthash tag (cons post (gethash tag tag-post-map '())) tag-post-map)))
           tags)))
      posts)
     tag-post-map))
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -1238,13 +1357,13 @@ tags in ascending order.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">sorted-keys</span>(tag-post-map)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((keys '()))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">sorted-keys</span>(tag-post-map)
+  (<span class="org-keyword">let</span> ((keys '()))
     (maphash
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (k v) (<span style="color: #F0DFAF; font-weight: bold;">setq</span> keys (cons k keys)))
+     (<span class="org-keyword">lambda</span> (k v) (<span class="org-keyword">setq</span> keys (cons k keys)))
      tag-post-map)
-    (seq-sort (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a b) (string-lessp (upcase a) (upcase b))) keys)))
-</code></pre>
+    (seq-sort (<span class="org-keyword">lambda</span> (a b) (string-lessp (upcase a) (upcase b))) keys)))
+</pre>
 </div>
 
 <p>
@@ -1254,127 +1373,139 @@ bullet list of anchors to posts.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-tags</span>(posts)
-  (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((tag-post-map (create-tag-post-map posts))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-tags</span>(posts)
+  (<span class="org-keyword">let*</span> ((tag-post-map (create-tag-post-map posts))
          (tags  (sorted-keys tag-post-map)))
-    (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
-      (find-file <span style="color: #CC9393;">"tags.org"</span>)
+    (<span class="org-keyword">with-temp-buffer</span>
+      (find-file <span class="org-string">"tags.org"</span>)
       (erase-buffer)
-      (insert <span style="color: #CC9393;">"#+title: Tags\n"</span>)
-      (insert <span style="color: #CC9393;">"#+options: num:nil\n"</span>)
-      (insert <span style="color: #CC9393;">"* Tags\n"</span>)
+      (insert <span class="org-string">"#+title: Tags\n"</span>)
+      (insert <span class="org-string">"#+options: num:nil\n"</span>)
+      (insert <span class="org-string">"* Tags\n"</span>)
       (mapcar
-       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (tag)
-         (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((post-list (gethash tag tag-post-map)))
-           (insert <span style="color: #CC9393;">"** "</span> tag <span style="color: #CC9393;">"\n"</span>)
+       (<span class="org-keyword">lambda</span> (tag)
+         (<span class="org-keyword">let</span> ((post-list (gethash tag tag-post-map)))
+           (insert <span class="org-string">"** "</span> tag <span class="org-string">"\n"</span>)
            (mapcar
-            (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (post)
+            (<span class="org-keyword">lambda</span> (post)
               (princ post)
-              (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((title (gethash <span style="color: #CC9393;">"title"</span> post))
-                    (href  (gethash <span style="color: #CC9393;">"href"</span> post)))
-                (insert <span style="color: #CC9393;">"- [["</span> href <span style="color: #CC9393;">"]["</span> title <span style="color: #CC9393;">"]]\n"</span>)))
+              (<span class="org-keyword">let</span> ((title (gethash <span class="org-string">"title"</span> post))
+                    (href  (gethash <span class="org-string">"href"</span> post)))
+                (insert <span class="org-string">"- [["</span> href <span class="org-string">"]["</span> title <span class="org-string">"]]\n"</span>)))
             post-list)))
        tags)
-      (write-file <span style="color: #CC9393;">"tags.org"</span>)
-      (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((out-file (concat blog-gen-root-dir <span style="color: #CC9393;">"tags.html"</span>)))
-      (message out-file)
+      (write-file <span class="org-string">"tags.org"</span>)
+      (<span class="org-keyword">let</span> ((out-file (concat blog-gen-root-dir <span class="org-string">"tags.html"</span>)))
         (org-export-to-file 'blog out-file))
       (kill-buffer))))
 
 
-<span style="color: #5F7F5F;">;;  </span><span style="color: #7F9F7F;">(setq x (blog-gen-post-files))</span>
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(setq x (blog-gen-post-files))</span>
 
-<span style="color: #5F7F5F;">;;  </span><span style="color: #7F9F7F;">(blog-gen-create-tags x)</span>
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(blog-gen-create-tags x)</span>
 
-<span style="color: #5F7F5F;">;;  </span><span style="color: #7F9F7F;">(require 'blog-gen)</span>
-</code></pre>
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(require 'blog-gen)</span>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org28dfb32" class="outline-4">
-<h4 id="org28dfb32">About page generation.</h4>
-<div class="outline-text-4" id="text-org28dfb32">
+<div id="outline-container-org807c120" class="outline-4">
+<h4 id="org807c120">About page generation.</h4>
+<div class="outline-text-4" id="text-org807c120">
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-about</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
-    (find-file <span style="color: #CC9393;">"about.org"</span>)
-    (org-export-to-file 'blog (concat blog-gen-root-dir <span style="color: #CC9393;">"about.html"</span>))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-about</span>()
+  (<span class="org-keyword">with-temp-buffer</span>
+    (find-file (concat
+                blog-gen-root-dir
+                blog-gen-posts-dir
+                <span class="org-string">"about.org"</span>))
+    (next-line) <span class="org-comment-delimiter">;; </span><span class="org-comment">When on line 1, org export throws a weird error</span>
+    (org-export-to-file 'blog (concat blog-gen-root-dir <span class="org-string">"about.html"</span>) nil )
     (kill-buffer)))
-</code></pre>
+
+(blog-gen-create-about)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgda4f1b6" class="outline-4">
-<h4 id="orgda4f1b6">Home page generation</h4>
-<div class="outline-text-4" id="text-orgda4f1b6">
+<div id="outline-container-orgabe98bf" class="outline-4">
+<h4 id="orgabe98bf">Home page generation</h4>
+<div class="outline-text-4" id="text-orgabe98bf">
 <p>
 For now, <i>Home</i> points to <i>Articles</i>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-home</span>()
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-home</span>()
   (copy-file
-   (concat blog-gen-root-dir <span style="color: #CC9393;">"articles.html"</span>)
-   (concat blog-gen-root-dir <span style="color: #CC9393;">"index.html"</span>) t))
-</code></pre>
+   (concat blog-gen-root-dir <span class="org-string">"articles.html"</span>)
+   (concat blog-gen-root-dir <span class="org-string">"index.html"</span>) t))
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org347040c" class="outline-4">
-<h4 id="org347040c">Generates blog,</h4>
-<div class="outline-text-4" id="text-org347040c">
+<div id="outline-container-org562df7c" class="outline-4">
+<h4 id="org562df7c">Generates blog,</h4>
+<div class="outline-text-4" id="text-org562df7c">
 <p>
 Function to regenerate the full site. This is bound to <code>C-c C-g</code>.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">  (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-publish</span>(prod)
-    (<span style="color: #F0DFAF; font-weight: bold;">interactive</span> <span style="color: #CC9393;">"P"</span>)
-    (<span style="color: #F0DFAF; font-weight: bold;">if</span> prod (<span style="color: #F0DFAF; font-weight: bold;">setq</span> blog-gen-local nil) (<span style="color: #F0DFAF; font-weight: bold;">setq</span> blog-gen-local t))
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((posts (blog-gen-post-files)))
+<pre class="src src-elisp">  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-publish</span>(prod)
+    (<span class="org-keyword">interactive</span> <span class="org-string">"P"</span>)
+(message <span class="org-string">"Blog generattion started"</span>)
+    (<span class="org-keyword">if</span> prod (<span class="org-keyword">setq</span> blog-gen-local nil) (<span class="org-keyword">setq</span> blog-gen-local t))
+    (message (format <span class="org-string">"Local Gen %S"</span> blog-gen-local))
+    (<span class="org-keyword">let</span> ((posts (blog-gen-post-files)))
       (blog-gen-create-posts)
+      (message <span class="org-string">"Created posts"</span>)
       (blog-gen-create-articles)
+      (message <span class="org-string">"Created articles page"</span>)
       (blog-gen-create-tags posts)
+      (message <span class="org-string">"Created tags page"</span>)
       (blog-gen-create-about)
-      (blog-gen-create-home))
-    (<span style="color: #F0DFAF; font-weight: bold;">when</span> prod
-      (<span style="color: #F0DFAF; font-weight: bold;">when</span> (blog-gen-file-contains-p <span style="color: #CC9393;">"localhost"</span>)
-        (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"localhost references in file"</span>))))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-file-contains-p</span>(s) nil)
-  (global-set-key (kbd <span style="color: #CC9393;">"C-c C-g"</span>) #'blog-gen-publish)
-</code></pre>
+      (message <span class="org-string">"Created about page"</span>)
+      (blog-gen-create-home)
+      (message <span class="org-string">"Created home page"</span>))
+    (<span class="org-keyword">when</span> prod
+      (<span class="org-keyword">when</span> (blog-gen-file-contains-p <span class="org-string">"localhost"</span>)
+        (<span class="org-warning">error</span> <span class="org-string">"localhost references in file"</span>))))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-file-contains-p</span>(s) nil)
+  (global-set-key (kbd <span class="org-string">"C-c C-g"</span>) #'blog-gen-publish)
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5b72763" class="outline-4">
-<h4 id="org5b72763">Create new blog post</h4>
-<div class="outline-text-4" id="text-org5b72763">
+<div id="outline-container-org8153dc9" class="outline-4">
+<h4 id="org8153dc9">Create new blog post</h4>
+<div class="outline-text-4" id="text-org8153dc9">
 <p>
 A template for creating a new blog post.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">  (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-new-post</span>()
-    (<span style="color: #F0DFAF; font-weight: bold;">interactive</span>)
-    (insert <span style="color: #CC9393;">"#+title: TBD</span>
-<span style="color: #CC9393;">#+summary: TBD</span>
-<span style="color: #CC9393;">#+publish-date: 2018-01-31</span>
-<span style="color: #CC9393;">#+export_file_name: ../../yyyy/TBD</span>
-<span style="color: #CC9393;">#+tags: TBD</span>
-<span style="color: #CC9393;">#+option: num:nil"</span>))
+<pre class="src src-elisp">  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-new-post</span>()
+    (<span class="org-keyword">interactive</span>)
+    (insert <span class="org-string">"#+title: TBD</span>
+<span class="org-string">#+summary: TBD</span>
+<span class="org-string">#+publish-date: 2018-01-31</span>
+<span class="org-string">#+export_file_name: ../../yyyy/TBD</span>
+<span class="org-string">#+tags: TBD</span>
+<span class="org-string">#+option: num:nil"</span>))
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org0ee8fa4" class="outline-4">
-<h4 id="org0ee8fa4">Tangled elisp file</h4>
-<div class="outline-text-4" id="text-org0ee8fa4">
+<div id="outline-container-orgadedefb" class="outline-4">
+<h4 id="orgadedefb">Tangled elisp file</h4>
+<div class="outline-text-4" id="text-orgadedefb">
 <p>
 All the functions described above are tangled into
 ~/.emacs.d/lisp/blog-gen.el. A <code>require</code> in <code>.emacs</code> will make this
@@ -1382,288 +1513,312 @@ available for use.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp"><span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">blog-gen.el --- Static site generator in emacs and org-mode</span>
+<pre class="src src-elisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">blog-gen.el --- Static site generator in emacs and org-mode</span>
 
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Copyright (C) 2017-2018 Praki Prakash</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Copyright (C) 2017-2018 Praki Prakash</span>
 
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Author: Praki Prakash</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Maintainer: Praki Prakash</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Created: 2017-12-31</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Keywords: languages</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Homepage: https://MonadicT.gihub.io</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Author: Praki Prakash</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Maintainer: Praki Prakash</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Created: 2017-12-31</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keywords: languages</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Homepage: https://MonadicT.gihub.io</span>
 
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">This file is not part of GNU Emacs.</span>
-</code></pre>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This file is not part of GNU Emacs.</span>
+</pre>
 </div>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp"><span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">blog-gen.el --- Static site generator in emacs and org-mode</span>
+<pre class="src src-elisp"><span class="org-comment-delimiter">;;; </span><span class="org-comment">blog-gen.el --- Static site generator in emacs and org-mode</span>
 
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Copyright (C) 2017-2018 Praki Prakash</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Copyright (C) 2017-2018 Praki Prakash</span>
 
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Author: Praki Prakash</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Maintainer: Praki Prakash</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Created: 2017-12-31</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Keywords: languages</span>
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">Homepage: https://MonadicT.gihub.io</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Author: Praki Prakash</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Maintainer: Praki Prakash</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Created: 2017-12-31</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Keywords: languages</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Homepage: https://MonadicT.gihub.io</span>
 
-<span style="color: #5F7F5F;">;; </span><span style="color: #7F9F7F;">This file is not part of GNU Emacs.</span>
-<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Dependencies ----------------------</span>
-(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">cl</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">yatl</span>)
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This file is not part of GNU Emacs.</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Dependencies ----------------------</span>
+(<span class="org-keyword">require</span> '<span class="org-constant">cl</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">subr-x</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">s</span>)
+(<span class="org-keyword">require</span> '<span class="org-constant">yatl</span>)
 
-<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Variables</span>
-(<span style="color: #F0DFAF; font-weight: bold;">require</span> '<span style="color: #BFEBBF;">ox-html</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Variables</span>
+(<span class="org-keyword">require</span> '<span class="org-constant">ox-html</span>)
 
- <span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Variables and options</span>
+ <span class="org-comment-delimiter">;;; </span><span class="org-comment">Variables and options</span>
 
-(<span style="color: #F0DFAF; font-weight: bold;">defgroup</span> <span style="color: #7CB8BB;">org-export-blog</span> nil
-  <span style="color: #9FC59F;">"Options specific to RSS export back-end."</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:tag</span> <span style="color: #CC9393;">"Org Blog"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export
-  <span style="color: #DCDCCC; font-weight: bold;">:version</span> <span style="color: #CC9393;">"24.4"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:package-version</span> '(Org . <span style="color: #CC9393;">"9.0"</span>))
+(<span class="org-keyword">defgroup</span> <span class="org-type">org-export-blog</span> nil
+  <span class="org-doc">"Options specific to RSS export back-end."</span>
+  <span class="org-builtin">:tag</span> <span class="org-string">"Org Blog"</span>
+  <span class="org-builtin">:group</span> 'org-export
+  <span class="org-builtin">:version</span> <span class="org-string">"24.4"</span>
+  <span class="org-builtin">:package-version</span> '(Org . <span class="org-string">"9.0"</span>))
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-publish-url</span> <span style="color: #CC9393;">"https://MonadicT.github.io"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-publish-url</span> <span class="org-string">"https://MonadicT.github.io"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-title</span> <span style="color: #CC9393;">"MonadicT"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-title</span> <span class="org-string">"MonadicT"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-author</span> <span style="color: #CC9393;">"Praki Prakash"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-tagline</span> <span class="org-string">"I see dead objects!"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-copyright-message</span> <span style="color: #CC9393;">"Copyright &amp;copy; 2014-%s, Praki Prakash"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-author</span> <span class="org-string">"Praki Prakash"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-style-file</span> <span style="color: #CC9393;">"blog-style.css"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-copyright-message</span> <span class="org-string">"Copyright &amp;copy; 2014-%s, Praki Prakash"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-banner-file</span> <span style="color: #CC9393;">"banner.org"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-style-file</span> <span class="org-string">"blog-style.css"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-footer-file</span> <span style="color: #CC9393;">"footer.org"</span>
-  <span style="color: #9FC59F;">"???"</span>
-  <span style="color: #DCDCCC; font-weight: bold;">:group</span> 'org-export-blog
-  <span style="color: #DCDCCC; font-weight: bold;">:type</span> 'string)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-banner-file</span> <span class="org-string">"banner.org"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-root-dir</span>
-  <span style="color: #CC9393;">"~/stuff/github/MonadicT.github.io/"</span>
-  <span style="color: #9FC59F;">""</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">defcustom</span> <span style="color: #DFAF8F;">blog-gen-posts-dir</span>
-  <span style="color: #CC9393;">"_resources/posts"</span>
-  <span style="color: #9FC59F;">""</span>)
-(<span style="color: #F0DFAF; font-weight: bold;">setq</span> blog-gen-local t)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-footer-file</span> <span class="org-string">"footer.org"</span>
+  <span class="org-doc">"???"</span>
+  <span class="org-builtin">:group</span> 'org-export-blog
+  <span class="org-builtin">:type</span> 'string)
 
-<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">Functions ------------------------</span>
-(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">assert-equal</span> (actual expected)
-  `(<span style="color: #F0DFAF; font-weight: bold;">when</span> (not (equal ,actual ,expected))
-     (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"Actual: %s expected: %s"</span>
-            (format <span style="color: #CC9393;">"%s"</span> ',actual)
-            (format <span style="color: #CC9393;">"%s"</span> ',expected))))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-get-all-keywords</span>()
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-root-dir</span>
+  <span class="org-string">"~/projects/MonadicT.github.io/"</span>
+  <span class="org-doc">""</span>)
+(<span class="org-keyword">defcustom</span> <span class="org-variable-name">blog-gen-posts-dir</span>
+  <span class="org-string">"_resources/posts/"</span>
+  <span class="org-doc">""</span>)
+(<span class="org-keyword">setq</span> blog-gen-local t)
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Functions ------------------------</span>
+(<span class="org-keyword">defmacro</span> <span class="org-function-name">assert-equal</span> (actual expected)
+  `(<span class="org-keyword">when</span> (not (equal ,actual ,expected))
+     (<span class="org-warning">error</span> <span class="org-string">"Actual: %s expected: %s"</span>
+            (format <span class="org-string">"%s"</span> ',actual)
+            (format <span class="org-string">"%s"</span> ',expected))))
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-get-all-keywords</span>()
   (org-element-map
       (org-element-parse-buffer 'element)
       'keyword
-    (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (kw)
-      (cons (org-element-property <span style="color: #DCDCCC; font-weight: bold;">:key</span> kw)
-            (org-element-property <span style="color: #DCDCCC; font-weight: bold;">:value</span> kw)))))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-get-keyword-value</span>(keywords key <span style="color: #7CB8BB;">&amp;optional</span> default-value)
-  (<span style="color: #F0DFAF; font-weight: bold;">if-let</span> ((kw-value (cdr (assoc-ignore-case key keywords))))
+    (<span class="org-keyword">lambda</span> (kw)
+      (cons (org-element-property <span class="org-builtin">:key</span> kw)
+            (org-element-property <span class="org-builtin">:value</span> kw)))))
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-get-keyword-value</span>(keywords key <span class="org-type">&amp;optional</span> default-value)
+  (<span class="org-keyword">if-let</span> ((kw-value (cdr (assoc-ignore-case key keywords))))
       kw-value
     default-value))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-post-details</span> (f)
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-post-details</span> (f)
+  (<span class="org-keyword">with-temp-buffer</span>
     (find-file f)
-    (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((kws (blog-gen-get-all-keywords))
-           (details (make-hash-table  <span style="color: #DCDCCC; font-weight: bold;">:test</span> #'equal))
-           (export-file-name (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"export_file_name"</span> nil))
-           (href (<span style="color: #F0DFAF; font-weight: bold;">or</span> export-file-name <span style="color: #CC9393;">""</span>)))
-      (<span style="color: #F0DFAF; font-weight: bold;">while</span> (string-match <span style="color: #CC9393;">"^\\.\\./"</span> href)
-        (<span style="color: #F0DFAF; font-weight: bold;">setq</span> href (substring href 3)))
-      (puthash <span style="color: #CC9393;">"post-file"</span> f details)
-      (puthash <span style="color: #CC9393;">"title"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"title"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"summary"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"summary"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"publish-date"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"publish-date"</span> nil) details)
-      (puthash <span style="color: #CC9393;">"export_file_name"</span> export-file-name details)
-      (puthash <span style="color: #CC9393;">"tags"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"tags"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"target"</span> (blog-gen-get-keyword-value kws <span style="color: #CC9393;">"target"</span> <span style="color: #CC9393;">""</span>) details)
-      (puthash <span style="color: #CC9393;">"href"</span> (concat (blog-gen-base-url) href) details)
-      (<span style="color: #F0DFAF; font-weight: bold;">unless</span> (string-match <span style="color: #CC9393;">"blog-generator.org"</span> f) (kill-buffer))
+    (<span class="org-keyword">let*</span> ((kws (blog-gen-get-all-keywords))
+           (details (make-hash-table  <span class="org-builtin">:test</span> #'equal))
+           (export-file-name (blog-gen-get-keyword-value kws <span class="org-string">"export_file_name"</span> nil))
+           (href (<span class="org-keyword">or</span> export-file-name <span class="org-string">""</span>)))
+      (<span class="org-keyword">while</span> (string-match <span class="org-string">"^\\.\\./"</span> href)
+        (<span class="org-keyword">setq</span> href (substring href 3)))
+      (puthash <span class="org-string">"post-file"</span> f details)
+      (puthash <span class="org-string">"title"</span> (blog-gen-get-keyword-value kws <span class="org-string">"title"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"summary"</span> (blog-gen-get-keyword-value kws <span class="org-string">"summary"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"publish-date"</span> (blog-gen-get-keyword-value kws <span class="org-string">"publish-date"</span> nil) details)
+      (puthash <span class="org-string">"export_file_name"</span> export-file-name details)
+      (puthash <span class="org-string">"tags"</span> (blog-gen-get-keyword-value kws <span class="org-string">"tags"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"target"</span> (blog-gen-get-keyword-value kws <span class="org-string">"target"</span> <span class="org-string">""</span>) details)
+      (puthash <span class="org-string">"href"</span> (concat (blog-gen-base-url) href) details)
+      (<span class="org-keyword">unless</span> (string-match <span class="org-string">"blog-generator.org"</span> f) (kill-buffer))
       details)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-post-files</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((posts-dir (concat blog-gen-root-dir <span style="color: #CC9393;">"/"</span> blog-gen-posts-dir))
-         (org-files (directory-files posts-dir t <span style="color: #CC9393;">"[a-ZA-Z0-9_-]*\\.org$"</span>))
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-post-files</span>()
+  (<span class="org-keyword">let*</span> ((posts-dir (concat blog-gen-root-dir <span class="org-string">"/"</span> blog-gen-posts-dir))
+         (org-files (directory-files posts-dir t <span class="org-string">"[a-ZA-Z0-9_-]*\\.org$"</span>))
          (org-files
           (seq-remove
-           (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (f)
-             (<span style="color: #F0DFAF; font-weight: bold;">or</span> (string-match <span style="color: #CC9393;">"index.org$"</span> f)
-                 (string-match <span style="color: #CC9393;">"about.org$"</span> f)
-                 (string-match <span style="color: #CC9393;">"sitemap.org$"</span> f)))
+           (<span class="org-keyword">lambda</span> (f)
+             (<span class="org-keyword">or</span> (string-match <span class="org-string">"index.org$"</span> f)
+                 (string-match <span class="org-string">"about.org$"</span> f)
+                 (string-match <span class="org-string">"sitemap.org$"</span> f)))
            org-files)))
     (mapcar
      #'blog-gen-post-details
      org-files)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-published-posts</span> (posts)
-  (seq-filter (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (p) (gethash <span style="color: #CC9393;">"export_file_name"</span> p)) posts))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-order-posts</span>(posts)
-  (seq-sort (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a b) (string&gt; (gethash <span style="color: #CC9393;">"publish-date"</span> a) (gethash <span style="color: #CC9393;">"publish-date"</span> b))) posts))
-(<span style="color: #F0DFAF; font-weight: bold;">defmacro</span> <span style="color: #93E0E3;">html-export</span>(<span style="color: #7CB8BB;">&amp;rest</span> content)
-  `(<span style="color: #F0DFAF; font-weight: bold;">progn</span> (insert <span style="color: #CC9393;">"#+BEGIN_EXPORT html\n"</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-published-posts</span> (posts)
+  (seq-filter (<span class="org-keyword">lambda</span> (p) (gethash <span class="org-string">"export_file_name"</span> p)) posts))
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-order-posts</span>(posts)
+  (seq-sort (<span class="org-keyword">lambda</span> (a b) (string&gt; (gethash <span class="org-string">"publish-date"</span> a) (gethash <span class="org-string">"publish-date"</span> b))) posts))
+(<span class="org-keyword">defmacro</span> <span class="org-function-name">html-export</span>(<span class="org-type">&amp;rest</span> content)
+  `(<span class="org-keyword">progn</span> (insert <span class="org-string">"#+BEGIN_EXPORT html\n"</span>)
           (insert ,@content)
-          (insert <span style="color: #CC9393;">"\n#+END_EXPORT\n\n"</span>)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-posts</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((posts (blog-gen-published-posts
+          (insert <span class="org-string">"\n#+END_EXPORT\n\n"</span>)))
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-posts</span>()
+  (<span class="org-keyword">let</span> ((posts (blog-gen-published-posts
                 (blog-gen-post-files))))
     (mapcar
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (post)
-       (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((post-file (gethash <span style="color: #CC9393;">"post-file"</span> post))
-             (export-file-name (gethash <span style="color: #CC9393;">"export_file_name"</span> post)))
-         (message (concat <span style="color: #CC9393;">"exporting"</span> post-file <span style="color: #CC9393;">"to"</span> export-file-name))
-         (<span style="color: #F0DFAF; font-weight: bold;">when</span> export-file-name
-           (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
+     (<span class="org-keyword">lambda</span> (post)
+       (<span class="org-keyword">let</span> ((post-file (gethash <span class="org-string">"post-file"</span> post))
+             (export-file-name (gethash <span class="org-string">"export_file_name"</span> post)))
+         (message (concat <span class="org-string">"exporting"</span> post-file <span class="org-string">"to"</span> export-file-name))
+         (<span class="org-keyword">when</span> export-file-name
+           (<span class="org-keyword">with-temp-buffer</span>
              (find-file post-file)
              (org-export-to-file 'blog export-file-name)
              (kill-buffer)))))
      posts)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-articles</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
-    (find-file <span style="color: #CC9393;">"index.org"</span>)
-    (erase-buffer)
-    (insert <span style="color: #CC9393;">"#+title: MonadictT\n"</span>)
-    (insert <span style="color: #CC9393;">"#+options: num:nil html-style:nil\n"</span>)
-    (insert <span style="color: #CC9393;">"* Posts\n"</span>)
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((posts (blog-gen-order-posts
-                  (blog-gen-published-posts
-                   (blog-gen-post-files)))))
-      (mapcar
-       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (post)
-         (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((title (gethash <span style="color: #CC9393;">"title"</span> post))
-                (summary (gethash <span style="color: #CC9393;">"summary"</span>  post))
-                (export-file-name (gethash <span style="color: #CC9393;">"export_file_name"</span>  post))
-                (export-file-name
-                 (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((href export-file-name))
-                   (<span style="color: #F0DFAF; font-weight: bold;">while</span> (string-match <span style="color: #CC9393;">"^\\.\\./"</span> href)
-                     (<span style="color: #F0DFAF; font-weight: bold;">setq</span> href (substring href 3)))
-                   href))
-                (publish-date (gethash <span style="color: #CC9393;">"publish-date"</span> post))
-                (l (list (make-symbol (format <span style="color: #CC9393;">"a@href=\"/%s\""</span> export-file-name)) title)))
-           (<span style="color: #F0DFAF; font-weight: bold;">html-export</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
-             (div.post-title
-              (eval (yatl-compile-fn l)))))
-           (<span style="color: #F0DFAF; font-weight: bold;">html-export</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
-             (div.post-summary summary)) <span style="color: #CC9393;">"\n\n"</span>)
-           (<span style="color: #F0DFAF; font-weight: bold;">html-export</span>
-            (<span style="color: #F0DFAF; font-weight: bold;">yatl-html-frag</span>
-             (div.post-publish-date <span style="color: #CC9393;">"Published: "</span> publish-date)) <span style="color: #CC9393;">"\n"</span>)))
-       posts))
-    (save-buffer)
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((out-file (concat blog-gen-root-dir <span style="color: #CC9393;">"articles.html"</span>)))
-      (<span style="color: #F0DFAF; font-weight: bold;">when</span> (file-exists-p out-file)
-        (delete-file out-file))
-      (org-export-to-file 'blog out-file))
-    (delete-file <span style="color: #CC9393;">"index.org"</span>)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">create-tag-post-map</span>(posts)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((tag-post-map (make-hash-table <span style="color: #DCDCCC; font-weight: bold;">:test</span> 'equal)))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-articles</span>()
+    (<span class="org-keyword">with-temp-buffer</span>
+      (find-file (concat blog-gen-root-dir <span class="org-string">"index.org"</span>))
+      (erase-buffer)
+      (insert <span class="org-string">"#+title: MonadictT\n"</span>)
+      (insert <span class="org-string">"#+options: num:nil html-style:nil\n"</span>)
+      (insert <span class="org-string">"#+HTML_HEAD: &lt;link href=\"https://fonts.googleapis.com/css?family=Cormorant+Garamond|Roboto\" rel=\"stylesheet\"&gt;\n"</span>)
+      (insert <span class="org-string">"#+HTML_HEAD_EXTRA: &lt;style&gt;* {font-family: 'Roboto';}&lt;/style&gt;\n"</span>)
+      (insert <span class="org-string">"#+HTML_HEAD_EXTRA: &lt;style&gt;pre {font-family: 'Segoe Print';}&lt;/style&gt;\n"</span>)
+
+      (insert <span class="org-string">"* Posts\n"</span>)
+      (<span class="org-keyword">let</span> ((posts (blog-gen-order-posts
+                    (blog-gen-published-posts
+                     (blog-gen-post-files)))))
+        (mapcar
+         (<span class="org-keyword">lambda</span> (post)
+           (<span class="org-keyword">let*</span> ((title (gethash <span class="org-string">"title"</span> post))
+                  (summary (gethash <span class="org-string">"summary"</span>  post))
+                  (export-file-name (gethash <span class="org-string">"export_file_name"</span>  post))
+                  (export-file-name
+                   (<span class="org-keyword">let</span> ((href export-file-name))
+                     (<span class="org-keyword">while</span> (string-match <span class="org-string">"^\\.\\./"</span> href)
+                       (<span class="org-keyword">setq</span> href (substring href 3)))
+                     href))
+                  (publish-date (gethash <span class="org-string">"publish-date"</span> post))
+                  (l (list (make-symbol (format <span class="org-string">"a@href=\"/%s\""</span> export-file-name)) title)))
+             (<span class="org-keyword">html-export</span>
+              (<span class="org-keyword">yatl-html-frag</span>
+               (div.post-title
+                (eval (yatl-compile-fn l)))))
+             (<span class="org-keyword">html-export</span>
+              (<span class="org-keyword">yatl-html-frag</span>
+               (div.post-summary summary)) <span class="org-string">"\n\n"</span>)
+             (<span class="org-keyword">html-export</span>
+              (<span class="org-keyword">yatl-html-frag</span>
+               (div.post-publish-date <span class="org-string">"Published: "</span> publish-date)) <span class="org-string">"\n"</span>)))
+         posts))
+      (save-buffer)
+      (<span class="org-keyword">let</span> ((out-file (concat blog-gen-root-dir <span class="org-string">"articles.html"</span>)))
+        (<span class="org-keyword">when</span> (file-exists-p out-file)
+          (delete-file out-file))
+        (org-export-to-file 'blog out-file))
+      (delete-file (concat blog-gen-root-dir <span class="org-string">"index.org"</span>))))
+<span class="org-comment-delimiter">;;</span><span class="org-comment">(blog-gen-create-articles)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">create-tag-post-map</span>(posts)
+  (<span class="org-keyword">let</span> ((tag-post-map (make-hash-table <span class="org-builtin">:test</span> 'equal)))
     (mapcar
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span>(post)
-       (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((title (gethash <span style="color: #CC9393;">"title"</span> post))
-             (tags (mapcar #'s-trim (split-string (gethash <span style="color: #CC9393;">"tags"</span> post) <span style="color: #CC9393;">"[,]+"</span>))))
+     (<span class="org-keyword">lambda</span>(post)
+       (<span class="org-keyword">let</span> ((title (gethash <span class="org-string">"title"</span> post))
+             (tags (mapcar #'s-trim (split-string (gethash <span class="org-string">"tags"</span> post) <span class="org-string">"[,]+"</span>))))
          (mapcar
-          (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (tag)
-            (<span style="color: #F0DFAF; font-weight: bold;">when</span> (not (string-empty-p tag))
+          (<span class="org-keyword">lambda</span> (tag)
+            (<span class="org-keyword">when</span> (not (string-empty-p tag))
               (puthash tag (cons post (gethash tag tag-post-map '())) tag-post-map)))
           tags)))
      posts)
     tag-post-map))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">sorted-keys</span>(tag-post-map)
-  (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((keys '()))
+(<span class="org-keyword">defun</span> <span class="org-function-name">sorted-keys</span>(tag-post-map)
+  (<span class="org-keyword">let</span> ((keys '()))
     (maphash
-     (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (k v) (<span style="color: #F0DFAF; font-weight: bold;">setq</span> keys (cons k keys)))
+     (<span class="org-keyword">lambda</span> (k v) (<span class="org-keyword">setq</span> keys (cons k keys)))
      tag-post-map)
-    (seq-sort (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (a b) (string-lessp (upcase a) (upcase b))) keys)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-tags</span>(posts)
-  (<span style="color: #F0DFAF; font-weight: bold;">let*</span> ((tag-post-map (create-tag-post-map posts))
+    (seq-sort (<span class="org-keyword">lambda</span> (a b) (string-lessp (upcase a) (upcase b))) keys)))
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-tags</span>(posts)
+  (<span class="org-keyword">let*</span> ((tag-post-map (create-tag-post-map posts))
          (tags  (sorted-keys tag-post-map)))
-    (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
-      (find-file <span style="color: #CC9393;">"tags.org"</span>)
+    (<span class="org-keyword">with-temp-buffer</span>
+      (find-file <span class="org-string">"tags.org"</span>)
       (erase-buffer)
-      (insert <span style="color: #CC9393;">"#+title: Tags\n"</span>)
-      (insert <span style="color: #CC9393;">"#+options: num:nil\n"</span>)
-      (insert <span style="color: #CC9393;">"* Tags\n"</span>)
+      (insert <span class="org-string">"#+title: Tags\n"</span>)
+      (insert <span class="org-string">"#+options: num:nil\n"</span>)
+      (insert <span class="org-string">"* Tags\n"</span>)
       (mapcar
-       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (tag)
-         (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((post-list (gethash tag tag-post-map)))
-           (insert <span style="color: #CC9393;">"** "</span> tag <span style="color: #CC9393;">"\n"</span>)
+       (<span class="org-keyword">lambda</span> (tag)
+         (<span class="org-keyword">let</span> ((post-list (gethash tag tag-post-map)))
+           (insert <span class="org-string">"** "</span> tag <span class="org-string">"\n"</span>)
            (mapcar
-            (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (post)
+            (<span class="org-keyword">lambda</span> (post)
               (princ post)
-              (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((title (gethash <span style="color: #CC9393;">"title"</span> post))
-                    (href  (gethash <span style="color: #CC9393;">"href"</span> post)))
-                (insert <span style="color: #CC9393;">"- [["</span> href <span style="color: #CC9393;">"]["</span> title <span style="color: #CC9393;">"]]\n"</span>)))
+              (<span class="org-keyword">let</span> ((title (gethash <span class="org-string">"title"</span> post))
+                    (href  (gethash <span class="org-string">"href"</span> post)))
+                (insert <span class="org-string">"- [["</span> href <span class="org-string">"]["</span> title <span class="org-string">"]]\n"</span>)))
             post-list)))
        tags)
-      (write-file <span style="color: #CC9393;">"tags.org"</span>)
-      (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((out-file (concat blog-gen-root-dir <span style="color: #CC9393;">"tags.html"</span>)))
-      (message out-file)
+      (write-file <span class="org-string">"tags.org"</span>)
+      (<span class="org-keyword">let</span> ((out-file (concat blog-gen-root-dir <span class="org-string">"tags.html"</span>)))
         (org-export-to-file 'blog out-file))
       (kill-buffer))))
 
 
-<span style="color: #5F7F5F;">;;  </span><span style="color: #7F9F7F;">(setq x (blog-gen-post-files))</span>
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(setq x (blog-gen-post-files))</span>
 
-<span style="color: #5F7F5F;">;;  </span><span style="color: #7F9F7F;">(blog-gen-create-tags x)</span>
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(blog-gen-create-tags x)</span>
 
-<span style="color: #5F7F5F;">;;  </span><span style="color: #7F9F7F;">(require 'blog-gen)</span>
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-about</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">with-temp-buffer</span>
-    (find-file <span style="color: #CC9393;">"about.org"</span>)
-    (org-export-to-file 'blog (concat blog-gen-root-dir <span style="color: #CC9393;">"about.html"</span>))
+<span class="org-comment-delimiter">;;  </span><span class="org-comment">(require 'blog-gen)</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-about</span>()
+  (<span class="org-keyword">with-temp-buffer</span>
+    (find-file (concat
+                blog-gen-root-dir
+                blog-gen-posts-dir
+                <span class="org-string">"about.org"</span>))
+    (next-line) <span class="org-comment-delimiter">;; </span><span class="org-comment">When on line 1, org export throws a weird error</span>
+    (org-export-to-file 'blog (concat blog-gen-root-dir <span class="org-string">"about.html"</span>) nil )
     (kill-buffer)))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-create-home</span>()
-  (copy-file
-   (concat blog-gen-root-dir <span style="color: #CC9393;">"articles.html"</span>)
-   (concat blog-gen-root-dir <span style="color: #CC9393;">"index.html"</span>) t))
-  (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-publish</span>(prod)
-    (<span style="color: #F0DFAF; font-weight: bold;">interactive</span> <span style="color: #CC9393;">"P"</span>)
-    (<span style="color: #F0DFAF; font-weight: bold;">if</span> prod (<span style="color: #F0DFAF; font-weight: bold;">setq</span> blog-gen-local nil) (<span style="color: #F0DFAF; font-weight: bold;">setq</span> blog-gen-local t))
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((posts (blog-gen-post-files)))
-      (blog-gen-create-posts)
-      (blog-gen-create-articles)
-      (blog-gen-create-tags posts)
-      (blog-gen-create-about)
-      (blog-gen-create-home))
-    (<span style="color: #F0DFAF; font-weight: bold;">when</span> prod
-      (<span style="color: #F0DFAF; font-weight: bold;">when</span> (blog-gen-file-contains-p <span style="color: #CC9393;">"localhost"</span>)
-        (<span style="color: #D0BF8F; font-weight: bold;">error</span> <span style="color: #CC9393;">"localhost references in file"</span>))))
-(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-file-contains-p</span>(s) nil)
-  (global-set-key (kbd <span style="color: #CC9393;">"C-c C-g"</span>) #'blog-gen-publish)
-  (<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">blog-gen-new-post</span>()
-    (<span style="color: #F0DFAF; font-weight: bold;">interactive</span>)
-    (insert <span style="color: #CC9393;">"#+title: TBD</span>
-<span style="color: #CC9393;">#+summary: TBD</span>
-<span style="color: #CC9393;">#+publish-date: 2018-01-31</span>
-<span style="color: #CC9393;">#+export_file_name: ../../yyyy/TBD</span>
-<span style="color: #CC9393;">#+tags: TBD</span>
-<span style="color: #CC9393;">#+option: num:nil"</span>))
 
-(<span style="color: #F0DFAF; font-weight: bold;">provide</span> '<span style="color: #BFEBBF;">blog-gen</span>)
-<span style="color: #5F7F5F;">;;; </span><span style="color: #7F9F7F;">blog-gen.el ends here</span>
-</code></pre>
+(blog-gen-create-about)
+(<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-create-home</span>()
+  (copy-file
+   (concat blog-gen-root-dir <span class="org-string">"articles.html"</span>)
+   (concat blog-gen-root-dir <span class="org-string">"index.html"</span>) t))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-publish</span>(prod)
+    (<span class="org-keyword">interactive</span> <span class="org-string">"P"</span>)
+(message <span class="org-string">"Blog generattion started"</span>)
+    (<span class="org-keyword">if</span> prod (<span class="org-keyword">setq</span> blog-gen-local nil) (<span class="org-keyword">setq</span> blog-gen-local t))
+    (message (format <span class="org-string">"Local Gen %S"</span> blog-gen-local))
+    (<span class="org-keyword">let</span> ((posts (blog-gen-post-files)))
+      (blog-gen-create-posts)
+      (message <span class="org-string">"Created posts"</span>)
+      (blog-gen-create-articles)
+      (message <span class="org-string">"Created articles page"</span>)
+      (blog-gen-create-tags posts)
+      (message <span class="org-string">"Created tags page"</span>)
+      (blog-gen-create-about)
+      (message <span class="org-string">"Created about page"</span>)
+      (blog-gen-create-home)
+      (message <span class="org-string">"Created home page"</span>))
+    (<span class="org-keyword">when</span> prod
+      (<span class="org-keyword">when</span> (blog-gen-file-contains-p <span class="org-string">"localhost"</span>)
+        (<span class="org-warning">error</span> <span class="org-string">"localhost references in file"</span>))))
+  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-file-contains-p</span>(s) nil)
+  (global-set-key (kbd <span class="org-string">"C-c C-g"</span>) #'blog-gen-publish)
+  (<span class="org-keyword">defun</span> <span class="org-function-name">blog-gen-new-post</span>()
+    (<span class="org-keyword">interactive</span>)
+    (insert <span class="org-string">"#+title: TBD</span>
+<span class="org-string">#+summary: TBD</span>
+<span class="org-string">#+publish-date: 2018-01-31</span>
+<span class="org-string">#+export_file_name: ../../yyyy/TBD</span>
+<span class="org-string">#+tags: TBD</span>
+<span class="org-string">#+option: num:nil"</span>))
+
+(<span class="org-keyword">provide</span> '<span class="org-constant">blog-gen</span>)
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">blog-gen.el ends here</span>
+</pre>
 </div>
 </div>
 </div>

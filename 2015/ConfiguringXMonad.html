@@ -6,10 +6,10 @@
 MonadicT
 </title>
  <base href="https://MonadicT.github.io/"/>
- <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
- of 2017-12-09>"/>
+ <meta name="generator" content="GNU Emacs 26.1 (build 1, x86_64-apple-darwin14.5.0, NS appkit-1348.17 Version 10.10.5 (Build 14F2511))
+ of 2018-05-28>"/>
  <meta name="author" content="Praki Prakash"/>
- <link href="blog-style.css" rel="stylesheet"/>
+ <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700" rel="stylesheet"> <link href="blog-style.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -33,20 +33,20 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
 <div class=" blog-nav">
 <div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
-<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
-<img height="48px" width="48px"
-   title="Visit my Twitter page"
-   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  <span style={background-color: white; height:2em;width:2em;border-radius:24px}></span>
+  <img height="48px" width="48px"
+     title="Visit my Twitter page"
+     src="/images/twitter.png"/></a><a id="github-link" target="_new"
   href="https://github.com/MonadicT"><img id="github-logo"
   src="/images/github-logo.png"/></a></div>
 </div>
 <div style="border:1px">
 
 </div>
-
-<div id="outline-container-org7a5503b" class="outline-2">
-<h2 id="org7a5503b">Configuring XMonad</h2>
-<div class="outline-text-2" id="text-org7a5503b">
+ 
+<div id="outline-container-org977f47b" class="outline-2">
+<h2 id="org977f47b">Configuring XMonad</h2>
+<div class="outline-text-2" id="text-org977f47b">
 <p>
 <a href="http://www.xmonad.org">XMonad</a> is a minimal tiling window manager. This post shows how to
 setup xmnoad on a Ubuntu 14.04 machine and configure it in small
@@ -59,9 +59,9 @@ well, let's stop right there! You get the idea!
 </p>
 </div>
 
-<div id="outline-container-org0c70dbd" class="outline-3">
-<h3 id="org0c70dbd">Installing xmonad</h3>
-<div class="outline-text-3" id="text-org0c70dbd">
+<div id="outline-container-orgb2e5a57" class="outline-3">
+<h3 id="orgb2e5a57">Installing xmonad</h3>
+<div class="outline-text-3" id="text-orgb2e5a57">
 <p>
 My usual sequence for setting up a Linux computer is to install Ubuntu
 or something similar. The distribution you use really doesn't matter
@@ -82,23 +82,23 @@ on login.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">[Desktop Entry]
-<span style="color: #DFAF8F;">Type</span>=Application
-<span style="color: #DFAF8F;">Name</span>=Xmonad
-<span style="color: #DFAF8F;">Exec</span>=xmonad
-<span style="color: #DFAF8F;">NoDisplay</span>=true
+<pre class="src src-bash">[Desktop Entry]
+<span class="org-variable-name">Type</span>=Application
+<span class="org-variable-name">Name</span>=Xmonad
+<span class="org-variable-name">Exec</span>=xmonad
+<span class="org-variable-name">NoDisplay</span>=true
 X-GNOME-WMName=Xmonad
 X-GNOME-Autostart-Phase=WindowManager
 X-GNOME-Provides=windowmanager
 X-GNOME-Autostart-Notify=true
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga348812" class="outline-3">
-<h3 id="orga348812">Configuring xmonad</h3>
-<div class="outline-text-3" id="text-orga348812">
+<div id="outline-container-orgfd03f1d" class="outline-3">
+<h3 id="orgfd03f1d">Configuring xmonad</h3>
+<div class="outline-text-3" id="text-orgfd03f1d">
 <p>
 xmonad runs happily with no custom configuration. However, it is going to be
 a bland experience. Customizing xmonad requires you to have a
@@ -107,9 +107,9 @@ main focus of this post.
 </p>
 </div>
 
-<div id="outline-container-org07fa35c" class="outline-4">
-<h4 id="org07fa35c">Hello, xmonad.hs</h4>
-<div class="outline-text-4" id="text-org07fa35c">
+<div id="outline-container-org2786d10" class="outline-4">
+<h4 id="org2786d10">Hello, xmonad.hs</h4>
+<div class="outline-text-4" id="text-org2786d10">
 <p>
 This is the simplest configuration of XMonad window manager. It just
 runs xmonad with <i>defaultConfig</i>. <i>defaultConfig</i> is just a record
@@ -118,16 +118,16 @@ update syntax to change the options.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import XMonad
+<pre class="src src-haskell">import XMonad
 main = xmonad defaultConfig
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org87d7290" class="outline-4">
-<h4 id="org87d7290">Taking back our Alt key</h4>
-<div class="outline-text-4" id="text-org87d7290">
+<div id="outline-container-org6fbf12d" class="outline-4">
+<h4 id="org6fbf12d">Taking back our Alt key</h4>
+<div class="outline-text-4" id="text-org6fbf12d">
 <p>
 If you are an <i>emacs</i> user, you are likely to be missing some favorite
 Alt key combinations. Let's change XMonad key to the Window key, which
@@ -136,18 +136,18 @@ XMonad to use Windows key instead of Alt.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import XMonad
+<pre class="src src-haskell">import XMonad
 main = xmonad defaultConfig {
   modMask = mod4Mask
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgfa14693" class="outline-4">
-<h4 id="orgfa14693">Configuring XMonad for a Desktop Environment</h4>
-<div class="outline-text-4" id="text-orgfa14693">
+<div id="outline-container-org71df6bb" class="outline-4">
+<h4 id="org71df6bb">Configuring XMonad for a Desktop Environment</h4>
+<div class="outline-text-4" id="text-org71df6bb">
 <p>
 A list of configuration options can be seen at <a href="http://xmonad.org/xmonad-docs/xmonad/XMonad-Core.html#t:XConfig">XConfig</a>. Generally, we
 run Xmonad in a  <a href="http://en.wikipedia.org/wiki/Desktop_environment">Desktop Environment</a>. In such cases, Xmonad
@@ -158,13 +158,13 @@ shown below.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import XMonad
+<pre class="src src-haskell">import XMonad
 import XMonad.Config.Desktop
 main = xmonad desktopConfig {
     modMask = mod4Mask
 }
 
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -177,19 +177,19 @@ reads its standard input stream and displays it in the window it creates.
 </div>
 </div>
 
-<div id="outline-container-orgc494c89" class="outline-4">
-<h4 id="orgc494c89">Configuring dzen2 and conky</h4>
-<div class="outline-text-4" id="text-orgc494c89">
+<div id="outline-container-org1fc85cb" class="outline-4">
+<h4 id="org1fc85cb">Configuring dzen2 and conky</h4>
+<div class="outline-text-4" id="text-org1fc85cb">
 <p>
 dzen2 can be configured using ~/.Xresource<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Let's set foreground and background colors for dzen2
 as below.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">dzen2.background: black
+<pre class="src src-bash">dzen2.background: black
 dzen2.foreground: white
 dzen2.font: -*-fixed-*-*-*-*-11-*-*-*-*-*-*-*
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -214,23 +214,23 @@ after <i>TEXT</i> controls what conky displays.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">own_wndow yes     <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Need for display glicthes</span>
-double_buffer yes <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">ditto</span>
-update_interval 1 <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Every second</span>
-total_run_times 0 <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Run for ever</span>
-use_spacer yes    <span style="color: #5F7F5F;"># </span><span style="color: #7F9F7F;">Stop things from moving around</span>
+<pre class="src src-bash">own_wndow yes     <span class="org-comment-delimiter"># </span><span class="org-comment">Need for display glicthes</span>
+double_buffer yes <span class="org-comment-delimiter"># </span><span class="org-comment">ditto</span>
+update_interval 1 <span class="org-comment-delimiter"># </span><span class="org-comment">Every second</span>
+total_run_times 0 <span class="org-comment-delimiter"># </span><span class="org-comment">Run for ever</span>
+use_spacer yes    <span class="org-comment-delimiter"># </span><span class="org-comment">Stop things from moving around</span>
 minimum_size 250 5
 maximum_width 400
 out_to_console yes
 
 TEXT
-Load: ${<span style="color: #DFAF8F;">loadavg</span> 1 2 3} Cpu: %${<span style="color: #DFAF8F;">cpu</span>} Mem: ${<span style="color: #DFAF8F;">mem</span>} <span style="color: #CC9393;">\</span>
-Swap: ${<span style="color: #DFAF8F;">swap</span>} Wifi: ${<span style="color: #DFAF8F;">wireless_essid</span> wlan0} ${<span style="color: #DFAF8F;">wireless_bitrate</span> wlan0} <span style="color: #CC9393;">\</span>
-${<span style="color: #DFAF8F;">wireless_link_qual_perc</span> wlan0} <span style="color: #CC9393;">\</span>
-${<span style="color: #F0DFAF; font-weight: bold;">exec</span> acpi | awk <span style="color: #CC9393;">'/Discharging/{print "^fg(orange)Bat:", $4,"^fg()"}/Charging/{print "Bat:", $4}'</span>}  <span style="color: #CC9393;">\</span>
-Audio: ${<span style="color: #F0DFAF; font-weight: bold;">exec</span> amixer -c 0 get Master | grep Mono: | cut -d <span style="color: #CC9393;">" "</span> -f8|tr -d <span style="color: #CC9393;">"[]"</span>} <span style="color: #CC9393;">\</span>
-${<span style="color: #F0DFAF; font-weight: bold;">time</span> %b %d %I:%M:%S}
-</code></pre>
+Load: ${<span class="org-variable-name">loadavg</span> 1 2 3} Cpu: %${<span class="org-variable-name">cpu</span>} Mem: ${<span class="org-variable-name">mem</span>} <span class="org-sh-escaped-newline">\</span>
+Swap: ${<span class="org-variable-name">swap</span>} Wifi: ${<span class="org-variable-name">wireless_essid</span> wlan0} ${<span class="org-variable-name">wireless_bitrate</span> wlan0} <span class="org-sh-escaped-newline">\</span>
+${<span class="org-variable-name">wireless_link_qual_perc</span> wlan0} <span class="org-sh-escaped-newline">\</span>
+${<span class="org-keyword">exec</span> acpi | awk <span class="org-string">'/Discharging/{print "^fg(orange)Bat:", $4,"^fg()"}/Charging/{print "Bat:", $4}'</span>}  <span class="org-sh-escaped-newline">\</span>
+Audio: ${<span class="org-keyword">exec</span> amixer -c 0 get Master | grep Mono: | cut -d <span class="org-string">" "</span> -f8|tr -d <span class="org-string">"[]"</span>} <span class="org-sh-escaped-newline">\</span>
+${<span class="org-keyword">time</span> %b %d %I:%M:%S}
+</pre>
 </div>
 
 <p>
@@ -239,8 +239,8 @@ information.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">conky|dzen2 -x 400 -ta r
-</code></pre>
+<pre class="src src-bash">conky|dzen2 -x 400 -ta r
+</pre>
 </div>
 
 <p>
@@ -248,7 +248,7 @@ We can now see how to configure Xmonad to start conky and dzen2.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import XMonad
+<pre class="src src-haskell">import XMonad
 import XMonad.Config.Desktop
 
 conkyStatusBar = "conky |dzen2 -x 400 -y 0 -h 16 -ta r"
@@ -258,13 +258,13 @@ main = do
       xmonad desktopConfig {
           modMask = mod4Mask
       }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org9f0a6c6" class="outline-4">
-<h4 id="org9f0a6c6">Displaying window manager log</h4>
-<div class="outline-text-4" id="text-org9f0a6c6">
+<div id="outline-container-orgdc55bdc" class="outline-4">
+<h4 id="orgdc55bdc">Displaying window manager log</h4>
+<div class="outline-text-4" id="text-orgdc55bdc">
 <p>
 All window managers maintain the current state of the desktop and
 xmonad is no exception. Xmonad has a <i>logHook</i> which is called
@@ -275,7 +275,7 @@ customized to pipe the log information to another <i>dzen2</i> process.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import System.IO
+<pre class="src src-haskell">import System.IO
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Util.Run (spawnPipe)
@@ -301,22 +301,22 @@ main = do
                           }
       }
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org1363748" class="outline-4">
-<h4 id="org1363748">Configuring terminal window</h4>
-<div class="outline-text-4" id="text-org1363748">
+<div id="outline-container-orge93e214" class="outline-4">
+<h4 id="orge93e214">Configuring terminal window</h4>
+<div class="outline-text-4" id="text-orge93e214">
 <p>
 The default terminal window in my environment is <b>xterm</b>. I like
 <b>urxvt</b> with the following parameters.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">myTerminal = <span style="color: #CC9393;">"urxvt -bg black -fg yellow -fade 30 -fadecolor white +sb"</span>
-</code></pre>
+<pre class="src src-bash">myTerminal = <span class="org-string">"urxvt -bg black -fg yellow -fade 30 -fadecolor white +sb"</span>
+</pre>
 </div>
 
 <p>
@@ -324,7 +324,7 @@ Adding this to my <i>xmonad.hs</i>, it now looks as below.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import System.IO
+<pre class="src src-haskell">import System.IO
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Util.Run (spawnPipe)
@@ -353,14 +353,14 @@ main = do
       }
 
 
-</code></pre>
+</pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org309ab13" class="outline-4">
-<h4 id="org309ab13">Function key support</h4>
-<div class="outline-text-4" id="text-org309ab13">
+<div id="outline-container-org38f0151" class="outline-4">
+<h4 id="org38f0151">Function key support</h4>
+<div class="outline-text-4" id="text-org38f0151">
 <p>
 At this point, many Fn keys don't work as expected. Support for
 multimedia keys can be added by extending the <i>desktopConfig</i> element
@@ -370,7 +370,7 @@ your specific system configuration and here is what works on mine.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
+<pre class="src src-haskell">import Graphics.X11.ExtraTypes.XF86 (xF86XK_AudioLowerVolume, xF86XK_AudioRaiseVolume, xF86XK_AudioMute, xF86XK_MonBrightnessDown, xF86XK_MonBrightnessUp)
 import System.IO
 import XMonad
 import XMonad.Config.Desktop
@@ -408,7 +408,7 @@ main = do
            , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -10")
            , ((0, xF86XK_MonBrightnessUp), spawn "xbacklight +10")
           ]
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -420,14 +420,14 @@ this snippet and we are done!
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-bash">Vol: ${<span style="color: #F0DFAF; font-weight: bold;">exec</span> amixer -c 0 get Master | grep Mono: | cut -d <span style="color: #CC9393;">" "</span> -f8|tr -d <span style="color: #CC9393;">"[]"</span>}
-</code></pre>
+<pre class="src src-bash">Vol: ${<span class="org-keyword">exec</span> amixer -c 0 get Master | grep Mono: | cut -d <span class="org-string">" "</span> -f8|tr -d <span class="org-string">"[]"</span>}
+</pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org0e71ec9" class="outline-4">
-<h4 id="org0e71ec9">Startup actions</h4>
-<div class="outline-text-4" id="text-org0e71ec9">
+<div id="outline-container-org3451018" class="outline-4">
+<h4 id="org3451018">Startup actions</h4>
+<div class="outline-text-4" id="text-org3451018">
 <p>
 Now for the very last bits of my configuration. When I start my
 session, I would like to have my editor, browser and a few terminal
@@ -438,14 +438,14 @@ augmented with more spawn commands.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">xmonad $ desktopConfig {
+<pre class="src src-haskell">xmonad $ desktopConfig {
     ...
     , startupHook = do
         spawnOnce "google-chrome --class chrome"
         spawnOnce "urxvt --title cljswatch -fg yellow -bg black -cd /home/praki/workspace/MonadicT.github.io"
 
   }
-</code></pre>
+</pre>
 </div>
 
 <p>
@@ -462,7 +462,7 @@ as shown below.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-haskell">myManageHook
+<pre class="src src-haskell">myManageHook
     = composeAll . concat $
       [ [className =? c --&gt; doFloat | c &lt;- myFloats]
       , [title =? t --&gt; doFloat | t &lt;- myOtherFloats]
@@ -483,7 +483,7 @@ as shown below.
           ...
           , manageHook = myManageHook &lt;+&gt; manageHook defaultConfig
 }
-</code></pre>
+</pre>
 </div>
 </div>
 </div>

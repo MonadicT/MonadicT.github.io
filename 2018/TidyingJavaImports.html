@@ -6,10 +6,10 @@
 MonadicT
 </title>
  <base href="https://MonadicT.github.io/"/>
- <meta name="generator" content="GNU Emacs 25.3.1 (aarch64-unknown-linux-gnu, GTK+ Version 3.22.26)
- of 2017-12-09>"/>
+ <meta name="generator" content="GNU Emacs 26.1 (build 1, x86_64-apple-darwin14.5.0, NS appkit-1348.17 Version 10.10.5 (Build 14F2511))
+ of 2018-05-28>"/>
  <meta name="author" content="Praki Prakash"/>
- <link href="blog-style.css" rel="stylesheet"/>
+ <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700" rel="stylesheet"> <link href="blog-style.css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -33,19 +33,19 @@ method="get"><div><input class="box" id="s" name="q" type="text" />
 </div>
 <div class=" blog-nav">
 <div  id="site-links"><a href="/index.html">Home</a><a href="/articles.html">Articles</a><a href="/tags.html">Tags</a><a href="/about.html">About</a></div> <div id="social-media-icons"><a target="_new" href="https://twitter.com/MonadicT">
-<span style={background-color: white; height:48px;width:48px;border-radius:24px}></span>
-<img height="48px" width="48px"
-   title="Visit my Twitter page"
-   src="/images/twitter.png"/></a><a id="github-link" target="_new"
+  <span style={background-color: white; height:2em;width:2em;border-radius:24px}></span>
+  <img height="48px" width="48px"
+     title="Visit my Twitter page"
+     src="/images/twitter.png"/></a><a id="github-link" target="_new"
   href="https://github.com/MonadicT"><img id="github-logo"
   src="/images/github-logo.png"/></a></div>
 </div>
 <div style="border:1px">
 
 </div>
-
-<div id="outline-container-orgffdbf51" class="outline-2">
-<h2 id="orgffdbf51"><span class="section-number-2">1</span> Tidying Java Imports</h2>
+ 
+<div id="outline-container-org9655c84" class="outline-2">
+<h2 id="org9655c84"><span class="section-number-2">1</span> Tidying Java Imports</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 I try to avoid programming in Java but there are those pesky times
@@ -64,20 +64,20 @@ im-ports are not handled with this.
 </p>
 
 <div class="org-src-container">
-<pre><code class="src src-elisp">(<span style="color: #F0DFAF; font-weight: bold;">defun</span> <span style="color: #93E0E3;">remove-unused-imports</span>()
-  (<span style="color: #F0DFAF; font-weight: bold;">interactive</span>)
-  (<span style="color: #F0DFAF; font-weight: bold;">save-excursion</span>
-    (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((start (point-min))
+<pre class="src src-elisp">(<span class="org-keyword">defun</span> <span class="org-function-name">remove-unused-imports</span>()
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">save-excursion</span>
+    (<span class="org-keyword">let</span> ((start (point-min))
           (end (point-max))
           imports
           unused
           last-import-line)
       (beginning-of-buffer)
-      (<span style="color: #F0DFAF; font-weight: bold;">while</span> (&lt; (point) end)
-        (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((ln (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
-          (<span style="color: #F0DFAF; font-weight: bold;">if</span> (string-match <span style="color: #CC9393;">"import[\t ]*.*\\.</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">(</span><span style="color: #CC9393;">[A-Za-z0-9]+</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">)</span><span style="color: #CC9393;">"</span> ln)
-              (<span style="color: #F0DFAF; font-weight: bold;">progn</span>
-                (<span style="color: #F0DFAF; font-weight: bold;">setq</span> last-import-line (count-lines 1 (point)))
+      (<span class="org-keyword">while</span> (&lt; (point) end)
+        (<span class="org-keyword">let</span> ((ln (buffer-substring-no-properties (line-beginning-position) (line-end-position))))
+          (<span class="org-keyword">if</span> (string-match <span class="org-string">"import[\t ]*.*\\.</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[A-Za-z0-9]+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">"</span> ln)
+              (<span class="org-keyword">progn</span>
+                (<span class="org-keyword">setq</span> last-import-line (count-lines 1 (point)))
                 (add-to-list
                  'imports
                  (list (match-string 1 ln) (line-beginning-position) (line-end-position)))))
@@ -87,25 +87,25 @@ im-ports are not handled with this.
        (point)
        end)
       (mapcar
-       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (cls)
+       (<span class="org-keyword">lambda</span> (cls)
          (goto-char (point-min))
-         (<span style="color: #F0DFAF; font-weight: bold;">if</span> (not (search-forward-regexp (car cls) (point-max) t))
+         (<span class="org-keyword">if</span> (not (search-forward-regexp (car cls) (point-max) t))
              (add-to-list 'unused cls)))
        imports)
       (widen)
       (mapcar
-       (<span style="color: #F0DFAF; font-weight: bold;">lambda</span> (cls)
-         (<span style="color: #F0DFAF; font-weight: bold;">let</span> ((x (make-overlay (cadr cls) (caddr cls))))
-           (overlay-put x 'face '(<span style="color: #DCDCCC; font-weight: bold;">:background</span> <span style="color: #CC9393;">"grey80"</span>))))
+       (<span class="org-keyword">lambda</span> (cls)
+         (<span class="org-keyword">let</span> ((x (make-overlay (cadr cls) (caddr cls))))
+           (overlay-put x 'face '(<span class="org-builtin">:background</span> <span class="org-string">"grey80"</span>))))
        unused)))
-  (message <span style="color: #CC9393;">"remove-unused-imports"</span>))
+  (message <span class="org-string">"remove-unused-imports"</span>))
 
-(<span style="color: #F0DFAF; font-weight: bold;">let</span> ((s <span style="color: #CC9393;">"import com.facebook.react.ReactPackage"</span>))
-  (string-match <span style="color: #CC9393;">"import[\t ]*</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">(</span><span style="color: #CC9393;">.*</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">)</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">(</span><span style="color: #CC9393;">[A-Za-z0-9]+</span><span style="color: #7F9F7F; font-weight: bold;">\\</span><span style="color: #F0DFAF; font-weight: bold;">)</span><span style="color: #CC9393;">"</span> s)
+(<span class="org-keyword">let</span> ((s <span class="org-string">"import com.facebook.react.ReactPackage"</span>))
+  (string-match <span class="org-string">"import[\t ]*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">.*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[A-Za-z0-9]+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">"</span> s)
   (match-string  2 s))
 
-(global-set-key (kbd <span style="color: #CC9393;">"C-c C-i"</span>) #'remove-unused-imports)
-</code></pre>
+(global-set-key (kbd <span class="org-string">"C-c C-i"</span>) #'remove-unused-imports)
+</pre>
 </div>
 </div>
 </div>

@@ -1,27 +1,52 @@
-* { font-family: "Merriweather", Georgia, serif; }
-html { clear: both; Height: 100%; width: 100% }
-body { margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column }
-body {
-    background-color: #dfe3ee
+.org-src-container {
+    border-left: 0.2em solid #999;
 }
 
-a { color: #FF5722; text-decoration: none}
+.src {
+      font-family: 'Source Code Pro';
+      font-size: 110%;
+      background-color: #f2f2f2;
+      padding: 1em;
+  }
 
-a:hover {  color: #ff5722; opacity: 0.5; }
+ * { font-family: "Roboto"; }
+ html {
+     clear: both;
+     Height: 100%;
+     width: 100%
+ }
+
+ body {
+     margin: 0; 
+     padding: 0;
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     color: #545454;
+     background-color: #fffffd;
+     line-height: 1.35;
+     padding: 1em;
+ }
+
+a { color: #51c0ae; text-decoration: none}
+a:visited { color: #51c0ae; text-decoration: none}
+
+a:hover {  color: #51c0ae; opacity: 0.5; }
 h2 {
-    color: #FF5722;
+    color: #51c0ae;
 }
 
+/* */
 #blog-title {
-    font-size: 3em;
+    font-family: 'Cormorant Garamond';
+    font-size: 400%;
     font-weight: bolder;
-    color: #FF5722;
+    color: #51c0ae;
 }
 
 #tagline {
-    font-size: 16px;
-    letter-spacing: 0.6em;
-    text-shadow: 2px 2px #333;
+    font-size: 20%;
+    font-weight: lighter;
     padding-bottom: 1em;
 }
 
@@ -35,48 +60,53 @@ h2 {
 
 
 .post-title {
-    font-size: 1.25em;
+    font-size: 150%;
     font-weight: bold;
-    color: #FF5722;
+    color: #51c0ae;
     border-bottom: 2px solid #ddd
 }
 
 .post-summary {
-    font-size: small;
+    font-size: 100%;
     color: #757575;
     padding-top: 0.5em;
     padding-left: 1em;
 }
 
 .post-tags {
-    font-size: small;
+    font-size: 80%;
     color: #757575;
     padding-top: 1em;
     padding-left: 1em;
 }
 
-.pub-date { font-weight: bold; color: #757575; padding-bottom: 2em; }
+.pub-date { 
+    font-weight: bold;
+    color: #757575;
+    padding-bottom: 2em;
+}
 
 .post-publish-date {
-    font-size: 0.75em;
+    font-size: 80%;
     color: #777;
     padding-top: 0.5em;
     padding-left: 1em;
     padding-bottom: 1em;
 }
+
 .blog-footer {
     display: flex;
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 1em;
-    font-size: 0.5em;
+    font-size: 50%;
     font-weight: bold;
     padding: 5px;
     flex-direction: row;
     justify-content: center;
     border-top: solid 1px #dfe3ee;
-    color: #FF5722; /* #3b5998, #dfe3ee, #8b9dc3*/
+    color: #51c0ae; /* #3b5998, #dfe3ee, #8b9dc3*/
     background-color: #d3d3d3; /*#dfe3ee;*/
 }
 /* , #8b9dc3 */
@@ -84,9 +114,8 @@ h2 {
 }
 
 #site-links a {
-    color: #FF5722;
-    font-size: 1em;
-    font-style: italic;
+    color: #51c0ae;
+    font-size: 100%;
     text-decoration: none;
     padding-right: 1em
 }

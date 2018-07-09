@@ -2,11 +2,14 @@
 #+options: num:nil
 #+options: html-html5-fancy:t html-doctype:html5
 #+publish-date: 2018-01-31
+#+HTML_HEAD: <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond|Roboto" rel="stylesheet">
+#+HTML_HEAD_EXTRA: <style>* {font-family: 'Roboto';}</style>
+#+HTML_HEAD_EXTRA: <style>pre {font-family: 'Source Code Pro';}</style>
 * About Me
 
 #+BEGIN_SRC elisp :exports results :results html
   (yatl-html-frag
-   (img@src=\"http://MonadicT.github.io/images/praki.jpg\"@style=\"float:left\;padding-right:20px\"))
+   (img@src=\"http://MonadicT.github.io/images/praki.jpg\"@style=\"float:left\;padding-right:20px\;padding-top:20px\"))
 #+END_SRC
 
 /Chief Architect/ at [[http://www.picarro.com][Picarro, Inc]]. Previously, /Master Technologist/

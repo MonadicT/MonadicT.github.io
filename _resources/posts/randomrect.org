@@ -22,6 +22,7 @@ to create random rectangles with a single interior hole. You can tweak
 some of the magic numbers to control the size of the polygon.
 
 
+FOO
 #+BEGIN_SRC js
   /**
     * Create a random rectangle around specified point.

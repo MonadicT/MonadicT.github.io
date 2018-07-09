@@ -42,6 +42,8 @@ from s-expressions.
 
 #+BEGIN_SRC elisp :results silent :exports code :noweb-ref requires
 (require 'cl)
+(require 'subr-x)
+(require 's)
 (require 'yatl)
 #+END_SRC
 
@@ -160,6 +162,11 @@ introduced by =?=, class name with =.= and attribute with =@=.
     :group 'org-export-blog
     :type 'string)
 
+  (defcustom blog-gen-tagline "I see dead objects!"
+    "???"
+    :group 'org-export-blog
+    :type 'string)
+
   (defcustom blog-gen-author "Praki Prakash"
     "???"
     :group 'org-export-blog
@@ -272,17 +279,17 @@ Generates the header and the banner. Here is one limitation of
 content but not nested elements as needed here.
 
 #+BEGIN_SRC elisp :results silent
-    (defun blog-gen-top-matter()
-      (yatl-html-frag
-       (div.blog-nav
-        (div?blog-title
-         blog-gen-title
-         (div?tagline "I see dead objects!"))
-        (blog-gen-search-form))
-       (div.blog-nav
-        (blog-gen-site-links)
-        (blog-gen-social-media-icons))
-       (div@style=border:1px "")))
+  (defun blog-gen-top-matter()
+    (yatl-html-frag
+     (div.blog-nav
+      (div?blog-title
+       blog-gen-title
+       (div?tagline blog-gen-tagline))
+      (blog-gen-search-form))
+     (div.blog-nav
+      (blog-gen-site-links)
+      (blog-gen-social-media-icons))
+     (div@style=border:1px "")))
 
 #+END_SRC
 
@@ -389,6 +396,7 @@ content but not nested elements as needed here.
          (blog-gen-base-url))
         (yatl-compile-string "meta@name=generator@content=\"%s\">" (emacs-version))
         (yatl-compile-string "meta@name=author@content=\"%s\"" blog-gen-author)
+        "<link href=\"https://fonts.googleapis.com/css?family=Source+Code+Pro|EB+Garamond:800|Roboto:100,300,400,400i,700\" rel=\"stylesheet\">"
         (link@href=\"blog-style.css\"@rel=\"stylesheet\"))
        contents))
 
@@ -425,49 +433,60 @@ CSS Styles used in this blog are managed using interpolated
 strings. The code below is an association list which is used to build
 CSS string later.
 
+Font sizes are specified in /percent/ units which makes the content scalable.
+
 *** Color definitions
 CSS color definitions.
 
 - Dark primary color.
-#+BEGIN_SRC elisp :eval no :noweb-ref dark-primary-color
+#+BEGIN_SRC css :eval no :noweb-ref dark-primary-color
 #616161
 #+end_src
 
 - Default primary color
-#+BEGIN_SRC elisp :eval no :noweb-ref default-primary-color
+#+BEGIN_SRC css :eval no :noweb-ref default-primary-color
 #9E9E9E
 #+end_src
 
 - Light primary color
-#+BEGIN_SRC elisp :eval no :noweb-ref light-primary-color
+#+BEGIN_SRC css :eval no :noweb-ref light-primary-color
 #d3d3d3
 #+end_src
 
 - Text primary color
-#+BEGIN_SRC elisp :eval no :noweb-ref text-primary-color
-#212121
+#+BEGIN_SRC css :eval no :noweb-ref text-primary-color
+#545454
 #+end_src
 
 - Accent color
-#+BEGIN_SRC elisp :eval no :noweb-ref accent-color
-#ff5722
+Previous color was =#ff5722=.
+
+#+BEGIN_SRC css :eval no :noweb-ref accent-color
+#51c0ae
 #+end_src
 
 - Primary text color
-#+BEGIN_SRC elisp :eval no :noweb-ref primary-text-color
-#212121
+#+BEGIN_SRC css :eval no :noweb-ref primary-text-color
+#545454
 #+end_src
 
 - Secondary text color
-#+BEGIN_SRC elisp :eval no :noweb-ref secondary-text-color
+#+BEGIN_SRC css :eval no :noweb-ref secondary-text-color
 #757575
 #+end_src
 
 - Accent text color
-#+BEGIN_SRC elisp :eval no :noweb-ref accent-text-color
 #FF5722
+#+BEGIN_SRC css :eval no :noweb-ref accent-text-color
+#51c0ae
 #+end_src
 
+- Source code background color
+Source code is rendered against this background color for readbility.
+
+#+BEGIN_SRC css :eval no :noweb-ref src-background-color
+#f2f2f2
+#+end_src
 
 *** HTML element styling
 Style definitions for general html elements.
@@ -477,36 +496,50 @@ blog content and leaving it empty results in left and right borders at
 zero height. The only reasonable fix is to be able to specify heights
 for all layout divs to be in resolution independent units/
 
-#+begin_src elisp :noweb-ref css-els :eval no
- * { font-family: "Merriweather", Georgia, serif; }
-html { clear: both; Height: 100%; width: 100% }
-body { margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column }
-body {
-    background-color: #dfe3ee
-}
+#+begin_src css :noweb yes :noweb-ref css-els :eval no
+   ,* { font-family: "Roboto"; }
+   html {
+       clear: both;
+       Height: 100%;
+       width: 100%
+   }
 
-a { color: <<accent-text-color>>; text-decoration: none}
+   body {
+       margin: 0; 
+       padding: 0;
+       width: 100%;
+       display: flex;
+       flex-direction: column;
+       color: <<primary-text-color>>;
+       background-color: #fffffd;
+       line-height: 1.35;
+       padding: 1em;
+   }
 
-a:hover {  color: <<accent-color>>; opacity: 0.5; }
+  a { color: <<accent-text-color>>; text-decoration: none}
+  a:visited { color: <<accent-text-color>>; text-decoration: none}
+
+  a:hover {  color: <<accent-color>>; opacity: 0.5; }
 #+end_src
 
 *** Page layout styling
 
-#+begin_src css :noweb-ref css-page-layout :eval no
+#+begin_src css :noweb yes :noweb-ref css-page-layout :eval no
 h2 {
     color: <<accent-text-color>>;
 }
 
+/* */
 #blog-title {
-    font-size: 3em;
+    font-family: 'Cormorant Garamond';
+    font-size: 400%;
     font-weight: bolder;
     color: <<accent-text-color>>;
 }
 
 #tagline {
-    font-size: 16px;
-    letter-spacing: 0.6em;
-    text-shadow: 2px 2px #333;
+    font-size: 20%;
+    font-weight: lighter;
     padding-bottom: 1em;
 }
 
@@ -522,14 +555,13 @@ h2 {
 #+END_SRC
 
 *** Site links styling
-#+BEGIN_SRC css :noweb-ref css-site-links :eval no
+#+BEGIN_SRC css :noweb yes :noweb-ref css-site-links :eval no
 #site-links {
 }
 
 #site-links a {
     color: <<accent-text-color>>;
-    font-size: 1em;
-    font-style: italic;
+    font-size: 100%;
     text-decoration: none;
     padding-right: 1em
 }
@@ -543,48 +575,69 @@ h2 {
 #+END_SRC
 
 *** Post styling
-#+BEGIN_SRC css :eval no :noweb-ref css-post
-.post-title {
-    font-size: 1.25em;
-    font-weight: bold;
-    color: <<accent-text-color>>;
-    border-bottom: 2px solid #ddd
-}
+#+BEGIN_SRC css :noweb yes :noweb-yes :eval no :noweb-ref css-post
+  .post-title {
+      font-size: 150%;
+      font-weight: bold;
+      color: <<accent-text-color>>;
+      border-bottom: 2px solid #ddd
+  }
 
-.post-summary {
-    font-size: small;
-    color: <<secondary-text-color>>;
-    padding-top: 0.5em;
-    padding-left: 1em;
-}
+  .post-summary {
+      font-size: 100%;
+      color: <<secondary-text-color>>;
+      padding-top: 0.5em;
+      padding-left: 1em;
+  }
 
-.post-tags {
-    font-size: small;
-    color: <<secondary-text-color>>;
-    padding-top: 1em;
-    padding-left: 1em;
-}
+  .post-tags {
+      font-size: 80%;
+      color: <<secondary-text-color>>;
+      padding-top: 1em;
+      padding-left: 1em;
+  }
 
-.pub-date { font-weight: bold; color: <<secondary-text-color>>; padding-bottom: 2em; }
+  .pub-date { 
+      font-weight: bold;
+      color: <<secondary-text-color>>;
+      padding-bottom: 2em;
+  }
 
-.post-publish-date {
-    font-size: 0.75em;
-    color: #777;
-    padding-top: 0.5em;
-    padding-left: 1em;
-    padding-bottom: 1em;
-}
+  .post-publish-date {
+      font-size: 80%;
+      color: #777;
+      padding-top: 0.5em;
+      padding-left: 1em;
+      padding-bottom: 1em;
+  }
+
 #+END_SRC
 
+*** Org style overrides
+Here we override style information for elements generated by org-mode.
+
+#+BEGIN_SRC css :noweb yes :eval no :noweb-ref org-overrides
+  .org-src-container {
+      border-left: 0.2em solid #999;
+  }
+
+  .src {
+        font-family: 'Source Code Pro';
+        font-size: 110%;
+        background-color: <<src-background-color>>;
+        padding: 1em;
+    }
+                     
+#+END_SRC
 *** Class definitions
-#+BEGIN_SRC css :eval no :noweb-ref css-classes
+#+BEGIN_SRC css :eval no :noweb yes :noweb-ref css-classes
 .blog-footer {
     display: flex;
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 1em;
-    font-size: 0.5em;
+    font-size: 50%;
     font-weight: bold;
     padding: 5px;
     flex-direction: row;
@@ -599,6 +652,7 @@ h2 {
 *** Tangling Style sheet
 
 #+BEGIN_SRC css :eval no :exports code :noweb yes :tangle ../../blog-style.css
+  <<org-overrides>>
   <<css-els>>
   <<css-page-layout>>
   <<css-post>>
@@ -634,11 +688,21 @@ Returns value of =key= or =default-value= if =key= doesn't exist in =keywords=.
 #+END_SRC
 
 ** Blog publishing
+To make any changes to blog generation, this file should be
+tangled. Tangling this file generates =~/.emacs.d/lisp/blog-gen.el=
+and =blog-style.css=. =blog-gen-publish= bound to =C-c C-g=, processes
+all org files and generates HTML suitable for publishing as a static
+web site on a local server. With a prefix argument, the generated HTML
+will have s different =base url= suotable for publishing to =github.io=.
+
+A local server for serving HTML can be run by =python -m http.server
+8000= command.
+
 *** Blog source directory
 The root directory where the source for blogs is kept.
 #+BEGIN_SRC elisp :results silent :noweb-ref vars
   (defcustom blog-gen-root-dir
-    "~/stuff/github/MonadicT.github.io/"
+    "~/projects/MonadicT.github.io/"
     "")
 #+END_SRC
 
@@ -647,7 +711,7 @@ The subdirectory where =.org= files are stored.
 
 #+BEGIN_SRC elisp :results silent :noweb-ref vars
   (defcustom blog-gen-posts-dir
-    "_resources/posts"
+    "_resources/posts/"
     "")
 #+END_SRC
 
@@ -754,45 +818,50 @@ Exports all =.org= post files to =.html= files.
 Generates list of articles.
 
 #+BEGIN_SRC elisp :results silent :noweb-ref fns
-  (defun blog-gen-create-articles()
-    (with-temp-buffer
-      (find-file "index.org")
-      (erase-buffer)
-      (insert "#+title: MonadictT\n")
-      (insert "#+options: num:nil html-style:nil\n")
-      (insert "* Posts\n")
-      (let ((posts (blog-gen-order-posts
-                    (blog-gen-published-posts
-                     (blog-gen-post-files)))))
-        (mapcar
-         (lambda (post)
-           (let* ((title (gethash "title" post))
-                  (summary (gethash "summary"  post))
-                  (export-file-name (gethash "export_file_name"  post))
-                  (export-file-name
-                   (let ((href export-file-name))
-                     (while (string-match "^\\.\\./" href)
-                       (setq href (substring href 3)))
-                     href))
-                  (publish-date (gethash "publish-date" post))
-                  (l (list (make-symbol (format "a@href=\"/%s\"" export-file-name)) title)))
-             (html-export
-              (yatl-html-frag
-               (div.post-title
-                (eval (yatl-compile-fn l)))))
-             (html-export
-              (yatl-html-frag
-               (div.post-summary summary)) "\n\n")
-             (html-export
-              (yatl-html-frag
-               (div.post-publish-date "Published: " publish-date)) "\n")))
-         posts))
-      (save-buffer)
-      (let ((out-file (concat blog-gen-root-dir "articles.html")))
-        (when (file-exists-p out-file)
-          (delete-file out-file))
-        (org-export-to-file 'blog out-file))
-      (delete-file "index.org")))
+    (defun blog-gen-create-articles()
+      (with-temp-buffer
+        (find-file (concat blog-gen-root-dir "index.org"))
+        (erase-buffer)
+        (insert "#+title: MonadictT\n")
+        (insert "#+options: num:nil html-style:nil\n")
+        (insert "#+HTML_HEAD: <link href=\"https://fonts.googleapis.com/css?family=Cormorant+Garamond|Roboto\" rel=\"stylesheet\">\n")
+        (insert "#+HTML_HEAD_EXTRA: <style>* {font-family: 'Roboto';}</style>\n")
+        (insert "#+HTML_HEAD_EXTRA: <style>pre {font-family: 'Segoe Print';}</style>\n")
+
+        (insert "* Posts\n")
+        (let ((posts (blog-gen-order-posts
+                      (blog-gen-published-posts
+                       (blog-gen-post-files)))))
+          (mapcar
+           (lambda (post)
+             (let* ((title (gethash "title" post))
+                    (summary (gethash "summary"  post))
+                    (export-file-name (gethash "export_file_name"  post))
+                    (export-file-name
+                     (let ((href export-file-name))
+                       (while (string-match "^\\.\\./" href)
+                         (setq href (substring href 3)))
+                       href))
+                    (publish-date (gethash "publish-date" post))
+                    (l (list (make-symbol (format "a@href=\"/%s\"" export-file-name)) title)))
+               (html-export
+                (yatl-html-frag
+                 (div.post-title
+                  (eval (yatl-compile-fn l)))))
+               (html-export
+                (yatl-html-frag
+                 (div.post-summary summary)) "\n\n")
+               (html-export
+                (yatl-html-frag
+                 (div.post-publish-date "Published: " publish-date)) "\n")))
+           posts))
+        (save-buffer)
+        (let ((out-file (concat blog-gen-root-dir "articles.html")))
+          (when (file-exists-p out-file)
+            (delete-file out-file))
+          (org-export-to-file 'blog out-file))
+        (delete-file (concat blog-gen-root-dir "index.org"))))
+  ;;(blog-gen-create-articles)
 #+END_SRC
 
 *** Tags generation
@@ -855,7 +924,6 @@ bullet list of anchors to posts.
          tags)
         (write-file "tags.org")
         (let ((out-file (concat blog-gen-root-dir "tags.html")))
-        (message out-file)
           (org-export-to-file 'blog out-file))
         (kill-buffer))))
 
@@ -871,9 +939,15 @@ bullet list of anchors to posts.
 #+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-create-about()
     (with-temp-buffer
-      (find-file "about.org")
-      (org-export-to-file 'blog (concat blog-gen-root-dir "about.html"))
+      (find-file (concat
+                  blog-gen-root-dir
+                  blog-gen-posts-dir
+                  "about.org"))
+      (next-line) ;; When on line 1, org export throws a weird error
+      (org-export-to-file 'blog (concat blog-gen-root-dir "about.html") nil )
       (kill-buffer)))
+
+  (blog-gen-create-about)
 #+END_SRC
 
 *** Home page generation
@@ -892,17 +966,24 @@ Function to regenerate the full site. This is bound to =C-c C-g=.
 #+BEGIN_SRC elisp :results silent :noweb-ref fns
   (defun blog-gen-publish(prod)
     (interactive "P")
+(message "Blog generattion started")
     (if prod (setq blog-gen-local nil) (setq blog-gen-local t))
+    (message (format "Local Gen %S" blog-gen-local))
     (let ((posts (blog-gen-post-files)))
       (blog-gen-create-posts)
+      (message "Created posts")
       (blog-gen-create-articles)
+      (message "Created articles page")
       (blog-gen-create-tags posts)
+      (message "Created tags page")
       (blog-gen-create-about)
-      (blog-gen-create-home))
+      (message "Created about page")
+      (blog-gen-create-home)
+      (message "Created home page"))
     (when prod
       (when (blog-gen-file-contains-p "localhost")
         (error "localhost references in file"))))
-(defun blog-gen-file-contains-p(s) nil)
+  (defun blog-gen-file-contains-p(s) nil)
   (global-set-key (kbd "C-c C-g") #'blog-gen-publish)
 #+END_SRC
 
